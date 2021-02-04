@@ -73,7 +73,7 @@ public class mail {
                 message.setText(cuerpo);
                 Transport transport = session.getTransport("smtp");
                 transport.connect("smtp.gmail.com", remitente, clave);
-                transport.sendMessage(message, mesgitsage.getAllRecipients());
+                transport.sendMessage(message, message.getAllRecipients());
                 transport.close();
             }
             catch (MessagingException me) {
