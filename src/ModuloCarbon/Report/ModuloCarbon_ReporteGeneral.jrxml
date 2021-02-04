@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="4152" pageHeight="595" orientation="Landscape" columnWidth="4152" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="10"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaIni" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  [mc_cdgo]--1 
+		      ,[mc_cntro_oper_cdgo]--2 
+			  ,[co_cdgo]--3 
+		      ,[co_desc]--4 
+		      ,[co_estad]--5 
+		      ,[mc_cntro_cost_auxiliar_cdgo]--6 
+			  ,[cca_cdgo]--7 
+		      ,[cca_cntro_cost_subcentro_cdgo]--8 
+		      ,[cca_desc]--9 
+		      ,[cca_estad]--10 
+			  ,[ccs_cdgo]--11 
+		      ,[ccs_desc]--12 
+		      ,[ccs_estad]--13 
+		      ,[mc_articulo_cdgo]--14 
+			  ,[ar_cdgo]--15 
+		      ,[ar_desc]--16 
+		      ,[ar_estad]--17 
+		      ,[mc_cliente_cdgo]--18 
+			  ,[cl_cdgo]--19 
+		      ,[cl_desc]--20 
+		      ,[cl_estad]--21 
+		      ,[mc_transprtdora_cdgo]--22 
+			  ,[tr_cdgo]--23 
+		      ,[tr_nit]--24 
+		      ,[tr_desc]--25 
+		      ,[tr_observ]--26 
+		      ,[tr_estad]--27 
+		      ,CONVERT(smalldatetime,[mc_fecha]) AS mc_fecha --28 
+		      ,[mc_num_orden]--29 
+		      ,[mc_deposito]--30 
+		      ,[mc_consecutivo_tqute]--31 
+		      ,[mc_placa_vehiculo]--32 
+		      ,[mc_peso_vacio]--33 
+		      ,[mc_peso_lleno]--34 
+		      ,[mc_peso_neto]--35 
+		      ,[mc_fecha_entrad]--36 
+		      ,[mc_fecha_salid]--37 
+		      ,[mc_equipo_cdgo]--38 
+			  ,[eq_cdgo]--39 
+		      ,[eq_tipo_equipo_cdgo]--40 
+		      ,[eq_marca_equipo_cdgo]--41 
+		      ,[eq_desc]--42 
+		      ,[eq_valor_hora]--43 
+		      ,[eq_proveedor_equipo_cdgo]--44 
+		      ,[eq_equipo_procedencia_cdgo]--45 
+		      ,[eq_observ]--46 
+		      ,[eq_estad]--47 
+			  ,[te_cdgo]--48 
+		      ,[te_desc]--49 
+		      ,[te_estad]--50 
+			  ,[meq_cdgo]--51 
+		      ,[meq_desc]--52 
+		      ,[meq_estad]--53 
+			  ,[pe_cdgo]--54 
+		      ,[pe_desc]--55 
+		      ,[pe_estad]--56 
+			  ,[ep_cdgo]--57 
+		      ,[ep_desc]--58 
+		      ,[ep_estad]--59 
+		      ,[mc_usuario_cdgo]--60 
+			  ,[us_cdgo]--61 
+		      ,[us_clave]--62 
+		      ,[us_nombres]--63 
+		      ,[us_apellidos]--64 
+		      ,[us_perfil_cdgo]--65 
+		      ,[us_correo]--66 
+		      ,[us_estad]--67 
+		      ,[mc_observ]--68 
+		      ,[mc_estad_mvto_carbon_cdgo]--69 
+		      ,[mc_conexion_peso_ccarga]--70 
+		  FROM [costos_vg].[dbo].[mvto_carbon] 
+		  INNER JOIN [costos_vg].[dbo].[cntro_oper] ON co_cdgo=mc_cntro_oper_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[cntro_cost_auxiliar] ON cca_cdgo=mc_cntro_cost_auxiliar_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[cntro_cost_subcentro] ON cca_cntro_cost_subcentro_cdgo=ccs_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[articulo] ON ar_cdgo=mc_articulo_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[cliente] ON cl_cdgo=mc_cliente_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[transprtdora] ON tr_cdgo=mc_transprtdora_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[equipo] ON eq_cdgo=mc_equipo_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[tipo_equipo] ON te_cdgo=eq_tipo_equipo_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[marca_equipo] ON meq_cdgo=eq_marca_equipo_cdgo 
+		  INNER JOIN [costos_vg].[dbo].[proveedor_equipo] ON [pe_cdgo]=[eq_proveedor_equipo_cdgo] 
+		  INNER JOIN [costos_vg].[dbo].[equipo_procedencia] ON [ep_cdgo]=[eq_equipo_procedencia_cdgo] 
+		  INNER JOIN [costos_vg].[dbo].[usuario] ON us_cdgo=mc_usuario_cdgo 
+		  WHERE [mc_fecha] BETWEEN $P{fechaIni} AND $P{fechaFin};]]>
+	</queryString>
+	<field name="mc_cdgo" class="java.lang.Long"/>
+	<field name="mc_cntro_oper_cdgo" class="java.lang.Integer"/>
+	<field name="co_cdgo" class="java.lang.Integer"/>
+	<field name="co_desc" class="java.lang.String"/>
+	<field name="co_estad" class="java.lang.Boolean"/>
+	<field name="mc_cntro_cost_auxiliar_cdgo" class="java.lang.Integer"/>
+	<field name="cca_cdgo" class="java.lang.Integer"/>
+	<field name="cca_cntro_cost_subcentro_cdgo" class="java.lang.Integer"/>
+	<field name="cca_desc" class="java.lang.String"/>
+	<field name="cca_estad" class="java.lang.Boolean"/>
+	<field name="ccs_cdgo" class="java.lang.Integer"/>
+	<field name="ccs_desc" class="java.lang.String"/>
+	<field name="ccs_estad" class="java.lang.Boolean"/>
+	<field name="mc_articulo_cdgo" class="java.lang.String"/>
+	<field name="ar_cdgo" class="java.lang.String"/>
+	<field name="ar_desc" class="java.lang.String"/>
+	<field name="ar_estad" class="java.lang.Boolean"/>
+	<field name="mc_cliente_cdgo" class="java.lang.String"/>
+	<field name="cl_cdgo" class="java.lang.String"/>
+	<field name="cl_desc" class="java.lang.String"/>
+	<field name="cl_estad" class="java.lang.Boolean"/>
+	<field name="mc_transprtdora_cdgo" class="java.lang.String"/>
+	<field name="tr_cdgo" class="java.lang.String"/>
+	<field name="tr_nit" class="java.lang.String"/>
+	<field name="tr_desc" class="java.lang.String"/>
+	<field name="tr_observ" class="java.lang.String"/>
+	<field name="tr_estad" class="java.lang.Boolean"/>
+	<field name="mc_fecha" class="java.sql.Timestamp"/>
+	<field name="mc_num_orden" class="java.lang.String"/>
+	<field name="mc_deposito" class="java.lang.String"/>
+	<field name="mc_consecutivo_tqute" class="java.lang.String"/>
+	<field name="mc_placa_vehiculo" class="java.lang.String"/>
+	<field name="mc_peso_vacio" class="java.lang.Integer"/>
+	<field name="mc_peso_lleno" class="java.lang.Integer"/>
+	<field name="mc_peso_neto" class="java.lang.Integer"/>
+	<field name="mc_fecha_entrad" class="java.sql.Timestamp"/>
+	<field name="mc_fecha_salid" class="java.sql.Timestamp"/>
+	<field name="mc_equipo_cdgo" class="java.lang.Integer"/>
+	<field name="eq_cdgo" class="java.lang.Integer"/>
+	<field name="eq_tipo_equipo_cdgo" class="java.lang.Integer"/>
+	<field name="eq_marca_equipo_cdgo" class="java.lang.Integer"/>
+	<field name="eq_desc" class="java.lang.String"/>
+	<field name="eq_valor_hora" class="java.lang.Integer"/>
+	<field name="eq_proveedor_equipo_cdgo" class="java.lang.String"/>
+	<field name="eq_equipo_procedencia_cdgo" class="java.lang.Integer"/>
+	<field name="eq_observ" class="java.lang.String"/>
+	<field name="eq_estad" class="java.lang.Boolean"/>
+	<field name="te_cdgo" class="java.lang.Integer"/>
+	<field name="te_desc" class="java.lang.String"/>
+	<field name="te_estad" class="java.lang.Boolean"/>
+	<field name="meq_cdgo" class="java.lang.Integer"/>
+	<field name="meq_desc" class="java.lang.String"/>
+	<field name="meq_estad" class="java.lang.Boolean"/>
+	<field name="pe_cdgo" class="java.lang.String"/>
+	<field name="pe_desc" class="java.lang.String"/>
+	<field name="pe_estad" class="java.lang.Boolean"/>
+	<field name="ep_cdgo" class="java.lang.Integer"/>
+	<field name="ep_desc" class="java.lang.String"/>
+	<field name="ep_estad" class="java.lang.Boolean"/>
+	<field name="mc_usuario_cdgo" class="java.lang.String"/>
+	<field name="us_cdgo" class="java.lang.String"/>
+	<field name="us_clave" class="java.lang.String"/>
+	<field name="us_nombres" class="java.lang.String"/>
+	<field name="us_apellidos" class="java.lang.String"/>
+	<field name="us_perfil_cdgo" class="java.lang.Integer"/>
+	<field name="us_correo" class="java.lang.String"/>
+	<field name="us_estad" class="java.lang.Boolean"/>
+	<field name="mc_observ" class="java.lang.String"/>
+	<field name="mc_estad_mvto_carbon_cdgo" class="java.lang.Integer"/>
+	<field name="mc_conexion_peso_ccarga" class="java.lang.Boolean"/>
+	<pageHeader>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="192" y="1" width="305" height="18"/>
+				<textElement>
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[LISTADO DE DESCARGUE DE CARBON]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="82" height="15" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="192" y="0" width="166" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[SUBCENTRO COSTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="0" width="139" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[AUXILIAR C.C]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="497" y="0" width="108" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="605" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[TRANSPORTADORA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="0" width="110" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[C.O]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="802" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Num ORDEN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="999" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[DEPOSITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1196" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CONSECUTIVO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1393" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[PLACA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1590" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[PESO VACIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1787" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[PESO LLENO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1984" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[PESO NETO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2181" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[FECHA ENTRADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2378" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[FECHA SALIDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2575" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[TIPO EQUIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2772" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[MARCA DE EQUIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2969" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[PROVEEDOR EQUIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3166" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[PROCEDENCIA EQUIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3363" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CEDULA USUARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3560" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[NOMBRE USUARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3757" y="0" width="197" height="15" forecolor="#000000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[ESTADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3954" y="0" width="197" height="15" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[CONEXION CCARGA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="82" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_cdgo}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="192" y="0" width="166" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ccs_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="0" width="139" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cca_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="497" y="0" width="108" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cl_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="605" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tr_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="82" y="0" width="110" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{co_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="802" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_num_orden}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="999" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_deposito}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1196" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_consecutivo_tqute}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1393" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_placa_vehiculo}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1590" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{mc_peso_vacio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1787" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{mc_peso_lleno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1984" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{mc_peso_neto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2181" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_fecha_entrad}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2378" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_fecha_salid}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2575" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{te_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2772" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{meq_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2969" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pe_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3166" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ep_desc}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3363" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{us_cdgo}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3560" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{us_nombres}.toString()+" "+$F{us_apellidos}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3757" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_estad_mvto_carbon_cdgo}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3954" y="0" width="197" height="15"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{mc_conexion_peso_ccarga}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
