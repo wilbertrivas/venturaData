@@ -1,5 +1,6 @@
 package ModuloEquipo.Controller2;
 
+import Catalogo.Model.BaseDatos;
 import ConnectionDB2.Conexion_DB_costos_vg;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
@@ -114,6 +115,159 @@ public class ControlDB_RendiminentoEquipo {
         String DB=control.getBaseDeDatos();
         try{
             ResultSet resultSet; 
+            System.out.println("DECLARE @startdate datetime2 = '"+fechaInicio+"';\n" +
+                                "DECLARE @enddate datetime2 = '"+fechaFinal+"';	\n" +
+                                "DECLARE @codigoEquipo INT ='"+equipo+"';\n" +
+                                "DECLARE @cantidadTotalMinutos INT= 0;\n" +
+                                "DECLARE @cantidadMinutosOperativo INT=0;\n" +
+                                "DECLARE @cantidadMinutosParada INT=0;\n"+
+                                "DECLARE @costoOperativo VARCHAR(70)='';\n" +
+                                "DECLARE @costoParada VARCHAR(70)='';" +
+                                "DECLARE @cantidadNoRegistrada VARCHAR(70)='';" +
+                                "SET @cantidadTotalMinutos=(\n" +
+                                "				DATEDIFF (MINUTE,  @startdate,@enddate));\n" +
+                                "SET @cantidadMinutosOperativo=(SELECT \n" +
+                                "			 SUM(\n" +
+                                "				DATEDIFF (MINUTE,  \n" +
+                                "						 (CASE \n" +
+                                "							WHEN (@startdate BETWEEN  [me_fecha_hora_inicio] AND [me_fecha_hora_fin]) THEN @startdate \n" +
+                                "							WHEN (@startdate < [me_fecha_hora_inicio]) THEN [me_fecha_hora_inicio] \n" +
+                                "							END ),\n" +
+                                "						(CASE \n" +
+                                "							WHEN (@enddate BETWEEN  [me_fecha_hora_inicio] AND [me_fecha_hora_fin]) THEN @enddate \n" +
+                                "							WHEN (@enddate > [me_fecha_hora_fin]) THEN [me_fecha_hora_fin] \n" +
+                                "							END )\n" +
+                                "						)\n" +
+                                "					)AS timeMinute\n" +
+                                "		  FROM ["+DB+"].[dbo].[mvto_equipo] \n" +
+                                "			  INNER JOIN ["+DB+"].[dbo].[asignacion_equipo] ON [ae_cdgo]=[me_asignacion_equipo_cdgo]\n" +
+                                "			  INNER JOIN ["+DB+"].[dbo].[labor_realizada] ON [lr_cdgo]=[me_labor_realizada_cdgo]\n" +
+                                "		  WHERE  (@startdate BETWEEN [me_fecha_hora_inicio] AND [me_fecha_hora_fin] \n" +
+                                "						OR @enddate  BETWEEN [me_fecha_hora_inicio] AND [me_fecha_hora_fin]\n" +
+                                "						OR [me_fecha_hora_inicio] BETWEEN @startdate AND @enddate\n" +
+                                "						OR [me_fecha_hora_fin] BETWEEN @startdate AND @enddate) \n" +
+                                "					AND [ae_equipo_cdgo]=@codigoEquipo\n" +
+                                "					AND [lr_operativa]=1 AND [me_inactividad]=0 AND [me_estado]=1) ;\n" +
+                                "SET @cantidadMinutosParada=(SELECT \n" +
+                                "			 SUM(\n" +
+                                "				DATEDIFF (MINUTE,  \n" +
+                                "						 (CASE \n" +
+                                "							WHEN (@startdate BETWEEN  [me_fecha_hora_inicio] AND [me_fecha_hora_fin]) THEN @startdate \n" +
+                                "							WHEN (@startdate < [me_fecha_hora_inicio]) THEN [me_fecha_hora_inicio] \n" +
+                                "							END ),\n" +
+                                "						(CASE \n" +
+                                "							WHEN (@enddate BETWEEN  [me_fecha_hora_inicio] AND [me_fecha_hora_fin]) THEN @enddate \n" +
+                                "							WHEN (@enddate > [me_fecha_hora_fin]) THEN [me_fecha_hora_fin] \n" +
+                                "							END )\n" +
+                                "						)\n" +
+                                "					)AS timeMinute\n" +
+                                "		  FROM ["+DB+"].[dbo].[mvto_equipo] \n" +
+                                "			  INNER JOIN ["+DB+"].[dbo].[asignacion_equipo] ON [ae_cdgo]=[me_asignacion_equipo_cdgo]\n" +
+                                "			  INNER JOIN ["+DB+"].[dbo].[labor_realizada] ON [lr_cdgo]=[me_labor_realizada_cdgo]\n" +
+                                "		  WHERE  (@startdate BETWEEN [me_fecha_hora_inicio] AND [me_fecha_hora_fin] \n" +
+                                "						OR @enddate  BETWEEN [me_fecha_hora_inicio] AND [me_fecha_hora_fin]\n" +
+                                "						OR [me_fecha_hora_inicio] BETWEEN @startdate AND @enddate\n" +
+                                "						OR [me_fecha_hora_fin] BETWEEN @startdate AND @enddate) \n" +
+                                "					AND [ae_equipo_cdgo]=@codigoEquipo\n" +
+                                "					AND [lr_parada]=1 AND [me_inactividad]=0 AND [me_estado]=1);\n" +
+                                "SET @costoOperativo=(SELECT \n" +
+                                "			 SUM(\n" +
+                                "				\n" +
+                                "					cast(\n" +
+                                "						cast(\n" +
+                                "								(\n" +
+                                "								cast(\n" +
+                                "										(DATEDIFF \n" +
+                                "												(MINUTE,  \n" +
+                                "												 (CASE \n" +
+                                "													WHEN (@startdate BETWEEN  [me_fecha_hora_inicio] AND [me_fecha_hora_fin]) THEN @startdate \n" +
+                                "													WHEN (@startdate < [me_fecha_hora_inicio]) THEN [me_fecha_hora_inicio] \n" +
+                                "													END ),\n" +
+                                "												(CASE \n" +
+                                "													WHEN (@enddate BETWEEN  [me_fecha_hora_inicio] AND [me_fecha_hora_fin]) THEN @enddate \n" +
+                                "													WHEN (@enddate > [me_fecha_hora_fin]) THEN [me_fecha_hora_fin] \n" +
+                                "													END )\n" +
+                                "												)\n" +
+                                "										) AS FLOAT\n" +
+                                "									)\n" +
+                                "									/\n" +
+                                "									(cast(60 AS FLOAT))\n" +
+                                "								)AS FLOAT\n" +
+                                "							) \n" +
+                                "						\n" +
+                                "					\n" +
+                                "					* (CAST ( [me_valor_hora] AS FLOAT)) AS FLOAT\n" +
+                                "					)\n" +
+                                "				)AS timeMinute\n" +
+                                "		  FROM ["+DB+"].[dbo].[mvto_equipo] \n" +
+                                "			  INNER JOIN ["+DB+"].[dbo].[asignacion_equipo] ON [ae_cdgo]=[me_asignacion_equipo_cdgo]\n" +
+                                "			  INNER JOIN ["+DB+"].[dbo].[labor_realizada] ON [lr_cdgo]=[me_labor_realizada_cdgo]\n" +
+                                "		  WHERE  (@startdate BETWEEN [me_fecha_hora_inicio] AND [me_fecha_hora_fin] \n" +
+                                "						OR @enddate  BETWEEN [me_fecha_hora_inicio] AND [me_fecha_hora_fin]\n" +
+                                "						OR [me_fecha_hora_inicio] BETWEEN @startdate AND @enddate\n" +
+                                "						OR [me_fecha_hora_fin] BETWEEN @startdate AND @enddate) \n" +
+                                "					AND [ae_equipo_cdgo]=@codigoEquipo\n" +
+                                "					AND [lr_operativa]=1 AND [me_inactividad]=0 AND [me_estado]=1);\n" +
+                                "\n" +
+                                "SET @costoParada=(SELECT \n" +
+                                "			 SUM(\n" +
+                                "				\n" +
+                                "					cast(\n" +
+                                "						cast(\n" +
+                                "								(\n" +
+                                "								cast(\n" +
+                                "										(DATEDIFF \n" +
+                                "												(MINUTE,  \n" +
+                                "												 (CASE \n" +
+                                "													WHEN (@startdate BETWEEN  [me_fecha_hora_inicio] AND [me_fecha_hora_fin]) THEN @startdate \n" +
+                                "													WHEN (@startdate < [me_fecha_hora_inicio]) THEN [me_fecha_hora_inicio] \n" +
+                                "													END ),\n" +
+                                "												(CASE \n" +
+                                "													WHEN (@enddate BETWEEN  [me_fecha_hora_inicio] AND [me_fecha_hora_fin]) THEN @enddate \n" +
+                                "													WHEN (@enddate > [me_fecha_hora_fin]) THEN [me_fecha_hora_fin] \n" +
+                                "													END )\n" +
+                                "												)\n" +
+                                "										) AS FLOAT\n" +
+                                "									)\n" +
+                                "									/\n" +
+                                "									(cast(60 AS FLOAT))\n" +
+                                "								)AS FLOAT\n" +
+                                "							) \n" +
+                                "						\n" +
+                                "					\n" +
+                                "					* (CAST ( [me_valor_hora] AS FLOAT)) AS FLOAT\n" +
+                                "					)\n" +
+                                "				)AS timeMinute\n" +
+                                "		  FROM ["+DB+"].[dbo].[mvto_equipo] \n" +
+                                "			  INNER JOIN ["+DB+"].[dbo].[asignacion_equipo] ON [ae_cdgo]=[me_asignacion_equipo_cdgo]\n" +
+                                "			  INNER JOIN ["+DB+"].[dbo].[labor_realizada] ON [lr_cdgo]=[me_labor_realizada_cdgo]\n" +
+                                "		  WHERE  (@startdate BETWEEN [me_fecha_hora_inicio] AND [me_fecha_hora_fin] \n" +
+                                "						OR @enddate  BETWEEN [me_fecha_hora_inicio] AND [me_fecha_hora_fin]\n" +
+                                "						OR [me_fecha_hora_inicio] BETWEEN @startdate AND @enddate\n" +
+                                "						OR [me_fecha_hora_fin] BETWEEN @startdate AND @enddate) \n" +
+                                "					AND [ae_equipo_cdgo]=@codigoEquipo\n" +
+                                "					AND [lr_parada]=1 AND [me_inactividad]=0 AND [me_estado]=1);\n" +
+                                "\n" +
+                                "IF(@costoOperativo IS NULL)\n" +
+                                "		SET @costoOperativo=0\n" +
+                                "\n" +
+                                "IF(@costoParada IS NULL)\n" +
+                                "		SET @costoParada=0	\n" +
+                                "\n" +
+                                "IF(@cantidadMinutosOperativo IS NULL)\n" +
+                                "		SET @cantidadMinutosOperativo=0;\n" +
+                                "\n" +
+                                "IF(@cantidadMinutosParada IS NULL)\n" +
+                                "		SET @cantidadMinutosParada=0;\n" +
+                                "  		SET @cantidadNoRegistrada=((DATEDIFF (MINUTE,  @startdate,@enddate))-@cantidadMinutosOperativo-@cantidadMinutosParada) ;\n" +
+                                "IF(@cantidadNoRegistrada IS NULL OR @cantidadNoRegistrada < 0)\n" +
+                                "		SET @cantidadNoRegistrada=0; \n" +
+                                "SELECT @cantidadTotalMinutos AS cantidadTotal, \n" +
+                                "		@cantidadMinutosOperativo AS cantidadMinutosOperativo ,\n" +
+                                "		@cantidadMinutosParada AS cantidadMinutosParada,\n" +
+                                "		@cantidadNoRegistrada as cantidadNoRegistrada,\n" +
+                                "		@costoOperativo  AS costoOperativo,\n" +
+                                "		@costoParada  AS costoParada;");
             PreparedStatement query= conexion.prepareStatement("DECLARE @startdate datetime2 = '"+fechaInicio+"';\n" +
                                 "DECLARE @enddate datetime2 = '"+fechaFinal+"';	\n" +
                                 "DECLARE @codigoEquipo INT ='"+equipo+"';\n" +
@@ -455,6 +609,7 @@ public class ControlDB_RendiminentoEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,[ae_estad]-- 119\n" +
+                    "      ,[mn_base_datos_cdgo]   --120 \n" +
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -466,8 +621,11 @@ public class ControlDB_RendiminentoEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
-            "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
+            //"		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            
+"		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+"           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
+                    "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [ae_equipo_cdgo]=[eq_cdgo]\n" +
@@ -644,6 +802,7 @@ public class ControlDB_RendiminentoEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,[ae_estad]-- 119\n" +
+                        "      ,[mn_base_datos_cdgo]   --120 \n" +
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -655,8 +814,10 @@ public class ControlDB_RendiminentoEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
-            "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
+            //"		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+"           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
+                    "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [ae_equipo_cdgo]=[eq_cdgo]\n" +
@@ -938,6 +1099,7 @@ public class ControlDB_RendiminentoEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,[ae_estad]-- 119\n" +
+                    "      ,[mn_base_datos_cdgo]   --120 \n" +
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -949,8 +1111,10 @@ public class ControlDB_RendiminentoEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
-            "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
+           // "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+"           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
+                    "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [ae_equipo_cdgo]=[eq_cdgo]\n" +
@@ -989,12 +1153,14 @@ public class ControlDB_RendiminentoEquipo {
                     motonave.setCodigo(resultSet.getString(57));
                     motonave.setDescripcion(resultSet.getString(58));
                     motonave.setEstado(resultSet.getString(59)); 
+                    motonave.setBaseDatos(new BaseDatos(resultSet.getString(120))); 
                 }else{
                     System.out.println("fue nulo");
                     motonave= new Motonave();
                     motonave.setCodigo("NULL");
                     motonave.setDescripcion("NULL");
                     motonave.setEstado("NULL"); 
+                    motonave.setBaseDatos(new BaseDatos("NULL")); 
                 }
                 solicitudListadoEquipo.setMotonave(motonave);
                     CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();

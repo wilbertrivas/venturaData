@@ -6,7 +6,8 @@ public class Articulo {
     private TipoArticulo tipoArticulo;
     private String descripcion;
     private String estado; 
-
+    private BaseDatos baseDatos;
+    
     public Articulo() {
     }
 
@@ -53,6 +54,14 @@ public class Articulo {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public BaseDatos getBaseDatos() {
+        return baseDatos;
+    }
+
+    public void setBaseDatos(BaseDatos baseDatos) {
+        this.baseDatos = baseDatos;
     }
 
    

@@ -1,5 +1,6 @@
 package ModuloEquipo.Controller2;
 
+import Catalogo.Model.BaseDatos;
 import ConnectionDB2.Conexion_DB_costos_vg;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
@@ -72,12 +73,12 @@ public class ControlDB_SolicitudEquipo {
                                                 "           ,[sle_modelo_equipo] ,[sle_cant_equip],[sle_observ],[sle_fecha_hora_inicio]\n" +
                                                 "           ,[sle_fecha_hora_fin],[sle_cant_minutos],[sle_labor_realizada_cdgo]\n" +
                                                 "           ,[sle_motonave_cdgo],[sle_cntro_cost_auxiliar_cdgo]\n" +
-                                                "           ,[sle_compania_cdgo])\n" +
+                                                "           ,[sle_compania_cdgo],[sle_motonave_base_datos_cdgo])\n" +
                                                 "     VALUES\n" +
                                                 "           ((SELECT (CASE WHEN (MAX([sle_cdgo]) IS NULL)\n" +
                                                                         " THEN 1\n" +
                                                                         " ELSE (MAX([sle_cdgo])+1) END)AS [sle_cdgo]\n" +
-                                                    " FROM ["+DB+"].[dbo].[solicitud_listado_equipo]),?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                                    " FROM ["+DB+"].[dbo].[solicitud_listado_equipo]),?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         QuerySolicitudListadoEquipo.setString(1, Objeto.getCodigo());
                         QuerySolicitudListadoEquipo.setString(2, ListadoSolicitudesEquipos1.getTipoEquipo().getCodigo());
                         QuerySolicitudListadoEquipo.setString(3, ListadoSolicitudesEquipos1.getMarcaEquipo());
@@ -91,6 +92,7 @@ public class ControlDB_SolicitudEquipo {
                         QuerySolicitudListadoEquipo.setString(11, ListadoSolicitudesEquipos1.getMotonave().getCodigo());
                         QuerySolicitudListadoEquipo.setInt(12, ListadoSolicitudesEquipos1.getCentroCostoAuxiliar().getCodigo());
                         QuerySolicitudListadoEquipo.setString(13, ListadoSolicitudesEquipos1.getCompañia().getCodigo());
+                        QuerySolicitudListadoEquipo.setString(14, ListadoSolicitudesEquipos1.getMotonave().getBaseDatos().getCodigo());
                         QuerySolicitudListadoEquipo.execute();
                     }else{
                         System.out.println("INSERT INTO ["+DB+"].[dbo].[solicitud_listado_equipo]\n" +
@@ -109,12 +111,12 @@ public class ControlDB_SolicitudEquipo {
                                                                                 "           ,[sle_modelo_equipo] ,[sle_cant_equip],[sle_observ],[sle_fecha_hora_inicio]\n" +
                                                                                 "           ,[sle_fecha_hora_fin],[sle_cant_minutos],[sle_labor_realizada_cdgo]\n" +
                                                                                 "           ,[sle_motonave_cdgo],[sle_cntro_cost_auxiliar_cdgo]\n" +
-                                                                                "           ,[sle_compania_cdgo])\n" +
+                                                                                "           ,[sle_compania_cdgo],[sle_motonave_base_datos_cdgo])\n" +
                                                                                 "     VALUES\n" +
                                                                                 "           ((SELECT (CASE WHEN (MAX([sle_cdgo]) IS NULL)\n" +
                                                                                                         " THEN 1\n" +
                                                                                                         " ELSE (MAX([sle_cdgo])+1) END)AS [sle_cdgo]\n" +
-                                                                                    " FROM ["+DB+"].[dbo].[solicitud_listado_equipo]),?,?,?,?,?,?,?,?,?,?,NULL,?,?)");
+                                                                                    " FROM ["+DB+"].[dbo].[solicitud_listado_equipo]),?,?,?,?,?,?,?,?,?,?,NULL,?,?,NULL)");
                         QuerySolicitudListadoEquipo.setString(1, Objeto.getCodigo());
                         QuerySolicitudListadoEquipo.setString(2, ListadoSolicitudesEquipos1.getTipoEquipo().getCodigo());
                         QuerySolicitudListadoEquipo.setString(3, ListadoSolicitudesEquipos1.getMarcaEquipo());
@@ -403,6 +405,7 @@ public class ControlDB_SolicitudEquipo {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
+    
     public SolicitudEquipo buscarSolicitudEquipoParticular(SolicitudEquipo solicitudEquipo){
         SolicitudEquipo Objeto = null;
         ArrayList<SolicitudListadoEquipo> listadoObjetos = new ArrayList<>();
@@ -481,18 +484,21 @@ public class ControlDB_SolicitudEquipo {
                         "				,[cp_cdgo]--55\n" +
                         "				,[cp_desc]--56\n" +
                         "				,CASE WHEN ([cp_estad]=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS [cp_estad]	--57\n" +
+                        "				,CASE WHEN ([se_confirmacion_solicitud_equipo_cdgo]=1) THEN 'ACEPTADA' WHEN ([se_confirmacion_solicitud_equipo_cdgo]=0) THEN 'RECHAZADA' ELSE 'PENDIENTE' END AS [se_confirmacion_solicitud_equipo_cdgo]	--58\n" +
+                        "      ,[mn_base_datos_cdgo]   --59 \n" +
                         "  FROM ["+DB+"].[dbo].[solicitud_equipo]\n" +
                         "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ON [se_cntro_oper_cdgo]=[co_cdgo]\n" +
                         "		INNER JOIN ["+DB+"].[dbo].[usuario] ON [se_usuario_realiza_cdgo]=[us_cdgo]\n" +
                         "		INNER JOIN ["+DB+"].[dbo].[estado_solicitud_equipo] ON [se_estado_solicitud_equipo_cdgo]=[ese_cdgo]\n" +
-                        "		INNER JOIN ["+DB+"].[dbo].[perfil] ON [us_perfil_cdgo]=[prf_cdgo]\n" +
+                        "		LEFT JOIN ["+DB+"].[dbo].[perfil] ON [us_perfil_cdgo]=[prf_cdgo]\n" +
                         "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [sle_solicitud_equipo_cdgo]=[se_cdgo]\n" +
-                        "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] ON [sle_tipo_equipo_cdgo]=[te_cdgo]\n" +
-                        "		INNER JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-                        "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] \n" +
-                        "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
-                        "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
-                        "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo] WHERE [se_cdgo]=?");
+                        "		LEFT JOIN ["+DB+"].[dbo].[tipo_equipo] ON [sle_tipo_equipo_cdgo]=[te_cdgo]\n" +
+                        "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
+                        "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+                        "               LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
+                        "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
+                        "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
+                        "		LEFT JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo] WHERE [se_cdgo]=?");
             query.setString(1, solicitudEquipo.getCodigo());
             resultSet= query.executeQuery();
             boolean validator=true;
@@ -507,6 +513,7 @@ public class ControlDB_SolicitudEquipo {
                         centroOperacion.setEstado(resultSet.getString(5));
                     Objeto.setCentroOperacion(centroOperacion);
                     Objeto.setFechaSolicitud(resultSet.getString(6));
+                    Objeto.setConfirmacionSolicitudEquipo(new ConfirmacionSolicitudEquipos("", resultSet.getString(58), ""));
                         Usuario usuario = new Usuario();
                         usuario.setCodigo(resultSet.getString(8));
                         usuario.setNombres(resultSet.getString(10));
@@ -552,12 +559,14 @@ public class ControlDB_SolicitudEquipo {
                     motonave.setCodigo(resultSet.getString(43));
                     motonave.setDescripcion(resultSet.getString(44));
                     motonave.setEstado(resultSet.getString(45)); 
+                    motonave.setBaseDatos(new BaseDatos( resultSet.getString(59)));
                 }else{
                     System.out.println("fue nulo");
                     motonave= new Motonave();
                     motonave.setCodigo("NULL");
                     motonave.setDescripcion("NULL");
                     motonave.setEstado("NULL"); 
+                    motonave.setBaseDatos(new BaseDatos("NULL"));
                 }
                 solicitudListadoEquipo.setMotonave(motonave);
                     CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();

@@ -68,7 +68,7 @@ public final class Compra_Consultar extends javax.swing.JPanel {
 
         ventanaInterna_MasDetalles.setBackground(new java.awt.Color(255, 255, 255));
         ventanaInterna_MasDetalles.setClosable(true);
-        ventanaInterna_MasDetalles.setVisible(true);
+        ventanaInterna_MasDetalles.setVisible(false);
         ventanaInterna_MasDetalles.addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }

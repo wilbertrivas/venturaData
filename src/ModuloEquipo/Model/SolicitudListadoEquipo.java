@@ -21,6 +21,7 @@ public class SolicitudListadoEquipo {
     private CentroCostoAuxiliar centroCostoAuxiliar;
     private Compañia compañia;
     private SolicitudEquipo solicitudEquipo; //Se agrega para poder llegar a la solicitud de Equipo
+    private String motonaveBaseDatos;
 
     public SolicitudListadoEquipo() {
     }
@@ -154,5 +155,13 @@ public class SolicitudListadoEquipo {
         this.solicitudEquipo = solicitudEquipo;
     }
 
+    public String getMotonaveBaseDatos() {
+        return motonaveBaseDatos;
+    }
+
+    public void setMotonaveBaseDatos(String motonaveBaseDatos) {
+        this.motonaveBaseDatos = motonaveBaseDatos;
+    }
+    
    
 }

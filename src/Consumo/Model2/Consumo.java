@@ -1,5 +1,6 @@
 package Consumo.Model2;
 
+import Catalogo.Model.BaseDatos;
 import Catalogo.Model.Cliente;
 import Sistema.Model.Usuario;
 
@@ -12,6 +13,7 @@ public class Consumo {
     private int cantidad;
     private String observacion;
     private String fechaRegistroSistema;
+    private String clienteBaseDatos;
 
     public Consumo(int codigo, String fecha, Cliente cliente, Insumo insumo, Usuario usuario, int cantidad, String observacion, String fechaRegistroSistema) {
         this.codigo = codigo;
@@ -90,6 +92,13 @@ public class Consumo {
     public void setFechaRegistroSistema(String fechaRegistroSistema) {
         this.fechaRegistroSistema = fechaRegistroSistema;
     }
-    
+
+    public String getClienteBaseDatos() {
+        return clienteBaseDatos;
+    }
+
+    public void setClienteBaseDatos(String clienteBaseDatos) {
+        this.clienteBaseDatos = clienteBaseDatos;
+    }
     
 }

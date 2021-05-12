@@ -42,7 +42,7 @@ public class mail {
             props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
             props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
             props.put("mail.smtp.port", "587");//El puerto SMTP seguro de Google
-
+            
             Session session = Session.getDefaultInstance(props);
             MimeMessage message = new MimeMessage(session);
 
@@ -51,6 +51,8 @@ public class mail {
                 for(Usuario user : listadoUsuarioAsignador){
                     message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getCorreo()));   //Se podrían añadir varios de la misma manera
                 }
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress("clara.lucio@oppgraneles.com"));
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress("wrivas@oppgraneles.com"));
                 String EquipoSOlicitados="LISTADO DE EQUIPOS\n";
                 int contador =1;
                 for(SolicitudListadoEquipo list : solicitudEquipo.getListadoSolicitudesEquipos()){
@@ -71,13 +73,16 @@ public class mail {
                         + "\nESTADO SOLICITUD: "+solicitudEquipo.getEstadoSolicitudEquipo().getDescripcion()
                         + "\nUSUARIO: "+userRemitente.getNombres()+" "+userRemitente.getApellidos()+"\n\n"+EquipoSOlicitados;
                 message.setText(cuerpo);
-                Transport transport = session.getTransport("smtp");
+                Transport transport = session.getTransport("smtps");
                 transport.connect("smtp.gmail.com", remitente, clave);
                 transport.sendMessage(message, message.getAllRecipients());
                 transport.close();
             }
             catch (MessagingException me) {
                 me.printStackTrace();   //Si se produce un error
+            }
+            catch(Exception e){
+                e.printStackTrace();
             }
         }   
      }
@@ -101,7 +106,8 @@ public class mail {
                 try {
                     message.setFrom(new InternetAddress(remitente));
                     message.addRecipient(Message.RecipientType.TO, new InternetAddress(UsuarioDestino.getCorreo()));   //Se podrían añadir varios de la misma manera
-
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress("clara.lucio@oppgraneles.com"));
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress("wrivas@oppgraneles.com"));
                     String EquipoAsignados="LISTADO DE EQUIPOS ASIGNADOS\n";
                     int contador =1;
                     for(AsignacionEquipo list : listadoAsignacionEquipo){
@@ -133,6 +139,8 @@ public class mail {
                 try {
                     message.setFrom(new InternetAddress(remitente));
                     message.addRecipient(Message.RecipientType.TO, new InternetAddress(UsuarioDestino.getCorreo()));   //Se podrían añadir varios de la misma manera
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress("clara.lucio@oppgraneles.com"));
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress("wrivas@oppgraneles.com"));
                     message.setSubject("Asignación de equipos CANCELADA");
                     String cuerpo="Se le informá que el usuario "+usuarioOrigen.getNombres()+" "+usuarioOrigen.getApellidos()+
                             " ha revisado su solicitud de equipo y pasó a estado de "+ estadoSolicitud+", por tal motivo no presenta asignación de equipos.\n";
@@ -170,11 +178,13 @@ public class mail {
             MimeMessage message = new MimeMessage(session);
             try {
                 message.setFrom(new InternetAddress(remitente));
-                 for(Usuario user : listadoUsuarioAsignador){
+                for(Usuario user : listadoUsuarioAsignador){
                     if(user.getCorreo() !=null){
                         message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getCorreo()));   //Se podrían añadir varios de la misma manera
                     }
                 }
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress("clara.lucio@oppgraneles.com"));
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress("wrivas@oppgraneles.com"));
                 int contador =1;
                 String estadoF="";    
                 if(confirmacionSolicitudEquipos.getDescripcion().equals("ACEPTAR")){
@@ -197,9 +207,7 @@ public class mail {
             catch (MessagingException me) {
                 me.printStackTrace();   //Si se produce un error
             }
-        }
-            
-        
+        } 
      }
 }
 

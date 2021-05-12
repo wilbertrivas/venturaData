@@ -8,6 +8,7 @@ public class CentroCosto{
     private String descripción;
     private String estado;
     private LaborRealizada laborRealizada;
+    private String clienteBaseDatos;
 
     public CentroCosto() {
     }
@@ -87,5 +88,12 @@ public class CentroCosto{
         this.laborRealizada = laborRealizada;
     }
 
-   
+    public String getClienteBaseDatos() {
+        return clienteBaseDatos;
+    }
+
+    public void setClienteBaseDatos(String clienteBaseDatos) {
+        this.clienteBaseDatos = clienteBaseDatos;
+    }
+
 }

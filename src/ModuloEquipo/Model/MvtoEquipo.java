@@ -7,6 +7,7 @@ import Catalogo.Model.ProveedorEquipo;
 import Catalogo.Model.Cliente;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.Articulo;
+import Catalogo.Model.BaseDatos;
 import Catalogo.Model.CentroCosto;
 import Catalogo.Model.CentroCostoMayor;
 import Catalogo.Model.CentroOperacion;
@@ -50,6 +51,10 @@ public class MvtoEquipo {
     private String centroCostoDescripción;
     private CentroCostoAuxiliar centroCostoAuxiliarDestino;
     private CentroCostoMayor centroCostoMayor;
+    private Usuario usuarioQuienCierra;
+    private String clienteBaseDatos;
+    private String motonaveBaseDatos;
+    private String articuloBaseDatos;
 
     
     public MvtoEquipo() {
@@ -376,6 +381,41 @@ public class MvtoEquipo {
     public void setCentroCostoMayor(CentroCostoMayor centroCostoMayor) {
         this.centroCostoMayor = centroCostoMayor;
     }
+
+    public Usuario getUsuarioQuienCierra() {
+        return usuarioQuienCierra;
+    }
+
+    public void setUsuarioQuienCierra(Usuario usuarioQuienCierra) {
+        this.usuarioQuienCierra = usuarioQuienCierra;
+    }
+
+    public String getClienteBaseDatos() {
+        return clienteBaseDatos;
+    }
+
+    public void setClienteBaseDatos(String clienteBaseDatos) {
+        this.clienteBaseDatos = clienteBaseDatos;
+    }
+
+    public String getMotonaveBaseDatos() {
+        return motonaveBaseDatos;
+    }
+
+    public void setMotonaveBaseDatos(String motonaveBaseDatos) {
+        this.motonaveBaseDatos = motonaveBaseDatos;
+    }
+
+    public String getArticuloBaseDatos() {
+        return articuloBaseDatos;
+    }
+
+    public void setArticuloBaseDatos(String articuloBaseDatos) {
+        this.articuloBaseDatos = articuloBaseDatos;
+    }
+
+
+    
 
    
 }

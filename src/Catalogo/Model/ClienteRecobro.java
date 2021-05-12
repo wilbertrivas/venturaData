@@ -9,6 +9,7 @@ public class ClienteRecobro {
     private Usuario usuario;
     private String valorRecobro;
     private String fechaRegistro;
+    private String clienteBaseDatos;
 
     public ClienteRecobro() {
     }
@@ -60,6 +61,13 @@ public class ClienteRecobro {
     public void setFechaRegistro(String fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
-    
+
+    public String getClienteBaseDatos() {
+        return clienteBaseDatos;
+    }
+
+    public void setClienteBaseDatos(String clienteBaseDatos) {
+        this.clienteBaseDatos = clienteBaseDatos;
+    }
     
 }

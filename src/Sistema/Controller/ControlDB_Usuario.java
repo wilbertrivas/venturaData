@@ -445,7 +445,7 @@ public class ControlDB_Usuario {
                                                                 "	  INNER JOIN ["+DB+"].[dbo].[perfil] ON [us_perfil_cdgo]=[prf_cdgo]\n" +
                                                                 "	  INNER JOIN ["+DB+"].[dbo].[perfil_permiso] ON [prfp_perfil_cdgo]=[us_perfil_cdgo]\n" +
                                                                 "	  INNER JOIN ["+DB+"].[dbo].[permiso] ON [prfp_permiso_cdgo]=[pm_cdgo]\n" +
-                                                                "  WHERE [pm_desc] LIKE 'ASIGNACION_REGISTRAR';");
+                                                                "  WHERE [pm_desc] LIKE 'ASIGNACION_EQUIPOS_REGISTRAR';");
             ResultSet resultSetBuscar=queryBuscar.executeQuery();
             boolean validador= true;
             while(resultSetBuscar.next()){ 

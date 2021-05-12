@@ -1,6 +1,7 @@
 package ModuloCarbon.Model; 
 
 import Catalogo.Model.Articulo;
+import Catalogo.Model.BaseDatos;
 import Catalogo.Model.CentroOperacion;
 import Catalogo.Model.Transportadora;
 import Catalogo.Model.CentroCostoAuxiliar;
@@ -8,7 +9,9 @@ import Catalogo.Model.CentroCosto;
 import Catalogo.Model.CentroCostoMayor;
 import Catalogo.Model.Motonave;
 import Catalogo.Model.Cliente;
+import Catalogo.Model.Equipo;
 import Catalogo.Model.LaborRealizada;
+import Catalogo.Model.MotivoNoLavado;
 import Sistema.Model.Usuario;
 import java.util.ArrayList;
 
@@ -45,9 +48,19 @@ public class MvtoCarbon {
     private CentroCostoMayor centroCostoMayor;
     private String lavadoVehiculo;
     private String lavadoVehiculo_Observacion;
+    private MotivoNoLavado motivoNoLavado;
+    private String costoLavadoVehiculo;
+    private String valorRecaudoEmpresa_lavadoVehiculo;
+    private String valorRecaudoEquipo_lavadoVehiculo;
+    private Equipo equipoLavadoVehiculo;
     private ArrayList<MvtoCarbon_ListadoEquipos> listadoMvtoCarbon_ListadoEquipos;
     //Reporte
     private String mes;
+    private String dia;
+    private Usuario usuarioCierraRegistro;
+    private String clienteBaseDatos;
+    private String transportadorBaseDatos;
+    private String articuloBaseDatos;
 
     public MvtoCarbon() {
     }
@@ -382,5 +395,91 @@ public class MvtoCarbon {
     public void setLavadoVehiculo_Observacion(String lavadoVehiculo_Observacion) {
         this.lavadoVehiculo_Observacion = lavadoVehiculo_Observacion;
     }
+
+    public MotivoNoLavado getMotivoNoLavado() {
+        return motivoNoLavado;
+    }
+
+    public void setMotivoNoLavado(MotivoNoLavado motivoNoLavado) {
+        this.motivoNoLavado = motivoNoLavado;
+    }
+
+    public String getCostoLavadoVehiculo() {
+        return costoLavadoVehiculo;
+    }
+
+    public void setCostoLavadoVehiculo(String costoLavadoVehiculo) {
+        this.costoLavadoVehiculo = costoLavadoVehiculo;
+    }
+
+    public Equipo getEquipoLavadoVehiculo() {
+        return equipoLavadoVehiculo;
+    }
+
+    public void setEquipoLavadoVehiculo(Equipo equipoLavadoVehiculo) {
+        this.equipoLavadoVehiculo = equipoLavadoVehiculo;
+    }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public String getValorRecaudoEmpresa_lavadoVehiculo() {
+        return valorRecaudoEmpresa_lavadoVehiculo;
+    }
+
+    public void setValorRecaudoEmpresa_lavadoVehiculo(String valorRecaudoEmpresa_lavadoVehiculo) {
+        this.valorRecaudoEmpresa_lavadoVehiculo = valorRecaudoEmpresa_lavadoVehiculo;
+    }
+
+    public String getValorRecaudoEquipo_lavadoVehiculo() {
+        return valorRecaudoEquipo_lavadoVehiculo;
+    }
+
+    public void setValorRecaudoEquipo_lavadoVehiculo(String valorRecaudoEquipo_lavadoVehiculo) {
+        this.valorRecaudoEquipo_lavadoVehiculo = valorRecaudoEquipo_lavadoVehiculo;
+    }
+
+    public Usuario getUsuarioCierraRegistro() {
+        return usuarioCierraRegistro;
+    }
+
+    public void setUsuarioCierraRegistro(Usuario usuarioCierraRegistro) {
+        this.usuarioCierraRegistro = usuarioCierraRegistro;
+    }
+
+    public String getClienteBaseDatos() {
+        return clienteBaseDatos;
+    }
+
+    public void setClienteBaseDatos(String clienteBaseDatos) {
+        this.clienteBaseDatos = clienteBaseDatos;
+    }
+
+    public String getTransportadorBaseDatos() {
+        return transportadorBaseDatos;
+    }
+
+    public void setTransportadorBaseDatos(String transportadorBaseDatos) {
+        this.transportadorBaseDatos = transportadorBaseDatos;
+    }
+
+    public String getArticuloBaseDatos() {
+        return articuloBaseDatos;
+    }
+
+    public void setArticuloBaseDatos(String articuloBaseDatos) {
+        this.articuloBaseDatos = articuloBaseDatos;
+    }
+
+
+    
+    
+    
+    
     
 }

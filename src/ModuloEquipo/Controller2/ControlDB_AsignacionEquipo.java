@@ -1,5 +1,6 @@
 package ModuloEquipo.Controller2;
 
+import Catalogo.Model.BaseDatos;
 import ConnectionDB2.Conexion_DB_costos_vg;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
@@ -185,6 +186,7 @@ public class ControlDB_AsignacionEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,[ae_estad]-- 119\n" +
+            "      ,[mn_base_datos_cdgo]   --120 \n" +
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -196,7 +198,9 @@ public class ControlDB_AsignacionEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            //"		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+            "           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
@@ -374,6 +378,7 @@ public class ControlDB_AsignacionEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,[ae_estad]-- 119\n" +
+            "      ,[mn_base_datos_cdgo]   --120 \n" +
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -385,7 +390,9 @@ public class ControlDB_AsignacionEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            //"		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+            "           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
@@ -426,7 +433,7 @@ public class ControlDB_AsignacionEquipo {
             while(resultSet.next()){
                 retorno= resultSet.getInt(1);
                 //retorno = retorno /60;
-            }
+            } 
         }catch (SQLException sqlException){
             JOptionPane.showMessageDialog(null,"Error al tratar de comparar las fechas","Advertencia",JOptionPane.ERROR_MESSAGE);
             sqlException.printStackTrace();
@@ -803,6 +810,7 @@ public class ControlDB_AsignacionEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,[ae_estad]-- 119\n" +
+            "      ,[mn_base_datos_cdgo]   --120 \n" +
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -814,8 +822,11 @@ public class ControlDB_AsignacionEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT  JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
-            "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
+            //"		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+            "           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
+            
+                    "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [ae_equipo_cdgo]=[eq_cdgo]\n" +
@@ -855,12 +866,14 @@ public class ControlDB_AsignacionEquipo {
                     motonave.setCodigo(resultSet.getString(57));
                     motonave.setDescripcion(resultSet.getString(58));
                     motonave.setEstado(resultSet.getString(59)); 
+                    motonave.setBaseDatos(new BaseDatos(resultSet.getString(120))); 
                 }else{
                     System.out.println("fue nulo");
                     motonave= new Motonave();
                     motonave.setCodigo("NULL");
                     motonave.setDescripcion("NULL");
                     motonave.setEstado("NULL"); 
+                    motonave.setBaseDatos(new BaseDatos("NULL")); 
                 }
                 solicitudListadoEquipo.setMotonave(motonave);
                     CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();
@@ -1080,6 +1093,13 @@ public class ControlDB_AsignacionEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,CASE WHEN ([ae_estad]=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS ae_estad -- 119\n" +
+                     "      ,[mn_base_datos_cdgo]   --120 \n" +
+                    // "      ,CASE WHEN (((SELECT SYSDATETIME ( )) BETWEEN [ae_fecha_hora_inicio] AND [ae_fecha_hora_fin]  ) AND [cse_cdgo]=1) THEN 'VERDE' ELSE 'ROJO' END AS colorDisponibilidad -- 121 \n" +
+                     "      ,CASE WHEN (((SELECT SYSDATETIME ( )) BETWEEN [ae_fecha_hora_inicio] AND [ae_fecha_hora_fin]  ) AND [cse_cdgo]=1 AND ((SELECT (DATEDIFF (MINUTE, (SELECT SYSDATETIME ( )), [ae_fecha_hora_fin])))>=60)) THEN 'VERDE' \n" +
+"						   ELSE\n" +
+"							CASE WHEN (((SELECT SYSDATETIME ( )) BETWEEN [ae_fecha_hora_inicio] AND [ae_fecha_hora_fin]  ) AND [cse_cdgo]=1 AND ((SELECT (DATEDIFF (MINUTE, (SELECT SYSDATETIME ( )), [ae_fecha_hora_fin]))) < 60)) THEN 'AMARILLO'\n" +
+"							ELSE  'ROJO' END\n" +
+"							END  AS colorDisponibilidad  -- 121 \n" +
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -1091,8 +1111,11 @@ public class ControlDB_AsignacionEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
-            "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
+            //"		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+             "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+            "           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
+            
+                    "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [ae_equipo_cdgo]=[eq_cdgo]\n" +
@@ -1169,12 +1192,14 @@ public class ControlDB_AsignacionEquipo {
                     motonave.setCodigo(resultSet.getString(57));
                     motonave.setDescripcion(resultSet.getString(58));
                     motonave.setEstado(resultSet.getString(59)); 
+                    motonave.setBaseDatos(new BaseDatos(resultSet.getString(120))); 
                 }else{
                     System.out.println("fue nulo");
                     motonave= new Motonave();
                     motonave.setCodigo("NULL");
                     motonave.setDescripcion("NULL");
                     motonave.setEstado("NULL"); 
+                    motonave.setBaseDatos(new BaseDatos("NULL")); 
                 }
                 solicitudListadoEquipo.setMotonave(motonave);
                     CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();
@@ -1238,6 +1263,7 @@ public class ControlDB_AsignacionEquipo {
                 asignacionEquipo.setCantidadMinutosParada(resultSet.getString(117));
                 asignacionEquipo.setCantidadMinutosTotal(resultSet.getString(118));
                 asignacionEquipo.setEstado(resultSet.getString(119));
+                asignacionEquipo.setColorDisponibilidad(resultSet.getString(121));
                 listadoAsignacionEquipo.add(asignacionEquipo);   
             }
         }catch (SQLException sqlException) {
@@ -1394,6 +1420,7 @@ public class ControlDB_AsignacionEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,CASE WHEN ([ae_estad]=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS ae_estad -- 119\n" +
+                    "      ,[mn_base_datos_cdgo]   --120 \n" +
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -1405,8 +1432,10 @@ public class ControlDB_AsignacionEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
-            "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
+            //"		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            "		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+            "           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
+                    "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [ae_equipo_cdgo]=[eq_cdgo]\n" +
@@ -1483,12 +1512,14 @@ public class ControlDB_AsignacionEquipo {
                     motonave.setCodigo(resultSet.getString(57));
                     motonave.setDescripcion(resultSet.getString(58));
                     motonave.setEstado(resultSet.getString(59)); 
+                    motonave.setBaseDatos(new BaseDatos(resultSet.getString(120)));
                 }else{
                     System.out.println("fue nulo");
                     motonave= new Motonave();
                     motonave.setCodigo("NULL");
                     motonave.setDescripcion("NULL");
                     motonave.setEstado("NULL"); 
+                    motonave.setBaseDatos(new BaseDatos("NULL")); 
                 }
                 solicitudListadoEquipo.setMotonave(motonave);
                     CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();
@@ -1708,6 +1739,7 @@ public class ControlDB_AsignacionEquipo {
             "      ,[ae_cant_minutos_parada]-- 117\n" +
             "      ,[ae_cant_minutos_total]-- 118\n" +
             "      ,CASE WHEN ([ae_estad]=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS ae_estad -- 119\n" +
+                 "      ,[mn_base_datos_cdgo]   --120 \n" +   
             "  FROM ["+DB+"].[dbo].[asignacion_equipo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[solicitud_listado_equipo] ON [ae_solicitud_listado_equipo_cdgo]=[sle_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_oper] ae_cntro_oper ON [ae_cntro_oper_cdgo]=ae_cntro_oper.[co_cdgo]\n" +
@@ -1719,8 +1751,11 @@ public class ControlDB_AsignacionEquipo {
             "		LEFT JOIN  ["+DB+"].[dbo].[confirmacion_solicitud_equipo] ON [se_confirmacion_solicitud_equipo_cdgo]=[cse_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] sle_tipoEquipo ON [sle_tipo_equipo_cdgo]=sle_tipoEquipo.[te_cdgo]\n" +
             "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] ON [sle_labor_realizada_cdgo]=[lr_cdgo]\n" +
-            "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
-            "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
+           // "		LEFT  JOIN["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo]\n" +
+            
+"		LEFT  JOIN ["+DB+"].[dbo].[motonave] ON [sle_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[sle_motonave_base_datos_cdgo]\n" +
+"           LEFT JOIN ["+DB+"].[dbo].[base_datos] sle_motonave_base_datos ON  [mn_base_datos_cdgo]=sle_motonave_base_datos.[bd_cdgo] \n"+
+                    "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [sle_cntro_cost_auxiliar_cdgo]=[cca_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [cca_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[compania] ON [sle_compania_cdgo]=[cp_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [ae_equipo_cdgo]=[eq_cdgo]\n" +
@@ -1797,12 +1832,15 @@ public class ControlDB_AsignacionEquipo {
                     motonave.setCodigo(resultSet.getString(57));
                     motonave.setDescripcion(resultSet.getString(58));
                     motonave.setEstado(resultSet.getString(59)); 
+                    motonave.setBaseDatos(new BaseDatos(resultSet.getString(120))); 
                 }else{
                     System.out.println("fue nulo");
                     motonave= new Motonave();
                     motonave.setCodigo("NULL");
                     motonave.setDescripcion("NULL");
-                    motonave.setEstado("NULL"); 
+                    motonave.setEstado("NULL");            
+                    motonave.setBaseDatos(new BaseDatos("NULL")); 
+                    
                 }
                 solicitudListadoEquipo.setMotonave(motonave);
                     CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();
@@ -1875,4 +1913,222 @@ public class ControlDB_AsignacionEquipo {
         control.cerrarConexionBaseDatos();
         return listadoAsignacionEquipo;
     }
+    
+    
+    
+    public int registrarProgramacionDirecta(ArrayList<AsignacionEquipo> listadoAsignacionEquipo,SolicitudEquipo solicitudEquipo, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException{
+        /***
+         * Metodo que permite realizar la programación de N equipos programados, dentro de este metodo se realiza la solicitud, asignación y confirmación al mismo tiempo
+         * todas estas funciones son realiza por el mismo usuario.
+        ***/
+        //Inicialmente procedemos a registra la solicitud de equipos
+        int result=0;
+        try{
+            conexion= control.ConectarBaseDatos();
+            String DB=control.getBaseDeDatos();
+            if(Asignacion_validarDisponibilidadEquipoPorListado(listadoAsignacionEquipo)){//True=Hay un equipo asignado en ese rango de fecha  False= Los equipos del listado se pueden grabar
+                JOptionPane.showMessageDialog(null,"Hay equipos en el listado que ya fueron asignado en ese rango de fecha validar información","Error",JOptionPane.ERROR_MESSAGE);
+                conexion= control.ConectarBaseDatos();
+            }else{
+                conexion= control.ConectarBaseDatos();
+                PreparedStatement Query= conexion.prepareStatement( "  DECLARE @cdgo_solicitudEquipo BIGINT;\n" +
+                                                                "  SET @cdgo_solicitudEquipo=(SELECT (CASE WHEN (MAX([se_cdgo]) IS NULL)\n" +
+                                                                "	                         		THEN 1\n" +
+                                                                "               				ELSE (MAX([se_cdgo])+1) END)AS [se_cdgo]\n" +
+                                                                "                                        FROM ["+DB+"].[dbo].[solicitud_equipo]); "+
+                                                        " INSERT INTO ["+DB+"].[dbo].[solicitud_equipo]\n" +
+                                                        "           ([se_cdgo],"+
+                                                        "           [se_cntro_oper_cdgo],"+
+                                                        "           [se_fecha],\n" +
+                                                        "           [se_usuario_realiza_cdgo],"+
+                                                        "           [se_fecha_registro],\n" +
+                                                        "           [se_estado_solicitud_equipo_cdgo],\n"+
+                                                        "           [se_fecha_confirmacion],\n" +
+                                                        "           [se_usuario_confirma_cdgo],\n"+
+                                                        "           [se_confirmacion_solicitud_equipo_cdgo])\n" +
+                                                        "       VALUES\n" +
+                                                        "           (@cdgo_solicitudEquipo,?,(SELECT CONVERT(DATE, GETDATE())),?,(SELECT SYSDATETIME()),?,(SELECT SYSDATETIME()),?,?);");
+                                                        Query.setInt(1, solicitudEquipo.getCentroOperacion().getCodigo());
+                                                        Query.setString(2, solicitudEquipo.getUsuarioRealizaSolicitud().getCodigo());
+                                                        Query.setString(3, solicitudEquipo.getEstadoSolicitudEquipo().getCodigo());
+                                                        Query.setString(4, solicitudEquipo.getUsuarioConfirmacionSolicitud().getCodigo());
+                                                        Query.setString(5, solicitudEquipo.getConfirmacionSolicitudEquipo().getCodigo());
+                result=1;
+                Query.execute();
+                if(result==1){
+                    result=0;
+                    //Sacamos el valor del codigo de la ultima compra
+                    PreparedStatement Query_Maximo= conexion.prepareStatement("SELECT MAX(se_cdgo) FROM ["+DB+"].[dbo].[solicitud_equipo];");
+                    ResultSet resultSet= Query_Maximo.executeQuery();
+                    while(resultSet.next()){ 
+                        if(resultSet.getString(1) != null){
+                            solicitudEquipo.setCodigo(resultSet.getString(1));
+                        }
+                    }
+
+                    //for (SolicitudListadoEquipo ListadoSolicitudesEquipos1 : solicitudEquipo.getListadoSolicitudesEquipos()) {
+                    for (AsignacionEquipo objeto: listadoAsignacionEquipo) {
+                        if(objeto.getSolicitudListadoEquipo().getMotonave() != null){
+                           PreparedStatement QuerySolicitudListadoEquipo= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[solicitud_listado_equipo]\n" +
+                                                   "           ([sle_cdgo],[sle_solicitud_equipo_cdgo],[sle_tipo_equipo_cdgo],[sle_marca_equipo]\n" +
+                                                   "           ,[sle_modelo_equipo] ,[sle_cant_equip],[sle_observ],[sle_fecha_hora_inicio]\n" +
+                                                   "           ,[sle_fecha_hora_fin],[sle_cant_minutos],[sle_labor_realizada_cdgo]\n" +
+                                                   "           ,[sle_motonave_cdgo],[sle_cntro_cost_auxiliar_cdgo]\n" +
+                                                   "           ,[sle_compania_cdgo],[sle_motonave_base_datos_cdgo])\n" +
+                                                   "     VALUES\n" +
+                                                   "           ((SELECT (CASE WHEN (MAX([sle_cdgo]) IS NULL)\n" +
+                                                                           " THEN 1\n" +
+                                                                           " ELSE (MAX([sle_cdgo])+1) END)AS [sle_cdgo]\n" +
+                                                       " FROM ["+DB+"].[dbo].[solicitud_listado_equipo]),?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                           QuerySolicitudListadoEquipo.setString(1, solicitudEquipo.getCodigo());
+                           QuerySolicitudListadoEquipo.setString(2, objeto.getSolicitudListadoEquipo().getTipoEquipo().getCodigo());
+                           QuerySolicitudListadoEquipo.setString(3, objeto.getSolicitudListadoEquipo().getMarcaEquipo());
+                           QuerySolicitudListadoEquipo.setString(4, objeto.getSolicitudListadoEquipo().getModeloEquipo());
+                           QuerySolicitudListadoEquipo.setInt(5, objeto.getSolicitudListadoEquipo().getCantidad());
+                           QuerySolicitudListadoEquipo.setString(6, objeto.getSolicitudListadoEquipo().getObservacacion());
+                           QuerySolicitudListadoEquipo.setString(7, objeto.getSolicitudListadoEquipo().getFechaHoraInicio());
+                           QuerySolicitudListadoEquipo.setString(8, objeto.getSolicitudListadoEquipo().getFechaHoraFin());
+                           QuerySolicitudListadoEquipo.setFloat(9, objeto.getSolicitudListadoEquipo().getCantidadMinutos());
+                           QuerySolicitudListadoEquipo.setString(10, objeto.getSolicitudListadoEquipo().getLaborRealizada().getCodigo());
+                           QuerySolicitudListadoEquipo.setString(11, objeto.getSolicitudListadoEquipo().getMotonave().getCodigo());
+                           QuerySolicitudListadoEquipo.setInt(12, objeto.getSolicitudListadoEquipo().getCentroCostoAuxiliar().getCodigo());
+                           QuerySolicitudListadoEquipo.setString(13, objeto.getSolicitudListadoEquipo().getCompañia().getCodigo());
+                           QuerySolicitudListadoEquipo.setString(14, objeto.getSolicitudListadoEquipo().getMotonave().getBaseDatos().getCodigo());
+                           QuerySolicitudListadoEquipo.execute();
+                       }else{
+                           PreparedStatement QuerySolicitudListadoEquipo= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[solicitud_listado_equipo]\n" +
+                                                                                   "           ([sle_cdgo],[sle_solicitud_equipo_cdgo],[sle_tipo_equipo_cdgo],[sle_marca_equipo]\n" +
+                                                                                   "           ,[sle_modelo_equipo] ,[sle_cant_equip],[sle_observ],[sle_fecha_hora_inicio]\n" +
+                                                                                   "           ,[sle_fecha_hora_fin],[sle_cant_minutos],[sle_labor_realizada_cdgo]\n" +
+                                                                                   "           ,[sle_motonave_cdgo],[sle_cntro_cost_auxiliar_cdgo]\n" +
+                                                                                   "           ,[sle_compania_cdgo],[sle_motonave_base_datos_cdgo])\n" +
+                                                                                   "     VALUES\n" +
+                                                                                   "           ((SELECT (CASE WHEN (MAX([sle_cdgo]) IS NULL)\n" +
+                                                                                                           " THEN 1\n" +
+                                                                                                           " ELSE (MAX([sle_cdgo])+1) END)AS [sle_cdgo]\n" +
+                                                                                       " FROM ["+DB+"].[dbo].[solicitud_listado_equipo]),?,?,?,?,?,?,?,?,?,?,NULL,?,?,NULL)");
+                           QuerySolicitudListadoEquipo.setString(1, solicitudEquipo.getCodigo());
+                           QuerySolicitudListadoEquipo.setString(2, objeto.getSolicitudListadoEquipo().getTipoEquipo().getCodigo());
+                           QuerySolicitudListadoEquipo.setString(3, objeto.getSolicitudListadoEquipo().getMarcaEquipo());
+                           QuerySolicitudListadoEquipo.setString(4, objeto.getSolicitudListadoEquipo().getModeloEquipo());
+                           QuerySolicitudListadoEquipo.setInt(5, objeto.getSolicitudListadoEquipo().getCantidad());
+                           QuerySolicitudListadoEquipo.setString(6, objeto.getSolicitudListadoEquipo().getObservacacion());
+                           QuerySolicitudListadoEquipo.setString(7, objeto.getSolicitudListadoEquipo().getFechaHoraInicio());
+                           QuerySolicitudListadoEquipo.setString(8, objeto.getSolicitudListadoEquipo().getFechaHoraFin());
+                           QuerySolicitudListadoEquipo.setFloat(9, objeto.getSolicitudListadoEquipo().getCantidadMinutos());
+                           QuerySolicitudListadoEquipo.setString(10, objeto.getSolicitudListadoEquipo().getLaborRealizada().getCodigo());
+                           //QuerySolicitudListadoEquipo.setString(11, "NULL");
+                           QuerySolicitudListadoEquipo.setInt(11, objeto.getSolicitudListadoEquipo().getCentroCostoAuxiliar().getCodigo());
+                           QuerySolicitudListadoEquipo.setString(12, objeto.getSolicitudListadoEquipo().getCompañia().getCodigo());
+                           QuerySolicitudListadoEquipo.execute();
+                       }
+
+
+                        //Sacamos el valor del codigo de la ultima compra
+                        PreparedStatement QueryMaximo_SolicitudListadoEquipo= conexion.prepareStatement("SELECT MAX(sle_cdgo) FROM ["+DB+"].[dbo].[solicitud_listado_equipo];");
+                        ResultSet resultSet_SolicitudListadoEquipo= QueryMaximo_SolicitudListadoEquipo.executeQuery();
+                        while(resultSet_SolicitudListadoEquipo.next()){ 
+                            if(resultSet_SolicitudListadoEquipo.getString(1) != null){
+                                objeto.getSolicitudListadoEquipo().setCodigo(resultSet_SolicitudListadoEquipo.getString(1));
+
+                            }
+                        }
+                        //for(AsignacionEquipo AsignacionEquipo1: listadoAsignacionEquipo){
+                        PreparedStatement Query1= conexion.prepareStatement( "INSERT INTO ["+DB+"].[dbo].[asignacion_equipo]\n" +
+                            "           ([ae_cdgo]\n" +
+                            "           ,[ae_cntro_oper_cdgo]\n" +
+                            "           ,[ae_solicitud_listado_equipo_cdgo]\n" +
+                            "           ,[ae_fecha_registro]\n" +
+                            "           ,[ae_fecha_hora_inicio]\n" +
+                            "           ,[ae_fecha_hora_fin]\n" +
+                            "           ,[ae_cant_minutos]\n" +
+                            "           ,[ae_equipo_cdgo]\n" +
+                            "           ,[ae_equipo_pertenencia_cdgo]\n" +
+                            "           ,[ae_cant_minutos_operativo]\n" +
+                            "           ,[ae_cant_minutos_parada]\n" +
+                            "           ,[ae_cant_minutos_total]\n" +
+                            "           ,[ae_estad])\n" +
+                            "     VALUES\n" +
+                            "           ((SELECT (CASE WHEN (MAX([ae_cdgo]) IS NULL)\n" +
+                            "                 THEN 1\n" +
+                            "                 ELSE (MAX([ae_cdgo])+1) END)AS [ae_cdgo] FROM ["+DB+"].[dbo].[asignacion_equipo]),? ,? ,(SELECT CONVERT(DATE, GETDATE())),?,?,? ,? ,? ,?,?,? ,?)");
+                        Query1.setInt(1, objeto.getCentroOperacion().getCodigo());
+                        Query1.setString(2, objeto.getSolicitudListadoEquipo().getCodigo());
+                        Query1.setString(3, objeto.getFechaHoraInicio());
+                        Query1.setString(4, objeto.getFechaHoraFin());
+                        Query1.setString(5, objeto.getCantidadMinutosProgramados());
+                        Query1.setString(6, objeto.getEquipo().getCodigo());
+                        Query1.setString(7, objeto.getPertenencia().getCodigo());
+                        Query1.setString(8, "0");//ae_cant_minutos_operativa
+                        Query1.setString(9, "0");//ae_cant_minutos_parada
+                        Query1.setString(10, "0");//ae_cant_minutos_total
+                        Query1.setString(11, "1");//ae_estad 1=ACTIVO  0=INACTIVO
+                        Query1.execute();        
+                        result=1;
+                        if(result==1){
+                            result=0;
+                         //Sacamos el valor del codigo de la ultima asignación de equipo para registrar en auditoria
+                            PreparedStatement Query_Maximo_asignacion_equipo= conexion.prepareStatement("SELECT MAX(ae_cdgo) FROM ["+DB+"].[dbo].[asignacion_equipo];");
+                            ResultSet resultSetQ_asignacion_equipo= Query_Maximo_asignacion_equipo.executeQuery();
+                            while(resultSetQ_asignacion_equipo.next()){ 
+                                if(resultSetQ_asignacion_equipo.getString(1) != null){
+                                    objeto.setCodigo(resultSetQ_asignacion_equipo.getString(1));
+                                }
+                            }
+                            //Extraemos el nombre del Equipo y la IP        
+                            String namePc=new ControlDB_Config().getNamePC();
+                            String ipPc=new ControlDB_Config().getIpPc();
+                            String macPC=new ControlDB_Config().getMacAddress();
+
+                            PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
+                                            "      ,[au_fecha]\n" +
+                                            "      ,[au_usuario_cdgo_registro]\n" +
+                                            "      ,[au_nombre_dispositivo_registro]\n" +
+                                            "      ,[au_ip_dispositivo_registro]\n" +
+                                            "      ,[au_mac_dispositivo_registro]\n" +
+                                            "      ,[au_cdgo_mtvo]\n" +
+                                            "      ,[au_desc_mtvo]\n" +
+                                            "      ,[au_detalle_mtvo])\n" +
+                                            "     VALUES("+
+                                            "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
+                                            "           ,(SELECT SYSDATETIME())"+
+                                            "           ,?"+
+                                            "           ,?"+
+                                            "           ,?"+
+                                            "           ,?"+
+                                            "           ,?"+
+                                            "           ,'PROGRAMACIÓN_EQUIPO_DIRECTA'" +
+                                            "           ,CONCAT (?,?));");
+                            Query_Auditoria.setString(1, us.getCodigo());
+                            Query_Auditoria.setString(2, namePc);
+                            Query_Auditoria.setString(3, ipPc);
+                            Query_Auditoria.setString(4, macPC);
+                            Query_Auditoria.setString(5, objeto.getCodigo());
+                            Query_Auditoria.setString(6, "Se registró una nueva asignación de equipos en el sistema, con Código: ");
+                            Query_Auditoria.setString(7, objeto.getCodigo()+
+                                                        " CentroOperacion: "+objeto.getCentroOperacion().getCodigo()+
+                                                        " CódigoSolicitudEquipo: "+objeto.getSolicitudListadoEquipo().getCodigo()+
+                                                        " FechaHoraInicio: "+objeto.getFechaHoraInicio()+
+                                                        " FechaHoraFin: "+objeto.getFechaHoraFin()+
+                                                        " CantidadHorasProgramadas: "+objeto.getCantidadMinutosProgramados()+
+                                                        " CódigoEquipo: "+objeto.getEquipo().getCodigo()+
+                                                        " TipoEquipo: "+objeto.getEquipo().getTipoEquipo().getDescripcion()+
+                                                        " MarcaEquipo: "+objeto.getEquipo().getMarca()+
+                                                        " ModeloEquipo: "+objeto.getEquipo().getModelo()+
+                                                        " DescripciónEquipo: "+objeto.getEquipo().getDescripcion()+
+                                                        " PertenenciaEquipo: "+objeto.getPertenencia().getDescripcion());
+                            Query_Auditoria.execute();
+                            result=1;
+                        }            
+                        //}     
+                    }
+                }
+            }
+        }catch(Exception e){
+            result=0;
+            e.printStackTrace();
+        }
+        control.cerrarConexionBaseDatos();
+        return result;
+   } 
 }

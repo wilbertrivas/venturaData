@@ -13,6 +13,11 @@ public class EstadoSolicitudEquipos {
         this.descripcion = descripcion;
         this.estado = estado;
     }  
+
+    public EstadoSolicitudEquipos(String codigo) {
+        this.codigo = codigo;
+    }
+    
     
     public String getCodigo() {
         return codigo;

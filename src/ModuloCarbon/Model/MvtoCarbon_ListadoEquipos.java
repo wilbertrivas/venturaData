@@ -2,12 +2,14 @@ package ModuloCarbon.Model;
 
 import ModuloEquipo.Model.AsignacionEquipo;
 import ModuloEquipo.Model.MvtoEquipo;
+import ModuloEquipo.Model.MvtoEquipoAgregar;
 
 public class MvtoCarbon_ListadoEquipos {
     private String codigo;
     private MvtoCarbon mvtoCarbon;
     private AsignacionEquipo asignacionEquipo;
     private MvtoEquipo mvtoEquipo;
+    private MvtoEquipoAgregar mvtoEquipoAgregar;
     private String estado;
 
     public MvtoCarbon_ListadoEquipos() {
@@ -59,6 +61,14 @@ public class MvtoCarbon_ListadoEquipos {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public MvtoEquipoAgregar getMvtoEquipoAgregar() {
+        return mvtoEquipoAgregar;
+    }
+
+    public void setMvtoEquipoAgregar(MvtoEquipoAgregar mvtoEquipoAgregar) {
+        this.mvtoEquipoAgregar = mvtoEquipoAgregar;
     }
     
     

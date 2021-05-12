@@ -1,8 +1,10 @@
 package Catalogo.Controller; 
  
+import Catalogo.Model.BaseDatos;
 import ConnectionDB2.Conexion_DB_ccargaGP;
 import ConnectionDB2.Conexion_DB_costos_vg;
 import Catalogo.Model.Transportadora;
+import ConnectionDB2.Conexion_DB_ccargaOPP;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
@@ -37,12 +39,13 @@ public class ControlDB_Transportadora {
             }  
             if(!validarExistencia(Objeto)){
                 conexion= control.ConectarBaseDatos();
-                PreparedStatement Query= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[transprtdora] ([tr_cdgo],[tr_nit],[tr_desc],[tr_observ],[tr_estad]) VALUES (?,?,?,?,?);");
+                PreparedStatement Query= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[transprtdora] ([tr_cdgo],[tr_nit],[tr_desc],[tr_observ],[tr_estad],[tr_base_datos_cdgo]) VALUES (?,?,?,?,?,?);");
                 Query.setString(1, Objeto.getCodigo());
                 Query.setString(2, Objeto.getNit());
                 Query.setString(3, Objeto.getDescripcion());
                 Query.setString(4, Objeto.getObservacion());
                 Query.setString(5, Objeto.getEstado());
+                Query.setString(6, Objeto.getBaseDatos().getCodigo());
                 Query.execute();
                 result=1;
                 if(result==1){
@@ -69,7 +72,7 @@ public class ControlDB_Transportadora {
                         "           ,?"+
                         "           ,?"+
                         "           ,'TRANSPORADORA'" +
-                        "           ,CONCAT (?,?,' Nit: ',?,' Estado: ',?));");
+                        "           ,CONCAT (?,?,' Nit: ',?,' Estado: ',?,' BaseDatos: ',?));");
                     Query_Auditoria.setString(1, us.getCodigo());
                     Query_Auditoria.setString(2, namePc);
                     Query_Auditoria.setString(3, ipPc);
@@ -79,6 +82,7 @@ public class ControlDB_Transportadora {
                     Query_Auditoria.setString(7, Objeto.getCodigo());
                     Query_Auditoria.setString(8, Objeto.getNit()+" Nombre: "+Objeto.getDescripcion()+" Obervacion:"+Objeto.getObservacion());
                     Query_Auditoria.setString(9, estado);
+                    Query_Auditoria.setString(10, Objeto.getBaseDatos().getNombre());
                     Query_Auditoria.execute();
                     result=1;
                 }
@@ -98,10 +102,32 @@ public class ControlDB_Transportadora {
         try{
             ResultSet resultSet; 
             if(valorConsulta.equals("")){
-                PreparedStatement query= conexion.prepareStatement("SELECT tr_cdgo,tr_nit,tr_desc,tr_observ,CASE WHEN (tr_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS tr_estad FROM ["+DB+"].[dbo].[transprtdora];");
+                PreparedStatement query= conexion.prepareStatement("SELECT  [tr_cdgo] --1\n" +
+                                                                    "      ,[tr_nit]--2\n" +
+                                                                    "      ,[tr_desc]--3\n" +
+                                                                    "      ,[tr_observ]--4\n" +
+                                                                    "      ,CASE WHEN (tr_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS tr_estad--5\n" +
+                                                                    "      ,[tr_base_datos_cdgo]--6\n" +
+                                                                    "	  ,[bd_cdgo]--7\n" +
+                                                                    "      ,[bd_name]--8\n" +
+                                                                    "      ,[bd_desc]--9\n" +
+                                                                    "      ,[bd_estad]--10\n" +
+                                                                    "  FROM ["+DB+"].[dbo].[transprtdora]\n" +
+                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos]  ON [tr_base_datos_cdgo]=[bd_cdgo];");
                 resultSet= query.executeQuery();
             }else{
-                PreparedStatement query= conexion.prepareStatement("SELECT tr_cdgo,tr_nit,tr_desc,tr_observ,CASE WHEN (tr_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS tr_estad FROM ["+DB+"].[dbo].[transprtdora] WHERE (tr_cdgo=? OR tr_nit LIKE ? OR [tr_desc] LIKE ?);");
+                PreparedStatement query= conexion.prepareStatement("SELECT  [tr_cdgo] --1\n" +
+                                                                    "      ,[tr_nit]--2\n" +
+                                                                    "      ,[tr_desc]--3\n" +
+                                                                    "      ,[tr_observ]--4\n" +
+                                                                    "      ,CASE WHEN (tr_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS tr_estad--5\n" +
+                                                                    "      ,[tr_base_datos_cdgo]--6\n" +
+                                                                    "	  ,[bd_cdgo]--7\n" +
+                                                                    "      ,[bd_name]--8\n" +
+                                                                    "      ,[bd_desc]--9\n" +
+                                                                    "      ,[bd_estad]--10\n" +
+                                                                    "  FROM ["+DB+"].[dbo].[transprtdora]\n" +
+                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos]  ON [tr_base_datos_cdgo]=[bd_cdgo] WHERE (tr_cdgo=? OR tr_nit LIKE ? OR [tr_desc] LIKE ?);");
                 query.setString(1, valorConsulta);
                 query.setString(2, "%"+valorConsulta+"%");
                 query.setString(3, "%"+valorConsulta+"%");
@@ -114,6 +140,12 @@ public class ControlDB_Transportadora {
                 Objeto.setDescripcion(resultSet.getString(3));
                 Objeto.setObservacion(resultSet.getString(4));
                 Objeto.setEstado(resultSet.getString(5));
+                 BaseDatos baseDatos = new BaseDatos();
+                        baseDatos.setCodigo(resultSet.getString(7));
+                        baseDatos.setNombre(resultSet.getString(8));
+                        baseDatos.setDescripcion(resultSet.getString(9));
+                        baseDatos.setEstado(resultSet.getString(10));
+                Objeto.setBaseDatos(baseDatos);
                 listadoObjetos.add(Objeto);
             }
         }catch (SQLException sqlException) {
@@ -128,7 +160,18 @@ public class ControlDB_Transportadora {
         conexion= control.ConectarBaseDatos();
         String DB=control.getBaseDeDatos();
         try{
-            PreparedStatement query= conexion.prepareStatement("SELECT tr_cdgo,tr_nit,tr_desc,tr_observ,CASE WHEN (tr_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS tr_estad FROM ["+DB+"].[dbo].[transprtdora] WHERE [tr_cdgo] = ?;"); 
+            PreparedStatement query= conexion.prepareStatement("SELECT  [tr_cdgo] --1\n" +
+                                                                    "      ,[tr_nit]--2\n" +
+                                                                    "      ,[tr_desc]--3\n" +
+                                                                    "      ,[tr_observ]--4\n" +
+                                                                    "      ,CASE WHEN (tr_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS tr_estad--5\n" +
+                                                                    "      ,[tr_base_datos_cdgo]--6\n" +
+                                                                    "	  ,[bd_cdgo]--7\n" +
+                                                                    "      ,[bd_name]--8\n" +
+                                                                    "      ,[bd_desc]--9\n" +
+                                                                    "      ,[bd_estad]--10\n" +
+                                                                    "  FROM ["+DB+"].[dbo].[transprtdora]\n" +
+                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos]  ON [tr_base_datos_cdgo]=[bd_cdgo] WHERE [tr_cdgo] = ?;"); 
             query.setString(1, codigo);
             ResultSet resultSet= query.executeQuery();
             while(resultSet.next()){ 
@@ -138,6 +181,12 @@ public class ControlDB_Transportadora {
                 Objeto.setDescripcion(resultSet.getString(3));
                 Objeto.setObservacion(resultSet.getString(4));
                 Objeto.setEstado(resultSet.getString(5));
+                 BaseDatos baseDatos = new BaseDatos();
+                        baseDatos.setCodigo(resultSet.getString(7));
+                        baseDatos.setNombre(resultSet.getString(8));
+                        baseDatos.setDescripcion(resultSet.getString(9));
+                        baseDatos.setEstado(resultSet.getString(10));
+                Objeto.setBaseDatos(baseDatos);
             }
         }catch (SQLException sqlException) {
             JOptionPane.showMessageDialog(null, "Error al tratar al consultar las transportadora");
@@ -151,7 +200,18 @@ public class ControlDB_Transportadora {
         conexion= control.ConectarBaseDatos();
         String DB=control.getBaseDeDatos();
         try{
-            PreparedStatement query= conexion.prepareStatement("SELECT tr_cdgo,tr_nit,tr_desc,tr_observ,CASE WHEN (tr_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS tr_estad FROM ["+DB+"].[dbo].[transprtdora] WHERE [tr_estad]=1;");
+            PreparedStatement query= conexion.prepareStatement("SELECT  [tr_cdgo] --1\n" +
+                                                                    "      ,[tr_nit]--2\n" +
+                                                                    "      ,[tr_desc]--3\n" +
+                                                                    "      ,[tr_observ]--4\n" +
+                                                                    "      ,CASE WHEN (tr_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS tr_estad--5\n" +
+                                                                    "      ,[tr_base_datos_cdgo]--6\n" +
+                                                                    "	  ,[bd_cdgo]--7\n" +
+                                                                    "      ,[bd_name]--8\n" +
+                                                                    "      ,[bd_desc]--9\n" +
+                                                                    "      ,[bd_estad]--10\n" +
+                                                                    "  FROM ["+DB+"].[dbo].[transprtdora]\n" +
+                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos]  ON [tr_base_datos_cdgo]=[bd_cdgo] WHERE [tr_estad]=1;");
             ResultSet resultSet= query.executeQuery();
             while(resultSet.next()){ 
                 Transportadora Objeto = new Transportadora(); 
@@ -160,6 +220,12 @@ public class ControlDB_Transportadora {
                 Objeto.setDescripcion(resultSet.getString(3));
                 Objeto.setObservacion(resultSet.getString(4));
                 Objeto.setEstado(resultSet.getString(5));
+                 BaseDatos baseDatos = new BaseDatos();
+                        baseDatos.setCodigo(resultSet.getString(7));
+                        baseDatos.setNombre(resultSet.getString(8));
+                        baseDatos.setDescripcion(resultSet.getString(9));
+                        baseDatos.setEstado(resultSet.getString(10));
+                Objeto.setBaseDatos(baseDatos);
                 listadoObjetos.add(Objeto);
             }
         }catch (SQLException sqlException) {
@@ -169,7 +235,7 @@ public class ControlDB_Transportadora {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     } 
-    public String buscar_nombre(String nombre) throws SQLException{
+    /*public String buscar_nombre(String nombre) throws SQLException{
         conexion= control.ConectarBaseDatos();
         String DB=control.getBaseDeDatos();
         try{
@@ -185,7 +251,7 @@ public class ControlDB_Transportadora {
         } 
         control.cerrarConexionBaseDatos();
         return "";
-    } 
+    } *//*
     public String buscar_Id(String id) throws SQLException{
         conexion= control.ConectarBaseDatos();
         String DB=control.getBaseDeDatos();
@@ -202,14 +268,15 @@ public class ControlDB_Transportadora {
         } 
         control.cerrarConexionBaseDatos();
         return "";
-    } 
+    } */
     public boolean validarExistencia(Transportadora Objeto){
         conexion= control.ConectarBaseDatos();
         String DB=control.getBaseDeDatos();
         boolean retorno=false;
         try{
-            PreparedStatement query= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[transprtdora] WHERE [tr_cdgo] like ?;");
+            PreparedStatement query= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[transprtdora] WHERE [tr_cdgo] like ? AND [tr_base_datos_cdgo]=?;");
             query.setString(1, Objeto.getCodigo());
+            query.setString(2, Objeto.getBaseDatos().getCodigo());
             ResultSet resultSet= query.executeQuery();
             while(resultSet.next()){ 
                 retorno =true;               
@@ -221,12 +288,12 @@ public class ControlDB_Transportadora {
         control.cerrarConexionBaseDatos();
         return retorno;
     }  
-    public boolean validarExistenciaActualizar(Transportadora Objeto){
+    /*public boolean validarExistenciaActualizar(Transportadora Objeto){
         conexion= control.ConectarBaseDatos();
         String DB=control.getBaseDeDatos();
         boolean retorno=false;
         try{
-            PreparedStatement query= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[transprtdora] WHERE [tr_desc] like ? AND [tr_cdgo]<> ?;");
+            PreparedStatement query= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[transprtdora] WHERE [tr_desc] like ? AND [tr_cdgo]<> ? AND ;");
             query.setString(1, Objeto.getDescripcion());
             query.setString(2, Objeto.getCodigo());
             ResultSet resultSet= query.executeQuery();
@@ -239,7 +306,7 @@ public class ControlDB_Transportadora {
         } 
         control.cerrarConexionBaseDatos();
         return retorno;
-    }  
+    }  */
     public int actualizar(Transportadora Objeto, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException{
         int result=0;
         try{
@@ -252,12 +319,13 @@ public class ControlDB_Transportadora {
             }
             conexion= control.ConectarBaseDatos();
             String DB=control.getBaseDeDatos();
-            PreparedStatement query= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[transprtdora] set [tr_nit]=? , [tr_desc]=?, [tr_observ]=?,[tr_estad]=? WHERE [tr_cdgo]=?");
+            PreparedStatement query= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[transprtdora] set [tr_nit]=? , [tr_desc]=?, [tr_observ]=?,[tr_estad]=? WHERE [tr_cdgo]=? AND [tr_base_datos_cdgo]=?;");
             query.setString(1, Objeto.getNit());
             query.setString(2, Objeto.getDescripcion());
             query.setString(3, Objeto.getObservacion());
             query.setString(4, Objeto.getEstado());
             query.setString(5, Objeto.getCodigo());
+            query.setString(6, Objeto.getBaseDatos().getCodigo());
             query.execute();
             result=1;
             if(result==1){
@@ -286,7 +354,7 @@ public class ControlDB_Transportadora {
                         "           ,?"+
                         "           ,'TRANSPORADORA'" +
                         "           ,CONCAT('Se registró una nueva actualización en el sistema sobre ',?,' Código: ',?,' Nit: ',?,' Nombre: ',?,' Estado: ',?,"
-                                            + "' actualizando la siguiente informacion a  Código: ',?,' Nit: ',?,' Nombre: ',?,' Estado: ',?));");
+                                            + "' actualizando la siguiente informacion a  Código: ',?,' Nit: ',?,' Nombre: ',?,' Estado: ',?,' BaseDatos: ',?));");
                 Query_Auditoria.setString(1, us.getCodigo());
                 Query_Auditoria.setString(2, namePc);
                 Query_Auditoria.setString(3, ipPc);
@@ -301,6 +369,7 @@ public class ControlDB_Transportadora {
                 Query_Auditoria.setString(12, Objeto.getNit());
                 Query_Auditoria.setString(13, Objeto.getDescripcion());
                 Query_Auditoria.setString(14, estado);
+                Query_Auditoria.setString(15, Objeto.getBaseDatos().getCodigo());
                 Query_Auditoria.execute();
                 result=1;
             }
@@ -373,6 +442,7 @@ public class ControlDB_Transportadora {
                 Objeto.setDescripcion(resultSet.getString(2));
                 Objeto.setObservacion("Cargado desde el ControlCarga de GP");
                 Objeto.setEstado("1");
+                Objeto.setBaseDatos(new BaseDatos("1"));
                 listadoTransportadora.add(Objeto);
             }
         }catch (SQLException sqlException) {
@@ -380,6 +450,74 @@ public class ControlDB_Transportadora {
             sqlException.printStackTrace();
         } 
         controlGP.cerrarConexionBaseDatos();
+        return listadoTransportadora;
+    } 
+    public ArrayList<Transportadora> buscarTransportadoraOPP(String valor) throws SQLException{
+        ArrayList<Transportadora> listadoTransportadora = new ArrayList();
+        Conexion_DB_ccargaOPP controlOPP = new Conexion_DB_ccargaOPP(tipoConexion);
+        Connection conexionOPP=null;
+        conexionOPP= controlOPP.ConectarBaseDatos();
+        String DB=controlOPP.getBaseDeDatos();
+        try{
+            ResultSet resultSet;
+            if(valor.equalsIgnoreCase("")){
+                PreparedStatement query= conexionOPP.prepareStatement("SELECT [tr_cdgo]\n" +
+                                                                    "      ,[tr_nmbre]\n" +
+                                                                    "      ,[tr_email]\n" +
+                                                                    "      ,[tr_sgla]\n" +
+                                                                    "      ,[tr_nit]\n" +
+                                                                    "      ,[tr_drccion]\n" +
+                                                                    "      ,[tr_fax]\n" +
+                                                                    "      ,[tr_tlfno]\n" +
+                                                                    "      ,[tr_rprsntnte_lgal]\n" +
+                                                                    "      ,[tr_nmbre_cntcto]\n" +
+                                                                    "      ,[tr_fcha_crcion]\n" +
+                                                                    "      ,[tr_cdad]\n" +
+                                                                    "      ,[tr_actvo]\n" +
+                                                                    "      ,[tr_cdgo_altrno]\n" +
+                                                                    "      ,[tr_ip1]\n" +
+                                                                    "      ,[tr_ip2]\n" +
+                                                                    "      ,[tr_ip3]\n" +
+                                                                    "  FROM ["+DB+"].[dbo].[trnsprtdra] ORDER BY tr_cdgo ASC");
+                    resultSet= query.executeQuery();
+            }else{
+                PreparedStatement query= conexionOPP.prepareStatement("SELECT [tr_cdgo]\n" +
+                                                                    "      ,[tr_nmbre]\n" +
+                                                                    "      ,[tr_email]\n" +
+                                                                    "      ,[tr_sgla]\n" +
+                                                                    "      ,[tr_nit]\n" +
+                                                                    "      ,[tr_drccion]\n" +
+                                                                    "      ,[tr_fax]\n" +
+                                                                    "      ,[tr_tlfno]\n" +
+                                                                    "      ,[tr_rprsntnte_lgal]\n" +
+                                                                    "      ,[tr_nmbre_cntcto]\n" +
+                                                                    "      ,[tr_fcha_crcion]\n" +
+                                                                    "      ,[tr_cdad]\n" +
+                                                                    "      ,[tr_actvo]\n" +
+                                                                    "      ,[tr_cdgo_altrno]\n" +
+                                                                    "      ,[tr_ip1]\n" +
+                                                                    "      ,[tr_ip2]\n" +
+                                                                    "      ,[tr_ip3]\n" +
+                                                                    "  FROM ["+DB+"].[dbo].[trnsprtdra] WHERE ([tr_cdgo] LIKE ? OR [tr_nmbre] LIKE ?) ORDER BY tr_nmbre ASC");
+                query.setString(1, "%"+valor+"%");
+                query.setString(2, "%"+valor+"%");
+                resultSet= query.executeQuery();
+            }
+            while(resultSet.next()){ 
+                Transportadora Objeto = new Transportadora(); 
+                Objeto.setCodigo(resultSet.getString(1));
+                Objeto.setNit(resultSet.getString(5));
+                Objeto.setDescripcion(resultSet.getString(2));
+                Objeto.setObservacion("Cargado desde el ControlCarga de OPP");
+                Objeto.setEstado("1");
+                Objeto.setBaseDatos(new BaseDatos("2"));
+                listadoTransportadora.add(Objeto);
+            }
+        }catch (SQLException sqlException) {
+            JOptionPane.showMessageDialog(null, "Error al tratar al consultar las transportadoras en ccarga GP");
+            sqlException.printStackTrace();
+        } 
+        controlOPP.cerrarConexionBaseDatos();
         return listadoTransportadora;
     } 
 }

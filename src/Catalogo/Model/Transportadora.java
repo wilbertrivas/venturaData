@@ -6,6 +6,7 @@ public class Transportadora {
     private String descripcion;
     private String observacion;
     private String estado;
+    private BaseDatos baseDatos;
 
     public Transportadora() {
     }
@@ -56,6 +57,14 @@ public class Transportadora {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public BaseDatos getBaseDatos() {
+        return baseDatos;
+    }
+
+    public void setBaseDatos(BaseDatos baseDatos) {
+        this.baseDatos = baseDatos;
     }
     
     

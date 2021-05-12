@@ -1,5 +1,6 @@
 package Catalogo.Controller;
  
+import Catalogo.Model.CentroCostoEquipo;
 import ConnectionDB2.Conexion_DB_ERP;
 import ConnectionDB2.Conexion_DB_costos_vg;
 import ModuloEquipo.Model.AutorizacionRecobro;
@@ -65,6 +66,57 @@ public class ControlDB_Equipo {
         try{
             if(validarExistenciaPorCodigo(Objeto)){
                 System.out.println("Ya existe este Equipo en el sistema");
+                //Validamos si el tipo de equipo existe en el sistema.
+                if(!new ControlDB_TipoEquipo(tipoConexion).validarPorCodigo(Objeto.getTipoEquipo())){
+                    //Procedemos a registrar el tipo de equipo
+                    new ControlDB_TipoEquipo(tipoConexion).registrar(Objeto.getTipoEquipo(), us);
+                }
+                //Validamos si el Clasificador Equipo existe en el sistema.
+                if(!(Objeto.getClasificador1().getCodigo() == null)){
+                    if(!new ControlDB_ClasificadorEquipo(tipoConexion).validarPorCodigo(Objeto.getClasificador1())){
+                        //Procedemos a registrar el tipo de equipo
+                        new ControlDB_ClasificadorEquipo(tipoConexion).registrar(Objeto.getClasificador1(), us);
+                    }
+                }else{
+                    ClasificadorEquipo clasificadorEquipo = new ClasificadorEquipo();
+                    clasificadorEquipo.setCodigo("0");
+                    clasificadorEquipo.setDescripcion("0");
+                    clasificadorEquipo.setEstado("0");
+                    Objeto.setClasificador1(clasificadorEquipo);
+                }
+                
+                //Validamos si el Clasificador Equipo existe en el sistema.
+                if(!(Objeto.getClasificador2().getCodigo() == null)){
+                    if(!new ControlDB_ClasificadorEquipo(tipoConexion).validarPorCodigo(Objeto.getClasificador2())){
+                        //Procedemos a registrar el tipo de equipo
+                        new ControlDB_ClasificadorEquipo(tipoConexion).registrar(Objeto.getClasificador2(), us);
+                    }
+                }else{
+                    ClasificadorEquipo clasificadorEquipo = new ClasificadorEquipo();
+                    clasificadorEquipo.setCodigo("0");
+                    clasificadorEquipo.setDescripcion("0");
+                    clasificadorEquipo.setEstado("0");
+                    Objeto.setClasificador2(clasificadorEquipo);
+                }
+                //Validamos si el Proveedor de equipo existe en el sistema.
+                if(!new ControlDB_ProveedorEquipo(tipoConexion).validarPorCodigo(Objeto.getProveedorEquipo())){
+                    //Procedemos a registrar el proveedor de Equipo
+                    new ControlDB_ProveedorEquipo(tipoConexion).registrar(Objeto.getProveedorEquipo(), us);
+                }
+                 //Validamos si la pertenencia de equipo existe en el sistema.
+                if(!new ControlDB_PertenenciaEquipo(tipoConexion).validarPorCodigo(Objeto.getPertenenciaEquipo())){
+                    //Procedemos a registrar el proveedor de Equipo
+                    new ControlDB_PertenenciaEquipo(tipoConexion).registrar(Objeto.getPertenenciaEquipo(), us);
+                }
+                //validamos si el centro de costo del equipo existe
+                if(!new ControlDB_CentroCostoEquipo(tipoConexion).validarPorCodigo(Objeto.getCentroCostoEquipo())){
+                    //Procedemos a registrar el proveedor de Equipo
+                    new ControlDB_CentroCostoEquipo(tipoConexion).registrar(Objeto.getCentroCostoEquipo(), us);
+                }else{//procedemos a actualizar el Centro de Costo
+                    new ControlDB_CentroCostoEquipo(tipoConexion).actualizar(Objeto.getCentroCostoEquipo(), us);
+                }
+                actualizarSincronizadoERP(Objeto, us);
+
             }else{
                 //Validamos si el tipo de equipo existe en el sistema.
                 if(!new ControlDB_TipoEquipo(tipoConexion).validarPorCodigo(Objeto.getTipoEquipo())){
@@ -108,6 +160,15 @@ public class ControlDB_Equipo {
                     //Procedemos a registrar el proveedor de Equipo
                     new ControlDB_PertenenciaEquipo(tipoConexion).registrar(Objeto.getPertenenciaEquipo(), us);
                 }
+                //validamos si el centro de costo del equipo existe
+                if(!new ControlDB_CentroCostoEquipo(tipoConexion).validarPorCodigo(Objeto.getCentroCostoEquipo())){
+                    //Procedemos a registrar el proveedor de Equipo
+                    new ControlDB_CentroCostoEquipo(tipoConexion).registrar(Objeto.getCentroCostoEquipo(), us);
+                }else{//procedemos a actualizar el Centro de Costo
+                    new ControlDB_CentroCostoEquipo(tipoConexion).actualizar(Objeto.getCentroCostoEquipo(), us);
+                }
+                    
+                
                 String estado;
                 if(Objeto.getEstado().equalsIgnoreCase("1")){
                     estado="ACTIVO";
@@ -809,6 +870,151 @@ public class ControlDB_Equipo {
         control.cerrarConexionBaseDatos();
         return result;
     }  
+    public int actualizarSincronizadoERP(Equipo Objeto, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException{
+        int result=0;
+        try{ 
+            //validamos si el centro de costo del equipo existe
+            if(!new ControlDB_CentroCostoEquipo(tipoConexion).validarPorCodigo(Objeto.getCentroCostoEquipo())){
+                //Procedemos a registrar el proveedor de Equipo
+                new ControlDB_CentroCostoEquipo(tipoConexion).registrar(Objeto.getCentroCostoEquipo(), us);
+            }else{//procedemos a actualizar el Centro de Costo
+                new ControlDB_CentroCostoEquipo(tipoConexion).actualizar(Objeto.getCentroCostoEquipo(), us);
+            }
+            
+            Equipo EquipoAnterior=buscarEspecifico(""+Objeto.getCodigo());
+            String valorEstado="";          
+            if(Objeto.getEstado().equalsIgnoreCase("1")){
+                valorEstado="ACTIVO";
+            }else{
+                valorEstado="INACTIVO";
+            }
+            conexion= control.ConectarBaseDatos();
+            String DB=control.getBaseDeDatos();
+            PreparedStatement queryActualizar= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[equipo] SET \n" +
+                                                                                        "      [eq_tipo_equipo_cdgo]=?\n" +
+                                                                                        "      ,[eq_codigo_barra]=?\n" +
+                                                                                        "      ,[eq_referencia]=?\n" +
+                                                                                        "      ,[eq_producto]=?\n" +
+                                                                                        "      ,[eq_capacidad]=?\n" +
+                                                                                        "      ,[eq_marca]=?\n" +
+                                                                                        "      ,[eq_modelo]=?\n" +
+                                                                                        "      ,[eq_serial]=?\n" +
+                                                                                        "      ,[eq_desc]=?\n" +
+                                                                                        "      ,[eq_clasificador1_cdgo]=?\n" +
+                                                                                        "      ,[eq_clasificador2_cdgo]=?\n" +
+                                                                                        "      ,[eq_proveedor_equipo_cdgo]=?\n" +
+                                                                                        "      ,[eq_equipo_pertenencia_cdgo]=?\n" +
+                                                                                        "      ,[eq_observ]=?\n" +
+                                                                                        "      ,[eq_estad]=?\n" +
+                                                                                        "      ,[eq_actvo_fijo_id]=?\n" +
+                                                                                        "      ,[eq_actvo_fijo_referencia]=?\n" +
+                                                                                        "      ,[eq_actvo_fijo_desc]=? \n"+
+                                                                                        "      ,[eq_cntro_cost_equipo_cdgo]=? \n"+
+                                                                                        " WHERE [eq_cdgo]=?;");
+            queryActualizar.setString(1, Objeto.getTipoEquipo().getCodigo());
+            queryActualizar.setString(2, Objeto.getCodigo_barra());
+            queryActualizar.setString(3, Objeto.getReferencia());
+            queryActualizar.setString(4, Objeto.getProducto());
+            queryActualizar.setString(5, Objeto.getCapacidad());
+            queryActualizar.setString(6, Objeto.getMarca());
+            queryActualizar.setString(7, Objeto.getModelo());
+            queryActualizar.setString(8, Objeto.getSerial());
+            queryActualizar.setString(9, Objeto.getDescripcion());
+            queryActualizar.setString(10, Objeto.getClasificador1().getCodigo());
+            queryActualizar.setString(11, Objeto.getClasificador2().getCodigo());
+            queryActualizar.setString(12, Objeto.getProveedorEquipo().getCodigo());
+            queryActualizar.setString(13, Objeto.getPertenenciaEquipo().getCodigo());
+            queryActualizar.setString(14, Objeto.getObservacion());
+            queryActualizar.setString(15, Objeto.getEstado());
+            queryActualizar.setString(16, Objeto.getActivoFijo_codigo());
+            queryActualizar.setString(17, Objeto.getActivoFijo_referencia());
+            queryActualizar.setString(18, Objeto.getActivoFijo_descripcion());
+            if(Objeto.getCentroCostoEquipo().getCodigo() != null){
+                queryActualizar.setString(19, Objeto.getCentroCostoEquipo().getCodigo());
+            }else{
+                queryActualizar.setString(19, "NULL");
+            }
+            queryActualizar.setString(20, Objeto.getCodigo());
+            queryActualizar.execute();
+            result=1;
+            /*if(result==1){
+                result=0;
+                //Extraemos el nombre del Equipo y la IP        
+                String namePc=new ControlDB_Config().getNamePC();
+                String ipPc=new ControlDB_Config().getIpPc();
+                String macPC=new ControlDB_Config().getMacAddress();
+                
+                PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
+                                        "      ,[au_fecha]\n" +
+                                        "      ,[au_usuario_cdgo_registro]\n" +
+                                        "      ,[au_nombre_dispositivo_registro]\n" +
+                                        "      ,[au_ip_dispositivo_registro]\n" +
+                                        "      ,[au_mac_dispositivo_registro]\n" +
+                                        "      ,[au_cdgo_mtvo]\n" +
+                                        "      ,[au_desc_mtvo]\n" +
+                                        "      ,[au_detalle_mtvo])\n" +
+                        "     VALUES("+
+                        "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
+                        "           ,(SELECT SYSDATETIME())"+
+                        "           ,?"+
+                        "           ,?"+
+                        "           ,?"+
+                        "           ,?"+
+                        "           ,?"+
+                        "           ,'EQUIPO'" +
+                        "           ,CONCAT('Se registró una nueva actualización en el sistema sobre el equipo, con',?,' actualizando la siguiente informacion a ',?));"); 
+                Query_Auditoria.setString(1, us.getCodigo());
+                Query_Auditoria.setString(2, namePc);
+                Query_Auditoria.setString(3, ipPc);
+                Query_Auditoria.setString(4, macPC);
+                Query_Auditoria.setString(5, EquipoAnterior.getCodigo());   
+                Query_Auditoria.setString(6, 
+                        " Equipo_Código: "+EquipoAnterior.getCodigo()+
+                        " Equipo_CódigoBarra: "+EquipoAnterior.getCodigo_barra()+
+                        " Equipo_Referencia: "+EquipoAnterior.getReferencia()+
+                        " Equipo_Producto: "+EquipoAnterior.getProducto()+
+                        " Equipo_Capacidad: "+EquipoAnterior.getCapacidad()+
+                        " Equipo_Marca: "+EquipoAnterior.getMarca()+
+                        " Equipo_Clasificador1: "+EquipoAnterior.getClasificador1().getDescripcion()+
+                        " Equipo_Clasificador2: "+EquipoAnterior.getClasificador2().getDescripcion()+
+                        " Equipo_Proveedor_Código: "+EquipoAnterior.getProveedorEquipo().getCodigo()+
+                        " Equipo_Proveedor_Nombre: "+EquipoAnterior.getProveedorEquipo().getDescripcion()+
+                        " Equipo_Pertenencia: "+EquipoAnterior.getPertenenciaEquipo().getDescripcion()+
+                        " Equipo_Observación: "+EquipoAnterior.getObservacion()+
+                        " Equipo_Estado: "+EquipoAnterior.getEstado()+
+                        " Equipo_ActivoFijo_Código: "+EquipoAnterior.getActivoFijo_codigo()+
+                        " Equipo_ActivoFijo_Referencia: "+EquipoAnterior.getActivoFijo_referencia()+
+                        " Equipo_ActivoFijo_Descripción: "+EquipoAnterior.getActivoFijo_descripcion());
+                Query_Auditoria.setString(7,  
+                       " Equipo_Código: "+Objeto.getCodigo()+
+                        " Equipo_Tipo: "+Objeto.getTipoEquipo().getDescripcion()+
+                        " Equipo_CódigoBarra: "+Objeto.getCodigo_barra()+
+                        " Equipo_Referencia: "+Objeto.getReferencia()+
+                        " Equipo_Producto: "+Objeto.getProducto()+
+                        " Equipo_Capacidad: "+Objeto.getCapacidad()+
+                        " Equipo_Marca: "+Objeto.getMarca()+
+                        " Equipo_Clasificador1: "+Objeto.getClasificador1().getDescripcion()+
+                        " Equipo_Clasificador2: "+Objeto.getClasificador2().getDescripcion()+
+                        " Equipo_Proveedor_Código: "+Objeto.getProveedorEquipo().getCodigo()+
+                        " Equipo_Proveedor_Nombre: "+Objeto.getProveedorEquipo().getDescripcion()+
+                        " Equipo_Pertenencia: "+Objeto.getPertenenciaEquipo().getDescripcion()+
+                        " Equipo_Observación: "+Objeto.getObservacion()+
+                        " Equipo_Estado: "+valorEstado+
+                        " Equipo_ActivoFijo_Código: "+Objeto.getActivoFijo_codigo()+
+                        " Equipo_ActivoFijo_Referencia: "+Objeto.getActivoFijo_referencia()+
+                        " Equipo_ActivoFijo_Descripción: "+Objeto.getActivoFijo_descripcion());
+                Query_Auditoria.execute();
+                result=1;
+            }*/
+        }
+        catch (SQLException sqlException ){   
+            result=0;
+            JOptionPane.showMessageDialog(null, "Error al tratar de actualizar el equipo");
+            sqlException.printStackTrace();
+        }  
+        control.cerrarConexionBaseDatos();
+        return result;
+    }  
     
     
     //Equipos En ERP
@@ -846,12 +1052,17 @@ public class ControlDB_Equipo {
                                                         "	        ,[f262_id] -- CASE WHEN ([f262_id] IS NULL)  THEN 'NULL' ELSE [f262_id]  END  AS Equipo_ActivoFijo_cdgo	    -- 24 Equipo_ActivoFijo_cdgo\n" +
                                                         "	        ,[f262_referencia] -- CASE WHEN ([f262_referencia] IS NULL)  THEN 'NULL' ELSE [f262_referencia]  END AS Equipo_ActivoFijo_referencia  -- 25 Equipo_ActivoFijo_referencia\n" +
                                                         "	        ,[f262_descripcion] -- CASE WHEN ([f262_descripcion] IS NULL)  THEN 'NULL' ELSE [f262_descripcion]  END AS Equipo_ActivoFijo_descripcion -- 26 Equipo_ActivoFijo_descripcion\n" +
-                                                        " FROM ["+DB+"].[dbo].[w0800_equipos] \n" +
+                                                        "               ,[f284_rowid] --27 codigo_CentroCosto_equipo(ID)\n" +
+                                                        "               ,[f284_id] --28 codigoInterno_CentroCosto_equipo(requerido pero se repite por compañias)\n" +
+                                                        "               ,[f284_descripcion] --29 descripción del centroCosto_equipo \n"+
+                                                        "               ,[f284_ind_estado] --30 estado del centroCosto_equipo \n"
+                                                        + " FROM ["+DB+"].[dbo].[w0800_equipos] \n" +
                                                         "		INNER JOIN ["+DB+"].[dbo].[w0803_tipos_equipos] ON [c0800_rowid_tipo_equipo]=[c0803_rowid]\n" +
                                                         "		LEFT JOIN ["+DB+"].[dbo].[w0810_clases_equipos] Clasificador1 ON [c0800_rowid_clase_equipo1]=Clasificador1.[c0810_rowid]\n" +
                                                         "               LEFT JOIN ["+DB+"].[dbo].[w0810_clases_equipos] Clasificador2 ON [c0800_rowid_clase_equipo2]=Clasificador2.[c0810_rowid]\n" +
                                                         "		INNER JOIN ["+DB+"].[dbo].[t010_mm_companias] ON [f010_id] =[c0800_id_cia] \n"+
-                                                        "               LEFT JOIN ["+DB+"].[dbo].[t262_af_activos_fijos] ON [c0800_rowid_activo_fijo]=[f262_rowid] "+sql);
+                                                        "               LEFT JOIN ["+DB+"].[dbo].[t262_af_activos_fijos] ON [c0800_rowid_activo_fijo]=[f262_rowid] \n"+
+                                                        "               LEFT JOIN ["+DB+"].[dbo].[t284_co_ccosto]  ON [f284_rowid]=[c0800_rowid_ccosto] \n "+sql);
             resultSetBuscar= queryBuscar.executeQuery();
           
             while(resultSetBuscar.next()){ 
@@ -875,6 +1086,12 @@ public class ControlDB_Equipo {
                 Objeto.setActivoFijo_codigo(resultSetBuscar.getString(24));
                 Objeto.setActivoFijo_referencia(resultSetBuscar.getString(25));
                 Objeto.setActivoFijo_descripcion(resultSetBuscar.getString(26));
+                    CentroCostoEquipo centroCostoEquipo = new CentroCostoEquipo();
+                        centroCostoEquipo.setCodigo(resultSetBuscar.getString(27));
+                        centroCostoEquipo.setCodigoInterno(resultSetBuscar.getString(28));
+                        centroCostoEquipo.setDescripcion(resultSetBuscar.getString(29));
+                        centroCostoEquipo.setEstado(resultSetBuscar.getString(30));
+                Objeto.setCentroCostoEquipo(centroCostoEquipo);
                 listadoObjeto.add(Objeto);
             }
         }catch (SQLException sqlException) {
@@ -918,6 +1135,10 @@ public class ControlDB_Equipo {
                                                         "	        ,[f262_id] -- CASE WHEN ([f262_id] IS NULL)  THEN 'NULL' ELSE [f262_id]  END  AS Equipo_ActivoFijo_cdgo	    -- 24 Equipo_ActivoFijo_cdgo\n" +
                                                         "	        ,[f262_referencia] -- CASE WHEN ([f262_referencia] IS NULL)  THEN 'NULL' ELSE [f262_referencia]  END AS Equipo_ActivoFijo_referencia  -- 25 Equipo_ActivoFijo_referencia\n" +
                                                         "	        ,[f262_descripcion] -- CASE WHEN ([f262_descripcion] IS NULL)  THEN 'NULL' ELSE [f262_descripcion]  END AS Equipo_ActivoFijo_descripcion -- 26 Equipo_ActivoFijo_descripcion\n" +
+                                                        "               ,[f284_rowid] --27 codigo_CentroCosto_equipo(ID)\n" +
+                                                        "               ,[f284_id] --28 codigoInterno_CentroCosto_equipo(requerido pero se repite por compañias)\n" +
+                                                        "               ,[f284_descripcion] --29 descripción del centroCosto_equipo \n"+
+                                                        "               ,[f284_ind_estado] --30 estado del centroCosto_equipo \n"      +                              
                                                         " FROM ["+DB+"].[dbo].[w0800_equipos] \n" +
                                                         "		INNER JOIN ["+DB+"].[dbo].[w0803_tipos_equipos] ON [c0800_rowid_tipo_equipo]=[c0803_rowid]\n" +
                                                         "		LEFT JOIN ["+DB+"].[dbo].[w0810_clases_equipos] Clasificador1 ON [c0800_rowid_clase_equipo1]=Clasificador1.[c0810_rowid]\n" +
@@ -948,6 +1169,12 @@ public class ControlDB_Equipo {
                 Objeto.setActivoFijo_codigo(resultSetBuscar.getString(24));
                 Objeto.setActivoFijo_referencia(resultSetBuscar.getString(25));
                 Objeto.setActivoFijo_descripcion(resultSetBuscar.getString(26));
+                CentroCostoEquipo centroCostoEquipo = new CentroCostoEquipo();
+                        centroCostoEquipo.setCodigo(resultSetBuscar.getString(27));
+                        centroCostoEquipo.setCodigoInterno(resultSetBuscar.getString(28));
+                        centroCostoEquipo.setDescripcion(resultSetBuscar.getString(29));
+                        centroCostoEquipo.setEstado(resultSetBuscar.getString(30));
+                Objeto.setCentroCostoEquipo(centroCostoEquipo);
                 
             }
         }catch (SQLException sqlException) {
@@ -1017,63 +1244,6 @@ public class ControlDB_Equipo {
         String DB=control.getBaseDeDatos();
         try{
             ResultSet resultSetBuscar;
-            System.out.println(("SELECT  [eq_cdgo]						--1 Equipo_codigo \n" +
-                                "                        ,[eq_tipo_equipo_cdgo]					--2 Tipo_Equipo_Codigo \n" +
-                                "                            ,[te_cdgo]							--3 Tipo_Equipo_Codigo \n" +
-                                "                            ,[te_desc]							--4 Tipo_Equipo_Descripcion \n" +
-                                "                            ,[te_estad]							--5 Tipo_Equipo_Estado \n" +
-                                "                        ,[eq_codigo_barra]						--6 Equipo_CodigoBarra \n" +
-                                "                        ,[eq_referencia]							--7 Equipo_Referencia \n" +
-                                "                        ,[eq_producto]							--8 Equipo_Producto \n" +
-                                "                        ,[eq_capacidad]							--9 Equipo_Capacidad \n" +
-                                "                        ,[eq_marca]								--10 Equipo_Marca \n" +
-                                "                        ,[eq_modelo]								--11 Equipo_Modelo \n" +
-                                "                        ,[eq_serial]								--12 Equipo_Serial \n" +
-                                "                        ,[eq_desc]								--13 Equipo_Descripcion \n" +
-                                "                        ,[eq_clasificador1_cdgo]					--14 Equipo_Clasificador1_Código \n" +
-                                "                            ,clasificador1.[ce_cdgo]				--15 Equipo_Clasificador1_Código \n" +
-                                "                            ,clasificador1.[ce_desc]				--16 Equipo_Clasificador1_Descripción \n" +
-                                "                            ,clasificador1.[ce_estad]				--17 Equipo_Clasificador1_Estado \n" +
-                                "                        ,[eq_clasificador2_cdgo]					--18 Equipo_Clasificador2_Código \n" +
-                                "                            ,clasificador2.[ce_cdgo]				--19 Equipo_Clasificador2_Código \n" +
-                                "                            ,clasificador2.[ce_desc]				--20 Equipo_Clasificador2_Descripción \n" +
-                                "                            ,clasificador2.[ce_estad]				--21 Equipo_Clasificador2_Estado \n" +
-                                "                        ,[eq_proveedor_equipo_cdgo]							--22 Equipo_valorHora \n" +
-                                "                        ,[eq_proveedor_equipo_cdgo]				--23 Equipo_ProveedorEquipo_Código \n" +
-                                "                            ,[pe_cdgo]							--24 Equipo_ProveedorEquipo_Código \n" +
-                                "                            ,[pe_nit]								--25 Equipo_ProveedorEquipo_NIT \n" +
-                                "                            ,[pe_desc]							--26 Equipo_ProveedorEquipo_Descripción \n" +
-                                "                            ,[pe_estad]							--27 Equipo_ProveedorEquipo_Estado \n" +
-                                "                        ,[eq_equipo_pertenencia_cdgo]				--28 Equipo_Pertenencia_Código \n" +
-                                "                            ,[ep_cdgo]							--29 Equipo_Pertenencia_Código \n" +
-                                "                            ,[ep_desc]							--30 Equipo_Pertenencia_Descripción \n" +
-                                "                            ,[ep_estad]							--31 Equipo_Pertenencia_Estado \n" +
-                                "                        ,[eq_observ]								--32 Equipo_Observación \n" +
-                                "                        ,[eq_estad]								--33 Equipo_Estado \n" +
-                                "                        ,[eq_actvo_fijo_id]								--34 Equipo_ActivoFijo_cdgo \n" +
-                                "                        ,[eq_actvo_fijo_referencia]								--35 Equipo_ActivoFijo_referencia \n" +
-                                "                        ,[eq_actvo_fijo_desc]								--36 Equipo_ActivoFijo_descripcion \n" +
-                                "						,[tarifa_equipo].[tae_ano]                   --37 tarifa año\n" +
-                                "						,[tarifa_equipo].[tae_valorhoraOperacion]		--38 tarifa valorOperacion\n" +
-                                "						,[tarifa_equipo].[tae_valorhoraAlquiler]		--39 tarifa valorAlquiler\n" +
-                                "						,[tarifa_equipo].[tae_fecha_hora_inicio] --40 \n" +
-                                "						,[tarifa_equipo].[tae_fecha_hora_fin] --41 \n" +
-                                "                    FROM ["+DB+"].[dbo].[equipo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[tipo_equipo] ON [eq_tipo_equipo_cdgo]=[te_cdgo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[clasificador_equipo] clasificador1 ON clasificador1.ce_cdgo =[eq_clasificador1_cdgo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[clasificador_equipo] clasificador2 ON clasificador2.ce_cdgo =[eq_clasificador2_cdgo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[proveedor_equipo] ON [pe_cdgo] =[eq_proveedor_equipo_cdgo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[equipo_pertenencia] ON [eq_equipo_pertenencia_cdgo]=[ep_cdgo] \n" +
-                                "						LEFT JOIN (  SELECT  [tarifa_equipo].[tae_cdgo]\n" +
-                                "								  ,[tarifa_equipo].[tae_ano]\n" +
-                                "								  ,[tarifa_equipo].[tae_equipo_cdgo]\n" +
-                                "								  ,[tarifa_equipo].[tae_valorhoraOperacion]\n" +
-                                "								  ,[tarifa_equipo].[tae_valorhoraAlquiler]\n" +
-                                "							  FROM ["+DB+"].[dbo].[tarifa_equipo]\n" +
-                                "							  INNER JOIN (SELECT MAX( [tae_cdgo]) AS [tae_cdgo]\n" +
-                                "								  ,[tae_equipo_cdgo] \n" +
-                                "							  FROM ["+DB+"].[dbo].[tarifa_equipo] GROUP BY [tae_equipo_cdgo]) AS t ON t.[tae_cdgo]=[tarifa_equipo].[tae_cdgo])AS\n" +
-                                "							  [tarifa_equipo] ON [tarifa_equipo].[tae_equipo_cdgo]=[equipo].[eq_cdgo] "+sql));
             PreparedStatement queryBuscar= conexion.prepareStatement("SELECT  [eq_cdgo]						--1 Equipo_codigo \n" +
                                 "                        ,[eq_tipo_equipo_cdgo]					--2 Tipo_Equipo_Codigo \n" +
                                 "                            ,[te_cdgo]							--3 Tipo_Equipo_Codigo \n" +
@@ -1115,12 +1285,21 @@ public class ControlDB_Equipo {
                                 "						,[tarifa_equipo].[tae_valorhoraAlquiler]		--39 tarifa valorAlquiler\n" +
                                 "						,[tarifa_equipo].[tae_fecha_hora_inicio] --40 \n" +
                                 "						,[tarifa_equipo].[tae_fecha_hora_fin] --41 \n" +
+                                "						,[tarifa_equipo].[tae_costoLavadoVehiculo] --42 \n"+
+                                "                         ,[eq_cntro_cost_equipo_cdgo]--43\n" +
+                                "                               ,[cce_cdgo]--44\n" +
+                                "                               ,[cce_cdgo_intern]--45\n" +
+                                "                               ,[cce_desc]--46\n" +
+                                "                               ,[cce_estad] --47\n" +
+                                "                               ,[tarifa_equipo].[tae_valorRecaudoEmpresa] --48\n" +
+                                "                               ,[tarifa_equipo].[tae_valorRecaudoEquipo] --49\n" +
                                 "                    FROM ["+DB+"].[dbo].[equipo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[tipo_equipo] ON [eq_tipo_equipo_cdgo]=[te_cdgo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[clasificador_equipo] clasificador1 ON clasificador1.ce_cdgo =[eq_clasificador1_cdgo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[clasificador_equipo] clasificador2 ON clasificador2.ce_cdgo =[eq_clasificador2_cdgo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[proveedor_equipo] ON [pe_cdgo] =[eq_proveedor_equipo_cdgo] \n" +
-                                "                        INNER JOIN ["+DB+"].[dbo].[equipo_pertenencia] ON [eq_equipo_pertenencia_cdgo]=[ep_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[tipo_equipo] ON [eq_tipo_equipo_cdgo]=[te_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[clasificador_equipo] clasificador1 ON clasificador1.ce_cdgo =[eq_clasificador1_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[clasificador_equipo] clasificador2 ON clasificador2.ce_cdgo =[eq_clasificador2_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[proveedor_equipo] ON [pe_cdgo] =[eq_proveedor_equipo_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[equipo_pertenencia] ON [eq_equipo_pertenencia_cdgo]=[ep_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[cntro_cost_equipo] ON [eq_cntro_cost_equipo_cdgo]=[cce_cdgo] \n" +
                                 "						LEFT JOIN (  SELECT  [tarifa_equipo].[tae_cdgo]\n" +
                                 "								  ,[tarifa_equipo].[tae_ano]\n" +
                                 "								  ,[tarifa_equipo].[tae_equipo_cdgo]\n" +
@@ -1128,6 +1307,9 @@ public class ControlDB_Equipo {
                                 "								  ,[tarifa_equipo].[tae_valorhoraAlquiler]\n" +
                                 "								  ,[tarifa_equipo].[tae_fecha_hora_inicio]\n" +
                                 "								  ,[tarifa_equipo].[tae_fecha_hora_fin]\n" +
+                                "								  ,[tarifa_equipo].[tae_costoLavadoVehiculo]\n" +
+                                "								  ,[tarifa_equipo].[tae_valorRecaudoEmpresa]\n" +
+                                "								  ,[tarifa_equipo].[tae_valorRecaudoEquipo]\n" +
                                 "							  FROM ["+DB+"].[dbo].[tarifa_equipo]\n" +
                                 "							  INNER JOIN (SELECT MAX( [tae_cdgo]) AS [tae_cdgo]\n" +
                                 "								  ,[tae_equipo_cdgo] \n" +
@@ -1159,6 +1341,14 @@ public class ControlDB_Equipo {
                 Objeto.setActivoFijo_codigo(resultSetBuscar.getString(34));
                 Objeto.setActivoFijo_referencia(resultSetBuscar.getString(35));
                 Objeto.setActivoFijo_descripcion(resultSetBuscar.getString(36));
+                
+                CentroCostoEquipo centroCostoEquipo = new CentroCostoEquipo();
+                        centroCostoEquipo.setCodigo(resultSetBuscar.getString(44));
+                        centroCostoEquipo.setCodigoInterno(resultSetBuscar.getString(45));
+                        centroCostoEquipo.setDescripcion(resultSetBuscar.getString(46));
+                        centroCostoEquipo.setEstado(resultSetBuscar.getString(47));
+                Objeto.setCentroCostoEquipo(centroCostoEquipo);
+                
                 TarifaEquipo tarifaEquipoAnterior = new TarifaEquipo();
                 tarifaEquipoAnterior.setCodigo("");
                 tarifaEquipoAnterior.setAño(resultSetBuscar.getString(37));
@@ -1167,6 +1357,9 @@ public class ControlDB_Equipo {
                 tarifaEquipoAnterior.setValorHoraAlquiler(resultSetBuscar.getString(39));
                 tarifaEquipoAnterior.setFechaHoraInicio(resultSetBuscar.getString(40));
                 tarifaEquipoAnterior.setFechaHoraFin(resultSetBuscar.getString(41));
+                tarifaEquipoAnterior.setCostoLavadoVehiculo(resultSetBuscar.getString(42));
+                tarifaEquipoAnterior.setValorRecaudoEmpresa(resultSetBuscar.getString(48));
+                tarifaEquipoAnterior.setValorRecaudoEquipo(resultSetBuscar.getString(49));
                 Objeto.setTarifaEquipoAnterior(tarifaEquipoAnterior);
                 
                 TarifaEquipo tarifaEquipoNuevo = new TarifaEquipo();
@@ -1178,6 +1371,7 @@ public class ControlDB_Equipo {
                 tarifaEquipoNuevo.setFechaHoraInicio("");
                 tarifaEquipoNuevo.setFechaHoraFin("");
                 Objeto.setTarifaEquipoNueva(tarifaEquipoNuevo);
+                
                 listadoObjeto.add(Objeto);
             }
         }catch (SQLException sqlException) {
@@ -1214,7 +1408,7 @@ public class ControlDB_Equipo {
                 "        ,[tae_valorhoraOperacion]\n" +
                 "        ,[tae_valorhoraAlquiler]\n" +
                 "		,[tae_fecha_hora_inicio]\n" +
-                "		,[tae_fecha_hora_fin]\n" +
+                "		,[tae_fecha_hora_fin],[tae_costoLavadoVehiculo],[tae_valorRecaudoEmpresa],[tae_valorRecaudoEquipo]\n" +
                 "        FROM ["+DB+"].[dbo].[tarifa_equipo]\n" +
                 "        INNER JOIN (SELECT  \n" +
                 "            			MAX([tae_cdgo]) AS ta_cdgo\n" +
@@ -1233,6 +1427,9 @@ public class ControlDB_Equipo {
                 Objeto.setCodigoEquipo(resultSetBuscar.getString(3));
                 Objeto.setValorHoraOperacion(resultSetBuscar.getString(4));
                 Objeto.setValorHoraAlquiler(resultSetBuscar.getString(5));
+                Objeto.setCostoLavadoVehiculo(resultSetBuscar.getString(8));
+                Objeto.setValorRecaudoEmpresa(resultSetBuscar.getString(9));
+                Objeto.setValorRecaudoEquipo(resultSetBuscar.getString(10));
                 //System.out.println(" "+resultSetBuscar.getString(1)+" "+resultSetBuscar.getString(2)+" ");
              }
         }catch (SQLException sqlException) {
@@ -2035,7 +2232,7 @@ public class ControlDB_Equipo {
         try{
             conexion= control.ConectarBaseDatos();
             String DB=control.getBaseDeDatos();
-           
+           //System.out.println("valor lavado vehículo fue: "+equipo.getTarifaEquipoNueva().getValorLavadoVehiculo());
                 PreparedStatement queryRegistrar= conexion.prepareStatement(" INSERT INTO ["+DB+"].[dbo].[tarifa_equipo]\n" +
                                                                                 "           ([tae_cdgo]\n" +
                                                                                 "           ,[tae_ano]\n" +
@@ -2043,9 +2240,11 @@ public class ControlDB_Equipo {
                                                                                 "           ,[tae_valorhoraOperacion]\n" +
                                                                                 "           ,[tae_valorhoraAlquiler]\n" +
                                                                                 "           ,[tae_fecha_hora_inicio]\n" +
-                                                                                "           ,[tae_fecha_hora_fin])\n" +
+                                                                                "           ,[tae_fecha_hora_fin],[tae_costoLavadoVehiculo]\n" +
+                                                                                "      ,[tae_valorRecaudoEmpresa]\n" +
+                                                                                "      ,[tae_valorRecaudoEquipo])\n" +
                                                                                 "     VALUES\n" +
-                                                                                "           ((SELECT (CASE WHEN (MAX([tae_cdgo]) IS NULL) THEN 1 ELSE (MAX([tae_cdgo])+1) END)AS [tae_cdgo] FROM ["+DB+"].[dbo].[tarifa_equipo]), (SELECT YEAR (?)),?,?,?,?,?);\n");
+                                                                                "           ((SELECT (CASE WHEN (MAX([tae_cdgo]) IS NULL) THEN 1 ELSE (MAX([tae_cdgo])+1) END)AS [tae_cdgo] FROM ["+DB+"].[dbo].[tarifa_equipo]), (SELECT YEAR (?)),?,?,?,?,?,?,?,?);\n");
                 
                 
                 queryRegistrar.setString(1, equipo.getTarifaEquipoNueva().getFechaHoraInicio());
@@ -2054,6 +2253,9 @@ public class ControlDB_Equipo {
                 queryRegistrar.setString(4, equipo.getTarifaEquipoNueva().getValorHoraAlquiler());
                 queryRegistrar.setString(5, equipo.getTarifaEquipoNueva().getFechaHoraInicio());
                 queryRegistrar.setString(6, equipo.getTarifaEquipoNueva().getFechaHoraFin());
+                queryRegistrar.setString(7, equipo.getTarifaEquipoNueva().getCostoLavadoVehiculo());
+                queryRegistrar.setString(8, equipo.getTarifaEquipoNueva().getValorRecaudoEmpresa());
+                queryRegistrar.setString(9, equipo.getTarifaEquipoNueva().getValorRecaudoEquipo());
                 queryRegistrar.execute();
                 result=1;
                 if(result==1){
@@ -2105,9 +2307,12 @@ public class ControlDB_Equipo {
                                                         " Modelo: "+equipo.getModelo()+
                                                         " Serial: "+equipo.getSerial()+
                                                         " Descripcion: "+equipo.getDescripcion()+
-                                                        " Tarifa Año:"+equipo.getTarifaEquipoNueva().getAño()+
-                                                        " Tarifa ValorHoraOperacion:"+equipo.getTarifaEquipoNueva().getValorHoraOperacion()+
-                                                        " Tarifa ValorHoraAlquiler:"+equipo.getTarifaEquipoNueva().getValorHoraAlquiler());
+                                                        " Año:"+equipo.getTarifaEquipoNueva().getAño()+
+                                                        " ValorHoraOperacion:"+equipo.getTarifaEquipoNueva().getValorHoraOperacion()+
+                                                        " ValorHoraAlquiler:"+equipo.getTarifaEquipoNueva().getValorHoraAlquiler()+
+                                                        " CostoLavadoVehículo:"+equipo.getTarifaEquipoNueva().getCostoLavadoVehiculo()+
+                                                        " RecaudoEmpresa:"+equipo.getTarifaEquipoNueva().getValorRecaudoEmpresa()+
+                                                        " RecaudoEquipo:"+equipo.getTarifaEquipoNueva().getValorRecaudoEquipo());
                     Query_AuditoriaInsert.execute();
                     result=1; 
                 }

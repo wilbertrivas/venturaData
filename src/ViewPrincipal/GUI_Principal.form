@@ -15,7 +15,7 @@
         <Menu class="javax.swing.JMenu" name="jMenu41">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Img/menu_programacion.png"/>
+              <Image iconType="3" name="/Img/Menu_programacion3.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="PROGRAMACI&#xd3;N"/>
           </Properties>
@@ -34,7 +34,7 @@
                 <Menu class="javax.swing.JMenu" name="jMenu31">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                      <Image iconType="3" name="/Img/Menu_solicitud2.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Solicitud"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -61,7 +61,7 @@
                 <Menu class="javax.swing.JMenu" name="jMenu32">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                      <Image iconType="3" name="/Img/Menu_asignacion3.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Asignaci&#xf3;n"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -100,12 +100,26 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ASIGNACION_EQUIPOS_CONFIRMACIONActionPerformed"/>
                       </Events>
                     </MenuItem>
+                    <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Consultar"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[150, 30]"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem7ActionPerformed"/>
+                      </Events>
+                    </MenuItem>
                   </SubComponents>
                 </Menu>
                 <MenuItem class="javax.swing.JMenuItem" name="PROGRAMACION_EQUIPOS_CONSULTAR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                      <Image iconType="3" name="/Img/Menu_consultarProgramacion2.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Consultar Programaci&#xf3;n"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -119,7 +133,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="PROGRAMACION_EQUIPOS_INACTIVAR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                      <Image iconType="3" name="/Img/Menu_inactivar.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Inactivar Programaci&#xf3;n"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -133,7 +147,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="PROGRAMACION_EQUIPOS_ACTIVAR">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                      <Image iconType="3" name="/Img/Menu_activar.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Activar Programaci&#xf3;n"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -147,9 +161,34 @@
                 <MenuItem class="javax.swing.JMenuItem" name="PROGRAMACION_EQUIPOS_DIRECTA">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                      <Image iconType="3" name="/Img/Menu_programacionDirecta.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Programaci&#xf3;n directa"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[180, 30]"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PROGRAMACION_EQUIPOS_DIRECTAActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="ASIGNACION_EQUIPOS_EDITAR">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_editarAsignacion.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Editar Asignaci&#xf3;n"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[180, 30]"/>
+                    </Property>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="SOLICITUD_EQUIPOS_EDITAR">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_editarAsignacion.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Editar Solicitudes"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[180, 30]"/>
                     </Property>
@@ -173,7 +212,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_PROCESAR_REGISTROS">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_procesar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Procesar Registros"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -187,7 +226,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_procesarProgramado2.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Programar Procesamiento Registros"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -201,7 +240,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_INACTIVAR_REGISTRO">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_inactivar2.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Inactivar Registros MvtoCarb&#xf3;n"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -215,7 +254,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_ACTIVAR_REGISTRO">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_activar3.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Activar Registros MvtoCarb&#xf3;n"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -226,24 +265,10 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_CARBON_ACTIVAR_REGISTROActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_LAVADO_VEHICULOS">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Lavado Veh&#xed;culos"/>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[350, 30]"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_CARBON_LAVADO_VEHICULOSActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_editarAsignacion.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Modificar Registros"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -257,7 +282,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_GENERAR_MATRIZ">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_Matriz2.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Generar Matriz MvtoCarb&#xf3;n"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -266,6 +291,59 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_CARBON_GENERAR_MATRIZActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_AGREGAR_REGISTRO">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Img/Menu_agregar.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Agregar MvtoCarb&#xf3;n"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[350, 30]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_CARBON_AGREGAR_REGISTROActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Img/Menu_Debito.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Registrar Debito En ZonaTrabajo"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[350, 30]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJOActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Img/Menu_Recaudo.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Informe Recaudo x Lavado Veh&#xed;culo"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[350, 30]"/>
+                </Property>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MODULO_CARBON_GENERAR_DISTRIBUCION">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Img/Menu_distribucion.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Distribuci&#xf3;n MvtoCarb&#xf3;n"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[350, 30]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_CARBON_GENERAR_DISTRIBUCIONActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -284,7 +362,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_EQUIPO_PROCESAR_REGISTROS">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_procesar.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Procesar Registros MvtoEquipo"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -298,7 +376,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_procesarProgramado2.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Programar Procesamiento Registros"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -312,7 +390,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_EQUIPO_AUTORIZAR_RECOBRO">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/select_check.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Autorizaci&#xf3;n Recobro"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -326,7 +404,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_EQUIPO_ACTIVAR_REGISTROS">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_activar3.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Activar Registros MvtoEquipo"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -340,7 +418,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_EQUIPO_INACTIVAR_REGISTROS">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_inactivar2.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Inactivar Registros MvtoEquipo"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -354,7 +432,7 @@
             <Menu class="javax.swing.JMenu" name="jMenu30">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_rendimiento3.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Rendimiento Equipos"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -395,7 +473,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_editarAsignacion.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Modificar Registros"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -409,7 +487,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="MODULO_EQUIPO_GENERAR_MATRIZ">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                  <Image iconType="3" name="/Img/Menu_Matriz2.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Generar Matriz MvtoEquipo"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -418,6 +496,34 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_EQUIPO_GENERAR_MATRIZActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MODULO_EQUIPO_AGREGAR_REGISTRO">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Img/Menu_agregar.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Agregar MvtoEquipo"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[350, 30]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MODULO_EQUIPO_GENERAR_DISTRIBUCION">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Img/Menu_distribucion.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Distribuci&#xf3;n MvtoEquipo"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[350, 30]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_EQUIPO_GENERAR_DISTRIBUCIONActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -462,7 +568,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Consultar"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[150, 30]"/>
+                  <Dimension value="[250, 30]"/>
                 </Property>
               </Properties>
               <Events>
@@ -1105,7 +1211,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Img/Menu_Submenu.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Clientes Ccarga GP"/>
+                    <Property name="text" type="java.lang.String" value="Clientes Ccarga"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 30]"/>
                     </Property>
@@ -1688,6 +1794,129 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CAUSA_INACTIVIDAD_ACTUALIZARActionPerformed"/>
                   </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenu7">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Motivos_NoLavadoVeh&#xed;culo"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[150, 30]"/>
+                </Property>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Registrar"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[240, 30]"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Consultar"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[150, 30]"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem5ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Actualizar"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[150, 30]"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenu9">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Zona_Trabajo"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[150, 30]"/>
+                </Property>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Registrar"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[250, 30]"/>
+                    </Property>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem9">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Consultar"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[150, 30]"/>
+                    </Property>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem11">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Actualizar"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[150, 30]"/>
+                    </Property>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem12">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="A&#xf1;adir_Sitio"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[150, 30]"/>
+                    </Property>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem13">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Img/Menu_Submenu.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Inactivar_Sitio"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[150, 30]"/>
+                    </Property>
+                  </Properties>
                 </MenuItem>
               </SubComponents>
             </Menu>

@@ -22,6 +22,7 @@ public class Equipo {
     private String activoFijo_codigo;
     private String activoFijo_referencia;
     private String activoFijo_descripcion;
+    private CentroCostoEquipo centroCostoEquipo;
     
     public Equipo() {
     }
@@ -216,6 +217,14 @@ public class Equipo {
 
     public void setActivoFijo_descripcion(String activoFijo_descripcion) {
         this.activoFijo_descripcion = activoFijo_descripcion;
+    }
+
+    public CentroCostoEquipo getCentroCostoEquipo() {
+        return centroCostoEquipo;
+    }
+
+    public void setCentroCostoEquipo(CentroCostoEquipo centroCostoEquipo) {
+        this.centroCostoEquipo = centroCostoEquipo;
     }
 
     

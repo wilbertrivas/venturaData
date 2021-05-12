@@ -1,18 +1,14 @@
-
 package Catalogo.Model;
- 
-/**
- *
- * @author wrivas
- */
+
 public class Motonave {
     private String codigo;
     private String descripcion;
     private String estado;
+    private BaseDatos baseDatos;
 
     public Motonave() {
     }
-
+    
     public Motonave(String codigo, String descripcion, String estado) {
         this.codigo = codigo;
         this.descripcion = descripcion;
@@ -41,6 +37,14 @@ public class Motonave {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public BaseDatos getBaseDatos() {
+        return baseDatos;
+    }
+
+    public void setBaseDatos(BaseDatos baseDatos) {
+        this.baseDatos = baseDatos;
     }
     
     

@@ -1,13 +1,11 @@
 package Catalogo.Controller;
     
-import Catalogo.Model.CentroCosto;
-import Catalogo.Model.CentroCostoAuxiliar;
+import Catalogo.Model.BaseDatos;
 import ConnectionDB2.Conexion_DB_costos_vg;
 import Catalogo.Model.CentroCostoMayor;
 import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;
 import Catalogo.Model.Cliente;
-import Catalogo.Model.LaborRealizada;
 import ModuloEquipo.Model.MvtoEquipo;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;
@@ -51,14 +49,19 @@ public class ControlDB_CentroCostoMayor {
                                                                                                                 "      ,[ccm_cliente_cdgo]\n" +
                                                                                                                 "      ,[ccm_cntro_cost_subcentro_cdgo]\n" +
                                                                                                                 "      ,[ccm_desc]\n" +
-                                                                                                                "      ,[ccm_estad]) VALUES ((SELECT (CASE WHEN (MAX([ccm_cdgo]) IS NULL)\n" +
+                                                                                                                "      ,[ccm_estad],[ccm_cliente_base_datos_cdgo]) VALUES ((SELECT (CASE WHEN (MAX([ccm_cdgo]) IS NULL)\n" +
                                                                                                         " THEN 1\n" +
                                                                                                         " ELSE (MAX([ccm_cdgo])+1) END)AS [ccm_cdgo]\n" +
-                                                                                    " FROM ["+DB+"].[dbo].[cntro_cost_mayor]),?,?,?,?);");
+                                                                                    " FROM ["+DB+"].[dbo].[cntro_cost_mayor]),?,?,?,?,?);");
                 queryRegistrar.setString(1, Objeto.getCliente().getCodigo());
                 queryRegistrar.setInt(2, Objeto.getCentroCostoSubcentro().getCodigo());
                 queryRegistrar.setString(3, Objeto.getDescripcion());
                 queryRegistrar.setString(4, Objeto.getEstado());
+                 if(Objeto.getCliente().getBaseDatos().getCodigo() != null){
+                    queryRegistrar.setString(5, Objeto.getCliente().getBaseDatos().getCodigo());
+                }else{
+                    queryRegistrar.setString(5, null);
+                }
                 queryRegistrar.execute();
                 result=1;
                 if(result==1){
@@ -93,7 +96,7 @@ public class ControlDB_CentroCostoMayor {
                             "           ,?"+
                             "           ,?"+
                             "           ,'CENTROCOSTO_MAYOR'" +
-                            "           ,CONCAT (?,?,' Nombre: ',?,' Cliente: ',?, ' SubcentroCosto:',?, ' Estado:',?));");
+                            "           ,CONCAT (?,?,' Nombre: ',?,' Cliente: ',?, ' SubcentroCosto:',?, ' Estado:',?,' BaseDatos: ',?));");
                     Query_AuditoriaInsert.setString(1, us.getCodigo());
                     Query_AuditoriaInsert.setString(2, namePc);
                     Query_AuditoriaInsert.setString(3, ipPc);
@@ -105,6 +108,7 @@ public class ControlDB_CentroCostoMayor {
                     Query_AuditoriaInsert.setString(9, Objeto.getCliente().getDescripcion());
                     Query_AuditoriaInsert.setString(10, Objeto.getCentroCostoSubcentro().getDescripcion());
                     Query_AuditoriaInsert.setString(11, Objeto.getEstado());
+                    Query_AuditoriaInsert.setString(12, Objeto.getCliente().getBaseDatos().getNombre());
                     Query_AuditoriaInsert.execute();
                     result=1; 
                 }
@@ -125,9 +129,10 @@ public class ControlDB_CentroCostoMayor {
             PreparedStatement queryValidarExistencia= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[cntro_cost_mayor] WHERE "
                                                                                                 + " [ccm_cliente_cdgo] =? "
                                                                                                 + " AND [ccm_cntro_cost_subcentro_cdgo]=? "
-                                                                                                + " AND [ccm_estad]=1 ;");
+                                                                                                + " AND [ccm_estad]=1 AND [ccm_cliente_base_datos_cdgo]=?;");
             queryValidarExistencia.setString(1, Objeto.getCliente().getCodigo());
             queryValidarExistencia.setInt(2, Objeto.getCentroCostoSubcentro().getCodigo());
+            queryValidarExistencia.setString(3, Objeto.getClienteBaseDatos());
             ResultSet resultSetValidarExistencia= queryValidarExistencia.executeQuery();
            while(resultSetValidarExistencia.next()){ 
                 retorno =true;               
@@ -161,10 +166,15 @@ public class ControlDB_CentroCostoMayor {
                                                                         "				,[co_estad]--13\n" +
                                                                         "      ,[ccm_desc]--14\n" +
                                                                         "      ,[ccm_estad]--15\n" +
+                                                                        "   ,[bd_cdgo]--16\n" +
+                                                                        "   ,[bd_name]--17\n" +
+                                                                        "   ,[bd_desc]--18\n" +
+                                                                        "   ,[bd_estad]--19\n" +
                                                                         "  FROM ["+DB+"].[dbo].[cntro_cost_mayor]\n" +
                                                                         "  INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [ccm_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
                                                                         "  INNER JOIN ["+DB+"].[dbo].[cntro_oper] ON [ccs_cntro_oper_cdgo]=[co_cdgo]\n" +
-                                                                        "  INNER JOIN ["+DB+"].[dbo].[cliente] ON [ccm_cliente_cdgo]=[cl_cdgo];");
+                                                                        "  INNER JOIN ["+DB+"].[dbo].[cliente] ON [ccm_cliente_cdgo]=[cl_cdgo] AND [cl_base_datos_cdgo]=[ccm_cliente_base_datos_cdgo]"+
+                                                                        "  INNER JOIN ["+DB+"].[dbo].[base_datos] ON [bd_cdgo]=[cl_base_datos_cdgo];\n");
                 resultSetBuscar= queryBuscar.executeQuery();
             }else{
                 PreparedStatement queryBuscar= conexion.prepareStatement("SELECT [ccm_cdgo] --1\n" +
@@ -182,10 +192,15 @@ public class ControlDB_CentroCostoMayor {
                                                                         "				,[co_estad]--13\n" +
                                                                         "      ,[ccm_desc]--14\n" +
                                                                         "      ,[ccm_estad]--15\n" +
+                                                                        "   ,[bd_cdgo]--16\n" +
+                                                                        "   ,[bd_name]--17\n" +
+                                                                        "   ,[bd_desc]--18\n" +
+                                                                        "   ,[bd_estad]--19\n" +
                                                                         "  FROM ["+DB+"].[dbo].[cntro_cost_mayor]\n" +
                                                                         "  INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [ccm_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
                                                                         "  INNER JOIN ["+DB+"].[dbo].[cntro_oper] ON [ccs_cntro_oper_cdgo]=[co_cdgo]\n" +
-                                                                        "  INNER JOIN ["+DB+"].[dbo].[cliente] ON [ccm_cliente_cdgo]=[cl_cdgo] WHERE [ccm_desc] like ?;");
+                                                                        "  INNER JOIN ["+DB+"].[dbo].[cliente] ON [ccm_cliente_cdgo]=[cl_cdgo] AND [cl_base_datos_cdgo]=[ccm_cliente_base_datos_cdgo]"+
+                                                                        "  INNER JOIN ["+DB+"].[dbo].[base_datos] ON [bd_cdgo]=[cl_base_datos_cdgo]  WHERE [ccm_desc] like ?;");
                 queryBuscar.setString(1, "%"+valorConsulta+"%");
                 resultSetBuscar= queryBuscar.executeQuery();
             }
@@ -196,6 +211,13 @@ public class ControlDB_CentroCostoMayor {
                         cliente.setCodigo(resultSetBuscar.getString(3));
                         cliente.setDescripcion(resultSetBuscar.getString(4));
                         cliente.setEstado(resultSetBuscar.getString(5));
+                        
+                    BaseDatos baseDatos = new BaseDatos();
+                      baseDatos.setCodigo(resultSetBuscar.getString(16));
+                      baseDatos.setNombre(resultSetBuscar.getString(17));
+                      baseDatos.setDescripcion(resultSetBuscar.getString(18));
+                      baseDatos.setEstado(resultSetBuscar.getString(19));
+                      cliente.setBaseDatos(baseDatos);                                       
                 Objeto.setCliente(cliente);        
                         CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();
                             centroCostoSubCentro.setCodigo(resultSetBuscar.getInt(7));
@@ -209,6 +231,7 @@ public class ControlDB_CentroCostoMayor {
                 Objeto.setCentroCostoSubcentro(centroCostoSubCentro);                    
                 Objeto.setDescripcion(resultSetBuscar.getString(14));
                 Objeto.setEstado(resultSetBuscar.getString(15));
+                Objeto.setClienteBaseDatos(resultSetBuscar.getString(16));
                 listadoObjeto.add(Objeto);
             }
         }catch (SQLException sqlException) {
@@ -218,7 +241,7 @@ public class ControlDB_CentroCostoMayor {
         control.cerrarConexionBaseDatos();
         return listadoObjeto;
     } 
-    public boolean validarExistenciaActualizar(CentroCostoMayor Objeto){
+    /*public boolean validarExistenciaActualizar(CentroCostoMayor Objeto){
         conexion= control.ConectarBaseDatos();
         String DB=control.getBaseDeDatos();
         boolean retorno=false;
@@ -242,7 +265,7 @@ public class ControlDB_CentroCostoMayor {
         } 
         control.cerrarConexionBaseDatos();
         return retorno;
-    }  
+    }  */
     public int actualizar(CentroCostoMayor Objeto, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException{
         int result=0;
         try{ 
@@ -255,10 +278,11 @@ public class ControlDB_CentroCostoMayor {
             }
             conexion= control.ConectarBaseDatos();
             String DB=control.getBaseDeDatos();
-            PreparedStatement queryActualizar= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[cntro_cost_mayor] SET  [ccm_desc]=?,[ccm_estad] =? WHERE [ccm_cdgo]=?;");
+            PreparedStatement queryActualizar= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[cntro_cost_mayor] SET  [ccm_desc]=?,[ccm_estad] =? WHERE [ccm_cdgo]=? AND [ccm_cliente_base_datos_cdgo]=?;");
             queryActualizar.setString(1, Objeto.getDescripcion());
             queryActualizar.setString(2, Objeto.getEstado());
             queryActualizar.setString(3, Objeto.getCodigo());
+            queryActualizar.setString(4, Objeto.getClienteBaseDatos());
             queryActualizar.execute();
             result=1;
             if(result==1){
@@ -286,7 +310,7 @@ public class ControlDB_CentroCostoMayor {
                         "           ,?"+
                         "           ,?"+
                         "           ,'CENTROCOSTO MAYOR'" +
-                        "           ,CONCAT('Se registró una nueva actualización en el sistema sobre el centro de costo mayor Codigo:',?,' Descripción: ',?,' Estado: ',?,' actualizando la siguiente informacion a Código: ',?,' Descripción: ',?,' Estado: ',?));"); 
+                        "           ,CONCAT('Se registró una nueva actualización en el sistema sobre el centro de costo mayor Codigo:',?,' Descripción: ',?,' Estado: ',?,' actualizando la siguiente informacion a Código: ',?,' Descripción: ',?,' Estado: ',?, ' BaseDatos:',?));"); 
                 Query_Auditoria.setString(1, us.getCodigo());
                 Query_Auditoria.setString(2, namePc);
                 Query_Auditoria.setString(3, ipPc);
@@ -298,6 +322,7 @@ public class ControlDB_CentroCostoMayor {
                 Query_Auditoria.setString(9, Objeto.getCodigo());
                 Query_Auditoria.setString(10, Objeto.getDescripcion());
                 Query_Auditoria.setString(11, valorEstado);
+                Query_Auditoria.setString(12, Objeto.getClienteBaseDatos());
                 Query_Auditoria.execute();
                 result=1;
             }
@@ -330,10 +355,16 @@ public class ControlDB_CentroCostoMayor {
                                                                         "				,[co_estad]--13\n" +
                                                                         "      ,[ccm_desc]--14\n" +
                                                                         "      ,[ccm_estad]--15\n" +
+                                                                        "   ,[bd_cdgo]--16\n" +
+                                                                        "   ,[bd_name]--17\n" +
+                                                                        "   ,[bd_desc]--18\n" +
+                                                                        "   ,[bd_estad]--19\n" +
                                                                         "  FROM ["+DB+"].[dbo].[cntro_cost_mayor]\n" +
                                                                         "  INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [ccm_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
                                                                         "  INNER JOIN ["+DB+"].[dbo].[cntro_oper] ON [ccs_cntro_oper_cdgo]=[co_cdgo]\n" +
-                                                                        "  INNER JOIN ["+DB+"].[dbo].[cliente] ON [ccm_cliente_cdgo]=[cl_cdgo] WHERE [ccm_cdgo] =?;");
+                                                                        "  INNER JOIN ["+DB+"].[dbo].[cliente] ON [ccm_cliente_cdgo]=[cl_cdgo] AND [cl_base_datos_cdgo]=[ccm_cliente_base_datos_cdgo] "
+                                                                      + " INNER JOIN ["+DB+"].[dbo].[base_datos] ON [bd_cdgo]=[cl_base_datos_cdgo] "
+                                                                                        + " WHERE [ccm_cdgo] =?;");
             queryBuscar.setString(1, codigo);
             ResultSet resultSetBuscar= queryBuscar.executeQuery();
             while(resultSetBuscar.next()){ 
@@ -343,6 +374,12 @@ public class ControlDB_CentroCostoMayor {
                         cliente.setCodigo(resultSetBuscar.getString(3));
                         cliente.setDescripcion(resultSetBuscar.getString(4));
                         cliente.setEstado(resultSetBuscar.getString(5));
+                          BaseDatos baseDatos = new BaseDatos();
+                            baseDatos.setCodigo(resultSetBuscar.getString(16));
+                            baseDatos.setNombre(resultSetBuscar.getString(17));
+                            baseDatos.setDescripcion(resultSetBuscar.getString(18));
+                            baseDatos.setEstado(resultSetBuscar.getString(19));
+                      cliente.setBaseDatos(baseDatos); 
                 Objeto.setCliente(cliente);        
                         CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();
                             centroCostoSubCentro.setCodigo(resultSetBuscar.getInt(7));
@@ -356,6 +393,7 @@ public class ControlDB_CentroCostoMayor {
                 Objeto.setCentroCostoSubcentro(centroCostoSubCentro);                    
                 Objeto.setDescripcion(resultSetBuscar.getString(14));
                 Objeto.setEstado(resultSetBuscar.getString(15));
+                Objeto.setClienteBaseDatos(resultSetBuscar.getString(16));
             }
         }catch (SQLException sqlException) {
             JOptionPane.showMessageDialog(null, "Error al tratar de consultar el centro de costo Mayor");
@@ -391,10 +429,16 @@ public class ControlDB_CentroCostoMayor {
                                                                     "				,[co_estad]--13\n" +
                                                                     "      ,[ccm_desc]--14\n" +
                                                                     "      ,[ccm_estad]--15\n" +
+                                                                    "   ,[bd_cdgo]--16\n" +
+                                                                    "   ,[bd_name]--17\n" +
+                                                                    "   ,[bd_desc]--18\n" +
+                                                                    "   ,[bd_estad]--19\n" +
                                                                     "  FROM ["+DB+"].[dbo].[cntro_cost_mayor]\n" +
                                                                     "  INNER JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ON [ccm_cntro_cost_subcentro_cdgo]=[ccs_cdgo]\n" +
                                                                     "  INNER JOIN ["+DB+"].[dbo].[cntro_oper] ON [ccs_cntro_oper_cdgo]=[co_cdgo]\n" +
-                                                                    "  INNER JOIN ["+DB+"].[dbo].[cliente] ON [ccm_cliente_cdgo]=[cl_cdgo] WHERE"
+                                                                    "  INNER JOIN ["+DB+"].[dbo].[cliente] ON [ccm_cliente_cdgo]=[cl_cdgo] AND [cl_base_datos_cdgo]=[ccm_cliente_base_datos_cdgo]"
+                                                                  + " INNER JOIN ["+DB+"].[dbo].[base_datos] ON [bd_cdgo]=[cl_base_datos_cdgo] "+
+                                                                    " WHERE "
                                                                                 + " [ccm_cliente_cdgo]=? AND"
                                                                                 + " [ccm_cntro_cost_subcentro_cdgo]=? ;");
             queryBuscar.setString(1, mvtoEquipo.getCliente().getCodigo());
@@ -407,6 +451,12 @@ public class ControlDB_CentroCostoMayor {
                         cliente.setCodigo(resultSetBuscar.getString(3));
                         cliente.setDescripcion(resultSetBuscar.getString(4));
                         cliente.setEstado(resultSetBuscar.getString(5));
+                          BaseDatos baseDatos = new BaseDatos();
+                            baseDatos.setCodigo(resultSetBuscar.getString(16));
+                            baseDatos.setNombre(resultSetBuscar.getString(17));
+                            baseDatos.setDescripcion(resultSetBuscar.getString(18));
+                            baseDatos.setEstado(resultSetBuscar.getString(19));
+                      cliente.setBaseDatos(baseDatos); 
                 Objeto.setCliente(cliente);        
                         CentroCostoSubCentro centroCostoSubCentro = new CentroCostoSubCentro();
                             centroCostoSubCentro.setCodigo(resultSetBuscar.getInt(7));
@@ -420,6 +470,7 @@ public class ControlDB_CentroCostoMayor {
                 Objeto.setCentroCostoSubcentro(centroCostoSubCentro);                    
                 Objeto.setDescripcion(resultSetBuscar.getString(14));
                 Objeto.setEstado(resultSetBuscar.getString(15));
+                Objeto.setClienteBaseDatos(resultSetBuscar.getString(16));
             }
         }
         control.cerrarConexionBaseDatos(); 

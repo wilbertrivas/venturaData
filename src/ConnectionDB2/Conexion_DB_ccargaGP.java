@@ -27,11 +27,10 @@ public class Conexion_DB_ccargaGP {
         }       
     }
     public void publico(){
-        //this.servidor = "190.90.121.101";
         this.servidor = "190.131.213.43";   
         this.puertoConexion = "3341";
-        //this.baseDeDatos = "venus";
-        this.baseDeDatos = "venus_venturaData";
+        this.baseDeDatos = "venus";
+        //this.baseDeDatos = "venus_venturaData";
         this.usuario = "sa";
         this.contrasena = "root";
         this.ruta="jdbc:sqlserver://"+servidor+":"+puertoConexion+";databaseName="+baseDeDatos+";";
@@ -39,8 +38,8 @@ public class Conexion_DB_ccargaGP {
     public void privado(){
         this.servidor = "ccarga.goib.com";
         this.puertoConexion = "3341";
-        //this.baseDeDatos = "venus";
-        this.baseDeDatos = "venus_venturaData";
+        this.baseDeDatos = "venus";
+        //this.baseDeDatos = "venus_venturaData";
         this.usuario = "sa";
         this.contrasena = "root";
         this.ruta="jdbc:sqlserver://"+servidor+":"+puertoConexion+";databaseName="+baseDeDatos+";";

@@ -8,6 +8,10 @@ public class TarifaEquipo {
     private String valorHoraAlquiler;
     private String fechaHoraInicio;
     private String fechaHoraFin;
+    /*private String valorLavadoVehiculo;*/
+    private String costoLavadoVehiculo;
+    private String valorRecaudoEmpresa;
+    private String valorRecaudoEquipo;
 
     public TarifaEquipo() {
     }
@@ -76,5 +80,38 @@ public class TarifaEquipo {
         this.fechaHoraFin = fechaHoraFin;
     }
 
+    /*public String getValorLavadoVehiculo() {
+        return valorLavadoVehiculo;
+    }
+
+    public void setValorLavadoVehiculo(String valorLavadoVehiculo) {
+        this.valorLavadoVehiculo = valorLavadoVehiculo;
+    }*/
+
+    public String getCostoLavadoVehiculo() {
+        return costoLavadoVehiculo;
+    }
+
+    public void setCostoLavadoVehiculo(String costoLavadoVehiculo) {
+        this.costoLavadoVehiculo = costoLavadoVehiculo;
+    }
+
+    public String getValorRecaudoEmpresa() {
+        return valorRecaudoEmpresa;
+    }
+
+    public void setValorRecaudoEmpresa(String valorRecaudoEmpresa) {
+        this.valorRecaudoEmpresa = valorRecaudoEmpresa;
+    }
+
+    public String getValorRecaudoEquipo() {
+        return valorRecaudoEquipo;
+    }
+
+    public void setValorRecaudoEquipo(String valorRecaudoEquipo) {
+        this.valorRecaudoEquipo = valorRecaudoEquipo;
+    }
+
+    
     
 }

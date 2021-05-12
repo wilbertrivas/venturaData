@@ -6,6 +6,7 @@ public class CentroCostoMayor {
     private CentroCostoSubCentro centroCostoSubcentro;
     private String descripcion;
     private String estado;
+    private String clienteBaseDatos;
 
     public CentroCostoMayor() {
     }
@@ -56,6 +57,14 @@ public class CentroCostoMayor {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getClienteBaseDatos() {
+        return clienteBaseDatos;
+    }
+
+    public void setClienteBaseDatos(String clienteBaseDatos) {
+        this.clienteBaseDatos = clienteBaseDatos;
     }
     
 }

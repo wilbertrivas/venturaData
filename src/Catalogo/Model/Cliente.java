@@ -7,6 +7,7 @@ public class Cliente {
     private String descripcion;
     private String estado;
     private int valorRecobro;
+    private BaseDatos baseDatos;
 
     public Cliente() {
     }
@@ -53,6 +54,14 @@ public class Cliente {
 
     public void setValorRecobro(int valorRecobro) {
         this.valorRecobro = valorRecobro;
+    }
+
+    public BaseDatos getBaseDatos() {
+        return baseDatos;
+    }
+
+    public void setBaseDatos(BaseDatos baseDatos) {
+        this.baseDatos = baseDatos;
     }
 
    

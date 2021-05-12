@@ -1,6 +1,6 @@
 package Consumo.View;
  
-import Catalogo.View23.Cliente_Consultar;
+import Catalogo.View1.Cliente_Consultar;
 import Catalogo.Controller.ControlDB_Cliente;
 import Consumo.Controller2.ControlDB_Consumo;
 import Consumo.Controller2.ControlDB_Insumo;
@@ -105,7 +105,7 @@ public class Consumo_Registrar extends javax.swing.JPanel {
         internalFrameInsumos.setBackground(new java.awt.Color(255, 255, 255));
         internalFrameInsumos.setClosable(true);
         internalFrameInsumos.setTitle("AGREGAR INSUMO");
-        internalFrameInsumos.setVisible(true);
+        internalFrameInsumos.setVisible(false);
         internalFrameInsumos.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         internalFrameInsumos.getContentPane().add(valorBusquedaInsumo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 280, 30));
 
@@ -155,7 +155,7 @@ public class Consumo_Registrar extends javax.swing.JPanel {
         internalFrameClientes.setBackground(new java.awt.Color(255, 255, 255));
         internalFrameClientes.setClosable(true);
         internalFrameClientes.setTitle("AGREGAR CLIENTE");
-        internalFrameClientes.setVisible(true);
+        internalFrameClientes.setVisible(false);
         internalFrameClientes.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N

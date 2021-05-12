@@ -19,7 +19,7 @@ public class GUI_Iniciar extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
         
         usuario.setText ("1111786243");
-        password.setText("1111786243");
+        password.setText("2021");
         
     }
     @SuppressWarnings("unchecked")

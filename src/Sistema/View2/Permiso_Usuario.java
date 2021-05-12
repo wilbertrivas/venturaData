@@ -64,6 +64,8 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         PROGRAMACION_EQUIPOS_INACTIVAR = new javax.swing.JCheckBox();
         jSeparator7 = new javax.swing.JSeparator();
         PROGRAMACION_EQUIPOS_DIRECTA = new javax.swing.JCheckBox();
+        ASIGNACION_EQUIPOS_EDITAR = new javax.swing.JCheckBox();
+        SOLICITUD_EQUIPOS_EDITAR = new javax.swing.JCheckBox();
         Panel_Menu_ModuloEquipo = new javax.swing.JPanel();
         jLabel49 = new javax.swing.JLabel();
         jLabel50 = new javax.swing.JLabel();
@@ -77,6 +79,8 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         MODULO_EQUIPO_GENERAR_MATRIZ = new javax.swing.JCheckBox();
         MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO = new javax.swing.JCheckBox();
         MODULO_EQUIPO_PROCESAR_REGISTROS = new javax.swing.JCheckBox();
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION = new javax.swing.JCheckBox();
+        MODULO_EQUIPO_AGREGAR_REGISTRO = new javax.swing.JCheckBox();
         Panel_Menu_ModuloAgua = new javax.swing.JPanel();
         jLabel51 = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
@@ -108,17 +112,6 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         APPMOVILEQUIPO_CERRAR_CICLO_EQUIPO = new javax.swing.JCheckBox();
         APPMOVILEQUIPO_INICIAR_CICLO_EQUIPO = new javax.swing.JCheckBox();
         jLabel20 = new javax.swing.JLabel();
-        Panel_Menu_DescargueCarbón = new javax.swing.JPanel();
-        jLabel47 = new javax.swing.JLabel();
-        jLabel48 = new javax.swing.JLabel();
-        jSeparator8 = new javax.swing.JSeparator();
-        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS = new javax.swing.JCheckBox();
-        MODULO_CARBON_INACTIVAR_REGISTRO = new javax.swing.JCheckBox();
-        MODULO_CARBON_ACTIVAR_REGISTRO = new javax.swing.JCheckBox();
-        MODULO_CARBON_GENERAR_MATRIZ = new javax.swing.JCheckBox();
-        jSeparator9 = new javax.swing.JSeparator();
-        MODULO_CARBON_PROCESAR_REGISTROS = new javax.swing.JCheckBox();
-        MODULO_CARBON_LAVADO_VEHICULOS = new javax.swing.JCheckBox();
         Panel_Menu_Catalogo = new javax.swing.JPanel();
         jLabel57 = new javax.swing.JLabel();
         jLabel58 = new javax.swing.JLabel();
@@ -256,6 +249,21 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         jLabel74 = new javax.swing.JLabel();
         cuadradoFondo6 = new javax.swing.JLabel();
         cuadradoFondo8 = new javax.swing.JLabel();
+        Panel_Menu_DescargueCarbón = new javax.swing.JPanel();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
+        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS = new javax.swing.JCheckBox();
+        MODULO_CARBON_INACTIVAR_REGISTRO = new javax.swing.JCheckBox();
+        MODULO_CARBON_ACTIVAR_REGISTRO = new javax.swing.JCheckBox();
+        MODULO_CARBON_GENERAR_MATRIZ = new javax.swing.JCheckBox();
+        jSeparator9 = new javax.swing.JSeparator();
+        MODULO_CARBON_PROCESAR_REGISTROS = new javax.swing.JCheckBox();
+        MODULO_CARBON_LAVADO_VEHICULOS = new javax.swing.JCheckBox();
+        MODULO_CARBON_AGREGAR_REGISTRO = new javax.swing.JCheckBox();
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO = new javax.swing.JCheckBox();
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO = new javax.swing.JCheckBox();
+        MODULO_CARBON_GENERAR_DISTRIBUCION = new javax.swing.JCheckBox();
 
         Editar.setText("Seleccionar");
         Editar.addActionListener(new java.awt.event.ActionListener() {
@@ -415,7 +423,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         jLabel30.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel30.setText("PERMISOS DE PROGRAMACIÓN");
         Panel_Menu_Programacion.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 310, 30));
-        Panel_Menu_Programacion.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 670, 10));
+        Panel_Menu_Programacion.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 670, 30));
 
         PROGRAMACION_EQUIPOS_ACTIVAR.setBackground(new java.awt.Color(255, 255, 255));
         PROGRAMACION_EQUIPOS_ACTIVAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
@@ -458,6 +466,16 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         PROGRAMACION_EQUIPOS_DIRECTA.setText("PROGRAMACION_EQUIPOS_DIRECTA");
         Panel_Menu_Programacion.add(PROGRAMACION_EQUIPOS_DIRECTA, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 370, 30));
 
+        ASIGNACION_EQUIPOS_EDITAR.setBackground(new java.awt.Color(255, 255, 255));
+        ASIGNACION_EQUIPOS_EDITAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        ASIGNACION_EQUIPOS_EDITAR.setText("ASIGNACION_EQUIPOS_EDITAR");
+        Panel_Menu_Programacion.add(ASIGNACION_EQUIPOS_EDITAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 370, 30));
+
+        SOLICITUD_EQUIPOS_EDITAR.setBackground(new java.awt.Color(255, 255, 255));
+        SOLICITUD_EQUIPOS_EDITAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        SOLICITUD_EQUIPOS_EDITAR.setText("SOLICITUD_EQUIPOS_EDITAR");
+        Panel_Menu_Programacion.add(SOLICITUD_EQUIPOS_EDITAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 370, 30));
+
         jTabbedPane1.addTab("PROGRAMACIÓN", Panel_Menu_Programacion);
 
         Panel_Menu_ModuloEquipo.setBackground(new java.awt.Color(255, 255, 255));
@@ -470,7 +488,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         jLabel50.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel50.setText("PERMISOS EN MODULO EQUIPO");
         Panel_Menu_ModuloEquipo.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 310, 30));
-        Panel_Menu_ModuloEquipo.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 670, 20));
+        Panel_Menu_ModuloEquipo.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 740, 20));
 
         MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS.setBackground(new java.awt.Color(255, 255, 255));
         MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
@@ -491,7 +509,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO.setText("MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO");
         Panel_Menu_ModuloEquipo.add(MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 340, 30));
-        Panel_Menu_ModuloEquipo.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 670, 10));
+        Panel_Menu_ModuloEquipo.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 760, 10));
 
         MODULO_EQUIPO_INACTIVAR_REGISTROS.setBackground(new java.awt.Color(255, 255, 255));
         MODULO_EQUIPO_INACTIVAR_REGISTROS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
@@ -512,6 +530,21 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         MODULO_EQUIPO_PROCESAR_REGISTROS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         MODULO_EQUIPO_PROCESAR_REGISTROS.setText("MODULO_EQUIPO_PROCESAR_REGISTROS");
         Panel_Menu_ModuloEquipo.add(MODULO_EQUIPO_PROCESAR_REGISTROS, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 340, 30));
+
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setText("MODULO_EQUIPO_GENERAR_DISTRIBUCION");
+        Panel_Menu_ModuloEquipo.add(MODULO_EQUIPO_GENERAR_DISTRIBUCION, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 340, 30));
+
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setText("MODULO_EQUIPO_AGREGAR_REGISTRO");
+        MODULO_EQUIPO_AGREGAR_REGISTRO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed(evt);
+            }
+        });
+        Panel_Menu_ModuloEquipo.add(MODULO_EQUIPO_AGREGAR_REGISTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 340, 30));
 
         jTabbedPane1.addTab("MODULO_EQUIPO", Panel_Menu_ModuloEquipo);
 
@@ -622,51 +655,6 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         Panel_Menu_AppMovil.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 70, 30));
 
         jTabbedPane1.addTab("APP_MOVIL", Panel_Menu_AppMovil);
-
-        Panel_Menu_DescargueCarbón.setBackground(new java.awt.Color(255, 255, 255));
-        Panel_Menu_DescargueCarbón.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel47.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/descargue.png"))); // NOI18N
-        Panel_Menu_DescargueCarbón.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 40, 30));
-
-        jLabel48.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel48.setText("PERMISOS DE DESCARGUE CARBON");
-        Panel_Menu_DescargueCarbón.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 310, 30));
-        Panel_Menu_DescargueCarbón.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 670, 10));
-
-        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setBackground(new java.awt.Color(255, 255, 255));
-        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setText("MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS");
-        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 380, 30));
-
-        MODULO_CARBON_INACTIVAR_REGISTRO.setBackground(new java.awt.Color(255, 255, 255));
-        MODULO_CARBON_INACTIVAR_REGISTRO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        MODULO_CARBON_INACTIVAR_REGISTRO.setText("MODULO_CARBON_INACTIVAR_REGISTRO");
-        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_INACTIVAR_REGISTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 260, 30));
-
-        MODULO_CARBON_ACTIVAR_REGISTRO.setBackground(new java.awt.Color(255, 255, 255));
-        MODULO_CARBON_ACTIVAR_REGISTRO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        MODULO_CARBON_ACTIVAR_REGISTRO.setText("MODULO_CARBON_ACTIVAR_REGISTRO");
-        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_ACTIVAR_REGISTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 260, 30));
-
-        MODULO_CARBON_GENERAR_MATRIZ.setBackground(new java.awt.Color(255, 255, 255));
-        MODULO_CARBON_GENERAR_MATRIZ.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        MODULO_CARBON_GENERAR_MATRIZ.setText("MODULO_CARBON_GENERAR_MATRIZ");
-        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_GENERAR_MATRIZ, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 260, 30));
-        Panel_Menu_DescargueCarbón.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 670, 10));
-
-        MODULO_CARBON_PROCESAR_REGISTROS.setBackground(new java.awt.Color(255, 255, 255));
-        MODULO_CARBON_PROCESAR_REGISTROS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        MODULO_CARBON_PROCESAR_REGISTROS.setText("MODULO_CARBON_PROCESAR_REGISTROS");
-        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_PROCESAR_REGISTROS, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 380, 30));
-
-        MODULO_CARBON_LAVADO_VEHICULOS.setBackground(new java.awt.Color(255, 255, 255));
-        MODULO_CARBON_LAVADO_VEHICULOS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        MODULO_CARBON_LAVADO_VEHICULOS.setText("MODULO_CARBON_LAVADO_VEHICULOS");
-        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_LAVADO_VEHICULOS, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 260, 30));
-
-        jTabbedPane1.addTab("MODULO_CARBÓN", Panel_Menu_DescargueCarbón);
 
         Panel_Menu_Catalogo.setBackground(new java.awt.Color(255, 255, 255));
         Panel_Menu_Catalogo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1341,6 +1329,71 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("CATALOGO", Panel_Menu_Catalogo);
 
+        Panel_Menu_DescargueCarbón.setBackground(new java.awt.Color(255, 255, 255));
+        Panel_Menu_DescargueCarbón.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel47.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/descargue.png"))); // NOI18N
+        Panel_Menu_DescargueCarbón.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 40, 30));
+
+        jLabel48.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel48.setText("PERMISOS DE DESCARGUE CARBON");
+        Panel_Menu_DescargueCarbón.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 310, 30));
+        Panel_Menu_DescargueCarbón.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 670, 110));
+
+        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setText("MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 380, 30));
+
+        MODULO_CARBON_INACTIVAR_REGISTRO.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_INACTIVAR_REGISTRO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_INACTIVAR_REGISTRO.setText("MODULO_CARBON_INACTIVAR_REGISTRO");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_INACTIVAR_REGISTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 260, 30));
+
+        MODULO_CARBON_ACTIVAR_REGISTRO.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_ACTIVAR_REGISTRO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_ACTIVAR_REGISTRO.setText("MODULO_CARBON_ACTIVAR_REGISTRO");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_ACTIVAR_REGISTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 260, 30));
+
+        MODULO_CARBON_GENERAR_MATRIZ.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_GENERAR_MATRIZ.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_GENERAR_MATRIZ.setText("MODULO_CARBON_GENERAR_MATRIZ");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_GENERAR_MATRIZ, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 260, 30));
+        Panel_Menu_DescargueCarbón.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 670, 10));
+
+        MODULO_CARBON_PROCESAR_REGISTROS.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_PROCESAR_REGISTROS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_PROCESAR_REGISTROS.setText("MODULO_CARBON_PROCESAR_REGISTROS");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_PROCESAR_REGISTROS, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 380, 30));
+
+        MODULO_CARBON_LAVADO_VEHICULOS.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_LAVADO_VEHICULOS.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_LAVADO_VEHICULOS.setText("MODULO_CARBON_LAVADO_VEHICULOS");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_LAVADO_VEHICULOS, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 260, 30));
+
+        MODULO_CARBON_AGREGAR_REGISTRO.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_AGREGAR_REGISTRO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_AGREGAR_REGISTRO.setText("MODULO_CARBON_AGREGAR_REGISTRO");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_AGREGAR_REGISTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 270, 30));
+
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setText("MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 450, 30));
+
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setText("MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 410, 30));
+
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setText("MODULO_CARBON_GENERAR_DISTRIBUCION");
+        Panel_Menu_DescargueCarbón.add(MODULO_CARBON_GENERAR_DISTRIBUCION, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 270, 30));
+
+        jTabbedPane1.addTab("MODULO_CARBÓN", Panel_Menu_DescargueCarbón);
+
         jScrollPane2.setViewportView(jTabbedPane1);
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 80, 1170, 710));
@@ -1442,9 +1495,6 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
             }
             if(PROGRAMACION_EQUIPOS_ACTIVAR.isSelected()){
                 listadoPermisos.add(new Permisos("", "PROGRAMACION_EQUIPOS_ACTIVAR"));
-            }
-            if(PROGRAMACION_EQUIPOS_DIRECTA.isSelected()){
-                listadoPermisos.add(new Permisos("", "PROGRAMACION_EQUIPOS_DIRECTA"));
             }
             if(MODULO_CARBON_PROCESAR_REGISTROS.isSelected()){
                 listadoPermisos.add(new Permisos("", "MODULO_CARBON_PROCESAR_REGISTROS"));
@@ -1710,6 +1760,36 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
             if(CAUSA_INACTIVIDAD_ACTUALIZAR.isSelected()){
                 listadoPermisos.add(new Permisos("", "CAUSA_INACTIVIDAD_ACTUALIZAR"));
             }   
+            
+            
+            
+            if(ASIGNACION_EQUIPOS_EDITAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "ASIGNACION_EQUIPOS_EDITAR"));
+            }  
+            if(SOLICITUD_EQUIPOS_EDITAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "SOLICITUD_EQUIPOS_EDITAR"));
+            }  
+            if(PROGRAMACION_EQUIPOS_DIRECTA.isSelected()){
+                listadoPermisos.add(new Permisos("", "PROGRAMACION_EQUIPOS_DIRECTA"));
+            }  
+            if(MODULO_CARBON_AGREGAR_REGISTRO.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_CARBON_AGREGAR_REGISTRO"));
+            }  
+            if(MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO"));
+            }  
+            if(MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO"));
+            }  
+            if(MODULO_CARBON_GENERAR_DISTRIBUCION.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_CARBON_GENERAR_DISTRIBUCION"));
+            }  
+            if(MODULO_EQUIPO_AGREGAR_REGISTRO.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_EQUIPO_AGREGAR_REGISTRO"));
+            }  
+            if(MODULO_EQUIPO_GENERAR_DISTRIBUCION.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_EQUIPO_GENERAR_DISTRIBUCION"));
+            }  
             //cargamos los permisos al objeto perfil
             perfil.setPermisos(listadoPermisos);
             ControlDB_Perfil controlDB_Perfil = new ControlDB_Perfil(tipoConexion);
@@ -1787,6 +1867,10 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_EQUIPO_REGISTRARActionPerformed
 
+    private void MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox APPMOVILCARBON_CERRAR_CICLO_EQUIPO;
@@ -1800,6 +1884,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
     private javax.swing.JCheckBox ARTICULO_REGISTRAR;
     private javax.swing.JCheckBox ARTICULO_REGISTRO_CCARGA;
     private javax.swing.JCheckBox ASIGNACION_EQUIPOS_CONFIRMACION;
+    private javax.swing.JCheckBox ASIGNACION_EQUIPOS_EDITAR;
     private javax.swing.JCheckBox ASIGNACION_EQUIPOS_REGISTRAR;
     private javax.swing.JCheckBox AUDITORIA_CONSULTAR;
     private javax.swing.JCheckBox CAUSA_INACTIVIDAD_ACTUALIZAR;
@@ -1846,13 +1931,19 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
     private javax.swing.JCheckBox LABOR_REALIZADA_CONSULTAR;
     private javax.swing.JCheckBox LABOR_REALIZADA_REGISTRAR;
     private javax.swing.JCheckBox MODULO_CARBON_ACTIVAR_REGISTRO;
+    private javax.swing.JCheckBox MODULO_CARBON_AGREGAR_REGISTRO;
+    private javax.swing.JCheckBox MODULO_CARBON_GENERAR_DISTRIBUCION;
+    private javax.swing.JCheckBox MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO;
     private javax.swing.JCheckBox MODULO_CARBON_GENERAR_MATRIZ;
     private javax.swing.JCheckBox MODULO_CARBON_INACTIVAR_REGISTRO;
     private javax.swing.JCheckBox MODULO_CARBON_LAVADO_VEHICULOS;
     private javax.swing.JCheckBox MODULO_CARBON_PROCESAR_REGISTROS;
     private javax.swing.JCheckBox MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS;
+    private javax.swing.JCheckBox MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO;
     private javax.swing.JCheckBox MODULO_EQUIPO_ACTIVAR_REGISTROS;
+    private javax.swing.JCheckBox MODULO_EQUIPO_AGREGAR_REGISTRO;
     private javax.swing.JCheckBox MODULO_EQUIPO_AUTORIZAR_RECOBRO;
+    private javax.swing.JCheckBox MODULO_EQUIPO_GENERAR_DISTRIBUCION;
     private javax.swing.JCheckBox MODULO_EQUIPO_GENERAR_MATRIZ;
     private javax.swing.JCheckBox MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO;
     private javax.swing.JCheckBox MODULO_EQUIPO_INACTIVAR_REGISTROS;
@@ -1882,6 +1973,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
     private javax.swing.JPanel Panel_Menu_ModuloEquipo;
     private javax.swing.JPanel Panel_Menu_ModuloPersonal;
     private javax.swing.JPanel Panel_Menu_Programacion;
+    private javax.swing.JCheckBox SOLICITUD_EQUIPOS_EDITAR;
     private javax.swing.JCheckBox SOLICITUD_EQUIPOS_REGISTRAR;
     private javax.swing.JCheckBox SUBCENTROOPERACION_ACTUALIZAR;
     private javax.swing.JCheckBox SUBCENTROOPERACION_CONSULTAR;
@@ -2062,10 +2154,6 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
                 }
                 case "PROGRAMACION_EQUIPOS_ACTIVAR":{
                     PROGRAMACION_EQUIPOS_ACTIVAR.setSelected(true);
-                    break;
-                }
-                case "PROGRAMACION_EQUIPOS_DIRECTA":{
-                    PROGRAMACION_EQUIPOS_DIRECTA.setSelected(true);
                     break;
                 }
                 case "MODULO_CARBON_PROCESAR_REGISTROS":{
@@ -2420,6 +2508,46 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
                     CAUSA_INACTIVIDAD_ACTUALIZAR.setSelected(true);
                     break;
                 }
+                
+                
+                
+                
+                case "ASIGNACION_EQUIPOS_EDITAR":{
+                    ASIGNACION_EQUIPOS_EDITAR.setSelected(true);
+                    break;
+                }
+                case "SOLICITUD_EQUIPOS_EDITAR":{
+                    SOLICITUD_EQUIPOS_EDITAR.setSelected(true);
+                    break;
+                }
+                case "PROGRAMACION_EQUIPOS_DIRECTA":{
+                    PROGRAMACION_EQUIPOS_DIRECTA.setSelected(true);
+                    break;
+                }
+                case "MODULO_CARBON_AGREGAR_REGISTRO":{
+                    MODULO_CARBON_AGREGAR_REGISTRO.setSelected(true);
+                    break;
+                }
+                case "MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO":{
+                    MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setSelected(true);
+                    break;
+                }
+                case "MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO":{
+                    MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setSelected(true);
+                    break;
+                }
+                case "MODULO_CARBON_GENERAR_DISTRIBUCION":{
+                    MODULO_CARBON_GENERAR_DISTRIBUCION.setSelected(true);
+                    break;
+                }
+                case "MODULO_EQUIPO_AGREGAR_REGISTRO":{
+                    MODULO_EQUIPO_AGREGAR_REGISTRO.setSelected(true);
+                    break;
+                }
+                case "MODULO_EQUIPO_GENERAR_DISTRIBUCION":{
+                    MODULO_EQUIPO_GENERAR_DISTRIBUCION.setSelected(true);
+                    break;
+                }
                 default:{
                     break;
                 }
@@ -2433,7 +2561,6 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         PROGRAMACION_EQUIPOS_CONSULTAR.setSelected(false);
         PROGRAMACION_EQUIPOS_INACTIVAR.setSelected(false);
         PROGRAMACION_EQUIPOS_ACTIVAR.setSelected(false);
-        PROGRAMACION_EQUIPOS_DIRECTA.setSelected(false);
         MODULO_CARBON_PROCESAR_REGISTROS.setSelected(false);
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setSelected(false);
         MODULO_CARBON_INACTIVAR_REGISTRO.setSelected(false);
@@ -2521,7 +2648,18 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         APPMOVILEQUIPO_CERRAR_CICLO_EQUIPO.setSelected(false);     
         CAUSA_INACTIVIDAD_REGISTRAR.setSelected(false);
         CAUSA_INACTIVIDAD_CONSULTAR.setSelected(false);
-        CAUSA_INACTIVIDAD_ACTUALIZAR.setSelected(false);    
+        CAUSA_INACTIVIDAD_ACTUALIZAR.setSelected(false);   
+        
+        
+        ASIGNACION_EQUIPOS_EDITAR.setSelected(false);
+        SOLICITUD_EQUIPOS_EDITAR.setSelected(false);
+        PROGRAMACION_EQUIPOS_DIRECTA.setSelected(false);
+        MODULO_CARBON_AGREGAR_REGISTRO.setSelected(false);
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setSelected(false);
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setSelected(false);     
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setSelected(false);
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setSelected(false);
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setSelected(false); 
         
     }
     public void marcarTodosCheckInterfaz(){
@@ -2531,7 +2669,6 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         PROGRAMACION_EQUIPOS_CONSULTAR.setSelected(true);
         PROGRAMACION_EQUIPOS_INACTIVAR.setSelected(true);
         PROGRAMACION_EQUIPOS_ACTIVAR.setSelected(true);
-        PROGRAMACION_EQUIPOS_DIRECTA.setSelected(true);
         MODULO_CARBON_PROCESAR_REGISTROS.setSelected(true);
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setSelected(true);
         MODULO_CARBON_INACTIVAR_REGISTRO.setSelected(true);
@@ -2621,6 +2758,17 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         CAUSA_INACTIVIDAD_CONSULTAR.setSelected(true);
         CAUSA_INACTIVIDAD_ACTUALIZAR.setSelected(true);
         
+        
+        ASIGNACION_EQUIPOS_EDITAR.setSelected(true);
+        SOLICITUD_EQUIPOS_EDITAR.setSelected(true);
+        PROGRAMACION_EQUIPOS_DIRECTA.setSelected(true);
+        MODULO_CARBON_AGREGAR_REGISTRO.setSelected(true);
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setSelected(true);
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setSelected(true);  
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setSelected(true);
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setSelected(true);
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setSelected(true);
+        
     }
     public void deshabilitarTodosCheckInterfaz(){
         SOLICITUD_EQUIPOS_REGISTRAR.setEnabled(false);
@@ -2629,7 +2777,6 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         PROGRAMACION_EQUIPOS_CONSULTAR.setEnabled(false);
         PROGRAMACION_EQUIPOS_INACTIVAR.setEnabled(false);
         PROGRAMACION_EQUIPOS_ACTIVAR.setEnabled(false);
-        PROGRAMACION_EQUIPOS_DIRECTA.setEnabled(false);
         MODULO_CARBON_PROCESAR_REGISTROS.setEnabled(false);
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setEnabled(false);
         MODULO_CARBON_INACTIVAR_REGISTRO.setEnabled(false);
@@ -2719,6 +2866,17 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         CAUSA_INACTIVIDAD_CONSULTAR.setEnabled(false);
         CAUSA_INACTIVIDAD_ACTUALIZAR.setEnabled(false);  
         
+        
+        ASIGNACION_EQUIPOS_EDITAR.setEnabled(false);
+        SOLICITUD_EQUIPOS_EDITAR.setEnabled(false);
+        PROGRAMACION_EQUIPOS_DIRECTA.setEnabled(false);
+        MODULO_CARBON_AGREGAR_REGISTRO.setEnabled(false);
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setEnabled(false);
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setEnabled(false);     
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setEnabled(false);
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setEnabled(false);
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setEnabled(false); 
+        
     }
     public void habilitarTodosCheckInterfaz(){
         SOLICITUD_EQUIPOS_REGISTRAR.setEnabled(true);
@@ -2727,7 +2885,6 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         PROGRAMACION_EQUIPOS_CONSULTAR.setEnabled(true);
         PROGRAMACION_EQUIPOS_INACTIVAR.setEnabled(true);
         PROGRAMACION_EQUIPOS_ACTIVAR.setEnabled(true);
-        PROGRAMACION_EQUIPOS_DIRECTA.setEnabled(true);
         MODULO_CARBON_PROCESAR_REGISTROS.setEnabled(true);
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setEnabled(true);
         MODULO_CARBON_INACTIVAR_REGISTRO.setEnabled(true);
@@ -2815,7 +2972,19 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         APPMOVILEQUIPO_CERRAR_CICLO_EQUIPO.setEnabled(true);           
         CAUSA_INACTIVIDAD_REGISTRAR.setEnabled(true);
         CAUSA_INACTIVIDAD_CONSULTAR.setEnabled(true);
-        CAUSA_INACTIVIDAD_ACTUALIZAR.setEnabled(true);      
+        CAUSA_INACTIVIDAD_ACTUALIZAR.setEnabled(true);     
+        
+        
+        
+        ASIGNACION_EQUIPOS_EDITAR.setEnabled(true);
+        SOLICITUD_EQUIPOS_EDITAR.setEnabled(true);
+        PROGRAMACION_EQUIPOS_DIRECTA.setEnabled(true);
+        MODULO_CARBON_AGREGAR_REGISTRO.setEnabled(true);
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setEnabled(true);
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setEnabled(true);           
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setEnabled(true);
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setEnabled(true);
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setEnabled(true); 
     }
 }    
 

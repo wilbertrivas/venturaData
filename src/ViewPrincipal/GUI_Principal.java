@@ -1,89 +1,99 @@
 package ViewPrincipal;
 
 import Auditoria.View.Auditoria_Consultar;
-import Catalogo.View23.Cliente_Consultar;
-import Catalogo.View23.Cliente_Registrar;
-import Catalogo.View23.Cliente_RegistroSincronizado;
+import Catalogo.View1.Cliente_Consultar;
+import Catalogo.View1.Cliente_Registrar;
+import Catalogo.View1.Cliente_RegistroSincronizado;
 import Consumo.View.FondoPanel; 
-import Catalogo.View23.Articulo_Actualizar;
-import Catalogo.View23.Articulo_Consultar;
-import Catalogo.View23.CentroCostoAuxiliar_Actualizar;
-import Catalogo.View23.CentroCostoAuxiliar_Consultar; 
+import Catalogo.View1.Articulo_Actualizar;
+import Catalogo.View1.Articulo_Consultar;
+import Catalogo.View1.CentroCostoAuxiliar_Actualizar;
+import Catalogo.View1.CentroCostoAuxiliar_Consultar; 
 import Sistema.View2.Usuario_Registrar;
 import Sistema.Model.Usuario; 
-import Catalogo.View23.CentroCostoAuxiliar_Registrar;
-import Catalogo.View23.CentroCostoSubCentro_Registrar;
-import Catalogo.View23.CentroCostoSubcentro_Actualizar;
-import Catalogo.View23.CentroCostoSubcentro_Consultar;
-import Catalogo.View23.CentroOperacion_Actualizar;
-import Catalogo.View23.CentroOperacion_Consultar;
-import Catalogo.View23.CentroOperacion_Registrar;
-import Catalogo.View23.Motonave_Actualizar;
-import Catalogo.View23.Motonave_Consultar;
-import Catalogo.View23.Motonave_Registrar;
-import Catalogo.View23.Motonave_RegistroSincronizado;
-import Catalogo.View23.Articulo_Registrar;
-import Catalogo.View23.Articulo_RegistroSincronizado;
-import Catalogo.View23.Cuadrilla_Consultar;
-import Catalogo.View23.Cuadrilla_Registrar;
-import ModuloCarbon.View.MvtoCarbon_Procesar;
-import Catalogo.View23.Transportadora_Actualizar;
-import Catalogo.View23.Transportadora_Consultar;
-import Catalogo.View23.Transportadora_Registrar;
-import Catalogo.View23.Transportadora_RegistroSincronizado;
-import Catalogo.View23.Compañia_Registrar;
-import Catalogo.View23.Compañias_Actualizar;
-import Catalogo.View23.Compañias_Consultar;
-import Catalogo.View23.Equipo_Actualizar;
-import Catalogo.View23.Equipo_Consultar;
-import Catalogo.View23.Equipo_Registrar;
-import Catalogo.View23.Equipo_RegistroSincronizado;
-import Catalogo.View23.PertenenciaEquipo_Actualizar;
-import Catalogo.View23.PertenenciaEquipo_Consultar;
-import Catalogo.View23.ActividadOperacion_Registrar;
-import Catalogo.View23.CausaInactividad_Actualizar;
-import Catalogo.View23.CausaInactividad_Consultar;
-import Catalogo.View23.CausaInactividad_Registrar;
-import Catalogo.View23.CentroCostoMayor_Actualizar;
-import Catalogo.View23.CentroCostoMayor_Consultar;
-import Catalogo.View23.CentroCostoMayor_Registrar;
-import Catalogo.View23.CentroCosto_Actualizar;
-import Catalogo.View23.CentroCosto_Consultar;
-import Catalogo.View23.CentroCosto_Registrar;
-import ModuloEquipo.View.AsignacionEquipo_Inactivar;
-import ModuloEquipo.View.AsignacionCronograma;
-import ModuloEquipo.View.Solicitud_Equipos_Confirmacion;
-import ModuloEquipo.View.AsignacionEquipo_Registrar;
-import Catalogo.View23.Equipo_Tarifa;
-import Catalogo.View23.LaborRealizada_Actualizar;
-import Catalogo.View23.LaborRealizada_Consultar;
-import Catalogo.View23.LaborRealizada_Registrar;
-import Catalogo.View23.MotivoParada_Actualizar;
-import Catalogo.View23.MotivoParada_Consultar;
-import Catalogo.View23.MotivoParada_Registrar;
-import ModuloEquipo.View.MvtoEquipo_AutorizarRecobro;
-import Catalogo.View23.ProveedorEquipo_Actualizar;
-import Catalogo.View23.ProveedorEquipo_Consultar;
-import Catalogo.View23.ProveedorEquipo_Registrar;
-import ModuloEquipo.View.Solicitud_Equipos_Registrar;
-import Catalogo.View23.TipoEquipo_Actualizar;
-import Catalogo.View23.TipoEquipo_Consultar;
-import Catalogo.View23.TipoEquipo_Registrar;
-import ModuloCarbon.View.MvtoCarbon_Activar_Final;
-import ModuloCarbon.View.MvtoCarbon_GenerarMatriz;
-import ModuloCarbon.View.MvtoCarbon_Inactivar_Final;
-import ModuloCarbon.View.MvtoCarbon_LavadoVehículo;
-import ModuloCarbon.View.MvtoCarbon_ModificarFinal;
-import ModuloCarbon.View.MvtoCarbon_ProcesarProgramado;
-import ModuloEquipo.View.AsignacionEquipo_Activar;
-import ModuloEquipo.View.MvtoEquipo_ActivarEquipo;
-import ModuloEquipo.View.MvtoEquipo_InactivarEquipo;
-import ModuloEquipo.View.MvtoEquipo_InformeMatriz;
-import ModuloEquipo.View.MvtoEquipo_ModificarFinal;
-import ModuloEquipo.View.MvtoEquipo_Procesar_Programado;
-import ModuloEquipo.View.MvtoEquipo_Procesar;
-import ModuloEquipo.View.RendimientoEquipo;
-import ModuloEquipo.View.Rendimiento_InformeEquipo;
+import Catalogo.View1.CentroCostoAuxiliar_Registrar;
+import Catalogo.View1.CentroCostoSubCentro_Registrar;
+import Catalogo.View1.CentroCostoSubcentro_Actualizar;
+import Catalogo.View1.CentroCostoSubcentro_Consultar;
+import Catalogo.View1.CentroOperacion_Actualizar;
+import Catalogo.View1.CentroOperacion_Consultar;
+import Catalogo.View1.CentroOperacion_Registrar;
+import Catalogo.View1.Motonave_Actualizar;
+import Catalogo.View1.Motonave_Consultar;
+import Catalogo.View1.Motonave_Registrar;
+import Catalogo.View1.Motonave_RegistroSincronizado;
+import Catalogo.View1.Articulo_Registrar;
+import Catalogo.View1.Articulo_RegistroSincronizado;
+import Catalogo.View1.Cuadrilla_Consultar;
+import Catalogo.View1.Cuadrilla_Registrar;
+import ModuloCarbon.View2.MvtoCarbon_Procesar;
+import Catalogo.View1.Transportadora_Actualizar;
+import Catalogo.View1.Transportadora_Consultar;
+import Catalogo.View1.Transportadora_Registrar;
+import Catalogo.View1.Transportadora_RegistroSincronizado;
+import Catalogo.View1.Compañia_Registrar;
+import Catalogo.View1.Compañias_Actualizar;
+import Catalogo.View1.Compañias_Consultar;
+import Catalogo.View1.Equipo_Actualizar;
+import Catalogo.View1.Equipo_Consultar;
+import Catalogo.View1.Equipo_Registrar;
+import Catalogo.View1.Equipo_RegistroSincronizado;
+import Catalogo.View1.PertenenciaEquipo_Actualizar;
+import Catalogo.View1.PertenenciaEquipo_Consultar;
+import Catalogo.View1.ActividadOperacion_Registrar;
+import Catalogo.View1.CausaInactividad_Actualizar;
+import Catalogo.View1.CausaInactividad_Consultar;
+import Catalogo.View1.CausaInactividad_Registrar;
+import Catalogo.View1.CentroCostoMayor_Actualizar;
+import Catalogo.View1.CentroCostoMayor_Consultar;
+import Catalogo.View1.CentroCostoMayor_Registrar;
+import Catalogo.View1.CentroCosto_Actualizar;
+import Catalogo.View1.CentroCosto_Consultar;
+import Catalogo.View1.CentroCosto_Registrar;
+import ModuloEquipo.View2.AsignacionEquipo_Inactivar;
+import ModuloEquipo.View2.AsignacionCronograma;
+import ModuloEquipo.View2.Solicitud_Equipos_Confirmacion;
+import ModuloEquipo.View2.AsignacionEquipo_Registrar;
+import Catalogo.View1.Equipo_Tarifa;
+import Catalogo.View1.LaborRealizada_Actualizar;
+import Catalogo.View1.LaborRealizada_Consultar;
+import Catalogo.View1.LaborRealizada_Registrar;
+import Catalogo.View1.MotivoNoLavado_Actualizar;
+import Catalogo.View1.MotivoNoLavado_Consultar;
+//import Catalogo.View1.MotivoNoLavado_Registrar;
+import Catalogo.View1.MotivoParada_Actualizar;
+import Catalogo.View1.MotivoParada_Consultar;
+import Catalogo.View1.MotivoParada_Registrar;
+import ModuloEquipo.View2.MvtoEquipo_AutorizarRecobro;
+import Catalogo.View1.ProveedorEquipo_Actualizar;
+import Catalogo.View1.ProveedorEquipo_Consultar;
+import Catalogo.View1.ProveedorEquipo_Registrar;
+import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import Catalogo.View1.TipoEquipo_Actualizar;
+import Catalogo.View1.TipoEquipo_Consultar;
+import Catalogo.View1.TipoEquipo_Registrar;
+import ConnectionDB2.Conexion_DB_costos_vg;
+import ModuloCarbon.View2.MvtoCarbon_Activar_Final;
+import ModuloCarbon.View2.MvtoCarbon_AgregarRegistro;
+import ModuloCarbon.View2.MvtoCarbon_DebitoZonaTrabajo;
+import ModuloCarbon.View2.MvtoCarbon_GenerarMatriz;
+import ModuloCarbon.View2.MvtoCarbon_Inactivar_Final;
+import ModuloCarbon.View2.MvtoCarbon_MatrizDistribucion;
+import ModuloCarbon.View2.MvtoCarbon_ModificarFinal;
+import ModuloCarbon.View2.MvtoCarbon_ProcesarProgramado;
+import ModuloEquipo.View2.AsignacionEquipo_Activar;
+import ModuloEquipo.View2.AsignacionEquipo_Consultar;
+import ModuloEquipo.View2.MvtoEquipo_ActivarEquipo;
+import ModuloEquipo.View2.MvtoEquipo_Agregar;
+import ModuloEquipo.View2.MvtoEquipo_InactivarEquipo;
+import ModuloEquipo.View2.MvtoEquipo_InformeMatriz;
+import ModuloEquipo.View2.MvtoEquipo_MatrizDistribucion;
+import ModuloEquipo.View2.MvtoEquipo_ModificarFinal;
+import ModuloEquipo.View2.MvtoEquipo_Procesar_Programado;
+import ModuloEquipo.View2.MvtoEquipo_Procesar;
+import ModuloEquipo.View2.Programacion_Directa;
+import ModuloEquipo.View2.RendimientoEquipo;
+import ModuloEquipo.View2.Rendimiento_InformeEquipo;
 import Sistema.Controller.ControlDB_Sistema;
 import Sistema.View2.Perfil_Actualizar;
 import Sistema.View2.Perfil_Consultar;
@@ -113,6 +123,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         initComponents();
         tipoConexion="";
         
+        this.setTitle("VENTURADATA                                            DB:"+new Conexion_DB_costos_vg(tipoConexion).getBaseDeDatos());
         //con esto obtienes en tamano en en x y y de tu monitor
         dim=super.getToolkit().getScreenSize();
         //super.setSize(dim); 
@@ -124,8 +135,8 @@ public final class GUI_Principal extends javax.swing.JFrame {
         this.setSize(dim.width, dim.height);
         
           UIManager.put("jMenuBar1.background", Color.ORANGE);
-        
-        }
+        //
+    }
     
     public void cargarUsuario(Usuario userT, String tipoConexion) throws ParseException, UnknownHostException, SocketException{
         user = userT;
@@ -140,6 +151,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
             Logger.getLogger(Permiso_Usuario.class.getName()).log(Level.SEVERE, null, ex);
         }
         panel.setViewportView(new Panel_Informativo("Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip));
+        //panel.setViewportView(new PanelControl(tipoConexion,"Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip));
     
         //userOnline.setText("Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip);   
         //Registramos el ingreso al sistema
@@ -168,18 +180,24 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu32 = new javax.swing.JMenu();
         ASIGNACION_EQUIPOS_REGISTRAR = new javax.swing.JMenuItem();
         ASIGNACION_EQUIPOS_CONFIRMACION = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         PROGRAMACION_EQUIPOS_CONSULTAR = new javax.swing.JMenuItem();
         PROGRAMACION_EQUIPOS_INACTIVAR = new javax.swing.JMenuItem();
         PROGRAMACION_EQUIPOS_ACTIVAR = new javax.swing.JMenuItem();
         PROGRAMACION_EQUIPOS_DIRECTA = new javax.swing.JMenuItem();
+        ASIGNACION_EQUIPOS_EDITAR = new javax.swing.JMenuItem();
+        SOLICITUD_EQUIPOS_EDITAR = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         MODULO_CARBON_PROCESAR_REGISTROS = new javax.swing.JMenuItem();
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS = new javax.swing.JMenuItem();
         MODULO_CARBON_INACTIVAR_REGISTRO = new javax.swing.JMenuItem();
         MODULO_CARBON_ACTIVAR_REGISTRO = new javax.swing.JMenuItem();
-        MODULO_CARBON_LAVADO_VEHICULOS = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         MODULO_CARBON_GENERAR_MATRIZ = new javax.swing.JMenuItem();
+        MODULO_CARBON_AGREGAR_REGISTRO = new javax.swing.JMenuItem();
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO = new javax.swing.JMenuItem();
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO = new javax.swing.JMenuItem();
+        MODULO_CARBON_GENERAR_DISTRIBUCION = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         MODULO_EQUIPO_PROCESAR_REGISTROS = new javax.swing.JMenuItem();
         MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS = new javax.swing.JMenuItem();
@@ -191,6 +209,8 @@ public final class GUI_Principal extends javax.swing.JFrame {
         MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         MODULO_EQUIPO_GENERAR_MATRIZ = new javax.swing.JMenuItem();
+        MODULO_EQUIPO_AGREGAR_REGISTRO = new javax.swing.JMenuItem();
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION = new javax.swing.JMenuItem();
         jMenu12 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenu14 = new javax.swing.JMenu();
@@ -285,6 +305,16 @@ public final class GUI_Principal extends javax.swing.JFrame {
         CAUSA_INACTIVIDAD_REGISTRAR = new javax.swing.JMenuItem();
         CAUSA_INACTIVIDAD_CONSULTAR = new javax.swing.JMenuItem();
         CAUSA_INACTIVIDAD_ACTUALIZAR = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu9 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         jMenu21 = new javax.swing.JMenu();
         jMenu17 = new javax.swing.JMenu();
         Zoom50 = new javax.swing.JMenuItem();
@@ -305,14 +335,14 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
         jMenuBar1.setPreferredSize(new java.awt.Dimension(327, 35));
 
-        jMenu41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menu_programacion.png"))); // NOI18N
+        jMenu41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_programacion3.png"))); // NOI18N
         jMenu41.setText("PROGRAMACIÓN");
 
         jMenu39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_equipoMovil.png"))); // NOI18N
         jMenu39.setText("Equipo");
         jMenu39.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        jMenu31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_solicitud2.png"))); // NOI18N
         jMenu31.setText("Solicitud");
         jMenu31.setPreferredSize(new java.awt.Dimension(350, 30));
 
@@ -328,7 +358,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu39.add(jMenu31);
 
-        jMenu32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_asignacion3.png"))); // NOI18N
         jMenu32.setText("Asignación");
         jMenu32.setPreferredSize(new java.awt.Dimension(180, 30));
         jMenu32.addActionListener(new java.awt.event.ActionListener() {
@@ -357,9 +387,19 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu32.add(ASIGNACION_EQUIPOS_CONFIRMACION);
 
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem7.setText("Consultar");
+        jMenuItem7.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu32.add(jMenuItem7);
+
         jMenu39.add(jMenu32);
 
-        PROGRAMACION_EQUIPOS_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        PROGRAMACION_EQUIPOS_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_consultarProgramacion2.png"))); // NOI18N
         PROGRAMACION_EQUIPOS_CONSULTAR.setText("Consultar Programación");
         PROGRAMACION_EQUIPOS_CONSULTAR.setPreferredSize(new java.awt.Dimension(180, 30));
         PROGRAMACION_EQUIPOS_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -369,7 +409,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu39.add(PROGRAMACION_EQUIPOS_CONSULTAR);
 
-        PROGRAMACION_EQUIPOS_INACTIVAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        PROGRAMACION_EQUIPOS_INACTIVAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_inactivar.png"))); // NOI18N
         PROGRAMACION_EQUIPOS_INACTIVAR.setText("Inactivar Programación");
         PROGRAMACION_EQUIPOS_INACTIVAR.setPreferredSize(new java.awt.Dimension(180, 30));
         PROGRAMACION_EQUIPOS_INACTIVAR.addActionListener(new java.awt.event.ActionListener() {
@@ -379,7 +419,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu39.add(PROGRAMACION_EQUIPOS_INACTIVAR);
 
-        PROGRAMACION_EQUIPOS_ACTIVAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        PROGRAMACION_EQUIPOS_ACTIVAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_activar.png"))); // NOI18N
         PROGRAMACION_EQUIPOS_ACTIVAR.setText("Activar Programación");
         PROGRAMACION_EQUIPOS_ACTIVAR.setPreferredSize(new java.awt.Dimension(180, 30));
         PROGRAMACION_EQUIPOS_ACTIVAR.addActionListener(new java.awt.event.ActionListener() {
@@ -389,10 +429,25 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu39.add(PROGRAMACION_EQUIPOS_ACTIVAR);
 
-        PROGRAMACION_EQUIPOS_DIRECTA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        PROGRAMACION_EQUIPOS_DIRECTA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_programacionDirecta.png"))); // NOI18N
         PROGRAMACION_EQUIPOS_DIRECTA.setText("Programación directa");
         PROGRAMACION_EQUIPOS_DIRECTA.setPreferredSize(new java.awt.Dimension(180, 30));
+        PROGRAMACION_EQUIPOS_DIRECTA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PROGRAMACION_EQUIPOS_DIRECTAActionPerformed(evt);
+            }
+        });
         jMenu39.add(PROGRAMACION_EQUIPOS_DIRECTA);
+
+        ASIGNACION_EQUIPOS_EDITAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_editarAsignacion.png"))); // NOI18N
+        ASIGNACION_EQUIPOS_EDITAR.setText("Editar Asignación");
+        ASIGNACION_EQUIPOS_EDITAR.setPreferredSize(new java.awt.Dimension(180, 30));
+        jMenu39.add(ASIGNACION_EQUIPOS_EDITAR);
+
+        SOLICITUD_EQUIPOS_EDITAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_editarAsignacion.png"))); // NOI18N
+        SOLICITUD_EQUIPOS_EDITAR.setText("Editar Solicitudes");
+        SOLICITUD_EQUIPOS_EDITAR.setPreferredSize(new java.awt.Dimension(180, 30));
+        jMenu39.add(SOLICITUD_EQUIPOS_EDITAR);
 
         jMenu41.add(jMenu39);
 
@@ -402,7 +457,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu4.setText("MODULO CARBÓN");
         jMenu4.setPreferredSize(new java.awt.Dimension(180, 20));
 
-        MODULO_CARBON_PROCESAR_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_CARBON_PROCESAR_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_procesar.png"))); // NOI18N
         MODULO_CARBON_PROCESAR_REGISTROS.setText("Procesar Registros");
         MODULO_CARBON_PROCESAR_REGISTROS.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_CARBON_PROCESAR_REGISTROS.addActionListener(new java.awt.event.ActionListener() {
@@ -412,7 +467,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu4.add(MODULO_CARBON_PROCESAR_REGISTROS);
 
-        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_procesarProgramado2.png"))); // NOI18N
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setText("Programar Procesamiento Registros");
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.addActionListener(new java.awt.event.ActionListener() {
@@ -422,7 +477,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu4.add(MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS);
 
-        MODULO_CARBON_INACTIVAR_REGISTRO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_CARBON_INACTIVAR_REGISTRO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_inactivar2.png"))); // NOI18N
         MODULO_CARBON_INACTIVAR_REGISTRO.setText("Inactivar Registros MvtoCarbón");
         MODULO_CARBON_INACTIVAR_REGISTRO.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_CARBON_INACTIVAR_REGISTRO.addActionListener(new java.awt.event.ActionListener() {
@@ -432,7 +487,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu4.add(MODULO_CARBON_INACTIVAR_REGISTRO);
 
-        MODULO_CARBON_ACTIVAR_REGISTRO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_CARBON_ACTIVAR_REGISTRO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_activar3.png"))); // NOI18N
         MODULO_CARBON_ACTIVAR_REGISTRO.setText("Activar Registros MvtoCarbón");
         MODULO_CARBON_ACTIVAR_REGISTRO.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_CARBON_ACTIVAR_REGISTRO.addActionListener(new java.awt.event.ActionListener() {
@@ -442,17 +497,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu4.add(MODULO_CARBON_ACTIVAR_REGISTRO);
 
-        MODULO_CARBON_LAVADO_VEHICULOS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
-        MODULO_CARBON_LAVADO_VEHICULOS.setText("Lavado Vehículos");
-        MODULO_CARBON_LAVADO_VEHICULOS.setPreferredSize(new java.awt.Dimension(350, 30));
-        MODULO_CARBON_LAVADO_VEHICULOS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MODULO_CARBON_LAVADO_VEHICULOSActionPerformed(evt);
-            }
-        });
-        jMenu4.add(MODULO_CARBON_LAVADO_VEHICULOS);
-
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_editarAsignacion.png"))); // NOI18N
         jMenuItem3.setText("Modificar Registros");
         jMenuItem3.setPreferredSize(new java.awt.Dimension(350, 30));
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -462,7 +507,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem3);
 
-        MODULO_CARBON_GENERAR_MATRIZ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_CARBON_GENERAR_MATRIZ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Matriz2.png"))); // NOI18N
         MODULO_CARBON_GENERAR_MATRIZ.setText("Generar Matriz MvtoCarbón");
         MODULO_CARBON_GENERAR_MATRIZ.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_CARBON_GENERAR_MATRIZ.addActionListener(new java.awt.event.ActionListener() {
@@ -472,13 +517,48 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu4.add(MODULO_CARBON_GENERAR_MATRIZ);
 
+        MODULO_CARBON_AGREGAR_REGISTRO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_agregar.png"))); // NOI18N
+        MODULO_CARBON_AGREGAR_REGISTRO.setText("Agregar MvtoCarbón");
+        MODULO_CARBON_AGREGAR_REGISTRO.setPreferredSize(new java.awt.Dimension(350, 30));
+        MODULO_CARBON_AGREGAR_REGISTRO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODULO_CARBON_AGREGAR_REGISTROActionPerformed(evt);
+            }
+        });
+        jMenu4.add(MODULO_CARBON_AGREGAR_REGISTRO);
+
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Debito.png"))); // NOI18N
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setText("Registrar Debito En ZonaTrabajo");
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.setPreferredSize(new java.awt.Dimension(350, 30));
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJOActionPerformed(evt);
+            }
+        });
+        jMenu4.add(MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO);
+
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Recaudo.png"))); // NOI18N
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setText("Informe Recaudo x Lavado Vehículo");
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setPreferredSize(new java.awt.Dimension(350, 30));
+        jMenu4.add(MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO);
+
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_distribucion.png"))); // NOI18N
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setText("Distribución MvtoCarbón");
+        MODULO_CARBON_GENERAR_DISTRIBUCION.setPreferredSize(new java.awt.Dimension(350, 30));
+        MODULO_CARBON_GENERAR_DISTRIBUCION.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODULO_CARBON_GENERAR_DISTRIBUCIONActionPerformed(evt);
+            }
+        });
+        jMenu4.add(MODULO_CARBON_GENERAR_DISTRIBUCION);
+
         jMenuBar1.add(jMenu4);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_equipoMovil.png"))); // NOI18N
         jMenu3.setText("MODULO EQUIPO");
         jMenu3.setPreferredSize(new java.awt.Dimension(150, 20));
 
-        MODULO_EQUIPO_PROCESAR_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_EQUIPO_PROCESAR_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_procesar.png"))); // NOI18N
         MODULO_EQUIPO_PROCESAR_REGISTROS.setText("Procesar Registros MvtoEquipo");
         MODULO_EQUIPO_PROCESAR_REGISTROS.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_EQUIPO_PROCESAR_REGISTROS.addActionListener(new java.awt.event.ActionListener() {
@@ -488,7 +568,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu3.add(MODULO_EQUIPO_PROCESAR_REGISTROS);
 
-        MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_procesarProgramado2.png"))); // NOI18N
         MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS.setText("Programar Procesamiento Registros");
         MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS.addActionListener(new java.awt.event.ActionListener() {
@@ -498,7 +578,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu3.add(MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS);
 
-        MODULO_EQUIPO_AUTORIZAR_RECOBRO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_EQUIPO_AUTORIZAR_RECOBRO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/select_check.png"))); // NOI18N
         MODULO_EQUIPO_AUTORIZAR_RECOBRO.setText("Autorización Recobro");
         MODULO_EQUIPO_AUTORIZAR_RECOBRO.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_EQUIPO_AUTORIZAR_RECOBRO.addActionListener(new java.awt.event.ActionListener() {
@@ -508,7 +588,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu3.add(MODULO_EQUIPO_AUTORIZAR_RECOBRO);
 
-        MODULO_EQUIPO_ACTIVAR_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_EQUIPO_ACTIVAR_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_activar3.png"))); // NOI18N
         MODULO_EQUIPO_ACTIVAR_REGISTROS.setText("Activar Registros MvtoEquipo");
         MODULO_EQUIPO_ACTIVAR_REGISTROS.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_EQUIPO_ACTIVAR_REGISTROS.addActionListener(new java.awt.event.ActionListener() {
@@ -518,7 +598,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu3.add(MODULO_EQUIPO_ACTIVAR_REGISTROS);
 
-        MODULO_EQUIPO_INACTIVAR_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_EQUIPO_INACTIVAR_REGISTROS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_inactivar2.png"))); // NOI18N
         MODULO_EQUIPO_INACTIVAR_REGISTROS.setText("Inactivar Registros MvtoEquipo");
         MODULO_EQUIPO_INACTIVAR_REGISTROS.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_EQUIPO_INACTIVAR_REGISTROS.addActionListener(new java.awt.event.ActionListener() {
@@ -528,7 +608,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu3.add(MODULO_EQUIPO_INACTIVAR_REGISTROS);
 
-        jMenu30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_rendimiento3.png"))); // NOI18N
         jMenu30.setText("Rendimiento Equipos");
         jMenu30.setPreferredSize(new java.awt.Dimension(350, 30));
 
@@ -554,7 +634,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu3.add(jMenu30);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_editarAsignacion.png"))); // NOI18N
         jMenuItem2.setText("Modificar Registros");
         jMenuItem2.setPreferredSize(new java.awt.Dimension(350, 30));
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -564,7 +644,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem2);
 
-        MODULO_EQUIPO_GENERAR_MATRIZ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_EQUIPO_GENERAR_MATRIZ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Matriz2.png"))); // NOI18N
         MODULO_EQUIPO_GENERAR_MATRIZ.setText("Generar Matriz MvtoEquipo");
         MODULO_EQUIPO_GENERAR_MATRIZ.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_EQUIPO_GENERAR_MATRIZ.addActionListener(new java.awt.event.ActionListener() {
@@ -573,6 +653,26 @@ public final class GUI_Principal extends javax.swing.JFrame {
             }
         });
         jMenu3.add(MODULO_EQUIPO_GENERAR_MATRIZ);
+
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_agregar.png"))); // NOI18N
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setText("Agregar MvtoEquipo");
+        MODULO_EQUIPO_AGREGAR_REGISTRO.setPreferredSize(new java.awt.Dimension(350, 30));
+        MODULO_EQUIPO_AGREGAR_REGISTRO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed(evt);
+            }
+        });
+        jMenu3.add(MODULO_EQUIPO_AGREGAR_REGISTRO);
+
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_distribucion.png"))); // NOI18N
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setText("Distribución MvtoEquipo");
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.setPreferredSize(new java.awt.Dimension(350, 30));
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODULO_EQUIPO_GENERAR_DISTRIBUCIONActionPerformed(evt);
+            }
+        });
+        jMenu3.add(MODULO_EQUIPO_GENERAR_DISTRIBUCION);
 
         jMenuBar1.add(jMenu3);
 
@@ -592,7 +692,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         AUDITORIA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
         AUDITORIA_CONSULTAR.setText("Consultar");
-        AUDITORIA_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
+        AUDITORIA_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
         AUDITORIA_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AUDITORIA_CONSULTARActionPerformed(evt);
@@ -1013,7 +1113,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu11.add(CLIENTE_ACTUALIZAR);
 
         CLIENTE_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
-        CLIENTE_REGISTRO_CCARGA.setText("Clientes Ccarga GP");
+        CLIENTE_REGISTRO_CCARGA.setText("Clientes Ccarga");
         CLIENTE_REGISTRO_CCARGA.setPreferredSize(new java.awt.Dimension(250, 30));
         CLIENTE_REGISTRO_CCARGA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1399,6 +1499,73 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu35);
 
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu7.setText("Motivos_NoLavadoVehículo");
+        jMenu7.setPreferredSize(new java.awt.Dimension(150, 30));
+
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem4.setText("Registrar");
+        jMenuItem4.setPreferredSize(new java.awt.Dimension(240, 30));
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem4);
+
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem5.setText("Consultar");
+        jMenuItem5.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem5);
+
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem6.setText("Actualizar");
+        jMenuItem6.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem6);
+
+        jMenu13.add(jMenu7);
+
+        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu9.setText("Zona_Trabajo");
+        jMenu9.setPreferredSize(new java.awt.Dimension(150, 30));
+
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem8.setText("Registrar");
+        jMenuItem8.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenu9.add(jMenuItem8);
+
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem9.setText("Consultar");
+        jMenuItem9.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenu9.add(jMenuItem9);
+
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem11.setText("Actualizar");
+        jMenuItem11.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenu9.add(jMenuItem11);
+
+        jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem12.setText("Añadir_Sitio");
+        jMenuItem12.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenu9.add(jMenuItem12);
+
+        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem13.setText("Inactivar_Sitio");
+        jMenuItem13.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenu9.add(jMenuItem13);
+
+        jMenu13.add(jMenu9);
+
         jMenuBar1.add(jMenu13);
 
         jMenu21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_sistema.png"))); // NOI18N
@@ -1648,7 +1815,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_MOTONAVE_REGISTRARActionPerformed
 
     private void MOTONAVE_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOTONAVE_CONSULTARActionPerformed
-        panel.setViewportView(new Motonave_Consultar(tipoConexion));
+        panel.setViewportView(new Motonave_Consultar(user, tipoConexion));
     }//GEN-LAST:event_MOTONAVE_CONSULTARActionPerformed
 
     private void MOTONAVE_ACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MOTONAVE_ACTUALIZARActionPerformed
@@ -1664,7 +1831,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_TRANSPORTADORA_REGISTRARActionPerformed
 
     private void TRANSPORTADORA_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TRANSPORTADORA_CONSULTARActionPerformed
-        panel.setViewportView(new Transportadora_Consultar(tipoConexion));
+        panel.setViewportView(new Transportadora_Consultar(user, tipoConexion));
     }//GEN-LAST:event_TRANSPORTADORA_CONSULTARActionPerformed
 
     private void TRANSPORTADORA_ACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TRANSPORTADORA_ACTUALIZARActionPerformed
@@ -1680,7 +1847,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_ARTICULO_REGISTRARActionPerformed
 
     private void ARTICULO_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ARTICULO_CONSULTARActionPerformed
-        panel.setViewportView(new Articulo_Consultar(tipoConexion));
+        panel.setViewportView(new Articulo_Consultar(user, tipoConexion));
     }//GEN-LAST:event_ARTICULO_CONSULTARActionPerformed
 
     private void ARTICULO_ACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ARTICULO_ACTUALIZARActionPerformed
@@ -1833,7 +2000,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_CENTROCOSTO_REGISTRARActionPerformed
 
     private void CENTROCOSTO_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CENTROCOSTO_CONSULTARActionPerformed
-        panel.setViewportView(new CentroCosto_Consultar(tipoConexion));
+        panel.setViewportView(new CentroCosto_Consultar(user, tipoConexion));
     }//GEN-LAST:event_CENTROCOSTO_CONSULTARActionPerformed
 
     private void CENTROCOSTO_ACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CENTROCOSTO_ACTUALIZARActionPerformed
@@ -1881,7 +2048,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_CENTROCOSTOMAYOR_REGISTRARActionPerformed
 
     private void CENTROCOSTOMAYOR_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CENTROCOSTOMAYOR_CONSULTARActionPerformed
-        panel.setViewportView(new CentroCostoMayor_Consultar(tipoConexion));
+        panel.setViewportView(new CentroCostoMayor_Consultar(user,tipoConexion));
     }//GEN-LAST:event_CENTROCOSTOMAYOR_CONSULTARActionPerformed
 
     private void CENTROCOSTOMAYOR_ACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CENTROCOSTOMAYOR_ACTUALIZARActionPerformed
@@ -1896,10 +2063,6 @@ public final class GUI_Principal extends javax.swing.JFrame {
         panel.setViewportView(new MvtoEquipo_Procesar_Programado(user,tipoConexion));
     }//GEN-LAST:event_MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROSActionPerformed
 
-    private void MODULO_CARBON_LAVADO_VEHICULOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_CARBON_LAVADO_VEHICULOSActionPerformed
-        panel.setViewportView(new MvtoCarbon_LavadoVehículo(user,tipoConexion));
-    }//GEN-LAST:event_MODULO_CARBON_LAVADO_VEHICULOSActionPerformed
-
     private void jMenuItem10ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jMenuItem10ItemStateChanged
         
     }//GEN-LAST:event_jMenuItem10ItemStateChanged
@@ -1911,6 +2074,50 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         panel.setViewportView(new MvtoCarbon_ModificarFinal(user,tipoConexion));
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        //panel.setViewportView(new MotivoNoLavado_Registrar(user,tipoConexion));
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        panel.setViewportView(new MotivoNoLavado_Consultar(tipoConexion));
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        panel.setViewportView(new MotivoNoLavado_Actualizar(user,tipoConexion));
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        try {
+            panel.setViewportView(new AsignacionEquipo_Consultar(user,tipoConexion));
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void PROGRAMACION_EQUIPOS_DIRECTAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PROGRAMACION_EQUIPOS_DIRECTAActionPerformed
+        panel.setViewportView(new Programacion_Directa(user,tipoConexion));
+    }//GEN-LAST:event_PROGRAMACION_EQUIPOS_DIRECTAActionPerformed
+
+    private void MODULO_CARBON_AGREGAR_REGISTROActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_CARBON_AGREGAR_REGISTROActionPerformed
+        panel.setViewportView(new MvtoCarbon_AgregarRegistro(user,tipoConexion));
+    }//GEN-LAST:event_MODULO_CARBON_AGREGAR_REGISTROActionPerformed
+
+    private void MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed
+        panel.setViewportView(new MvtoEquipo_Agregar(user,tipoConexion));
+    }//GEN-LAST:event_MODULO_EQUIPO_AGREGAR_REGISTROActionPerformed
+
+    private void MODULO_EQUIPO_GENERAR_DISTRIBUCIONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_EQUIPO_GENERAR_DISTRIBUCIONActionPerformed
+        panel.setViewportView(new MvtoEquipo_MatrizDistribucion(user, tipoConexion));
+    }//GEN-LAST:event_MODULO_EQUIPO_GENERAR_DISTRIBUCIONActionPerformed
+
+    private void MODULO_CARBON_GENERAR_DISTRIBUCIONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_CARBON_GENERAR_DISTRIBUCIONActionPerformed
+        panel.setViewportView(new MvtoCarbon_MatrizDistribucion(user, tipoConexion));
+    }//GEN-LAST:event_MODULO_CARBON_GENERAR_DISTRIBUCIONActionPerformed
+
+    private void MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJOActionPerformed
+        panel.setViewportView(new MvtoCarbon_DebitoZonaTrabajo(user, tipoConexion));
+    }//GEN-LAST:event_MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJOActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1953,6 +2160,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem ARTICULO_REGISTRAR;
     private javax.swing.JMenuItem ARTICULO_REGISTRO_CCARGA;
     private javax.swing.JMenuItem ASIGNACION_EQUIPOS_CONFIRMACION;
+    private javax.swing.JMenuItem ASIGNACION_EQUIPOS_EDITAR;
     private javax.swing.JMenuItem ASIGNACION_EQUIPOS_REGISTRAR;
     private javax.swing.JMenuItem AUDITORIA_CONSULTAR;
     private javax.swing.JMenuItem CAUSA_INACTIVIDAD_ACTUALIZAR;
@@ -1998,13 +2206,18 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem LABOR_REALIZADA_CONSULTAR;
     private javax.swing.JMenuItem LABOR_REALIZADA_REGISTRAR;
     private javax.swing.JMenuItem MODULO_CARBON_ACTIVAR_REGISTRO;
+    private javax.swing.JMenuItem MODULO_CARBON_AGREGAR_REGISTRO;
+    private javax.swing.JMenuItem MODULO_CARBON_GENERAR_DISTRIBUCION;
+    private javax.swing.JMenuItem MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO;
     private javax.swing.JMenuItem MODULO_CARBON_GENERAR_MATRIZ;
     private javax.swing.JMenuItem MODULO_CARBON_INACTIVAR_REGISTRO;
-    private javax.swing.JMenuItem MODULO_CARBON_LAVADO_VEHICULOS;
     private javax.swing.JMenuItem MODULO_CARBON_PROCESAR_REGISTROS;
     private javax.swing.JMenuItem MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS;
+    private javax.swing.JMenuItem MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO;
     private javax.swing.JMenuItem MODULO_EQUIPO_ACTIVAR_REGISTROS;
+    private javax.swing.JMenuItem MODULO_EQUIPO_AGREGAR_REGISTRO;
     private javax.swing.JMenuItem MODULO_EQUIPO_AUTORIZAR_RECOBRO;
+    private javax.swing.JMenuItem MODULO_EQUIPO_GENERAR_DISTRIBUCION;
     private javax.swing.JMenuItem MODULO_EQUIPO_GENERAR_MATRIZ;
     private javax.swing.JMenuItem MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO;
     private javax.swing.JMenuItem MODULO_EQUIPO_INACTIVAR_REGISTROS;
@@ -2026,6 +2239,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem PROGRAMACION_EQUIPOS_CONSULTAR;
     private javax.swing.JMenuItem PROGRAMACION_EQUIPOS_DIRECTA;
     private javax.swing.JMenuItem PROGRAMACION_EQUIPOS_INACTIVAR;
+    private javax.swing.JMenuItem SOLICITUD_EQUIPOS_EDITAR;
     private javax.swing.JMenuItem SOLICITUD_EQUIPOS_REGISTRAR;
     private javax.swing.JMenuItem SUBCENTROOPERACION_ACTUALIZAR;
     private javax.swing.JMenuItem SUBCENTROOPERACION_CONSULTAR;
@@ -2075,12 +2289,23 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu41;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane panel;
     // End of variables declaration//GEN-END:variables
     public void validarMenu(Usuario us){        
@@ -2111,10 +2336,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
                     PROGRAMACION_EQUIPOS_ACTIVAR.show(true);
                     break;
                 }
-                case "PROGRAMACION_EQUIPOS_DIRECTA":{
-                    PROGRAMACION_EQUIPOS_DIRECTA.show(true);
-                    break;
-                }
+                
                 case "MODULO_CARBON_PROCESAR_REGISTROS":{
                     MODULO_CARBON_PROCESAR_REGISTROS.show(true);
                     break;
@@ -2131,10 +2353,10 @@ public final class GUI_Principal extends javax.swing.JFrame {
                     MODULO_CARBON_ACTIVAR_REGISTRO.show(true);
                     break;
                 }
-                case "MODULO_CARBON_LAVADO_VEHICULOS":{
+                /*case "MODULO_CARBON_LAVADO_VEHICULOS":{
                     MODULO_CARBON_LAVADO_VEHICULOS.show(true);
                     break;
-                }
+                }*/
                 case "MODULO_CARBON_GENERAR_MATRIZ":{
                     MODULO_CARBON_GENERAR_MATRIZ.show(true);
                     break;
@@ -2443,6 +2665,44 @@ public final class GUI_Principal extends javax.swing.JFrame {
                     CAUSA_INACTIVIDAD_ACTUALIZAR.show(true);
                     break;
                 }
+                
+                case "ASIGNACION_EQUIPOS_EDITAR":{
+                    ASIGNACION_EQUIPOS_EDITAR.show(true);
+                    break;
+                }
+                case "SOLICITUD_EQUIPOS_EDITAR":{
+                    SOLICITUD_EQUIPOS_EDITAR.show(true);
+                    break;
+                }
+                case "PROGRAMACION_EQUIPOS_DIRECTA":{
+                    PROGRAMACION_EQUIPOS_DIRECTA.show(true);
+                    break;
+                }
+                case "MODULO_CARBON_AGREGAR_REGISTRO":{
+                    MODULO_CARBON_AGREGAR_REGISTRO.show(true);
+                    break;
+                }
+                case "MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO":{
+                    MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.show(true);
+                    break;
+                }
+                case "MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO":{
+                    MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.show(true);
+                    break;
+                }
+                case "MODULO_CARBON_GENERAR_DISTRIBUCION":{
+                    MODULO_CARBON_GENERAR_DISTRIBUCION.show(true);
+                    break;
+                }
+                case "MODULO_EQUIPO_AGREGAR_REGISTRO":{
+                    MODULO_EQUIPO_AGREGAR_REGISTRO.show(true);
+                    break;
+                }
+                case "MODULO_EQUIPO_GENERAR_DISTRIBUCION":{
+                    MODULO_EQUIPO_GENERAR_DISTRIBUCION.show(true);
+                    break;
+                }
+               
                 default:{
                     break;
                 }
@@ -2461,7 +2721,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS.show(false);
         MODULO_CARBON_INACTIVAR_REGISTRO.show(false);
         MODULO_CARBON_ACTIVAR_REGISTRO.show(false);
-        MODULO_CARBON_LAVADO_VEHICULOS.show(false);
+        //MODULO_CARBON_LAVADO_VEHICULOS.show(false);
         MODULO_CARBON_GENERAR_MATRIZ.show(false);
         MODULO_EQUIPO_PROCESAR_REGISTROS.show(false);
         MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS.show(false);
@@ -2539,5 +2799,17 @@ public final class GUI_Principal extends javax.swing.JFrame {
         CAUSA_INACTIVIDAD_REGISTRAR.show(false);
         CAUSA_INACTIVIDAD_CONSULTAR.show(false);
         CAUSA_INACTIVIDAD_ACTUALIZAR.show(false);
+        
+        
+        
+        ASIGNACION_EQUIPOS_EDITAR.show(false);
+        SOLICITUD_EQUIPOS_EDITAR.show(false);
+        PROGRAMACION_EQUIPOS_DIRECTA.show(false);
+        MODULO_CARBON_AGREGAR_REGISTRO.show(false);
+        MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJO.show(false);
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.show(false);
+        MODULO_CARBON_GENERAR_DISTRIBUCION.show(false);
+        MODULO_EQUIPO_AGREGAR_REGISTRO.show(false);
+        MODULO_EQUIPO_GENERAR_DISTRIBUCION.show(false);
     }
 }

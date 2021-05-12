@@ -14,6 +14,11 @@ public class ConfirmacionSolicitudEquipos {
         this.estado = estado;
     }
 
+    public ConfirmacionSolicitudEquipos(String codigo) {
+        this.codigo = codigo;
+    }
+
+    
     public String getCodigo() {
         return codigo;
     }

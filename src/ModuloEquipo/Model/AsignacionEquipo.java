@@ -18,6 +18,7 @@ public class AsignacionEquipo {
     private String cantidadMinutosParada;
     private String cantidadMinutosTotal;
     private String estado;
+    private String colorDisponibilidad;
 
     public AsignacionEquipo() {
     }
@@ -142,5 +143,14 @@ public class AsignacionEquipo {
         this.estado = estado;
     }
 
+    public String getColorDisponibilidad() {
+        return colorDisponibilidad;
+    }
+
+    public void setColorDisponibilidad(String colorDisponibilidad) {
+        this.colorDisponibilidad = colorDisponibilidad;
+    }
+
+    
    
 }

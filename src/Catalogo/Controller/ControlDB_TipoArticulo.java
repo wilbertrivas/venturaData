@@ -143,7 +143,10 @@ public class ControlDB_TipoArticulo {
         }catch (SQLException sqlException) {
             JOptionPane.showMessageDialog(null, "Error al tratar al consultar el tipo de articulo");
             sqlException.printStackTrace();
-        } 
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
         control.cerrarConexionBaseDatos();
         return Objeto;
     } 
@@ -253,7 +256,7 @@ public class ControlDB_TipoArticulo {
             }
             conexion= control.ConectarBaseDatos();
             String DB=control.getBaseDeDatos();
-            PreparedStatement query= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[tipo_articulo] SET tar_desc=?, ar_cdgo_erp=?, tar_undad_ngcio=?, [tar_estad]=? WHERE [tar_cdgo]=?");
+            PreparedStatement query= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[tipo_articulo] SET tar_desc=?, tar_cdgo_erp=?, tar_undad_ngcio=?, [tar_estado]=? WHERE [tar_cdgo]=?");
            
             query.setString(1, Objeto.getDescripcion());
             query.setString(2, Objeto.getCodigoERP());
@@ -263,49 +266,51 @@ public class ControlDB_TipoArticulo {
             query.execute();
             result=1;
             if(result==1){
-                result=0;
-                //Extraemos el nombre del Equipo y la IP        
-                String namePc=new ControlDB_Config().getNamePC();
-                String ipPc=new ControlDB_Config().getIpPc();
-                String macPC=new ControlDB_Config().getMacAddress();
-                PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
-                                        "      ,[au_fecha]\n" +
-                                        "      ,[au_usuario_cdgo_registro]\n" +
-                                        "      ,[au_nombre_dispositivo_registro]\n" +
-                                        "      ,[au_ip_dispositivo_registro]\n" +
-                                        "      ,[au_mac_dispositivo_registro]\n" +
-                                        "      ,[au_cdgo_mtvo]\n" +
-                                        "      ,[au_desc_mtvo]\n" +
-                                        "      ,[au_detalle_mtvo])\n" +
-                        "     VALUES("+
-                        "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
-                        "           ,(SELECT SYSDATETIME())"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,'TIPO_ARTICULO'" +
-                        "           ,CONCAT('Se registró una nueva actualización en el sistema sobre ',?,' Código: ',?,' Nombre: ',?,'Código_ERP:',?,'Unidad_Negocio:',?,' Estado: ',?,"
-                                            + "' actualizando la siguiente informacion a  Código: ',?,' Nombre: ',?,'Código_ERP:',?,'Unidad_Negocio:',?,' Estado: ',?));");
-                Query_Auditoria.setString(1, us.getCodigo());
-                Query_Auditoria.setString(2, namePc);
-                Query_Auditoria.setString(3, ipPc);
-                Query_Auditoria.setString(4, macPC);
-                Query_Auditoria.setString(5, TipoArticuloAnterior.getCodigo());
-                Query_Auditoria.setString(6, "el tipo_articulo :");
-                Query_Auditoria.setString(7, TipoArticuloAnterior.getCodigo());
-                Query_Auditoria.setString(8, TipoArticuloAnterior.getDescripcion());
-                Query_Auditoria.setString(9, TipoArticuloAnterior.getCodigoERP());
-                Query_Auditoria.setString(10, TipoArticuloAnterior.getUnidadNegocio());
-                Query_Auditoria.setString(11, TipoArticuloAnterior.getEstado());
-                Query_Auditoria.setString(12, Objeto.getCodigo());
-                Query_Auditoria.setString(13, Objeto.getDescripcion());
-                Query_Auditoria.setString(14, Objeto.getCodigoERP());
-                Query_Auditoria.setString(15, Objeto.getUnidadNegocio());
-                Query_Auditoria.setString(16, estado);
-                Query_Auditoria.execute();
-                result=1;
+                if(TipoArticuloAnterior != null){
+                    result=0;
+                    //Extraemos el nombre del Equipo y la IP        
+                    String namePc=new ControlDB_Config().getNamePC();
+                    String ipPc=new ControlDB_Config().getIpPc();
+                    String macPC=new ControlDB_Config().getMacAddress();
+                    PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
+                                            "      ,[au_fecha]\n" +
+                                            "      ,[au_usuario_cdgo_registro]\n" +
+                                            "      ,[au_nombre_dispositivo_registro]\n" +
+                                            "      ,[au_ip_dispositivo_registro]\n" +
+                                            "      ,[au_mac_dispositivo_registro]\n" +
+                                            "      ,[au_cdgo_mtvo]\n" +
+                                            "      ,[au_desc_mtvo]\n" +
+                                            "      ,[au_detalle_mtvo])\n" +
+                            "     VALUES("+
+                            "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
+                            "           ,(SELECT SYSDATETIME())"+
+                            "           ,?"+
+                            "           ,?"+
+                            "           ,?"+
+                            "           ,?"+
+                            "           ,?"+
+                            "           ,'TIPO_ARTICULO'" +
+                            "           ,CONCAT('Se registró una nueva actualización en el sistema sobre ',?,' Código: ',?,' Nombre: ',?,'Código_ERP:',?,'Unidad_Negocio:',?,' Estado: ',?,"
+                                                + "' actualizando la siguiente informacion a  Código: ',?,' Nombre: ',?,'Código_ERP:',?,'Unidad_Negocio:',?,' Estado: ',?));");
+                    Query_Auditoria.setString(1, us.getCodigo());
+                    Query_Auditoria.setString(2, namePc);
+                    Query_Auditoria.setString(3, ipPc);
+                    Query_Auditoria.setString(4, macPC);
+                    Query_Auditoria.setString(5, TipoArticuloAnterior.getCodigo());
+                    Query_Auditoria.setString(6, "el tipo_articulo :");
+                    Query_Auditoria.setString(7, TipoArticuloAnterior.getCodigo());
+                    Query_Auditoria.setString(8, TipoArticuloAnterior.getDescripcion());
+                    Query_Auditoria.setString(9, TipoArticuloAnterior.getCodigoERP());
+                    Query_Auditoria.setString(10, TipoArticuloAnterior.getUnidadNegocio());
+                    Query_Auditoria.setString(11, TipoArticuloAnterior.getEstado());
+                    Query_Auditoria.setString(12, Objeto.getCodigo());
+                    Query_Auditoria.setString(13, Objeto.getDescripcion());
+                    Query_Auditoria.setString(14, Objeto.getCodigoERP());
+                    Query_Auditoria.setString(15, Objeto.getUnidadNegocio());
+                    Query_Auditoria.setString(16, estado);
+                    Query_Auditoria.execute();
+                    result=1;
+                }
             }
         }
         catch (SQLException sqlException ){   
