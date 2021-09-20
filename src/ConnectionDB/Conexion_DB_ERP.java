@@ -1,4 +1,4 @@
-package ConnectionDB2;
+package ConnectionDB;
      
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,6 +25,7 @@ public class Conexion_DB_ERP {
     }
     public void publico(){
         this.servidor = "cobra.goib.com";
+        //this.servidor = "guepardo.goib.com";
         this.puertoConexion = "1433";
         this.baseDeDatos = "UnoEE";
         this.usuario = "sa";
@@ -33,6 +34,7 @@ public class Conexion_DB_ERP {
     }
     public void privado(){
         this.servidor = "cobra.goib.com";
+        //this.servidor = "guepardo.goib.com";
         this.puertoConexion = "1433";
         this.baseDeDatos = "UnoEE";
         this.usuario = "sa";

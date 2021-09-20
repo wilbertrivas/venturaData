@@ -1,4 +1,4 @@
- package ConnectionDB2;
+ package ConnectionDB;
      
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,7 +26,7 @@ public class Conexion_DB_costos_vg {
             }
         }       
         this.puertoConexion = "3341";
-        this.baseDeDatos = "costos_vg_test";
+        this.baseDeDatos = "costos_vg_test";        
         //this.baseDeDatos = "costos_vg";
         this.usuario = "sa";
         this.contrasena = "root";
@@ -39,6 +39,7 @@ public class Conexion_DB_costos_vg {
     public void privado(){
         this.servidor = "ccarga.goib.com";
         //this.servidor = "tigre.goib.com";
+        //this.servidor = "pantera.goib.com";
     }
     public Connection ConectarBaseDatos(){
         try{
@@ -55,6 +56,19 @@ public class Conexion_DB_costos_vg {
                 */
                 //String DB=control.getBaseDeDatos();
                 try{
+                    //#####################################################################################################################################
+                    //#####################################################################################################################################
+                    //#####################################################################################################################################
+                    //#####################################################################################################################################
+                    //#####################################################################################################################################
+                    //SOLUCIÓN FINAL  AGREGAR ESTE CAMPO EN LA CABECERA DE TODOS LOS QUERY ########################    SET DATEFORMAT ymd
+                    //#####################################################################
+                    //#####################################################################
+                    //#####################################################################
+                    //#####################################################################
+                    //#####################################################################
+                    //#####################################################################
+                    //#####################################################################
                     PreparedStatement query= conexion.prepareStatement("DECLARE @validarConfiguracionRegional SMALLDATETIME='2020-02-05 08:45:00';\n" +
                                                                         "                    SELECT @validarConfiguracionRegional;");
                     ResultSet resultSet= query.executeQuery();
