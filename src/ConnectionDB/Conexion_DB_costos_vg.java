@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-
+ 
 public class Conexion_DB_costos_vg {
     private Connection conexion=null;
     private String ruta="jdbc:sqlserver://";
