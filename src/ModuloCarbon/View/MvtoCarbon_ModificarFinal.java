@@ -1,4 +1,4 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
   
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
 import Catalogo.Controller.ControlDB_CentroOperacion;
@@ -16,13 +16,13 @@ import Catalogo.Model.TipoEquipo;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import ModuloEquipo.Model.AsignacionEquipo;
 import ModuloEquipo.Model.CausaInactividad;
 import ModuloEquipo.Model.MvtoEquipo;
 import ModuloEquipo.Model.Recobro;
-import ModuloEquipo.View2.MvtoEquipo_ModificarFinal;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.MvtoEquipo_ModificarFinal;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Controller.ControlDB_Usuario;
 import Sistema.Model.Usuario;
 import java.awt.Color;
@@ -1740,7 +1740,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
 
         InternaFrame_VisualizarMvtoCarbon.setBackground(new java.awt.Color(255, 255, 255));
         InternaFrame_VisualizarMvtoCarbon.setClosable(true);
-        InternaFrame_VisualizarMvtoCarbon.setVisible(true);
+        InternaFrame_VisualizarMvtoCarbon.setVisible(false);
         InternaFrame_VisualizarMvtoCarbon.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel55.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -3867,14 +3867,16 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                     }
                     //cargamos el equipo quien realizó el lavado del vehículo
                     if(mvtoCarbon.getLavadoVehiculo() !=null){
-                        if(mvtoCarbon.getLavadoVehiculo().equals("SI")){//
-                            if(listadoMvtoCarbon_ListadoEquipos != null){
-                                int contador=0;
-                                for(MvtoCarbon_ListadoEquipos objeto: listadoMvtoCarbon_ListadoEquipos){
-                                    if(mvtoCarbon.getEquipoLavadoVehiculo().getCodigo().equals(objeto.getAsignacionEquipo().getEquipo().getCodigo())){
-                                        select_MvtoCarbon_EquipoQuienRealizaLavadoVehículo.setSelectedIndex(contador);
+                        if(mvtoCarbon.getEquipoLavadoVehiculo().getCodigo() != null){
+                            if(mvtoCarbon.getLavadoVehiculo().equals("SI")){//
+                                if(listadoMvtoCarbon_ListadoEquipos != null){
+                                    int contador=0;
+                                    for(MvtoCarbon_ListadoEquipos objeto: listadoMvtoCarbon_ListadoEquipos){
+                                        if(mvtoCarbon.getEquipoLavadoVehiculo().getCodigo().equals(objeto.getAsignacionEquipo().getEquipo().getCodigo())){
+                                            select_MvtoCarbon_EquipoQuienRealizaLavadoVehículo.setSelectedIndex(contador);
+                                        }
+                                        contador++;
                                     }
-                                    contador++;
                                 }
                             }
                         }

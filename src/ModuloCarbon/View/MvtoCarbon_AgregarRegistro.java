@@ -1,4 +1,4 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
 
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
 import Catalogo.Controller.ControlDB_CentroOperacion;
@@ -21,16 +21,16 @@ import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.EstadoMvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
-import ModuloEquipo.Controller2.ControlDB_AsignacionEquipo;
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloEquipo.Controller.ControlDB_AsignacionEquipo;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import ModuloEquipo.Model.AsignacionEquipo;
 import ModuloEquipo.Model.CausaInactividad;
 import ModuloEquipo.Model.MvtoEquipo;
 import ModuloEquipo.Model.MvtoEquipoAgregar;
 import ModuloEquipo.Model.Recobro;
 import ModuloEquipo.Model.SolicitudListadoEquipo;
-import ModuloEquipo.View2.MvtoEquipo_ModificarFinal;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.MvtoEquipo_ModificarFinal;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Controller.ControlDB_Usuario;
 import Sistema.Model.Usuario;
 import java.awt.Color;
@@ -2080,9 +2080,9 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                                     if(resultDosFechas < 0){
                                         JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser mayor a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
                                     }else{
-                                        if(resultDosFechas ==0){
-                                            JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser Igual a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
-                                        }else{
+                                //Se comenta temporalmente        if(resultDosFechas ==0){
+                                            //JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser Igual a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
+                                        //}else{
                                             if(!new ControlDB_MvtoCarbon(tipoConexion).validar2FechasEnRango(fechaInicioActividad, fechaFinActividad, mvtoCarbon.getFechaInicioDescargue(), mvtoCarbon.getFechaFinDescargue())){
                                                 JOptionPane.showMessageDialog(null, "Error!!.. La fecha de inicio y finalización de la actividad debe estar dentro del rango de Inicio y finalización de descargue","Advertencia", JOptionPane.ERROR_MESSAGE );
                                             }else{
@@ -2204,7 +2204,7 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                                                     JOptionPane.showMessageDialog(null, "Debe seleccionar un equipo que participa en la operación", "Advertencia",JOptionPane.INFORMATION_MESSAGE);
                                                 }            
                                             }
-                                        }
+                                        //}
                                     }
                                 //}else{
                                   //  JOptionPane.showMessageDialog(null,"Error!!.. No puede cargar una fecha en el pasado, la fecha de Finalización de la Operación debe ser futura, verifique fecha","Advertencia",JOptionPane.ERROR_MESSAGE);
@@ -2274,9 +2274,9 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                                     if(resultDosFechas < 0){
                                         JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser mayor a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
                                     }else{
-                                        if(resultDosFechas ==0){
-                                            JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser Igual a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
-                                        }else{
+                        //Comentamos temporalmente                if(resultDosFechas ==0){
+                                        //   JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser Igual a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
+                                        //}else{
                                             if(!new ControlDB_MvtoCarbon(tipoConexion).validar2FechasEnRango(fechaInicioDescargue, fechaFinDescargue, mvtoCarbon.getFechaEntradaVehiculo(), mvtoCarbon.getFecha_SalidaVehiculo())){
                                                 JOptionPane.showMessageDialog(null, "Error!!.. La fecha de inicio de operación y la fecha de finalización de operación deben estar en el rango de fecha de Tara y Destare del vehículo","Advertencia", JOptionPane.ERROR_MESSAGE );
                                             }else{
@@ -2442,7 +2442,7 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                                                     JOptionPane.showMessageDialog(null, "Debe seleccionar un centro de operación", "Advertencia",JOptionPane.INFORMATION_MESSAGE);
                                                 }            
                                             }
-                                        }
+                                        //}
                                     }
                                 //}else{
                                   //  JOptionPane.showMessageDialog(null,"Error!!.. No puede cargar una fecha en el pasado, la fecha de Finalización de la Operación debe ser futura, verifique fecha","Advertencia",JOptionPane.ERROR_MESSAGE);

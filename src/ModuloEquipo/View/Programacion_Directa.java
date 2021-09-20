@@ -4,7 +4,7 @@
  *     una solicitud, una asignación y posterior una confirmación al mismo tiempo.
  **/
 
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_CentroOperacion;
 import Catalogo.Model.CentroCostoSubCentro;
@@ -29,8 +29,8 @@ import Catalogo.Model.Motonave;
 import Catalogo.Model.TipoEquipo;
 import Correos.mail;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
-import ModuloEquipo.Controller2.ControlDB_AsignacionEquipo;
-import ModuloEquipo.Controller2.ControlDB_SolicitudEquipo;
+import ModuloEquipo.Controller.ControlDB_AsignacionEquipo;
+import ModuloEquipo.Controller.ControlDB_SolicitudEquipo;
 import ModuloEquipo.Model.AsignacionEquipo;
 import ModuloEquipo.Model.ConfirmacionSolicitudEquipos;
 import ModuloEquipo.Model.EstadoSolicitudEquipos;
@@ -908,10 +908,10 @@ public class Programacion_Directa extends javax.swing.JPanel {
         add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 440, 200, 50));
         add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 1380, 10));
 
-        jLabel6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(153, 153, 153), null, null));
+        jLabel6.setBorder(new javax.swing.border.SoftBevelBorder(0, null, new java.awt.Color(153, 153, 153), null, null));
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 60, 640, 90));
 
-        jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(153, 153, 153), null, null));
+        jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(0, null, new java.awt.Color(153, 153, 153), null, null));
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1380, 160));
     }// </editor-fold>//GEN-END:initComponents
 

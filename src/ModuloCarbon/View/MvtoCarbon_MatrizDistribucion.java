@@ -1,4 +1,4 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
   
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.PlantillaConectorMvtoCarbon;
@@ -502,7 +502,8 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
         }else{
             if(listado != null){
                 File archivo;
-                archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteDistribuciónMvtoCarbón.xlsx");
+                //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteDistribuciónMvtoCarbón.xlsx");
+                archivo= new File( System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporteDistribuciónMvtoCarbón.xlsx");
                 Workbook wb;
                 String respuesta="No se realizó con exito la exportacion";
                 listado.size();

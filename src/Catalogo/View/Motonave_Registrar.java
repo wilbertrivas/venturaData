@@ -1,10 +1,10 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Catalogo.Controller.ControlDB_BaseDatos;
 import Catalogo.Controller.ControlDB_Motonave;
 import Catalogo.Model.BaseDatos;
 import Catalogo.Model.Motonave;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.net.SocketException;

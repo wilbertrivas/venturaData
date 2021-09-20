@@ -1,4 +1,4 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
 import Catalogo.Controller.ControlDB_CentroOperacion;
@@ -10,11 +10,12 @@ import Catalogo.Model.CentroOperacion;
 import Catalogo.Model.Motonave;
 import Catalogo.Controller.ControlDB_Compañia;
 import Catalogo.Controller.ControlDB_Equipo;
-import ModuloEquipo.Controller2.ControlDB_EstadoSolicitudEquipos;
+import ModuloEquipo.Controller.ControlDB_EstadoSolicitudEquipos;
 import Catalogo.Controller.ControlDB_LaborRealizada;
-import ModuloEquipo.Controller2.ControlDB_SolicitudEquipo;
+import ModuloEquipo.Controller.ControlDB_SolicitudEquipo;
 import Catalogo.Controller.ControlDB_TipoEquipo;
 import Catalogo.Model.Compañia;
+import Catalogo.Model.Equipo;
 import ModuloEquipo.Model.EstadoSolicitudEquipos;
 import Catalogo.Model.LaborRealizada;
 import ModuloEquipo.Model.SolicitudEquipo;
@@ -43,6 +44,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
     private ArrayList<String> listadoMarcaEquipo =new ArrayList<>();
     private ArrayList<String> listadoTiposEquipo = new ArrayList();
     private ArrayList<String> listadoModelosEquipo = new ArrayList();
+    private ArrayList<Equipo> listadoEquipo = new ArrayList();
     private ArrayList<CentroCostoSubCentro> listadoCentroCostoSubCentro = new ArrayList();
     private ArrayList<LaborRealizada> listadoLaborRealizada = new ArrayList();
     private ArrayList<CentroCostoAuxiliar> listadoCentroCostoAuxiliar = new ArrayList();
@@ -56,6 +58,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
         Usuario_codigo.setText("Cedula: "+user.getCodigo());
         usuario_nombre.setText("Nombre: "+user.getNombres()+" "+ user.getApellidos());
         
+        InternalFrame_sugerirEquipo.getContentPane().setBackground(Color.WHITE);
         InternalFrameSelectorEquipo3.getContentPane().setBackground(Color.WHITE);
         InternaFrame_buscarMotonave.getContentPane().setBackground(Color.WHITE);
         
@@ -164,6 +167,16 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
                     }    
                     final DefaultComboBoxModel modelCantidadesModelos = new DefaultComboBoxModel(dataCantidadesModelos);
                     selectCantidad.setModel(modelCantidadesModelos);
+                    
+                    //Cargamos el selector de Equipos
+                    listadoEquipo=new ControlDB_Equipo(tipoConexion).Asignacion_buscarEquiposEnAplicacionInterna(selectTipo.getSelectedItem().toString(),selectMarca.getSelectedItem().toString(), selectModelo.getSelectedItem().toString());              
+                    String dataEquipo[]= new String[listadoEquipo.size()];
+                    for(int i = 0; i< dataEquipo.length; i++){
+                        dataEquipo[i]=""+(listadoEquipo.get(i).getCodigo()+" "+listadoEquipo.get(i).getDescripcion()+ " "+ listadoEquipo.get(i).getModelo());   
+                    }    
+                    final DefaultComboBoxModel modelListadoEquipos = new DefaultComboBoxModel(dataEquipo);
+                    selectEquipos.setModel(modelListadoEquipos);
+                    
                 }else{
                     selectCantidad.removeAllItems();
                 }
@@ -292,6 +305,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
             Logger.getLogger(Solicitud_Equipos_Registrar.class.getName()).log(Level.SEVERE, null, ex);
         }  
         checkMotonave.setSelected(false);
+        InternalFrame_sugerirEquipo.show(false);
         InternalFrameSelectorEquipo3.show(false);
         InternaFrame_buscarMotonave.show(false);
         icon_buscarMotonave.show(false);
@@ -305,6 +319,15 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
         Editar = new javax.swing.JMenuItem();
         EliminarS = new javax.swing.JPopupMenu();
         EliminarSolicitud = new javax.swing.JMenuItem();
+        InternalFrame_sugerirEquipo = new javax.swing.JInternalFrame();
+        titulo58 = new javax.swing.JLabel();
+        selectEquipos = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        equipoRecomendado = new javax.swing.JTextPane();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        titulo59 = new javax.swing.JLabel();
         InternaFrame_buscarMotonave = new javax.swing.JInternalFrame();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabla1 = new javax.swing.JTable();
@@ -364,6 +387,8 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
         Cronograma_jSeparator15 = new javax.swing.JSeparator();
         Cronograma_jSeparator16 = new javax.swing.JSeparator();
         titulo47 = new javax.swing.JLabel();
+        titulo48 = new javax.swing.JLabel();
+        titulo49 = new javax.swing.JLabel();
         centroOperacion = new javax.swing.JComboBox<>();
         titulo33 = new javax.swing.JLabel();
         titulo28 = new javax.swing.JLabel();
@@ -404,6 +429,67 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        InternalFrame_sugerirEquipo.setClosable(true);
+        InternalFrame_sugerirEquipo.setVisible(false);
+        InternalFrame_sugerirEquipo.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        titulo58.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo58.setForeground(new java.awt.Color(51, 51, 51));
+        titulo58.setText("SUGERIR EQUIPOS AL ASIGNADOR DE EQUIPOS (PROGRAMADOR)");
+        InternalFrame_sugerirEquipo.getContentPane().add(titulo58, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 760, 30));
+
+        selectEquipos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectEquiposActionPerformed(evt);
+            }
+        });
+        InternalFrame_sugerirEquipo.getContentPane().add(selectEquipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 490, 40));
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/anular.png"))); // NOI18N
+        jButton1.setText("BORRAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        InternalFrame_sugerirEquipo.getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 60, 140, 40));
+
+        equipoRecomendado.setEditable(false);
+        jScrollPane4.setViewportView(equipoRecomendado);
+
+        InternalFrame_sugerirEquipo.getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 880, 190));
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Ingresar.png"))); // NOI18N
+        jButton2.setText("CARGAR SUGERENCIA");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        InternalFrame_sugerirEquipo.getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, 260, 40));
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Ingresar.png"))); // NOI18N
+        jButton3.setText("SUGERIR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        InternalFrame_sugerirEquipo.getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 60, 140, 40));
+
+        titulo59.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo59.setForeground(new java.awt.Color(51, 51, 51));
+        titulo59.setText("Equipo:");
+        InternalFrame_sugerirEquipo.getContentPane().add(titulo59, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 70, 30));
+
+        add(InternalFrame_sugerirEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1280, 610));
 
         InternaFrame_buscarMotonave.setClosable(true);
         InternaFrame_buscarMotonave.setVisible(false);
@@ -776,6 +862,21 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
         titulo47.setText("FECHA PROGRAMACIÓN:");
         InternalFrameSelectorEquipo3.getContentPane().add(titulo47, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 210, 30));
 
+        titulo48.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo48.setForeground(new java.awt.Color(102, 102, 102));
+        titulo48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/sugerir_equipo2.png"))); // NOI18N
+        titulo48.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                titulo48MouseClicked(evt);
+            }
+        });
+        InternalFrameSelectorEquipo3.getContentPane().add(titulo48, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 210, 40, 40));
+
+        titulo49.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo49.setForeground(new java.awt.Color(102, 102, 102));
+        titulo49.setText("SUGERIR EQUIPO:");
+        InternalFrameSelectorEquipo3.getContentPane().add(titulo49, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 210, 110, 40));
+
         add(InternalFrameSelectorEquipo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 680));
 
         centroOperacion.setToolTipText("");
@@ -962,6 +1063,18 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
                 }
                 final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
                 selectModelo.setModel(model);
+                
+                //Cargamos el selector de Equipos
+                listadoEquipo=new ControlDB_Equipo(tipoConexion).Asignacion_buscarEquiposEnAplicacionInterna(selectTipo.getSelectedItem().toString(),selectMarca.getSelectedItem().toString(), selectModelo.getSelectedItem().toString());              
+                String dataEquipo[]= new String[listadoEquipo.size()];
+                for(int i = 0; i< dataEquipo.length; i++){
+                    //dataEquipo[i]=""+(listadoEquipo.get(i).getDescripcion());  
+                    dataEquipo[i]=""+(listadoEquipo.get(i).getCodigo()+" "+listadoEquipo.get(i).getDescripcion());
+                }    
+                final DefaultComboBoxModel modelListadoEquipos = new DefaultComboBoxModel(dataEquipo);
+                selectEquipos.setModel(modelListadoEquipos);
+                
+                observacion.setText("");
             }else{
                 selectModelo.removeAllItems();
             }
@@ -997,6 +1110,9 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
                     }
                     final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
                     selectModelo.setModel(model);
+                    
+                    
+                    
                     selectCantidad.removeAllItems();
                     //Cargamos el selector de Cantidades
                     int cantidadModelos=new ControlDB_Equipo(tipoConexion).contarCantidadesEquiposEnAplicacionInterna(selectTipo.getSelectedItem().toString(),selectMarca.getSelectedItem().toString(), selectModelo.getSelectedItem().toString());
@@ -1006,6 +1122,18 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
                     }    
                     final DefaultComboBoxModel modelCantidadesModelos = new DefaultComboBoxModel(dataCantidadesModelos);
                     selectCantidad.setModel(modelCantidadesModelos);
+                    
+                    //Cargamos el selector de Equipos
+                    listadoEquipo=new ControlDB_Equipo(tipoConexion).Asignacion_buscarEquiposEnAplicacionInterna(selectTipo.getSelectedItem().toString(),selectMarca.getSelectedItem().toString(), selectModelo.getSelectedItem().toString());              
+                    String dataEquipo[]= new String[listadoEquipo.size()];
+                    for(int i = 0; i< dataEquipo.length; i++){
+                        //dataEquipo[i]=""+(listadoEquipo.get(i).getDescripcion());  
+                        dataEquipo[i]=""+(listadoEquipo.get(i).getCodigo()+" "+listadoEquipo.get(i).getDescripcion());
+                    }    
+                    final DefaultComboBoxModel modelListadoEquipos = new DefaultComboBoxModel(dataEquipo);
+                    selectEquipos.setModel(modelListadoEquipos);
+                    observacion.setText("");
+                    
                 }else{
                     selectModelo.removeAllItems();
                 }
@@ -1075,6 +1203,17 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
             }    
             final DefaultComboBoxModel modelCantidadesModelos = new DefaultComboBoxModel(dataCantidadesModelos);
             selectCantidad.setModel(modelCantidadesModelos);
+            
+            //Cargamos el selector de Equipos
+            listadoEquipo=new ControlDB_Equipo(tipoConexion).Asignacion_buscarEquiposEnAplicacionInterna(selectTipo.getSelectedItem().toString(),selectMarca.getSelectedItem().toString(), selectModelo.getSelectedItem().toString());              
+            String dataEquipo[]= new String[listadoEquipo.size()];
+            for(int i = 0; i< dataEquipo.length; i++){
+                dataEquipo[i]=""+(listadoEquipo.get(i).getCodigo()+" "+listadoEquipo.get(i).getDescripcion()+ " "+ listadoEquipo.get(i).getModelo());   
+            }    
+            final DefaultComboBoxModel modelListadoEquipos = new DefaultComboBoxModel(dataEquipo);
+            selectEquipos.setModel(modelListadoEquipos);
+            observacion.setText("");
+            
         } catch (SQLException ex) {
             Logger.getLogger(Solicitud_Equipos_Registrar.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1283,6 +1422,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
                                                                             }
                                                                             CargarListadoEquipos();
                                                                             InternalFrameSelectorEquipo3.show(false);
+                                                                            observacion.setText("");
                                                                         }
                                                                     }
                                                                 }else{
@@ -1612,6 +1752,36 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_EliminarSolicitudActionPerformed
 
+    private void selectEquiposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEquiposActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectEquiposActionPerformed
+
+    private void titulo48MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titulo48MouseClicked
+        InternalFrame_sugerirEquipo.show(true);
+    }//GEN-LAST:event_titulo48MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        equipoRecomendado.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(!observacion.getText().equals("")){
+            observacion.setText(observacion.getText()+"\n"+equipoRecomendado.getText());
+        }else{
+            observacion.setText("EQUIPOS SUGERIDOS: \n"+equipoRecomendado.getText());
+        }
+       equipoRecomendado.setText("");
+       InternalFrame_sugerirEquipo.show(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(!equipoRecomendado.getText().equals("")){
+            equipoRecomendado.setText(equipoRecomendado.getText()+"\n"+listadoEquipo.get(selectEquipos.getSelectedIndex()).getCodigo()+" "+listadoEquipo.get(selectEquipos.getSelectedIndex()).getDescripcion()+listadoEquipo.get(selectEquipos.getSelectedIndex()).getModelo());
+        }else{
+            equipoRecomendado.setText(listadoEquipo.get(selectEquipos.getSelectedIndex()).getCodigo()+" "+listadoEquipo.get(selectEquipos.getSelectedIndex()).getDescripcion()+listadoEquipo.get(selectEquipos.getSelectedIndex()).getModelo());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Cronograma_jSeparator10;
@@ -1632,6 +1802,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
     private javax.swing.JMenuItem EliminarSolicitud;
     private javax.swing.JInternalFrame InternaFrame_buscarMotonave;
     private javax.swing.JInternalFrame InternalFrameSelectorEquipo3;
+    private javax.swing.JInternalFrame InternalFrame_sugerirEquipo;
     private javax.swing.JPopupMenu Seleccionar;
     private javax.swing.JLabel Usuario_codigo;
     private javax.swing.JButton agregar;
@@ -1640,6 +1811,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> centroOperacion;
     private javax.swing.JRadioButton checkMotonave;
+    private javax.swing.JTextPane equipoRecomendado;
     private javax.swing.JComboBox<String> estadoSolicitud;
     private com.toedter.calendar.JDateChooser fechaFin;
     private com.toedter.calendar.JDateChooser fechaInicio;
@@ -1649,6 +1821,9 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
     private javax.swing.JLabel horarioTiempoIFinalSolicitudEquiposRegistrar;
     private javax.swing.JLabel horarioTiempoInicioSolicitudEquiposRegistrar;
     private javax.swing.JLabel icon_buscarMotonave;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1662,6 +1837,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel label_motonave;
     private javax.swing.JComboBox<String> minutoFin;
     private javax.swing.JComboBox<String> minutoInicio;
@@ -1670,6 +1846,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> selectCantidad;
     private javax.swing.JComboBox<String> selectCentroCostoAuxiliar;
     private javax.swing.JComboBox<String> selectCompañia;
+    private javax.swing.JComboBox<String> selectEquipos;
     private javax.swing.JComboBox<String> selectLaborRealizada;
     private javax.swing.JComboBox<String> selectMarca;
     private javax.swing.JComboBox<String> selectModelo;
@@ -1695,6 +1872,10 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
     private javax.swing.JLabel titulo45;
     private javax.swing.JLabel titulo46;
     private javax.swing.JLabel titulo47;
+    private javax.swing.JLabel titulo48;
+    private javax.swing.JLabel titulo49;
+    private javax.swing.JLabel titulo58;
+    private javax.swing.JLabel titulo59;
     private javax.swing.JLabel titulo6;
     private javax.swing.JLabel usuario_nombre;
     private javax.swing.JTextField valorBusqueda;

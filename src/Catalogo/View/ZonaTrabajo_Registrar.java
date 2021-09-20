@@ -1,7 +1,9 @@
-package Catalogo.View1;
+package Catalogo.View;
   
-import ModuloEquipo.Controller2.ControlDB_Producto;
+import Catalogo.Controller.ControlDB_ZonaTrabajo;
+import ModuloEquipo.Controller.ControlDB_Producto;
 import Catalogo.Model.Producto;
+import Catalogo.Model.ZonaTrabajo;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.net.SocketException;
@@ -13,18 +15,18 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public  class Producto_Registrar_borrar extends javax.swing.JPanel {
+public  class ZonaTrabajo_Registrar extends javax.swing.JPanel {
     Usuario user;
     private String tipoConexion;
-    public Producto_Registrar_borrar(Usuario us,String tipoConexion) {
+    public ZonaTrabajo_Registrar(Usuario us,String tipoConexion) {
         user=us;
         this.tipoConexion= tipoConexion;
         initComponents();
         try {
             tabla_Listar("");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al tratar de consultar los productos");
-            Logger.getLogger(Producto_Registrar_borrar.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al tratar de consultar las zonas de trabajo");
+            Logger.getLogger(ZonaTrabajo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     @SuppressWarnings("unchecked")
@@ -52,7 +54,7 @@ public  class Producto_Registrar_borrar extends javax.swing.JPanel {
         add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 80, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setText("REGISTRO DE PRODUCTO");
+        jLabel2.setText("REGISTRAR ZONA DE TRABAJO");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 630, 30));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -102,7 +104,7 @@ public  class Producto_Registrar_borrar extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tabla);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 850, 240));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 850, 320));
 
         alerta_nombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         alerta_nombre.setForeground(new java.awt.Color(255, 0, 51));
@@ -115,37 +117,42 @@ public  class Producto_Registrar_borrar extends javax.swing.JPanel {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if(nombre.getText().equals("")){
-            alerta_nombre.setText("El nombre del producto no puede estar vacio");
+            alerta_nombre.setText("El nombre de la zona de trabajo no puede estar vacia");
         }else{
-            Producto producto = new Producto();
-            producto.setDescripcion(nombre.getText());
+            ZonaTrabajo zonaTrabajo = new ZonaTrabajo();
+            zonaTrabajo.setDescripcion(nombre.getText());
             //Validamos si selecciono activo o inactivo
             if(estado.getSelectedItem().toString().equalsIgnoreCase("ACTIVO")){
-                producto.setEstado("1");
+                zonaTrabajo.setEstado("1");
             }else{
-                producto.setEstado("0");
+                zonaTrabajo.setEstado("0");
             }
             try {
-                int respuesta=new ControlDB_Producto(tipoConexion).registrar(producto,user);
-                if(respuesta==1){
-                    JOptionPane.showMessageDialog(null, "Se registro el producto de forma exitosa");
-                    nombre.setText("");
-                    estado.setSelectedIndex(0);
-                    tabla_Listar("");
-                }else{
-                    if(respuesta==0){
-                        JOptionPane.showMessageDialog(null, "No se pudo registrar el producto, valide datos");
+                if(new ControlDB_ZonaTrabajo(tipoConexion).validarExistencia(zonaTrabajo)){
+                    JOptionPane.showMessageDialog(null, "La zona de trabajo con esa descripción ya fue registrada, valide datos", "Error!!", JOptionPane.ERROR_MESSAGE);
+                }else{             
+                    int respuesta=new ControlDB_ZonaTrabajo(tipoConexion).registrar(zonaTrabajo,user);
+                    if(respuesta==1){
+                        JOptionPane.showMessageDialog(null, "Se registro la zona de trabajo de forma exitosa");
+                        nombre.setText("");
+                        estado.setSelectedIndex(0);
+                        tabla_Listar("");
+                    }else{
+                        if(respuesta==0){
+                            JOptionPane.showMessageDialog(null, "No se pudo registrar la zona de trabajo, valide datos");
+                        }
                     }
                 }
+                
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Error al registrar el producto");
-                Logger.getLogger(Producto_Registrar_borrar.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error al registrar la zona de trabajo");
+                Logger.getLogger(ZonaTrabajo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                Logger.getLogger(Producto_Registrar_borrar.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ZonaTrabajo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UnknownHostException ex) {
-                Logger.getLogger(Producto_Registrar_borrar.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ZonaTrabajo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SocketException ex) {
-                Logger.getLogger(Producto_Registrar_borrar.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ZonaTrabajo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -171,8 +178,8 @@ public  class Producto_Registrar_borrar extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     public void tabla_Listar(String valorConsulta) throws SQLException{
         DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código", "Nombre","Estado"});  
-        ArrayList<Producto> listado=new ControlDB_Producto(tipoConexion).buscar(valorConsulta);
-        for (Producto listado1 : listado) {
+        ArrayList<ZonaTrabajo> listado=new ControlDB_ZonaTrabajo(tipoConexion).buscar(valorConsulta);
+        for (ZonaTrabajo listado1 : listado) {
             String[] registro = new String[3];
             registro[0] = "" + listado1.getCodigo();
             registro[1] = "" + listado1.getDescripcion();

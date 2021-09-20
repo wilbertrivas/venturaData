@@ -1,9 +1,9 @@
-package ModuloEquipo.View2;
-import Catalogo.View1.Equipo_Registrar;
-import Catalogo.View1.Equipo_RegistroSincronizado;
+package ModuloEquipo.View;
+import Catalogo.View.Equipo_Registrar;
+import Catalogo.View.Equipo_RegistroSincronizado;
 import Catalogo.Controller.ControlDB_Equipo;
 import Catalogo.Model.Equipo;
-import ModuloEquipo.Controller2.ControlDB_RendiminentoEquipo;
+import ModuloEquipo.Controller.ControlDB_RendiminentoEquipo;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;

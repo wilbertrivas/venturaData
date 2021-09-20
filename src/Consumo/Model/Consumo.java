@@ -1,4 +1,4 @@
-package Consumo.Model2;
+package Consumo.Model;
 
 import Catalogo.Model.BaseDatos;
 import Catalogo.Model.Cliente;

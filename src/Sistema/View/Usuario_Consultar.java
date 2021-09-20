@@ -1,4 +1,4 @@
-package Sistema.View2;
+package Sistema.View;
 
 import Sistema.Controller.ControlDB_Usuario;
 import Sistema.Model.Usuario;

@@ -1,7 +1,7 @@
    
 package ModuloCarbon.Report;
 
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_costos_vg;
 import java.awt.Frame;
 import java.util.HashMap;
 import java.util.Map;

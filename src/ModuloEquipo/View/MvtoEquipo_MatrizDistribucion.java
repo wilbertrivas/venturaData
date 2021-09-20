@@ -1,8 +1,8 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
   
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import ModuloEquipo.Model.PlantillaConectorMvtoEquipo;
 import Sistema.Model.Usuario;
 import java.awt.Color;
@@ -506,7 +506,8 @@ public final class MvtoEquipo_MatrizDistribucion extends javax.swing.JPanel impl
         }else{
             if(listado != null){
                 File archivo;
-                archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteDistribución.xlsx");
+                //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteDistribución.xlsx");
+                archivo= new File( System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporteDistribución.xlsx");
                 Workbook wb;
                 String respuesta="No se realizó con exito la exportacion";
                 listado.size();

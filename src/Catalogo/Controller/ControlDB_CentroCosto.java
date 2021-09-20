@@ -1,14 +1,14 @@
 package Catalogo.Controller;
     
 import Catalogo.Model.BaseDatos;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCosto;
 import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;
 import Catalogo.Model.Cliente;
 import Catalogo.Model.LaborRealizada;
-import ConnectionDB2.Conexion_DB_ccargaGP;
+import ConnectionDB.Conexion_DB_ccargaGP;
 import ModuloEquipo.Model.MvtoEquipo;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;

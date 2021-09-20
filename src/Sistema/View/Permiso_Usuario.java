@@ -1,4 +1,4 @@
-package Sistema.View2;
+package Sistema.View;
   
 import Sistema.Controller.ControlDB_Perfil;
 import Sistema.Controller.ControlDB_Permiso;
@@ -344,7 +344,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         });
         add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 60, 40));
 
-        jLabel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "INFORMACION DEL USUARIO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Adobe Arabic", 1, 14))); // NOI18N
+        jLabel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "INFORMACION DEL USUARIO", 2, 0, new java.awt.Font("Adobe Arabic", 1, 14))); // NOI18N
         add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 790, 0));
 
         todos.setBackground(new java.awt.Color(255, 255, 255));

@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
 
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
 import Catalogo.Controller.ControlDB_CentroOperacion;
@@ -6,7 +6,7 @@ import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Controller.ControlDB_LaborRealizada;
 import Catalogo.Model.CentroOperacion;
 import Catalogo.Model.LaborRealizada;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.awt.Component;
 import java.io.FileNotFoundException;

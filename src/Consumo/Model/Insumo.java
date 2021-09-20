@@ -1,4 +1,4 @@
-package Consumo.Model2;
+package Consumo.Model;
 
 public class Insumo {
    

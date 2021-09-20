@@ -1,6 +1,6 @@
 package Consumo.View;
- 
-import Consumo.Controller2.ControlDB_Compra;
+  
+import Consumo.Controller.ControlDB_Compra;
 import Sistema.Model.Usuario;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ public final class Compra_Consultar extends javax.swing.JPanel {
 
     DefaultTableModel modeloCompra;
     String [] tituloCompra= {"CODIGO_COMPRA", "FECHA_COMPRA","NOMBRE_PRODUCTO", "UNIDAD_MEDIDA","CANTIDAD_COMPRADA","EXISTENCIA","CEDULA_QUIEN_REALIZA_COMPRA","NOMBRE_QUIEN_REALIZA_COMPRA","OBSERVACION_COMRA"};
-    Usuario user;
+    Usuario user;//de
     private String tipoConexion;
     
     public Compra_Consultar(Usuario u, String tipoConexion) {

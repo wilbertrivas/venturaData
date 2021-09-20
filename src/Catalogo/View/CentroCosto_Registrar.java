@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Catalogo.Controller.ControlDB_CentroCosto;
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
@@ -12,7 +12,7 @@ import Catalogo.Model.CentroOperacion;
 import Catalogo.Model.Cliente;
 import Catalogo.Model.LaborRealizada;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -183,7 +183,7 @@ public final class CentroCosto_Registrar extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         InternaFrame_BuscarClientes.setClosable(true);
-        InternaFrame_BuscarClientes.setVisible(true);
+        InternaFrame_BuscarClientes.setVisible(false);
         InternaFrame_BuscarClientes.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N

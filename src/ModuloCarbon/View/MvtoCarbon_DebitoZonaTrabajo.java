@@ -1,7 +1,9 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
 
 import Catalogo.Controller.ControlDB_ZonaTrabajo;
 import Catalogo.Model.ZonaTrabajo;
+import ModuloCarbon.Model.DebitoZonaTrabajo;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import Sistema.Model.Usuario;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,23 +61,23 @@ public class MvtoCarbon_DebitoZonaTrabajo extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("FECHA DE MOVIMIENTO:");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 170, 30));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 170, 30));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("ZONA DE TRABAJO:");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 160, 30));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 160, 30));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("VALOR:");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 160, 30));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 160, 30));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setText("DESCRIPCIÓN");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 160, 30));
+        jLabel5.setText("MOTIVO DE DEBITO:");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 160, 30));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("ESTADO:");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 160, 30));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 160, 30));
         add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 1040, 20));
 
         fecha.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -86,7 +88,7 @@ public class MvtoCarbon_DebitoZonaTrabajo extends javax.swing.JPanel {
                 fechaMouseEntered(evt);
             }
         });
-        add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 170, 30));
+        add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, 30));
 
         selectZonaTrabajo.setToolTipText("");
         selectZonaTrabajo.addItemListener(new java.awt.event.ItemListener() {
@@ -94,17 +96,17 @@ public class MvtoCarbon_DebitoZonaTrabajo extends javax.swing.JPanel {
                 selectZonaTrabajoItemStateChanged(evt);
             }
         });
-        add(selectZonaTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 450, 30));
+        add(selectZonaTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 450, 30));
 
         Descripcion.setColumns(20);
         Descripcion.setRows(5);
         jScrollPane7.setViewportView(Descripcion);
 
-        add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 450, 100));
+        add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 450, 100));
 
         estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ACTIVO", "INACTIVO" }));
         estado.setToolTipText("");
-        add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 310, 30));
+        add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, 310, 30));
 
         btn_registrar_cliente.setBackground(new java.awt.Color(255, 255, 255));
         btn_registrar_cliente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -120,8 +122,8 @@ public class MvtoCarbon_DebitoZonaTrabajo extends javax.swing.JPanel {
                 btn_registrar_clienteActionPerformed(evt);
             }
         });
-        add(btn_registrar_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 380, 140, 40));
-        add(valor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 450, 30));
+        add(btn_registrar_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 140, 40));
+        add(valor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 450, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void fechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaMouseClicked
@@ -141,36 +143,76 @@ public class MvtoCarbon_DebitoZonaTrabajo extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_registrar_clienteMouseExited
 
     private void btn_registrar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrar_clienteActionPerformed
-        
-        Debito
-        tring fechaMvto="";
-        try{    //Almacenamos la fecha de inicio de actividad
-            Calendar fechaI = fecha.getCalendar();
-            String anoI = ""+fechaI.get(Calendar.YEAR);
-            String mesI = "";
-            if((fechaI.get(Calendar.MONTH) +1) <=9){
-                mesI = "0"+(fechaI.get(Calendar.MONTH) + 1);
+        DebitoZonaTrabajo debitoZonaTrabajo = new DebitoZonaTrabajo();        
+        String fechaMvto="";
+        boolean validar= true;
+        if(listadoZonaTrabajo != null){
+            if(valor.getText().equals("") && validar){
+                JOptionPane.showMessageDialog(null,"Error!!.. El valor del debito no puede estar vacio","Advertencia",JOptionPane.ERROR_MESSAGE);
+                validar= false;
             }else{
-                mesI = ""+(fechaI.get(Calendar.MONTH) + 1);
+                if(Descripcion.getText().equals("") && validar){
+                    JOptionPane.showMessageDialog(null,"Error!!.. El motivo del debito no puede estar vacio","Advertencia",JOptionPane.ERROR_MESSAGE);
+                    validar= false;
+                }else{
+                    try{    //Almacenamos la fecha de inicio de actividad
+                        Calendar fechaI = fecha.getCalendar();
+                        String anoI = ""+fechaI.get(Calendar.YEAR);
+                        String mesI = "";
+                        if((fechaI.get(Calendar.MONTH) +1) <=9){
+                            mesI = "0"+(fechaI.get(Calendar.MONTH) + 1);
+                        }else{
+                            mesI = ""+(fechaI.get(Calendar.MONTH) + 1);
+                        }
+                        String diaI = "";
+                        if(fechaI.get(Calendar.DAY_OF_MONTH) <=9){
+                            diaI = "0"+fechaI.get(Calendar.DAY_OF_MONTH);
+                        }else{
+                            diaI = ""+fechaI.get(Calendar.DAY_OF_MONTH);
+                        }
+                        fechaMvto=anoI+"-"+mesI+"-"+diaI;
+                        debitoZonaTrabajo.setFechaMvomiento(fechaMvto);
+                        try{
+                            debitoZonaTrabajo.setZonaTrabajo(listadoZonaTrabajo.get(selectZonaTrabajo.getSelectedIndex()));
+                            Integer.parseInt(valor.getText());
+                            debitoZonaTrabajo.setValor(valor.getText());
+                            debitoZonaTrabajo.setDescripcion(Descripcion.getText());
+                            debitoZonaTrabajo.setUsuarioQuienRegistra(user);
+                            debitoZonaTrabajo.setEstado("1");
+                        }catch(Exception e){
+                            validar= false;
+                            JOptionPane.showMessageDialog(null,"Error!!.. El valor del debito debe ser númerico y no debe de tener punto, ni coma","Advertencia",JOptionPane.ERROR_MESSAGE);
+                            e.printStackTrace();
+                        }
+                    }catch(Exception e){
+                        //validarCampos=false;
+                        JOptionPane.showMessageDialog(null,"Error!!.. Debe verificar la fecha de Movimiento","Advertencia",JOptionPane.ERROR_MESSAGE);
+                        validar= false;
+                    }   
+                }
             }
-            String diaI = "";
-            if(fechaI.get(Calendar.DAY_OF_MONTH) <=9){
-                diaI = "0"+fechaI.get(Calendar.DAY_OF_MONTH);
-            }else{
-                diaI = ""+fechaI.get(Calendar.DAY_OF_MONTH);
-            }
-            fechaMvto=anoI+"-"+mesI+"-"+diaI;
-            
-            lis
-            
-            
-            
-            
-        }catch(Exception e){
-            //validarCampos=false;
-            JOptionPane.showMessageDialog(null,"Error!!.. Debe verificar la fecha de Movimiento","Advertencia",JOptionPane.ERROR_MESSAGE);
-        }                        
-    
+        }else{
+            JOptionPane.showMessageDialog(null,"Error!!.. Debe existir al menos una zona de trabajo activa para registrar el debito","Advertencia",JOptionPane.ERROR_MESSAGE);
+            validar= false;
+        }
+        //Procedemos a hace registro siempre y cuando validar=true, de lo contrario no se registra
+        if(validar){
+            //registramos la objeto tipo DebitoZonaTrabajo
+            int retorno =0;
+            try {
+                retorno= new ControlDB_ZonaTrabajo(tipoConexion).registrarDebito(debitoZonaTrabajo);
+                if(retorno==1){
+                    JOptionPane.showMessageDialog(null, "Registro exitoso","Registrado", JOptionPane.INFORMATION_MESSAGE);
+                    valor.setText("");
+                    Descripcion.setText("");
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se puedo hacer el registro del debito valide la información suministrada","Error!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "No se puedo hacer el registro del debito valide la información suministrada","Error!", JOptionPane.INFORMATION_MESSAGE);
+                e.printStackTrace(); 
+            }      
+        }
     }//GEN-LAST:event_btn_registrar_clienteActionPerformed
 
 

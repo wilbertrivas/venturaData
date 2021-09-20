@@ -1,7 +1,9 @@
-package Catalogo.View1;
+package Catalogo.View;
    
 import Catalogo.Controller.ControlDB_Articulo;
+import Catalogo.Controller.ControlDB_ZonaTrabajo;
 import Catalogo.Model.Articulo;
+import Catalogo.Model.ZonaTrabajo;
 import Sistema.Model.Usuario;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,10 +38,10 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public final class Articulo_Consultar extends javax.swing.JPanel {
+public final class ZonaTrabajo_Consultar extends javax.swing.JPanel {
     private String tipoConexion;
     Usuario user;
-    public Articulo_Consultar(Usuario u,String tipoConexion) {
+    public ZonaTrabajo_Consultar(Usuario u,String tipoConexion) {
         initComponents();
         this.tipoConexion= tipoConexion;
         user= u;
@@ -47,7 +49,7 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
             tabla_Listar("");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al tratar de consultar los articulos");
-            Logger.getLogger(Articulo_Consultar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZonaTrabajo_Consultar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     @SuppressWarnings("unchecked")
@@ -89,7 +91,7 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tabla);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 1450, 590));
-        add(valorBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 530, 40));
+        add(valorBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 530, 40));
 
         btn_cancelar_cliente1.setBackground(new java.awt.Color(255, 255, 255));
         btn_cancelar_cliente1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -145,7 +147,7 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
                 consultarActionPerformed(evt);
             }
         });
-        add(consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 140, 40));
+        add(consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 160, 40));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -157,7 +159,7 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
         try {
             tabla_Listar(valorBusqueda.getText());
         } catch (SQLException ex) {
-            Logger.getLogger(Articulo_Consultar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZonaTrabajo_Consultar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_consultarActionPerformed
 
@@ -181,7 +183,7 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
                 }else{
                     wb= new XSSFWorkbook();
                 }
-                Sheet hoja= wb.createSheet("ArticulosVenturaData");
+                Sheet hoja= wb.createSheet("ZonaTrabajoVenturaData");
                 int costoTotalApuntador=300000;
                 try{
                     for(int i= -1; i < numFila; i++ ){
@@ -264,7 +266,8 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "El usuario no tiene un correo configurado para el envio de correo, favor actualizar los datos");
         }else{
             File archivo;
-            archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_Articulos.xlsx");
+            //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_ZonaTrabajo.xlsx");
+            archivo= new File( System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporte_ZonaTrabajo.xlsx");
             Workbook wb;
             String respuesta="No se realizó con exito la exportacion";
             int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();
@@ -273,7 +276,7 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
             }else{
                 wb= new XSSFWorkbook();
             }
-            Sheet hoja= wb.createSheet("ReporteVenturaData_Articulos");
+            Sheet hoja= wb.createSheet("ReporteVenturaData_ZonaTrabajo");
             int costoTotalApuntador=300000;
             try{
                 for(int i= -1; i < numFila; i++ ){
@@ -366,7 +369,7 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
                     BodyPart adjunto = new MimeBodyPart();
                     //adjunto.setDataHandler(new DataHandler(new FileDataSource("d:/futbol.png")));
                     adjunto.setDataHandler(new DataHandler(new FileDataSource(archivo)));
-                    adjunto.setFileName("reporte_VenturaData_Articulos.xlsx");
+                    adjunto.setFileName("reporte_VenturaData_ZonaTrabajo.xlsx");
                     MimeMultipart multiParte = new MimeMultipart();
                     multiParte.addBodyPart(texto);
                     multiParte.addBodyPart(adjunto);
@@ -403,17 +406,13 @@ public final class Articulo_Consultar extends javax.swing.JPanel {
     private javax.swing.JTextField valorBusqueda;
     // End of variables declaration//GEN-END:variables
     public void tabla_Listar(String valorConsulta) throws SQLException{
-        DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código","TipoArticulo", "Nombre","CódigoERP","Unidad_Negocio","Estado","Origen de Datos"});  
-        ArrayList<Articulo> listado=new ControlDB_Articulo(tipoConexion).buscar(valorConsulta);
-        for (Articulo listado1 : listado) {
+        DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código","Descripción","Estado"});  
+        ArrayList<ZonaTrabajo> listado=new ControlDB_ZonaTrabajo(tipoConexion).buscar(valorConsulta);
+        for (ZonaTrabajo zonaTrabajo : listado) {
             String[] registro = new String[7];
-            registro[0] = "" + listado1.getCodigo();
-            registro[1] = "" + listado1.getTipoArticulo().getDescripcion();
-            registro[2] = "" + listado1.getDescripcion();
-            registro[3] = "" + listado1.getTipoArticulo().getCodigoERP();
-            registro[4] = "" + listado1.getTipoArticulo().getUnidadNegocio();
-            registro[5] = "" + listado1.getEstado();
-            registro[6]=""+listado1.getBaseDatos().getDescripcion(); 
+            registro[0] = "" + zonaTrabajo.getCodigo();
+            registro[1] = "" + zonaTrabajo.getDescripcion();
+            registro[2] = "" + zonaTrabajo.getEstado();
             modelo.addRow(registro);      
         }
         tabla.setModel(modelo);

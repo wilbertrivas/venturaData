@@ -1,7 +1,7 @@
-package ModuloEquipo.Controller2;
+package ModuloEquipo.Controller;
 
 import Catalogo.Model.BaseDatos;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;

@@ -1,5 +1,5 @@
 
-package Auditoria.Model2;
+package Auditoria.Model;
 
 import Sistema.Model.Usuario;
 

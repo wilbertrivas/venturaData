@@ -1,7 +1,7 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
   
 import Catalogo.Controller.ControlDB_CausaInactividad;
-import Catalogo.View1.CentroCostoAuxiliar_Registrar;
+import Catalogo.View.CentroCostoAuxiliar_Registrar;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;

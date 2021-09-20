@@ -5,11 +5,11 @@
  */ 
 package Consumo.View;
  
-import Consumo.Controller2.ControlDB_Insumo;
-import Consumo.Model2.Insumo;
+import Consumo.Controller.ControlDB_Insumo;
+import Consumo.Model.Insumo;
 import java.sql.SQLException;
 
-/**
+/**fg
  *
  * @author wrivas
  */

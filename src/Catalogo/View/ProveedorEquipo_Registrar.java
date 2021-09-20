@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Catalogo.Controller.ControlDB_ProveedorEquipo;
 import Catalogo.Model.ProveedorEquipo;

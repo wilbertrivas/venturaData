@@ -1,4 +1,4 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
 import Catalogo.Controller.ControlDB_CentroOperacion;
@@ -6,7 +6,7 @@ import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;
-import ModuloEquipo.Controller2.ControlDB_AsignacionEquipo;
+import ModuloEquipo.Controller.ControlDB_AsignacionEquipo;
 import Catalogo.Controller.ControlDB_Compañia;
 import Catalogo.Controller.ControlDB_Equipo;
 import Catalogo.Controller.ControlDB_LaborRealizada;

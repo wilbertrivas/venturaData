@@ -1,7 +1,7 @@
 package Consumo.View;
   
-import Consumo.Controller2.ControlDB_Unidad;
-import Consumo.Model2.Unidad;
+import Consumo.Controller.ControlDB_Unidad;
+import Consumo.Model.Unidad;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.net.SocketException;

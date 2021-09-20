@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
    
 import Catalogo.Controller.ControlDB_Articulo;
 import Catalogo.Controller.ControlDB_BaseDatos;
@@ -6,7 +6,7 @@ import Catalogo.Controller.ControlDB_TipoArticulo;
 import Catalogo.Model.Articulo;
 import Catalogo.Model.BaseDatos;
 import Catalogo.Model.TipoArticulo;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.net.SocketException;
@@ -92,10 +92,10 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         alerta_nombre = new javax.swing.JLabel();
         chek_TipoArticulo = new javax.swing.JRadioButton();
         Select_TipoArticulo = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         listado_baseDatos = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         Editar.setText("Modificar");
         Editar.addActionListener(new java.awt.event.ActionListener() {
@@ -218,6 +218,13 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         Select_TipoArticulo.setToolTipText("");
         add(Select_TipoArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 330, 30));
 
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setText("Base de Datos:");
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 30));
+
+        listado_baseDatos.setToolTipText("");
+        add(listado_baseDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 390, 30));
+
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1290, 90));
@@ -225,13 +232,6 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 530, 470));
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel13.setText("Base de Datos:");
-        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 30));
-
-        listado_baseDatos.setToolTipText("");
-        add(listado_baseDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 390, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

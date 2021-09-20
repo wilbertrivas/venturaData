@@ -1,6 +1,6 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
   
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import ModuloEquipo.Model.MvtoEquipo;
 import Sistema.Model.Usuario;
 import java.awt.Color;

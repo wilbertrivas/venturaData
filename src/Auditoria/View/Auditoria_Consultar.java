@@ -1,7 +1,7 @@
 package Auditoria.View;
   
-import Auditoria.Controller2.Controller_Auditoria;
-import Auditoria.Model2.Auditoria;
+import Auditoria.Controller.Controller_Auditoria;
+import Auditoria.Model.Auditoria;
 import Sistema.Model.Usuario;
 import java.awt.Color;
 import java.io.File;

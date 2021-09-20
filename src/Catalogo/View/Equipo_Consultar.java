@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
 import Catalogo.Controller.ControlDB_Equipo;
 import Catalogo.Model.Equipo;
 import java.awt.Color;

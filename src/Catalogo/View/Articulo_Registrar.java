@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
     
 import Catalogo.Controller.ControlDB_Articulo;
 import Catalogo.Controller.ControlDB_BaseDatos;
@@ -6,7 +6,7 @@ import Catalogo.Controller.ControlDB_TipoArticulo;
 import Catalogo.Model.Articulo;
 import Catalogo.Model.BaseDatos;
 import Catalogo.Model.TipoArticulo;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.net.SocketException;

@@ -1,9 +1,9 @@
-package ModuloEquipo.Controller2; 
+package ModuloEquipo.Controller; 
     import Catalogo.Controller.ControlDB_CentroCosto;
     import Catalogo.Controller.ControlDB_CentroCostoMayor;
     import Catalogo.Controller.ControlDB_Equipo;
-    import ConnectionDB2.Conexion_DB_ccargaGP;
-    import ConnectionDB2.Conexion_DB_costos_vg;
+    import ConnectionDB.Conexion_DB_ccargaGP;
+    import ConnectionDB.Conexion_DB_costos_vg;
     import Catalogo.Model.Cliente;
     import Catalogo.Model.Articulo;
     import Catalogo.Model.BaseDatos;

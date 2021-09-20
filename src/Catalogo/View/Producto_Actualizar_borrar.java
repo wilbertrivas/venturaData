@@ -1,6 +1,6 @@
-package Catalogo.View1;
+package Catalogo.View;
 
-import ModuloEquipo.Controller2.ControlDB_Producto;
+import ModuloEquipo.Controller.ControlDB_Producto;
 import Catalogo.Model.Producto;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;

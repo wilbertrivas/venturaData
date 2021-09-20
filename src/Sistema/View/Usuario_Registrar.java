@@ -1,4 +1,4 @@
-package Sistema.View2;
+package Sistema.View;
 
 import Sistema.Controller.ControlDB_Usuario;
 import Sistema.Model.Perfil;
@@ -55,6 +55,7 @@ public class Usuario_Registrar extends javax.swing.JPanel {
         us_perfil_usuario_cdgo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         alerta_us_correo = new javax.swing.JLabel();
+        viewPassword23 = new javax.swing.JCheckBox();
 
         Editar.setText("Seleccionar");
         Editar.addActionListener(new java.awt.event.ActionListener() {
@@ -173,6 +174,16 @@ public class Usuario_Registrar extends javax.swing.JPanel {
         alerta_us_correo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         alerta_us_correo.setForeground(new java.awt.Color(255, 0, 51));
         add(alerta_us_correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 320, 20));
+
+        viewPassword23.setBackground(new java.awt.Color(255, 255, 255));
+        viewPassword23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        viewPassword23.setText("Mostrar Contraseña");
+        viewPassword23.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                viewPassword23ItemStateChanged(evt);
+            }
+        });
+        add(viewPassword23, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 40, -1, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
@@ -213,7 +224,11 @@ public class Usuario_Registrar extends javax.swing.JPanel {
                                     
                                     String[]datosPerfil=us_perfil_usuario_cdgo.getSelectedItem().toString().split(":");
                                     us.setPerfilUsuario(new Perfil(datosPerfil[0]));
-                                    us.setCorreo(us_correo.getText());   
+                                    us.setCorreo(us_correo.getText());  
+                                    us.setSesionBloqueada("0");
+                                    us.setCantidadIntento(0);
+                                    us.setCambiarClave("0");
+                                    
 
                                     //Validamos si selecciono activo o inactivo
                                     if(us_estad.getSelectedItem().toString().equalsIgnoreCase("ACTIVO")){
@@ -221,6 +236,48 @@ public class Usuario_Registrar extends javax.swing.JPanel {
                                     }else{
                                         us.setEstado("0");
                                     }
+                                    if(new ControlDB_Usuario(tipoConexion).validarComplejidadContraseña(us.getClave())){
+                                        int result=controlDB_Usuario.registrarUsuario(us);
+                                        if(result==1){
+                                         JOptionPane.showMessageDialog(null, "Registro de Usuario Exitoso");
+                                                us_cdgo.setText("");
+                                                us_clave.setText("");
+                                                us_nombres.setText("");
+                                                us_apellidos.setText("");
+                                                us_perfil_usuario_cdgo.setSelectedIndex(0);
+                                                us_correo.setText("");
+                                                us_estad.setSelectedIndex(0);
+                                                alerta_us_cdgo.setText("");
+                                                alerta_us_clave.setText("");
+                                                alerta_us_nombres.setText("");
+                                                alerta_us_apellidos.setText("");  
+                                        }else{
+                                            JOptionPane.showMessageDialog(null, "Error Al Registrar el Usuario");
+                                        } 
+                                    }
+                                } else {
+                                    alerta_us_correo.setText("El email ingresado es inválido.");
+                                }
+                            }else{//El usuario dejo el correo vacio por tal motivo también se realiza el registro
+                                Usuario us = new Usuario();
+                                us.setCodigo(us_cdgo.getText());   
+                                us.setClave(us_clave.getText());   
+                                us.setNombres(us_nombres.getText());   
+                                us.setApellidos(us_apellidos.getText());   
+                                String[]datosPerfil=us_perfil_usuario_cdgo.getSelectedItem().toString().split(":");
+                                us.setPerfilUsuario(new Perfil(datosPerfil[0]));
+                                us.setCorreo(us_correo.getText());   
+                                us.setSesionBloqueada("0");
+                                us.setCantidadIntento(0);
+                                us.setCambiarClave("0");
+
+                                //Validamos si selecciono activo o inactivo
+                                if(us_estad.getSelectedItem().toString().equalsIgnoreCase("ACTIVO")){
+                                    us.setEstado("1");
+                                }else{
+                                    us.setEstado("0");
+                                }
+                                if(new ControlDB_Usuario(tipoConexion).validarComplejidadContraseña(us.getClave())){
                                     int result=controlDB_Usuario.registrarUsuario(us);
                                     if(result==1){
                                      JOptionPane.showMessageDialog(null, "Registro de Usuario Exitoso");
@@ -237,43 +294,8 @@ public class Usuario_Registrar extends javax.swing.JPanel {
                                             alerta_us_apellidos.setText("");  
                                     }else{
                                         JOptionPane.showMessageDialog(null, "Error Al Registrar el Usuario");
-                                    } 
-                                } else {
-                                    alerta_us_correo.setText("El email ingresado es inválido.");
+                                    }  
                                 }
-                            }else{//El usuario dejo el correo vacio por tal motivo también se realiza el registro
-                                Usuario us = new Usuario();
-                                us.setCodigo(us_cdgo.getText());   
-                                us.setClave(us_clave.getText());   
-                                us.setNombres(us_nombres.getText());   
-                                us.setApellidos(us_apellidos.getText());   
-                                String[]datosPerfil=us_perfil_usuario_cdgo.getSelectedItem().toString().split(":");
-                                us.setPerfilUsuario(new Perfil(datosPerfil[0]));
-                                us.setCorreo(us_correo.getText());   
-
-                                //Validamos si selecciono activo o inactivo
-                                if(us_estad.getSelectedItem().toString().equalsIgnoreCase("ACTIVO")){
-                                    us.setEstado("1");
-                                }else{
-                                    us.setEstado("0");
-                                }
-                                int result=controlDB_Usuario.registrarUsuario(us);
-                                if(result==1){
-                                 JOptionPane.showMessageDialog(null, "Registro de Usuario Exitoso");
-                                        us_cdgo.setText("");
-                                        us_clave.setText("");
-                                        us_nombres.setText("");
-                                        us_apellidos.setText("");
-                                        us_perfil_usuario_cdgo.setSelectedIndex(0);
-                                        us_correo.setText("");
-                                        us_estad.setSelectedIndex(0);
-                                        alerta_us_cdgo.setText("");
-                                        alerta_us_clave.setText("");
-                                        alerta_us_nombres.setText("");
-                                        alerta_us_apellidos.setText("");  
-                                }else{
-                                    JOptionPane.showMessageDialog(null, "Error Al Registrar el Usuario");
-                                }  
                             }    
                         }catch(Exception e){
                             alerta_us_cdgo.setText("Error!!.. La cedula debe ser númerica");
@@ -318,6 +340,14 @@ public class Usuario_Registrar extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_us_claveKeyTyped
 
+    private void viewPassword23ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_viewPassword23ItemStateChanged
+        if(viewPassword23.isSelected()){
+            us_clave.setEchoChar((char)0); // este método es el que hace visible el texto del jPasswordField
+        } else {
+            us_clave.setEchoChar('*'); // i es el char
+        }
+    }//GEN-LAST:event_viewPassword23ItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Editar;
@@ -343,5 +373,6 @@ public class Usuario_Registrar extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> us_estad;
     private javax.swing.JTextField us_nombres;
     private javax.swing.JComboBox<String> us_perfil_usuario_cdgo;
+    private javax.swing.JCheckBox viewPassword23;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,4 +1,4 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
   
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
@@ -2143,7 +2143,8 @@ public final class MvtoCarbon_GenerarMatriz extends javax.swing.JPanel implement
         }else{
             if(listado != null){
                 File archivo;
-                archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteCarbon.xlsx");
+                //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteCarbon.xlsx");
+                archivo= new File(System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporteCarbon.xlsx");
                 Workbook wb;
                 String respuesta="No se realizó con exito la exportacion";
                 listado.size();

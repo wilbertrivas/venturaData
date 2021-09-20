@@ -1,7 +1,7 @@
-package Auditoria.Controller2;
+package Auditoria.Controller;
 
-import Auditoria.Model2.Auditoria;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import Auditoria.Model.Auditoria;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Sistema.Model.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,7 +47,7 @@ public class Controller_Auditoria {
                                                             "      ,[au_detalle_mtvo]                      -- 15\n" +
                                                             "  FROM ["+DB+"].[dbo].[auditoria]\n" +
                                                             "	INNER JOIN ["+DB+"].[dbo].[usuario] ON [au_usuario_cdgo_registro]=[us_cdgo] "+
-                                                                "  WHERE [au_fecha] BETWEEN ? AND ?");
+                                                                "  WHERE [au_fecha] BETWEEN ? AND ? ORDER BY [au_cdgo] DESC");
             query.setString(1, DatetimeInicio);
             query.setString(2, DatetimeFin);
             ResultSet resultSet; resultSet= query.executeQuery();              

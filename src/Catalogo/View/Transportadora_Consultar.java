@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
  
 import Catalogo.Controller.ControlDB_Transportadora;
 import Catalogo.Model.Transportadora;
@@ -265,7 +265,8 @@ public final class Transportadora_Consultar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "El usuario no tiene un correo configurado para el envio de correo, favor actualizar los datos");
         }else{
             File archivo;
-            archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_Transportadora.xlsx");
+            //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_Transportadora.xlsx");
+            archivo= new File( System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporte_Transportadora.xlsx");
             Workbook wb;
             String respuesta="No se realizó con exito la exportacion";
             int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();

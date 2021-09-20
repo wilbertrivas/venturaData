@@ -1,6 +1,6 @@
 package Sistema.Controller;
   
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Sistema.Model.Perfil;
 import Sistema.Model.Permisos;
 import java.sql.Connection;

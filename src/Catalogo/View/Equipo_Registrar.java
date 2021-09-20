@@ -1,18 +1,24 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Catalogo.Controller.ControlDB_ClasificadorEquipo;
 import Catalogo.Controller.ControlDB_Equipo;
 import Catalogo.Controller.ControlDB_PertenenciaEquipo;
 import Catalogo.Controller.ControlDB_ProveedorEquipo;
 import Catalogo.Controller.ControlDB_TipoEquipo;
+import Catalogo.Model.CentroCostoEquipo;
 import Catalogo.Model.ClasificadorEquipo;
 import Catalogo.Model.Equipo;
 import Catalogo.Model.Pertenencia;
 import Catalogo.Model.ProveedorEquipo;
 import Catalogo.Model.TipoEquipo;
 import Sistema.Model.Usuario;
+import java.io.FileNotFoundException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Equipo_Registrar extends javax.swing.JPanel {
@@ -26,6 +32,10 @@ public class Equipo_Registrar extends javax.swing.JPanel {
         initComponents();
         user=us;
         this.tipoConexion= tipoConexion;
+        
+        //Cargamos el consecutivo 
+        consecutivo.setText(""+ new ControlDB_Equipo(tipoConexion).CargarConsecutivoSiguiente());
+        
         listadoTipoEquipo=new ControlDB_TipoEquipo(tipoConexion).buscarActivos();
         listadoClasificadorEquipo=new ControlDB_ClasificadorEquipo(tipoConexion).buscarActivos();
         listadoProveedorEquipo=new ControlDB_ProveedorEquipo(tipoConexion).buscarActivos();
@@ -90,7 +100,6 @@ public class Equipo_Registrar extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         equipoObservacion = new javax.swing.JTextPane();
         jLabel12 = new javax.swing.JLabel();
-        equipoCodigo = new javax.swing.JTextField();
         equipoCodigoBarra = new javax.swing.JTextField();
         equipoReferencia = new javax.swing.JTextField();
         equipoCapacidad = new javax.swing.JTextField();
@@ -118,6 +127,7 @@ public class Equipo_Registrar extends javax.swing.JPanel {
         ActivoFijo_separador2 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         ActivoFijo_separador1 = new javax.swing.JSeparator();
+        consecutivo = new javax.swing.JLabel();
 
         Editar.setText("Modificar");
         Editar.addActionListener(new java.awt.event.ActionListener() {
@@ -215,9 +225,6 @@ public class Equipo_Registrar extends javax.swing.JPanel {
         jLabel12.setText("Tipo Equipo:");
         add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 160, 30));
 
-        equipoCodigo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        add(equipoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 370, 30));
-
         equipoCodigoBarra.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         add(equipoCodigoBarra, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 370, 30));
 
@@ -313,6 +320,10 @@ public class Equipo_Registrar extends javax.swing.JPanel {
         add(ActivoFijo_separador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 530, 490, 10));
         add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 1000, 20));
         add(ActivoFijo_separador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 420, 490, 10));
+
+        consecutivo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        consecutivo.setText("____________");
+        add(consecutivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 370, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
@@ -320,11 +331,11 @@ public class Equipo_Registrar extends javax.swing.JPanel {
     }//GEN-LAST:event_EditarActionPerformed
 
     private void btn_registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarActionPerformed
-        if(equipoCodigo.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null,"El código del equipo no puede estar vacio", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            try{
-                Integer.parseInt(equipoCodigo.getText());
+        //if(equipoCodigo.getText().isEmpty()){
+          //  JOptionPane.showMessageDialog(null,"El código del equipo no puede estar vacio", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        //}else{
+           // try{
+                //Integer.parseInt(equipoCodigo.getText());
                 if(equipoCodigoBarra.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null,"El código de barra no puede estar vacio", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
                 }else{
@@ -350,7 +361,8 @@ public class Equipo_Registrar extends javax.swing.JPanel {
                                                 JOptionPane.showMessageDialog(null,"La descripción del equipo no puede estar vacia", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
                                             }else{                           
                                                 Equipo Objeto = new Equipo();
-                                                Objeto.setCodigo(equipoCodigo.getText());                                         
+                                                //Objeto.setCodigo(equipoCodigo.getText());                                         
+                                                Objeto.setCodigo(consecutivo.getText());    
                                                 Objeto.setTipoEquipo(listadoTipoEquipo.get(equipoTipoEquipo.getSelectedIndex()));
                                                 Objeto.setCodigo_barra(equipoCodigoBarra.getText());
                                                 Objeto.setReferencia(equipoReferencia.getText());
@@ -386,38 +398,53 @@ public class Equipo_Registrar extends javax.swing.JPanel {
                                                     Objeto.setActivoFijo_referencia(null);
                                                     Objeto.setActivoFijo_descripcion(null);
                                                 }
+                                                Objeto.setCentroCostoEquipo(new CentroCostoEquipo(null, null, null, null));
                                                 if(validador){
                                                     if(new ControlDB_Equipo(tipoConexion).validarExistenciaPorCodigo(Objeto)){
                                                         JOptionPane.showMessageDialog(null, "El equipo ya se encuentra registrado en el sistema", "Error", JOptionPane.ERROR_MESSAGE);
                                                     }else{
-                                                        int respuesta=new ControlDB_Equipo(tipoConexion).registrar(Objeto, user);
-                                                        if(respuesta==1){
-                                                            JOptionPane.showMessageDialog(null, "Se registro el equipo de manera exitosa");
-                                                            equipoCodigo.setText("");
-                                                            equipoCodigoBarra.setText("");
-                                                            equipoReferencia.setText("");
-                                                            equipoProducto.setText("");
-                                                            equipoCapacidad.setText("");
-                                                            equipoMarca.setText("");
-                                                            equipoModelo.setText("");
-                                                            equipoSerial.setText("");
-                                                            equipoDescripcion.setText("");
-                                                            equipoObservacion.setText("");
-                                                            equipoActivoFijo_codigo.setText("");
-                                                            equipoActivoFijo_referencia.setText("");
-                                                            equipoActivoFijo_descripcion.setText("");
-
-                                                            equipoTipoEquipo.setSelectedIndex(0);
-                                                            equipoClasificador1.setSelectedIndex(0);
-                                                            equipoClasificador2.setSelectedIndex(0);
-                                                            equipoProveedorEquipo.setSelectedIndex(0);
-                                                            equipoPertenencia.setSelectedIndex(0);
-                                                            equipoEstado.setSelectedIndex(0);
-                                                            //tabla_Listar("");
-                                                        }else{
-                                                            if(respuesta==0){
-                                                                JOptionPane.showMessageDialog(null, "No se pudo registrar el equipo, valide datos", "Advertencia", JOptionPane.ERROR_MESSAGE);
+                                                        try {
+                                                            int respuesta=new ControlDB_Equipo(tipoConexion).registrar(Objeto, user);
+                                                            if(respuesta==1){
+                                                                JOptionPane.showMessageDialog(null, "Se registro el equipo de manera exitosa");
+                                                                try {
+                                                                    //equipoCodigo.setText("");
+                                                                    //Cargamos el consecutivo
+                                                                    consecutivo.setText(""+ new ControlDB_Equipo(tipoConexion).CargarConsecutivoSiguiente());
+                                                                } catch (SQLException ex) {
+                                                                    Logger.getLogger(Equipo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                                                                }
+                                                                equipoCodigoBarra.setText("");
+                                                                equipoReferencia.setText("");
+                                                                equipoProducto.setText("");
+                                                                equipoCapacidad.setText("");
+                                                                equipoMarca.setText("");
+                                                                equipoModelo.setText("");
+                                                                equipoSerial.setText("");
+                                                                equipoDescripcion.setText("");
+                                                                equipoObservacion.setText("");
+                                                                equipoActivoFijo_codigo.setText("");
+                                                                equipoActivoFijo_referencia.setText("");
+                                                                equipoActivoFijo_descripcion.setText("");
+                                                                
+                                                                equipoTipoEquipo.setSelectedIndex(0);
+                                                                equipoClasificador1.setSelectedIndex(0);
+                                                                equipoClasificador2.setSelectedIndex(0);
+                                                                equipoProveedorEquipo.setSelectedIndex(0);
+                                                                equipoPertenencia.setSelectedIndex(0);
+                                                                equipoEstado.setSelectedIndex(0);
+                                                                //tabla_Listar("");
+                                                            }else{
+                                                                if(respuesta==0){
+                                                                    JOptionPane.showMessageDialog(null, "No se pudo registrar el equipo, valide datos", "Advertencia", JOptionPane.ERROR_MESSAGE);
+                                                                }
                                                             }
+                                                        } catch (FileNotFoundException ex) {
+                                                            Logger.getLogger(Equipo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                                                        } catch (UnknownHostException ex) {
+                                                            Logger.getLogger(Equipo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                                                        } catch (SocketException ex) {
+                                                            Logger.getLogger(Equipo_Registrar.class.getName()).log(Level.SEVERE, null, ex);
                                                         }
                                                     }
                                                 }                             
@@ -429,14 +456,14 @@ public class Equipo_Registrar extends javax.swing.JPanel {
                         }
                     }
                 }
-            }catch(Exception e){
-                JOptionPane.showMessageDialog(null,"El código del equipo debe ser númerico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
+            //}catch(Exception e){
+              //  JOptionPane.showMessageDialog(null,"El código del equipo debe ser númerico", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            //}
+       // }
     }//GEN-LAST:event_btn_registrarActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
-        equipoCodigo.setText("");
+        //equipoCodigo.setText("");
         equipoCodigoBarra.setText("");
         equipoReferencia.setText("");
         equipoProducto.setText("");
@@ -495,13 +522,13 @@ public class Equipo_Registrar extends javax.swing.JPanel {
     private javax.swing.JPopupMenu Seleccionar;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_registrar;
+    private javax.swing.JLabel consecutivo;
     private javax.swing.JTextField equipoActivoFijo_codigo;
     private javax.swing.JTextField equipoActivoFijo_descripcion;
     private javax.swing.JTextField equipoActivoFijo_referencia;
     private javax.swing.JTextField equipoCapacidad;
     private javax.swing.JComboBox<String> equipoClasificador1;
     private javax.swing.JComboBox<String> equipoClasificador2;
-    private javax.swing.JTextField equipoCodigo;
     private javax.swing.JTextField equipoCodigoBarra;
     private javax.swing.JTextField equipoDescripcion;
     private javax.swing.JComboBox<String> equipoEstado;

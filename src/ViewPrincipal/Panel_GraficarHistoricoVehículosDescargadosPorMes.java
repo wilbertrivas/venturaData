@@ -1,11 +1,104 @@
 
 package ViewPrincipal;
 
-public class Panel_Informativo extends javax.swing.JPanel {
+import Catalogo.Controller.ControlDB_Articulo;
+import Catalogo.Controller.ControlDB_Cliente;
+import Catalogo.Controller.ControlDB_ZonaTrabajo;
+import Catalogo.Model.Articulo;
+import Catalogo.Model.CentroOperacion;
+import Catalogo.Model.Cliente;
+import Catalogo.Model.ZonaTrabajo;
+import ModuloEquipo.View.MvtoEquipo_ModificarFinal;
+import ModuloEquipo.View.MvtoEquipo_Procesar_Programado;
+import Sistema.Controller.ControlDB_PanelControl;
+import Sistema.Controller.ControlDB_Sistema;
+import java.awt.Color;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.labels.StandardXYItemLabelGenerator;
+import org.jfree.chart.labels.XYItemLabelGenerator;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.Month;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.date.MonthConstants;
+import org.jfree.ui.RectangleInsets;
 
-    public Panel_Informativo(String p) {
+public class Panel_GraficarHistoricoVehículosDescargadosPorMes extends javax.swing.JPanel {
+    private String tipoConexion ="";
+    private Cliente cliente=null;
+    private Articulo articulo=null;
+    private ArrayList<Cliente> listadoCliente=null;
+    private ArrayList<Articulo> listadoArticulos=null;
+    ArrayList<ZonaTrabajo> listadoZonaTrabajo = null;
+    Iniciar_Graficar Iniciar1;
+    Graficar_HistoricoVehiculosDescargados demo2;
+    Graficar_HistoricoToneladasDescargadas demo3;
+    Graficar_HistoricoVehiculosDescargadosPorAuxilar demo4;
+    ChartPanel frame;
+    CentroOperacion centroOperacion;
+    public Panel_GraficarHistoricoVehículosDescargadosPorMes(String tipoConexion, CentroOperacion centroOperacion) {
         initComponents();
-        userOnline.setText(p);   
+        this.tipoConexion=tipoConexion;
+        this.centroOperacion= centroOperacion;
+        Iniciar1 = new Iniciar_Graficar(tipoConexion);
+        System.out.println("centroOperacion: "+this.centroOperacion.getDescripcion());
+        //Cargamos en la interfaz las zonas de trabajo
+        try{
+            listadoZonaTrabajo=new ControlDB_ZonaTrabajo(tipoConexion).listarZonaTrabajoPorCentroOperacion(this.centroOperacion);
+            if(listadoZonaTrabajo != null){
+                for(ZonaTrabajo zonaTrabajo: listadoZonaTrabajo){
+                    selectZonaTrabajo.addItem(zonaTrabajo.getDescripcion());
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        
+        jLabel13.show(false);
+        fechaInicioAsignacion.show(false);
+        jLabel11.show(false);
+        fechaFinAsignacion.show(false);
+        
+
+        InternaFrame_buscarArticulo.getContentPane().setBackground(Color.WHITE);
+        InternaFrame_buscarCliente.getContentPane().setBackground(Color.WHITE);
+        
+        InternaFrame_buscarArticulo.show(false);
+        InternaFrame_buscarArticulo.show(false);
+        
+        icon_buscarClientes.show(false);
+        label_clientes.show(false);
+        icon_buscarArticulo.show(false);
+        label_articulo.show(false);
+        
+        buttonGroupFijoFlotante.add(checkFijo);
+        buttonGroupFijoFlotante.add(checkFlotante);
+        
+        checkFijo.setSelected(true);
+ 
+        selectZonaTrabajo.show(false);
+        
+        //for(int i=1; i<=365; i++){
+        for(int i=10; i<=365; i++){
+            time.addItem(""+i);
+        }
+        iniciar.setEnabled(true);
+        parar.setEnabled(false);    
     }
 
     /**
@@ -17,26 +110,1075 @@ public class Panel_Informativo extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        entradaAlmacenNo1 = new javax.swing.JLabel();
-        userOnline = new javax.swing.JLabel();
+        buttonGroup = new javax.swing.ButtonGroup();
+        buttonGroupFijoFlotante = new javax.swing.ButtonGroup();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        InternaFrame_buscarArticulo = new javax.swing.JInternalFrame();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaArticulo = new javax.swing.JTable();
+        valorBusquedaArticulo = new javax.swing.JTextField();
+        btnConsultarArticulo = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        btnCancelarArticulo = new javax.swing.JButton();
+        btnLimpiarArticulo = new javax.swing.JButton();
+        InternaFrame_buscarCliente = new javax.swing.JInternalFrame();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaCliente = new javax.swing.JTable();
+        valorBusquedaCliente = new javax.swing.JTextField();
+        btnConsultarCliente = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        btnCancelarCliente = new javax.swing.JButton();
+        btnLimpiarCliente = new javax.swing.JButton();
+        panel = new javax.swing.JScrollPane();
+        titulo33 = new javax.swing.JLabel();
+        rangoTiempo = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        fechaInicioAsignacion = new com.toedter.calendar.JDateChooser();
+        fechaFinAsignacion = new com.toedter.calendar.JDateChooser();
+        jLabel11 = new javax.swing.JLabel();
+        checkCliente = new javax.swing.JRadioButton();
+        icon_buscarClientes = new javax.swing.JLabel();
+        label_clientes = new javax.swing.JLabel();
+        checkArticulo = new javax.swing.JRadioButton();
+        label_articulo = new javax.swing.JLabel();
+        icon_buscarArticulo = new javax.swing.JLabel();
+        checkZonaOperacion = new javax.swing.JRadioButton();
+        selectZonaTrabajo = new javax.swing.JComboBox<>();
+        checkFijo = new javax.swing.JRadioButton();
+        checkFlotante = new javax.swing.JRadioButton();
+        titulo30 = new javax.swing.JLabel();
+        time = new javax.swing.JComboBox<>();
+        modalidadHilo = new javax.swing.JComboBox<>();
+        iniciar = new javax.swing.JButton();
+        parar = new javax.swing.JButton();
+        titulo32 = new javax.swing.JLabel();
+        titulo39 = new javax.swing.JLabel();
+        titulo29 = new javax.swing.JLabel();
+        titulo40 = new javax.swing.JLabel();
+        titulo36 = new javax.swing.JLabel();
+        titulo37 = new javax.swing.JLabel();
+        titulo31 = new javax.swing.JLabel();
+        titulo34 = new javax.swing.JLabel();
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        entradaAlmacenNo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        entradaAlmacenNo1.setForeground(new java.awt.Color(0, 153, 51));
-        entradaAlmacenNo1.setText("Usuario Conectado: ");
-        add(entradaAlmacenNo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 130, -1));
+        InternaFrame_buscarArticulo.setClosable(true);
+        InternaFrame_buscarArticulo.setVisible(false);
+        InternaFrame_buscarArticulo.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        userOnline.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        userOnline.setForeground(new java.awt.Color(0, 153, 153));
-        userOnline.setText("Cedula:");
-        add(userOnline, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 1060, -1));
+        tablaArticulo = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tablaArticulo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaArticulo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaArticuloMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tablaArticulo);
+
+        InternaFrame_buscarArticulo.getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1090, 640));
+        InternaFrame_buscarArticulo.getContentPane().add(valorBusquedaArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 290, 40));
+
+        btnConsultarArticulo.setBackground(new java.awt.Color(255, 255, 255));
+        btnConsultarArticulo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnConsultarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        btnConsultarArticulo.setToolTipText("CONSULTAR MOTONAVES");
+        btnConsultarArticulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarArticuloActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarArticulo.getContentPane().add(btnConsultarArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 60, 40));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel10.setText("CONSULTAR ARTICULO:");
+        InternaFrame_buscarArticulo.getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 190, 40));
+
+        btnCancelarArticulo.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelarArticulo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnCancelarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancelar.png"))); // NOI18N
+        btnCancelarArticulo.setToolTipText("CANCELAR BUSQUEDA");
+        btnCancelarArticulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarArticuloActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarArticulo.getContentPane().add(btnCancelarArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 10, 60, 40));
+
+        btnLimpiarArticulo.setBackground(new java.awt.Color(255, 255, 255));
+        btnLimpiarArticulo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLimpiarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/clean.png"))); // NOI18N
+        btnLimpiarArticulo.setToolTipText("BORRAR RESULTADOS");
+        btnLimpiarArticulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarArticuloActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarArticulo.getContentPane().add(btnLimpiarArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 60, 40));
+
+        add(InternaFrame_buscarArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1410, 760));
+
+        InternaFrame_buscarCliente.setClosable(true);
+        InternaFrame_buscarCliente.setVisible(false);
+        InternaFrame_buscarCliente.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablaCliente = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tablaCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablaCliente);
+
+        InternaFrame_buscarCliente.getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1090, 640));
+        InternaFrame_buscarCliente.getContentPane().add(valorBusquedaCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 290, 40));
+
+        btnConsultarCliente.setBackground(new java.awt.Color(255, 255, 255));
+        btnConsultarCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnConsultarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        btnConsultarCliente.setToolTipText("CONSULTAR MOTONAVES");
+        btnConsultarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarClienteActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarCliente.getContentPane().add(btnConsultarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 60, 40));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel6.setText("CONSULTAR CLIENTE:");
+        InternaFrame_buscarCliente.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 190, 40));
+
+        btnCancelarCliente.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelarCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnCancelarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancelar.png"))); // NOI18N
+        btnCancelarCliente.setToolTipText("CANCELAR BUSQUEDA");
+        btnCancelarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarClienteActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarCliente.getContentPane().add(btnCancelarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 10, 60, 40));
+
+        btnLimpiarCliente.setBackground(new java.awt.Color(255, 255, 255));
+        btnLimpiarCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLimpiarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/clean.png"))); // NOI18N
+        btnLimpiarCliente.setToolTipText("BORRAR RESULTADOS");
+        btnLimpiarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarClienteActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarCliente.getContentPane().add(btnLimpiarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 60, 40));
+
+        add(InternaFrame_buscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1410, 760));
+        add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 1440, 520));
+
+        titulo33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo33.setForeground(new java.awt.Color(51, 51, 51));
+        titulo33.setText("FECHA:");
+        titulo33.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo33, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 10, 50, 30));
+
+        rangoTiempo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "HOY", "OTRA FECHA" }));
+        rangoTiempo.setToolTipText("");
+        rangoTiempo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rangoTiempoItemStateChanged(evt);
+            }
+        });
+        add(rangoTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 110, 30));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel13.setText("Fecha Inicio:");
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 80, 30));
+
+        fechaInicioAsignacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fechaInicioAsignacionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                fechaInicioAsignacionMouseEntered(evt);
+            }
+        });
+        add(fechaInicioAsignacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 170, 30));
+
+        fechaFinAsignacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fechaFinAsignacionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                fechaFinAsignacionMouseEntered(evt);
+            }
+        });
+        add(fechaFinAsignacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 10, 170, 30));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel11.setText("Fecha Fin:");
+        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, 60, 30));
+
+        checkCliente.setBackground(new java.awt.Color(255, 255, 255));
+        checkCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkCliente.setForeground(new java.awt.Color(51, 51, 51));
+        checkCliente.setText("CLIENTE");
+        checkCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkCliente.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkClienteItemStateChanged(evt);
+            }
+        });
+        add(checkCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 100, 30));
+
+        icon_buscarClientes.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        icon_buscarClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        icon_buscarClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarClientesMouseClicked(evt);
+            }
+        });
+        add(icon_buscarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 30, 30));
+
+        label_clientes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        label_clientes.setForeground(new java.awt.Color(51, 51, 51));
+        label_clientes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(label_clientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 340, 30));
+
+        checkArticulo.setBackground(new java.awt.Color(255, 255, 255));
+        checkArticulo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkArticulo.setForeground(new java.awt.Color(51, 51, 51));
+        checkArticulo.setText("ARTICULO");
+        checkArticulo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkArticulo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkArticuloItemStateChanged(evt);
+            }
+        });
+        checkArticulo.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                checkArticuloCaretPositionChanged(evt);
+            }
+        });
+        checkArticulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkArticuloActionPerformed(evt);
+            }
+        });
+        add(checkArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 90, 30));
+
+        label_articulo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        label_articulo.setForeground(new java.awt.Color(51, 51, 51));
+        label_articulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(label_articulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 50, 310, 30));
+
+        icon_buscarArticulo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        icon_buscarArticulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        icon_buscarArticulo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarArticuloMouseClicked(evt);
+            }
+        });
+        add(icon_buscarArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 50, 30, 30));
+
+        checkZonaOperacion.setBackground(new java.awt.Color(255, 255, 255));
+        checkZonaOperacion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkZonaOperacion.setForeground(new java.awt.Color(51, 51, 51));
+        checkZonaOperacion.setText("ZONA OPERACIÓN:");
+        checkZonaOperacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkZonaOperacion.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkZonaOperacionItemStateChanged(evt);
+            }
+        });
+        add(checkZonaOperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 90, 140, 30));
+
+        selectZonaTrabajo.setToolTipText("");
+        selectZonaTrabajo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                selectZonaTrabajoItemStateChanged(evt);
+            }
+        });
+        add(selectZonaTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 90, 290, 30));
+
+        checkFijo.setBackground(new java.awt.Color(255, 255, 255));
+        checkFijo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkFijo.setForeground(new java.awt.Color(51, 51, 51));
+        checkFijo.setText("Fijo");
+        checkFijo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkFijo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkFijoItemStateChanged(evt);
+            }
+        });
+        checkFijo.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                checkFijoCaretPositionChanged(evt);
+            }
+        });
+        checkFijo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkFijoActionPerformed(evt);
+            }
+        });
+        add(checkFijo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 50, 90, 20));
+
+        checkFlotante.setBackground(new java.awt.Color(255, 255, 255));
+        checkFlotante.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkFlotante.setForeground(new java.awt.Color(51, 51, 51));
+        checkFlotante.setText("Flotante");
+        checkFlotante.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkFlotante.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkFlotanteItemStateChanged(evt);
+            }
+        });
+        checkFlotante.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                checkFlotanteCaretPositionChanged(evt);
+            }
+        });
+        checkFlotante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkFlotanteActionPerformed(evt);
+            }
+        });
+        add(checkFlotante, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 70, 90, 20));
+
+        titulo30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo30.setForeground(new java.awt.Color(0, 102, 102));
+        titulo30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titulo30.setText("Tiempo Ejecución");
+        titulo30.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo30, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 10, 120, 30));
+
+        time.setToolTipText("");
+        add(time, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 50, 120, 30));
+
+        modalidadHilo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MINUTOS", "HORAS", "DÍAS" }));
+        modalidadHilo.setToolTipText("");
+        modalidadHilo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                modalidadHiloItemStateChanged(evt);
+            }
+        });
+        add(modalidadHilo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 50, 120, 30));
+
+        iniciar.setBackground(new java.awt.Color(255, 255, 255));
+        iniciar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        iniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/play3.png"))); // NOI18N
+        iniciar.setMnemonic('T');
+        iniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iniciarActionPerformed(evt);
+            }
+        });
+        add(iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 110, 40));
+
+        parar.setBackground(new java.awt.Color(255, 255, 255));
+        parar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/stop_f.png"))); // NOI18N
+        parar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pararActionPerformed(evt);
+            }
+        });
+        add(parar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 120, 40));
+
+        titulo32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo32.setForeground(new java.awt.Color(51, 51, 51));
+        titulo32.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        titulo32.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 990, 90));
+
+        titulo39.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo39.setForeground(new java.awt.Color(0, 102, 102));
+        titulo39.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titulo39.setText("Modalidad Grafica");
+        titulo39.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo39, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 150, 30));
+
+        titulo29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo29.setForeground(new java.awt.Color(51, 51, 51));
+        titulo29.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        titulo29.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo29, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 40, 300, 90));
+
+        titulo40.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo40.setForeground(new java.awt.Color(51, 51, 51));
+        titulo40.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        titulo40.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo40, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 150, 120));
+
+        titulo36.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo36.setForeground(new java.awt.Color(0, 102, 102));
+        titulo36.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        titulo36.setText("FILTROS");
+        titulo36.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        titulo36.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo36, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 990, 30));
+
+        titulo37.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo37.setForeground(new java.awt.Color(51, 51, 51));
+        titulo37.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        titulo37.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo37, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 130, 30));
+
+        titulo31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo31.setForeground(new java.awt.Color(51, 51, 51));
+        titulo31.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        titulo31.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo31, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 10, 300, 120));
+
+        titulo34.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo34.setForeground(new java.awt.Color(51, 51, 51));
+        titulo34.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        titulo34.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo34, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 40, 150, 90));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void fechaInicioAsignacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicioAsignacionMouseClicked
+        //  alerta_fechaInicio.setText("");
+    }//GEN-LAST:event_fechaInicioAsignacionMouseClicked
+
+    private void fechaInicioAsignacionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicioAsignacionMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaInicioAsignacionMouseEntered
+
+    private void fechaFinAsignacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaFinAsignacionMouseClicked
+        //alerta_fechaFinal.setText("");
+    }//GEN-LAST:event_fechaFinAsignacionMouseClicked
+
+    private void fechaFinAsignacionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaFinAsignacionMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaFinAsignacionMouseEntered
+
+    private void rangoTiempoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rangoTiempoItemStateChanged
+        if(rangoTiempo.getSelectedIndex()==0){//Seleccionó hoy
+            jLabel13.show(false);
+            fechaInicioAsignacion.show(false);
+            jLabel11.show(false);
+            fechaFinAsignacion.show(false);
+        }else{//Seleccionó otro rango de tiempo
+            jLabel13.show(true);
+            fechaInicioAsignacion.show(true);
+            jLabel11.show(true);
+            fechaFinAsignacion.show(true);
+        }
+    }//GEN-LAST:event_rangoTiempoItemStateChanged
+
+    private void checkClienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkClienteItemStateChanged
+        if(checkCliente.isSelected()){
+            icon_buscarClientes.show(true);
+            label_clientes.show(true);
+        }else{
+            cliente=null;
+            label_clientes.setText("");
+   
+            icon_buscarClientes.show(false);
+            label_clientes.show(false);
+        }
+    }//GEN-LAST:event_checkClienteItemStateChanged
+
+    private void icon_buscarClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarClientesMouseClicked
+        InternaFrame_buscarCliente.show(true);
+    }//GEN-LAST:event_icon_buscarClientesMouseClicked
+
+    private void checkArticuloItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkArticuloItemStateChanged
+        if(checkArticulo.isSelected()){
+            icon_buscarArticulo.show(true);
+            label_articulo.show(true);
+        }else{
+            articulo=null;
+            label_articulo.setText("");
+            icon_buscarArticulo.show(false);
+            label_articulo.show(false);
+        }
+    }//GEN-LAST:event_checkArticuloItemStateChanged
+
+    private void checkArticuloCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_checkArticuloCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkArticuloCaretPositionChanged
+
+    private void checkArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkArticuloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkArticuloActionPerformed
+
+    private void icon_buscarArticuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarArticuloMouseClicked
+        InternaFrame_buscarArticulo.show(true);
+    }//GEN-LAST:event_icon_buscarArticuloMouseClicked
+
+    private void tablaArticuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaArticuloMouseClicked
+        if (evt.getClickCount() == 2) {
+            int fila1;
+            try{
+                fila1=tablaArticulo.getSelectedRow();
+                if(fila1==-1){
+                    JOptionPane.showMessageDialog(null,"no se ha seleccionando ninguna fila");
+                }
+                else{
+                    articulo= listadoArticulos.get(fila1);
+                    label_articulo.setText(articulo.getDescripcion());
+                    InternaFrame_buscarArticulo.show(false);
+                }
+            }catch(Exception e){
+            }
+        }
+    }//GEN-LAST:event_tablaArticuloMouseClicked
+
+    private void btnConsultarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarArticuloActionPerformed
+        try {
+            DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código", "Nombre","Estado","BaseDatos"});
+            listadoArticulos=new ControlDB_Articulo(tipoConexion).buscarActivosConParametros(valorBusquedaArticulo.getText());
+            for(Articulo listadoObjetos1:listadoArticulos){
+                String []registro = new String[4];
+                registro[0]=""+listadoObjetos1.getCodigo();
+                registro[1]=""+listadoObjetos1.getDescripcion();
+                registro[2]=""+listadoObjetos1.getEstado();
+                registro[3]=""+listadoObjetos1.getBaseDatos().getDescripcion();
+                modelo.addRow(registro);
+            }
+            tablaArticulo.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(MvtoEquipo_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnConsultarArticuloActionPerformed
+
+    private void btnCancelarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarArticuloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarArticuloActionPerformed
+
+    private void btnLimpiarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarArticuloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLimpiarArticuloActionPerformed
+
+    private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
+        if (evt.getClickCount() == 2) {
+            int fila1;
+            try{
+                fila1=tablaCliente.getSelectedRow();
+                if(fila1==-1){
+                    JOptionPane.showMessageDialog(null,"no se ha seleccionando ninguna fila");
+                }
+                else{
+                    cliente= listadoCliente.get(fila1);
+                    label_clientes.setText(cliente.getDescripcion());
+                    InternaFrame_buscarCliente.show(false);
+                }
+            }catch(Exception e){
+            }
+        }
+    }//GEN-LAST:event_tablaClienteMouseClicked
+
+    private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarClienteActionPerformed
+        try {
+            DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código", "Nombre","Estado","BaseDatos"});
+            listadoCliente=new ControlDB_Cliente(tipoConexion).buscarCliente_EstadoActivo(valorBusquedaCliente.getText());
+            for(Cliente listadoObjetos1:listadoCliente){
+                String []registro = new String[4];
+                registro[0]=""+listadoObjetos1.getCodigo();
+                registro[1]=""+listadoObjetos1.getDescripcion();
+                registro[2]=""+listadoObjetos1.getEstado();
+                registro[3]=""+listadoObjetos1.getBaseDatos().getDescripcion();
+                modelo.addRow(registro);
+            }
+            tablaCliente.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(MvtoEquipo_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnConsultarClienteActionPerformed
+
+    private void btnCancelarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarClienteActionPerformed
+
+    private void btnLimpiarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLimpiarClienteActionPerformed
+
+    private void checkFijoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkFijoItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkFijoItemStateChanged
+
+    private void checkFijoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_checkFijoCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkFijoCaretPositionChanged
+
+    private void checkFijoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkFijoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkFijoActionPerformed
+
+    private void checkFlotanteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkFlotanteItemStateChanged
+        if(checkFlotante.isSelected()){
+            iniciar.setEnabled(true);
+            parar.setEnabled(false);
+        }else{
+            iniciar.setEnabled(true);
+            parar.setEnabled(true);
+        }
+    }//GEN-LAST:event_checkFlotanteItemStateChanged
+
+    private void checkFlotanteCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_checkFlotanteCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkFlotanteCaretPositionChanged
+
+    private void checkFlotanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkFlotanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkFlotanteActionPerformed
+
+    private void selectZonaTrabajoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectZonaTrabajoItemStateChanged
+
+    }//GEN-LAST:event_selectZonaTrabajoItemStateChanged
+
+    private void checkZonaOperacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkZonaOperacionItemStateChanged
+        if(checkZonaOperacion.isSelected()){
+            selectZonaTrabajo.show(true);
+        }else{
+            selectZonaTrabajo.show(false);
+        }
+    }//GEN-LAST:event_checkZonaOperacionItemStateChanged
+
+    private void pararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pararActionPerformed
+        Iniciar1.stop();
+        Iniciar1 = new Iniciar_Graficar(tipoConexion);
+        iniciar.setEnabled(true);
+        parar.setEnabled(false);
+    }//GEN-LAST:event_pararActionPerformed
+
+    private void iniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarActionPerformed
+        if(checkFijo.isSelected()){
+            Iniciar1 = new Iniciar_Graficar(tipoConexion);
+            Iniciar1.start();
+        
+            iniciar.setEnabled(false);
+            parar.setEnabled(true);
+        }else{//Seleccionó flotante
+            Iniciar1 = new Iniciar_Graficar(tipoConexion);
+            Iniciar1.start();
+        } 
+    }//GEN-LAST:event_iniciarActionPerformed
+
+    private void modalidadHiloItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_modalidadHiloItemStateChanged
+        if(modalidadHilo.getSelectedIndex()==0){//Seleccionó MINUTOS
+            time.removeAllItems();
+            for(int i=10; i<=365; i++){
+                time.addItem(""+i);
+            }
+        }else{
+            if(modalidadHilo.getSelectedIndex()==1){//Seleccionó HORAS
+                time.removeAllItems();
+                for(int i=1; i<=365; i++){
+                    time.addItem(""+i);
+                }
+            }else{//Seleccionó DÍAS
+                time.removeAllItems();
+                for(int i=1; i<=365; i++){
+                    time.addItem(""+i);
+                }
+            }
+        }
+    }//GEN-LAST:event_modalidadHiloItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel entradaAlmacenNo1;
-    private javax.swing.JLabel userOnline;
+    private javax.swing.JInternalFrame InternaFrame_buscarArticulo;
+    private javax.swing.JInternalFrame InternaFrame_buscarCliente;
+    private javax.swing.JButton btnCancelarArticulo;
+    private javax.swing.JButton btnCancelarCliente;
+    private javax.swing.JButton btnConsultarArticulo;
+    private javax.swing.JButton btnConsultarCliente;
+    private javax.swing.JButton btnLimpiarArticulo;
+    private javax.swing.JButton btnLimpiarCliente;
+    private javax.swing.ButtonGroup buttonGroup;
+    private javax.swing.ButtonGroup buttonGroupFijoFlotante;
+    private javax.swing.JRadioButton checkArticulo;
+    private javax.swing.JRadioButton checkCliente;
+    private javax.swing.JRadioButton checkFijo;
+    private javax.swing.JRadioButton checkFlotante;
+    private javax.swing.JRadioButton checkZonaOperacion;
+    private com.toedter.calendar.JDateChooser fechaFinAsignacion;
+    private com.toedter.calendar.JDateChooser fechaInicioAsignacion;
+    private javax.swing.JLabel icon_buscarArticulo;
+    private javax.swing.JLabel icon_buscarClientes;
+    private javax.swing.JButton iniciar;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel label_articulo;
+    private javax.swing.JLabel label_clientes;
+    private javax.swing.JComboBox<String> modalidadHilo;
+    private javax.swing.JScrollPane panel;
+    private javax.swing.JButton parar;
+    private javax.swing.JComboBox<String> rangoTiempo;
+    private javax.swing.JComboBox<String> selectZonaTrabajo;
+    private javax.swing.JTable tablaArticulo;
+    private javax.swing.JTable tablaCliente;
+    private javax.swing.JComboBox<String> time;
+    private javax.swing.JLabel titulo29;
+    private javax.swing.JLabel titulo30;
+    private javax.swing.JLabel titulo31;
+    private javax.swing.JLabel titulo32;
+    private javax.swing.JLabel titulo33;
+    private javax.swing.JLabel titulo34;
+    private javax.swing.JLabel titulo36;
+    private javax.swing.JLabel titulo37;
+    private javax.swing.JLabel titulo39;
+    private javax.swing.JLabel titulo40;
+    private javax.swing.JTextField valorBusquedaArticulo;
+    private javax.swing.JTextField valorBusquedaCliente;
     // End of variables declaration//GEN-END:variables
+    public  class Iniciar_Graficar extends Thread{  
+        private String typeConnection;
+    
+        public Iniciar_Graficar(String typeConnection) {
+            this.typeConnection=typeConnection;       
+        }
+        @Override
+        public void run() {
+            while(true){
+                boolean validar=true;
+                String script ="";
+                String fechaInicio="";
+                String fechaFin=""; 
+                //Cargamos el Centro de Operacion
+                script += " AND [mc_cntro_oper_cdgo]= "+ centroOperacion.getCodigo();
+                if(validar){
+                    if(rangoTiempo.getSelectedIndex()==1){
+                        try{
+                            Calendar fechaI = fechaInicioAsignacion.getCalendar();
+                            String anoI = ""+fechaI.get(Calendar.YEAR);
+                            String mesI = "";
+                            if((fechaI.get(Calendar.MONTH) +1) <=9){
+                                mesI = "0"+(fechaI.get(Calendar.MONTH) + 1);
+                            }else{
+                                mesI = ""+(fechaI.get(Calendar.MONTH) + 1);
+                            }
+                            String diaI = "";
+                            if(fechaI.get(Calendar.DAY_OF_MONTH) <=9){
+                                diaI = "0"+fechaI.get(Calendar.DAY_OF_MONTH);
+                            }else{
+                                diaI = ""+fechaI.get(Calendar.DAY_OF_MONTH);
+                            }
+                            fechaInicio=anoI+"-"+mesI+"-"+diaI+" "+"00"+":00:00.0";     
+                            try{   
+                                Calendar fechaF = fechaFinAsignacion.getCalendar();
+                                String anoF = ""+fechaF.get(Calendar.YEAR);
+                                String mesF = "";
+                                if((fechaF.get(Calendar.MONTH) +1) <=9){
+                                    mesF = "0"+(fechaF.get(Calendar.MONTH) + 1);
+                                }else{
+                                    mesF = ""+(fechaF.get(Calendar.MONTH) + 1);
+                                }
+                                String diaF = "";
+                                if(fechaF.get(Calendar.DAY_OF_MONTH) <=9){
+                                    diaF = "0"+fechaF.get(Calendar.DAY_OF_MONTH);
+                                }else{
+                                    diaF = ""+fechaF.get(Calendar.DAY_OF_MONTH);
+                                }
+                                fechaFin=anoF+"-"+mesF+"-"+diaF+" "+"23"+":"+"59"+":00.0";
+                                 script += " AND [mc_fecha_inicio_descargue] BETWEEN '"+ fechaInicio+"' AND '"+ fechaFin+"'";
+                            }catch(Exception e){
+                                JOptionPane.showMessageDialog(null,"Error!!.. Debe verificar la Fecha de finalización","Advertencia",JOptionPane.ERROR_MESSAGE);
+                                validar=false;
+                                this.stop();
+                            }
+                        }catch(Exception e){
+                            JOptionPane.showMessageDialog(null,"Error!!.. Debe verificar la Fecha de Inicio","Advertencia",JOptionPane.ERROR_MESSAGE);
+                            validar=false;
+                            this.stop();
+                        }      
+                    }else{//Seleccionó en rango de fecha hoy
+                        try {
+                            fechaInicio= new ControlDB_Sistema(tipoConexion).retornarFechaDelServidor()+" "+"00"+":00:00.0";    
+                            fechaFin= new ControlDB_Sistema(tipoConexion).retornarFechaDelServidor()+" "+"23"+":"+"59"+":00.0";
+                            script += " AND [mc_fecha_inicio_descargue] BETWEEN '"+ fechaInicio+"' AND '"+ fechaFin+"'";
+                        } catch (SQLException ex) {
+                            this.stop();
+                            Logger.getLogger(Panel_GraficarHistoricoVehículosDescargadosPorMes.class.getName()).log(Level.SEVERE, null, ex);
+                        } 
+                    }
+                }
+                if(validar) {   
+                    if(checkCliente.isSelected() && cliente== null){
+                        JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente","Advertencia",JOptionPane.ERROR_MESSAGE);
+                        validar=false;
+                        this.stop();
+                    }else{
+                        //Cargamos el cliente al script
+                        if(cliente != null){
+                            script += " AND [mc_cliente_cdgo]= "+ cliente.getCodigo();
+                        }
+                        if(checkArticulo.isSelected() && articulo== null){
+                            JOptionPane.showMessageDialog(null, "Debe seleccionar un articulo","Advertencia",JOptionPane.ERROR_MESSAGE);
+                            validar=false;
+                             this.stop();
+                        }else{
+                            //Cargamos al articulo al script
+                            if(articulo != null){
+                                script += " AND [mc_articulo_cdgo]= "+ articulo.getCodigo();
+                            }
+                            if(listadoZonaTrabajo==null){
+                                JOptionPane.showMessageDialog(null, "No existen Zona de operación para el centro de costo","Advertencia",JOptionPane.ERROR_MESSAGE);
+                                validar=false;
+                                this.stop();
+                            }else{
+                                if(checkZonaOperacion.isSelected()){
+                                    script += " AND [zt_cdgo]= "+ listadoZonaTrabajo.get(selectZonaTrabajo.getSelectedIndex()).getCodigo();
+                                }
+                                //Validamos el tipo de grafica
+                                if(validar){
+                                    if(checkFijo.isSelected()){
+                                        ArrayList<String> listado=null;
+                                        try {
+                                            listado= new ControlDB_PanelControl(typeConnection).HistoricoVehiculosDescargadosPorMes(script);
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(Panel_GraficarHistoricoVehículosDescargadosPorMes.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        if(listado != null){
+                                            String year=listado.get(0).split("###")[0].split("-")[0];
+                                            ArrayList<ArrayList<String>> listadoAños = null;
+                                            ArrayList<String> historicoAños= null;
+                                            boolean validator=true;
+                                            for(String data: listado){
+                                                System.out.print(data+"====================================>For\n");
+                                                String[] value= data.split("###");
+                                                if(validator){
+                                                    //cliente =value[2];
+                                                    //series1= new TimeSeries(value[2], Day.class);
+                                                    listadoAños= new ArrayList<>();
+                                                    historicoAños= new ArrayList<>();
+                                                    validator=false;
+                                                    //historicoAños.add(data);
+                                                }
+                                                String year2=value[0].split("-")[0];
+                                                if(!year.equals(year2)){
+                                                    listadoAños.add(historicoAños);
+                                                    historicoAños= new ArrayList<>();
+                                                    historicoAños.add(data);
+                                                    year =value[0];
+                                                }else{
+                                                    historicoAños.add(data);
+                                                }
+                                            }
+                                            listadoAños.add(historicoAños);
+                                            TimeSeriesCollection dataset = new TimeSeriesCollection();
+                                            int contador= 1;
+                                            /*for(ArrayList<String> objeto : listadoAños){
+                                                for(String datax : objeto){
+                                                    System.out.println(datax+"\n");
+                                                }
+                                                System.out.println("Finalizado");
+                                            }*/
+                                            if(listadoAños != null){
+                                                TimeSeries series1 = null;
+                                                //series1 = new TimeSeries(/*listadoAños.get(0).get(0).split("###")[0].split("-")[0]*/"ASDSDSD", Month.class);
+                                                boolean inciar= true;
+                                                for(ArrayList<String> objeto : listadoAños){
+                                                    //if(contador==1){
+                                                        
+                                                        for(String data : objeto){
+                                                            //System.out.println("Recorrido fue =================================>"+data);
+                                                            String[] value= data.split("###");//
+                                                            String año = value[0].split("-")[0];
+                                                            if(inciar){
+                                                                //System.out.println("CLiente======================="+ value[2]);
+                                                                series1 = new TimeSeries(año, Month.class);
+                                                                inciar=false;
+                                                            }
+                                                            //System.out.println(""+Integer.parseInt(value[0].split("-")[1]) + "  ----- "+ Integer.parseInt(value[0].split("-")[0])+" --- "+ Integer.parseInt(value[1]));
+                                                            //System.out.println("#######====>"+Integer.parseInt(value[0].split("-")[1])+"----"+Integer.parseInt(value[0].split("-")[0])+"-----"+Integer.parseInt(value[1]));
+                                                            
+                                                            
+//                                                            series1.addOrUpdate(new Month(Integer.parseInt(value[0].split("-")[1]), Integer.parseInt(value[0].split("-")[0])),Integer.parseInt(value[1]));
+                                                            series1.add(new Month(Integer.parseInt(value[0].split("-")[1]), Integer.parseInt(value[0].split("-")[0])),Integer.parseInt(value[1]));
+                                                            
+                                                            
+
+//dataset.addSeries(series1); 
+                                                            //String[] fecha=value[0].split("-");
+                                                           /*switch(Integer.parseInt(value[0].split("-")[1])){
+                                                                case 1:{//Enero
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.JANUARY, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 2:{//Febrero
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.FEBRUARY, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.FEBRUARY, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 3:{//Marzo
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.MARCH, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.MARCH, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 4:{//Abril
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.APRIL, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.APRIL, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 5:{//Mayo
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.MAY, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.MAY, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 6:{//Junio
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.JUNE, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.JUNE, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 7:{//Julio
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.JULY, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.JULY, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 8:{//Agosto
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.AUGUST, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.AUGUST, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 9:{//Septiembre
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.SEPTEMBER, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.SEPTEMBER, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 10:{//Octubre
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.OCTOBER, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.OCTOBER, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 11:{//Noviembre
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.NOVEMBER, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.NOVEMBER, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                                case 12:{//Diciembre
+                                                                    series1.addOrUpdate(new Day(2, MonthConstants.DECEMBER, Integer.parseInt(value[0].split("-")[0])), Integer.parseInt(value[1]));
+                                                                    //series1.addOrUpdate(new Day(Integer.parseInt(fecha[2]), MonthConstants.DECEMBER, Integer.parseInt(fecha[0])), Integer.parseInt(value[1]));
+                                                                    break;
+                                                                }
+                                                            }*/
+                                                        }
+                                                        //System.out.println("Serie es: "+series1.toString());
+                                                         
+                                                    //}
+                                                }
+                                                dataset.addSeries(series1); 
+                                            }
+                                            JFreeChart chart=ChartFactory.createTimeSeriesChart("VEHÍCULOS DESCARGADOS POR MES", "AÑO", "VEHÍCULOS", dataset,true,true,true);
+                                            chart.setBackgroundPaint(Color.white);
+
+                                            XYPlot plot = (XYPlot) chart.getPlot();
+                                            plot.setBackgroundPaint(Color.lightGray);
+                                            plot.setDomainGridlinePaint(Color.white);
+                                            plot.setRangeGridlinePaint(Color.white);
+                                            plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
+                                            plot.setDomainCrosshairVisible(true);
+                                            plot.setRangeCrosshairVisible(true);
+
+                                            XYItemRenderer r = plot.getRenderer();
+                                            if (r instanceof XYLineAndShapeRenderer) {
+                                                XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
+                                                renderer.setBaseShapesVisible(true);
+                                                renderer.setBaseShapesFilled(true);
+                                                renderer.setDrawSeriesLineAsPath(true);
+                                                
+                                                XYItemLabelGenerator xy= new StandardXYItemLabelGenerator();
+                                                renderer.setBaseItemLabelGenerator( xy );
+                                                renderer.setBaseItemLabelsVisible(true);
+                                            }
+                                            DateAxis axis = (DateAxis) plot.getDomainAxis();
+                                            SimpleDateFormat formatter  = new SimpleDateFormat("MMM YYYY");
+                                            axis.setDateFormatOverride(formatter);
+                                            frame= new ChartPanel( chart);
+                                            frame.setSize(450,500);
+                                            panel.setViewportView(frame);
+                                            frame.setFillZoomRectangle(true);
+                                            frame.setMouseWheelEnabled(true);
+                                            frame.setZoomInFactor(1000);
+                                            frame.setZoomOutFactor(1000);
+                                        }else{
+                                            panel.setViewportView(new Graficar_Vacia());
+                                        }
+                                    }
+                                    if(checkFlotante.isSelected()){
+                                        demo2= new Graficar_HistoricoVehiculosDescargados("");
+                                        demo2.inicar("VEHÍCULOS DESCARGADOS POR MES",script,tipoConexion,Integer.parseInt(time.getSelectedItem().toString()),modalidadHilo.getSelectedItem().toString());
+                                        demo2.setVisible(true);
+                                        demo2.Iniciar12.start();
+                                        this.stop();
+                                    }
+                                }
+                            }
+                        }
+                            
+                    }
+                } 
+                int valortime=Integer.parseInt(time.getSelectedItem().toString());
+                /*if(modalidadHilo.getSelectedItem().toString().equals("SECOND")){
+                    valortime= valortime * 1000;
+                }*/
+                if(modalidadHilo.getSelectedItem().toString().equals("MINUTOS")){
+                    valortime= valortime * 1000* 60;
+                }
+                if(modalidadHilo.getSelectedItem().toString().equals("HORAS")){
+                    valortime= valortime * 1000 * 60 * 60;
+                }
+                if(modalidadHilo.getSelectedItem().toString().equals("DÍAS")){
+                    valortime= valortime * 1000 * 60 * 60 * 24;
+                }
+                try { 
+                    Thread.sleep(valortime); 
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MvtoEquipo_Procesar_Programado.class.getName()).log(Level.SEVERE, null, ex);
+                }  
+            }
+        }
+    }  
 }
