@@ -8,9 +8,11 @@ import ModuloPalero.Controller.ControlDB_ConfiguracionLiquidacion;
 import ModuloPalero.Controller.ControlDB_LiquidacionPalero;
 import ModuloPalero.Model.ConfiguracionLiquidacion;
 import ModuloPalero.Model.EquipoLiquidacion;
+import ModuloPalero.Model.Liquidacion;
 import ModuloPalero.Model.MvtoCarbon_ListadoEquipos_LiquidacionPaleros;
 import ModuloPalero.Model.MvtoPaleroPreliquidacionTEMP;
 import ModuloPalero.Model.MvtoVehiculoPalerosTEMP;
+import ModuloPalero.Model.PlantillaArchivoLiquidacion;
 import ModuloPersonal.Model.CargoNomina;
 import Sistema.Model.Usuario;
 import java.awt.Color;
@@ -50,6 +52,7 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
     ArrayList<String> encabezadoTabla = null;
     ArrayList<ConfiguracionLiquidacion> listado = null;
     ConfiguracionLiquidacion configuracionLiquidacion = null;
+    ConfiguracionLiquidacion configuracionLiquidacionliquidar = null;
     ArrayList<MvtoCarbon_ListadoEquipos_LiquidacionPaleros> listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros = null;
     boolean validarNext = true;
     int level = 0;
@@ -62,7 +65,6 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
         pageJComboBox.show(false);
         InternaFrame_buscarConfiguracionLiquidacion.getContentPane().setBackground(Color.WHITE);
         InternaFrame_buscarConfiguracionLiquidacion.show(false);
-        buttonBack.setEnabled(false);
         buttonNext.setEnabled(false);
     }
 
@@ -100,7 +102,6 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaListadoVehiculosPorEquipoLiquidacion = new javax.swing.JTable();
-        buttonBack = new javax.swing.JButton();
         buttonNext = new javax.swing.JButton();
         Label_level = new javax.swing.JLabel();
 
@@ -303,11 +304,6 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 1400, 540));
 
-        buttonBack.setBackground(new java.awt.Color(255, 255, 255));
-        buttonBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/backF.png"))); // NOI18N
-        buttonBack.setText("ATRAS");
-        add(buttonBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 680, 190, 60));
-
         buttonNext.setBackground(new java.awt.Color(255, 255, 255));
         buttonNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/nextF.png"))); // NOI18N
         buttonNext.setText("SIGUIENTE");
@@ -316,7 +312,7 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                 buttonNextActionPerformed(evt);
             }
         });
-        add(buttonNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 680, 190, 60));
+        add(buttonNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 680, 290, 60));
 
         Label_level.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         Label_level.setForeground(new java.awt.Color(0, 102, 102));
@@ -485,6 +481,7 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                         buttonNext.setEnabled(true);
                         level = 1;
                         Label_level.setText("NIVEL " + level);
+                        buttonNext.setText("SIGUIENTE");
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
@@ -514,6 +511,7 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
             JOptionPane.showMessageDialog(null, "Los registros contienen datos en rojo debe validar la información");
         } else {
             if (level == 1) {
+                configuracionLiquidacionliquidar=configuracionLiquidacion;
                 //JOptionPane.showMessageDialog(null, "Pasamos al siguiente nivel");
                 try {
                     tablaListadoVehiculosPorEquipoLiquidacion.setComponentPopupMenu(null);
@@ -558,6 +556,7 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                         resizeColumnWidth(tablaListadoVehiculosPorEquipoLiquidacion);
                         level = 2;
                         Label_level.setText("NIVEL " + level);
+                        buttonNext.setText("GENERAR PRELIQUIDACIÓN");
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
@@ -589,7 +588,42 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                             //listado_MvtoPaleroPreliquidacionTEMP
                             int result= new ControlDB_LiquidacionPalero(tipoConexion).registrar_Preliquidacion(listado_MvtoPaleroPreliquidacionTEMP, user);
                             if(result==1){
-                                JOptionPane.showMessageDialog(null, "Se registro la preliqudacion de forma exitosa","Registro exitoiso", JOptionPane.INFORMATION_MESSAGE);
+                                //JOptionPane.showMessageDialog(null, "Se registro la preliqudacion de forma exitosa","Registro exitoiso", JOptionPane.INFORMATION_MESSAGE);
+                                
+                                ArrayList<String> listadoPreliquidacion=new ControlDB_LiquidacionPalero(tipoConexion).consultarPreliquidacion();
+                                if(listadoPreliquidacion!= null){
+                                    //Limpiamos todos los registro de la tabla
+                                    DefaultTableModel md = (DefaultTableModel) tablaListadoVehiculosPorEquipoLiquidacion.getModel();
+                                    int CantEliminar = tablaListadoVehiculosPorEquipoLiquidacion.getRowCount() - 1;
+                                    for (int i = CantEliminar; i >= 0; i--) {
+                                        md.removeRow(i);
+                                    }
+                                    DefaultTableModel modeloT = new DefaultTableModel(null, new String[]{"CEDULA", "NOMBRE", "CUADRILLA", "FECHA", "VEHÍCULOS_DESCARGADOS", "TOTAL DESCARGADO EN KG", "TOTAL ASIGNADO EN KG"});
+                                    
+                                    //Cargamos la nueva información
+                                    for(String data : listadoPreliquidacion){
+                                        DecimalFormat formato2 = new DecimalFormat("0.00");
+                                        String[] informacion = data.split("@@");
+                                        String[] registro = new String[7];
+                                        registro[0] = "" + informacion[0];
+                                        registro[1] = "" + informacion[1];
+                                        registro[2] = "" + informacion[2];
+                                        registro[3] = "" + informacion[3];
+                                        registro[4] = "" + informacion[4];
+                                        registro[5] = "" + formato2.format(Double.parseDouble(informacion[5]));
+                                        registro[6] = "" + formato2.format(Double.parseDouble(informacion[6]));
+                                        modeloT.addRow(registro);
+                                    }
+                                    tablaListadoVehiculosPorEquipoLiquidacion.setModel(modeloT);
+                                    tablaListadoVehiculosPorEquipoLiquidacion.setDefaultRenderer(Object.class, new Myrender_LiquidacionPalero_Registrar(2));
+                                    resizeColumnWidth(tablaListadoVehiculosPorEquipoLiquidacion);
+                                    level = 3;
+                                    Label_level.setText("NIVEL " + level); 
+                                    buttonNext.setText("GENERAR LIQUIDACIÓN");
+                                }
+                                    
+                                
+                                
                                 /**
                                     SELECT  --[mppt_cdgo]
                                           --,[mppt_mvto_vehiculos_paleros_temp_cdgo]
@@ -625,6 +659,64 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                         } catch (SQLException ex) {
                             Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                    }
+                }else{
+                    if (level == 3) {//Vamos a proceder a generar la liquidación y posterior generar el archivo en excel
+                        ArrayList<Liquidacion> listadoliquidacion=new ControlDB_LiquidacionPalero(tipoConexion).consultarRegistroLiquidacion(configuracionLiquidacionliquidar);
+                        if(listadoliquidacion!= null){
+                            try {
+                                int result=new ControlDB_LiquidacionPalero(tipoConexion).registrar_Liquidacion(listadoliquidacion,user);
+                                if(result == 1){
+                                    JOptionPane.showMessageDialog(null, "Se generó la liquidación de forma exitosa");
+                                    ArrayList<PlantillaArchivoLiquidacion> listadoPlantillaArchivoLiquidacion= new ControlDB_LiquidacionPalero(tipoConexion).consultarLiquidacion(configuracionLiquidacionliquidar);
+                                    if(listadoPlantillaArchivoLiquidacion!= null){
+                                        //Limpiamos todos los registro de la tabla
+                                        DefaultTableModel md = (DefaultTableModel) tablaListadoVehiculosPorEquipoLiquidacion.getModel();
+                                        int CantEliminar = tablaListadoVehiculosPorEquipoLiquidacion.getRowCount() - 1;
+                                        for (int i = CantEliminar; i >= 0; i--) {
+                                            md.removeRow(i);
+                                        }
+                                        DefaultTableModel modeloT = new DefaultTableModel(null, new String[]{"FECHA INICIO PERIODO", "FECHA FIN PERIODO", "CUADRILLA", "DOCUMENTO", "EMPLEADO", "KILOS", "DIAS LABORADOS", "DCTO TONELADA MES","VALOR TONELADA","TONELADA SALARIO","TONELADAS A PAGAR","TOTAL COMISION"});
+
+                                        //Cargamos la nueva información
+                                        for(PlantillaArchivoLiquidacion objeto : listadoPlantillaArchivoLiquidacion){
+                                            ///DecimalFormat formato2 = new DecimalFormat("0.00");
+                                            String[] registro = new String[12];
+                                            registro[0] = "" + objeto.getFechaInicio();
+                                            registro[1] = "" + objeto.getFechaFin();
+                                            registro[2] = "" + objeto.getEquipo();
+                                            registro[3] = "" + objeto.getPersonaDocumento();
+                                            registro[4] = "" + objeto.getPersonaNombre();
+                                            registro[5] = "" + objeto.getCantidadAcumuladasKilos();
+                                            registro[6] = "" + objeto.getCantidadDias();
+                                            registro[7] = "" + objeto.getToneladaMes();
+                                            registro[8] = "" + objeto.getValorTonelada();
+                                            registro[9] = "" + objeto.getToneladaSalario();
+                                            registro[10] = "" + objeto.getToneladaAPagar();
+                                            registro[11] = "" + objeto.getTotalComision();
+                                            
+                                            modeloT.addRow(registro);
+                                        }
+                                        tablaListadoVehiculosPorEquipoLiquidacion.setModel(modeloT);
+                                        tablaListadoVehiculosPorEquipoLiquidacion.setDefaultRenderer(Object.class, new Myrender_LiquidacionPalero_Registrar(2));
+                                        resizeColumnWidth(tablaListadoVehiculosPorEquipoLiquidacion);
+                                        level = 4;
+                                        Label_level.setText("NIVEL " + level); 
+                                        //buttonNext.setText("LIQUIDACIÓN GENERADA CON");
+                                        
+                                    }
+                                }
+                            } catch (FileNotFoundException ex) {
+                                Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (UnknownHostException ex) {
+                                Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (SocketException ex) {
+                                Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        
                     }
                 }
             }
@@ -692,7 +784,6 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
     private javax.swing.JInternalFrame InternaFrame_buscarConfiguracionLiquidacion;
     private javax.swing.JLabel Label_level;
     private javax.swing.JPopupMenu Seleccionar;
-    private javax.swing.JButton buttonBack;
     private javax.swing.JButton buttonNext;
     private javax.swing.JButton consultar1;
     private com.toedter.calendar.JDateChooser fechaFin_Consulta;
