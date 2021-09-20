@@ -1,6 +1,6 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
   
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import ModuloEquipo.Model.MvtoEquipo;
 import Sistema.Model.Usuario;
 import java.awt.Color;
@@ -1484,7 +1484,8 @@ public final class MvtoEquipo_InformeMatriz extends javax.swing.JPanel implement
             if(listado != null){
                 
                 File archivo;
-                    archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteEquipo.xlsx");
+                    //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteEquipo.xlsx");
+                    archivo= new File( System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporteEquipo.xlsx");
                     if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
                         Workbook wb;
                         String respuesta="No se realizó con exito la exportacion";

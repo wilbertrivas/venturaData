@@ -1,5 +1,5 @@
-package Catalogo.View1;
-import ModuloEquipo.Controller2.ControlDB_Producto;
+package Catalogo.View;
+import ModuloEquipo.Controller.ControlDB_Producto;
 import Catalogo.Model.Producto;
 import java.sql.SQLException;
 import java.util.ArrayList;

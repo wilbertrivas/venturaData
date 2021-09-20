@@ -1,5 +1,5 @@
 
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_Articulo;
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
@@ -19,8 +19,8 @@ import Catalogo.Model.MotivoParada;
 import Catalogo.Model.Motonave;
 import Catalogo.Model.TipoEquipo;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
-import ModuloCarbon.View2.MvtoCarbon_ModificarFinal;
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloCarbon.View.MvtoCarbon_ModificarFinal;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import ModuloEquipo.Model.AsignacionEquipo;
 import ModuloEquipo.Model.AutorizacionRecobro;
 import ModuloEquipo.Model.MvtoEquipo;
@@ -725,10 +725,10 @@ public class MvtoEquipo_Agregar extends javax.swing.JPanel {
             }
         });
         mvtoEquipo_selectRazonFinalzación.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 mvtoEquipo_selectRazonFinalzaciónCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         add(mvtoEquipo_selectRazonFinalzación, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 490, 320, 30));
@@ -1266,7 +1266,7 @@ public class MvtoEquipo_Agregar extends javax.swing.JPanel {
                                                             fechaHoraFinalActividadS.show(false);
                                                         }
                                                     }catch(Exception e){
-                                                         JOptionPane.showMessageDialog(null, "No se puedo hacer el registro dle Mvto Equipo","Error!", JOptionPane.INFORMATION_MESSAGE);
+                                                         JOptionPane.showMessageDialog(null, "No se puedo hacer el registro del Mvto Equipo","Error!", JOptionPane.INFORMATION_MESSAGE);
                                                         e.printStackTrace();
                                                     }
                                                 }else{

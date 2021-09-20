@@ -1,7 +1,7 @@
-package Consumo.Model2;
+package Consumo.Model;
     
 import Sistema.Model.Usuario;
-import Consumo.Model2.Insumo;
+import Consumo.Model.Insumo;
 
 public class Compra {
     private int codigo;

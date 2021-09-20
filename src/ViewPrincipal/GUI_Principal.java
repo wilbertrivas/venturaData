@@ -1,107 +1,138 @@
-package ViewPrincipal;
+ package ViewPrincipal;
 
 import Auditoria.View.Auditoria_Consultar;
-import Catalogo.View1.Cliente_Consultar;
-import Catalogo.View1.Cliente_Registrar;
-import Catalogo.View1.Cliente_RegistroSincronizado;
-import Consumo.View.FondoPanel; 
-import Catalogo.View1.Articulo_Actualizar;
-import Catalogo.View1.Articulo_Consultar;
-import Catalogo.View1.CentroCostoAuxiliar_Actualizar;
-import Catalogo.View1.CentroCostoAuxiliar_Consultar; 
-import Sistema.View2.Usuario_Registrar;
+import Catalogo.View.Cliente_Consultar;
+import Catalogo.View.Cliente_Registrar;
+import Catalogo.View.Cliente_RegistroSincronizado; 
+import Catalogo.View.Articulo_Actualizar;
+import Catalogo.View.Articulo_Consultar;
+import Catalogo.View.CentroCostoAuxiliar_Actualizar;
+import Catalogo.View.CentroCostoAuxiliar_Consultar; 
+import Sistema.View.Usuario_Registrar;
 import Sistema.Model.Usuario; 
-import Catalogo.View1.CentroCostoAuxiliar_Registrar;
-import Catalogo.View1.CentroCostoSubCentro_Registrar;
-import Catalogo.View1.CentroCostoSubcentro_Actualizar;
-import Catalogo.View1.CentroCostoSubcentro_Consultar;
-import Catalogo.View1.CentroOperacion_Actualizar;
-import Catalogo.View1.CentroOperacion_Consultar;
-import Catalogo.View1.CentroOperacion_Registrar;
-import Catalogo.View1.Motonave_Actualizar;
-import Catalogo.View1.Motonave_Consultar;
-import Catalogo.View1.Motonave_Registrar;
-import Catalogo.View1.Motonave_RegistroSincronizado;
-import Catalogo.View1.Articulo_Registrar;
-import Catalogo.View1.Articulo_RegistroSincronizado;
-import Catalogo.View1.Cuadrilla_Consultar;
-import Catalogo.View1.Cuadrilla_Registrar;
-import ModuloCarbon.View2.MvtoCarbon_Procesar;
-import Catalogo.View1.Transportadora_Actualizar;
-import Catalogo.View1.Transportadora_Consultar;
-import Catalogo.View1.Transportadora_Registrar;
-import Catalogo.View1.Transportadora_RegistroSincronizado;
-import Catalogo.View1.Compañia_Registrar;
-import Catalogo.View1.Compañias_Actualizar;
-import Catalogo.View1.Compañias_Consultar;
-import Catalogo.View1.Equipo_Actualizar;
-import Catalogo.View1.Equipo_Consultar;
-import Catalogo.View1.Equipo_Registrar;
-import Catalogo.View1.Equipo_RegistroSincronizado;
-import Catalogo.View1.PertenenciaEquipo_Actualizar;
-import Catalogo.View1.PertenenciaEquipo_Consultar;
-import Catalogo.View1.ActividadOperacion_Registrar;
-import Catalogo.View1.CausaInactividad_Actualizar;
-import Catalogo.View1.CausaInactividad_Consultar;
-import Catalogo.View1.CausaInactividad_Registrar;
-import Catalogo.View1.CentroCostoMayor_Actualizar;
-import Catalogo.View1.CentroCostoMayor_Consultar;
-import Catalogo.View1.CentroCostoMayor_Registrar;
-import Catalogo.View1.CentroCosto_Actualizar;
-import Catalogo.View1.CentroCosto_Consultar;
-import Catalogo.View1.CentroCosto_Registrar;
-import ModuloEquipo.View2.AsignacionEquipo_Inactivar;
-import ModuloEquipo.View2.AsignacionCronograma;
-import ModuloEquipo.View2.Solicitud_Equipos_Confirmacion;
-import ModuloEquipo.View2.AsignacionEquipo_Registrar;
-import Catalogo.View1.Equipo_Tarifa;
-import Catalogo.View1.LaborRealizada_Actualizar;
-import Catalogo.View1.LaborRealizada_Consultar;
-import Catalogo.View1.LaborRealizada_Registrar;
-import Catalogo.View1.MotivoNoLavado_Actualizar;
-import Catalogo.View1.MotivoNoLavado_Consultar;
-//import Catalogo.View1.MotivoNoLavado_Registrar;
-import Catalogo.View1.MotivoParada_Actualizar;
-import Catalogo.View1.MotivoParada_Consultar;
-import Catalogo.View1.MotivoParada_Registrar;
-import ModuloEquipo.View2.MvtoEquipo_AutorizarRecobro;
-import Catalogo.View1.ProveedorEquipo_Actualizar;
-import Catalogo.View1.ProveedorEquipo_Consultar;
-import Catalogo.View1.ProveedorEquipo_Registrar;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
-import Catalogo.View1.TipoEquipo_Actualizar;
-import Catalogo.View1.TipoEquipo_Consultar;
-import Catalogo.View1.TipoEquipo_Registrar;
-import ConnectionDB2.Conexion_DB_costos_vg;
-import ModuloCarbon.View2.MvtoCarbon_Activar_Final;
-import ModuloCarbon.View2.MvtoCarbon_AgregarRegistro;
-import ModuloCarbon.View2.MvtoCarbon_DebitoZonaTrabajo;
-import ModuloCarbon.View2.MvtoCarbon_GenerarMatriz;
-import ModuloCarbon.View2.MvtoCarbon_Inactivar_Final;
-import ModuloCarbon.View2.MvtoCarbon_MatrizDistribucion;
-import ModuloCarbon.View2.MvtoCarbon_ModificarFinal;
-import ModuloCarbon.View2.MvtoCarbon_ProcesarProgramado;
-import ModuloEquipo.View2.AsignacionEquipo_Activar;
-import ModuloEquipo.View2.AsignacionEquipo_Consultar;
-import ModuloEquipo.View2.MvtoEquipo_ActivarEquipo;
-import ModuloEquipo.View2.MvtoEquipo_Agregar;
-import ModuloEquipo.View2.MvtoEquipo_InactivarEquipo;
-import ModuloEquipo.View2.MvtoEquipo_InformeMatriz;
-import ModuloEquipo.View2.MvtoEquipo_MatrizDistribucion;
-import ModuloEquipo.View2.MvtoEquipo_ModificarFinal;
-import ModuloEquipo.View2.MvtoEquipo_Procesar_Programado;
-import ModuloEquipo.View2.MvtoEquipo_Procesar;
-import ModuloEquipo.View2.Programacion_Directa;
-import ModuloEquipo.View2.RendimientoEquipo;
-import ModuloEquipo.View2.Rendimiento_InformeEquipo;
+import Catalogo.View.CentroCostoAuxiliar_Registrar;
+import Catalogo.View.CentroCostoSubCentro_Registrar;
+import Catalogo.View.CentroCostoSubcentro_Actualizar;
+import Catalogo.View.CentroCostoSubcentro_Consultar;
+import Catalogo.View.CentroOperacion_Actualizar;
+import Catalogo.View.CentroOperacion_Consultar;
+import Catalogo.View.CentroOperacion_Registrar;
+import Catalogo.View.Motonave_Actualizar;
+import Catalogo.View.Motonave_Consultar;
+import Catalogo.View.Motonave_Registrar;
+import Catalogo.View.Motonave_RegistroSincronizado;
+import Catalogo.View.Articulo_Registrar;
+import Catalogo.View.Articulo_RegistroSincronizado;
+import Catalogo.View.Cuadrilla_Consultar;
+import Catalogo.View.Cuadrilla_Registrar;
+import ModuloCarbon.View.MvtoCarbon_Procesar;
+import Catalogo.View.Transportadora_Actualizar;
+import Catalogo.View.Transportadora_Consultar;
+import Catalogo.View.Transportadora_Registrar;
+import Catalogo.View.Transportadora_RegistroSincronizado;
+import Catalogo.View.Compañia_Registrar;
+import Catalogo.View.Compañias_Actualizar;
+import Catalogo.View.Compañias_Consultar;
+import Catalogo.View.Equipo_Actualizar;
+import Catalogo.View.Equipo_Consultar;
+import Catalogo.View.Equipo_Registrar;
+import Catalogo.View.Equipo_RegistroSincronizado;
+import Catalogo.View.PertenenciaEquipo_Actualizar;
+import Catalogo.View.PertenenciaEquipo_Consultar;
+import Catalogo.View.ActividadOperacion_Registrar;
+import Catalogo.View.CausaInactividad_Actualizar;
+import Catalogo.View.CausaInactividad_Consultar;
+import Catalogo.View.CausaInactividad_Registrar;
+import Catalogo.View.CentroCostoMayor_Actualizar;
+import Catalogo.View.CentroCostoMayor_Consultar;
+import Catalogo.View.CentroCostoMayor_Registrar;
+import Catalogo.View.CentroCosto_Actualizar;
+import Catalogo.View.CentroCosto_Consultar;
+import Catalogo.View.CentroCosto_Registrar;
+import ModuloEquipo.View.AsignacionEquipo_Inactivar;
+import ModuloEquipo.View.AsignacionCronograma;
+import ModuloEquipo.View.Solicitud_Equipos_Confirmacion;
+import ModuloEquipo.View.AsignacionEquipo_Registrar;
+import Catalogo.View.Equipo_Tarifa;
+import Catalogo.View.LaborRealizada_Actualizar;
+import Catalogo.View.LaborRealizada_Consultar;
+import Catalogo.View.LaborRealizada_Registrar;
+import Catalogo.View.MotivoNoLavado_Actualizar;
+import Catalogo.View.MotivoNoLavado_Consultar;
+import Catalogo.View.MotivoParada_Actualizar;
+import Catalogo.View.MotivoParada_Consultar;
+import Catalogo.View.MotivoParada_Registrar;
+import ModuloEquipo.View.MvtoEquipo_AutorizarRecobro;
+import Catalogo.View.ProveedorEquipo_Actualizar;
+import Catalogo.View.ProveedorEquipo_Consultar;
+import Catalogo.View.ProveedorEquipo_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
+import Catalogo.View.TipoEquipo_Actualizar;
+import Catalogo.View.TipoEquipo_Consultar;
+import Catalogo.View.TipoEquipo_Registrar;
+import Catalogo.View.ZonaTrabajoActualizarSitio;
+import Catalogo.View.ZonaTrabajoPorCentroCostoAuxiliar_Registrar;
+import Catalogo.View.ZonaTrabajo_Actualizar;
+import Catalogo.View.ZonaTrabajo_Consultar;
+import Catalogo.View.ZonaTrabajo_Registrar;
+import ConnectionDB.Conexion_DB_costos_vg;
+import ModuloCarbon.View.MvtoCarbon_Activar_Final;
+import ModuloCarbon.View.MvtoCarbon_AgregarRegistro;
+import ModuloCarbon.View.MvtoCarbon_DebitoZonaTrabajo;
+import ModuloCarbon.View.MvtoCarbon_GenerarMatriz;
+import ModuloCarbon.View.MvtoCarbon_Inactivar_Final;
+import ModuloCarbon.View.MvtoCarbon_InformeRecaudoLavadoVehiculo;
+import ModuloCarbon.View.MvtoCarbon_MatrizDistribucion;
+import ModuloCarbon.View.MvtoCarbon_ModificarFinal;
+import ModuloCarbon.View.MvtoCarbon_ProcesarProgramado;
+import ModuloEquipo.View.AsignacionEquipo_Activar;
+import ModuloEquipo.View.AsignacionEquipo_Consultar;
+import ModuloEquipo.View.MvtoEquipo_ActivarEquipo;
+import ModuloEquipo.View.MvtoEquipo_Agregar;
+import ModuloEquipo.View.MvtoEquipo_InactivarEquipo;
+import ModuloEquipo.View.MvtoEquipo_InformeMatriz;
+import ModuloEquipo.View.MvtoEquipo_MatrizDistribucion;
+import ModuloEquipo.View.MvtoEquipo_ModificarFinal;
+import ModuloEquipo.View.MvtoEquipo_Procesar_Programado;
+import ModuloEquipo.View.MvtoEquipo_Procesar;
+import ModuloEquipo.View.Programacion_Directa;
+import ModuloEquipo.View.RendimientoEquipo;
+import ModuloEquipo.View.Rendimiento_InformeEquipo;
+import ModuloPalero.View.ConfiguracionLiquidacion_Actualizar;
+import ModuloPalero.View.ConfiguracionLiquidacion_Consultar;
+import ModuloPalero.View.ConfiguracionLiquidacion_Registrar;
+import ModuloPalero.View.EquipoLiquidacion_Actualizar;
+import ModuloPalero.View.EquipoLiquidacion_Consultar;
+import ModuloPalero.View.EquipoLiquidacion_Registrar;
+import ModuloPalero.View.LiquidacionPalero_Registrar;
+import ModuloPalero.View.Marcacion_Actualizar;
+import ModuloPalero.View.Marcacion_Registrar;
+import ModuloPalero.View.Marcacion_Consultar;
+import ModuloPersonal.View.CargoNomina_Actualizar;
+import ModuloPersonal.View.CargoNomina_Consultar;
+import ModuloPersonal.View.CargoNomina_Registrar;
+import ModuloPersonal.View.Jornada_Actualizar;
+import ModuloPersonal.View.Jornada_Consultar;
+import ModuloPersonal.View.Jornada_Registrar;
+import ModuloPersonal.View.Persona_Actualizar;
+import ModuloPersonal.View.Persona_Consultar;
+import ModuloPersonal.View.Persona_Registrar;
+import ModuloPersonal.View.SituacionMedica_Actualizar;
+import ModuloPersonal.View.SituacionMedica_Consultar;
+import ModuloPersonal.View.SituacionMedica_Registrar;
+import ModuloPersonal.View.TipoContrato_Actualizar;
+import ModuloPersonal.View.TipoContrato_Consultar;
+import ModuloPersonal.View.TipoContrato_Registrar;
+import ModuloPersonal.View.TipoDocumento_Consultar;
+import ModuloPersonal.View.TipoDocumento_Registrar;
 import Sistema.Controller.ControlDB_Sistema;
-import Sistema.View2.Perfil_Actualizar;
-import Sistema.View2.Perfil_Consultar;
-import Sistema.View2.Perfil_Registrar;
-import Sistema.View2.Permiso_Usuario;
-import Sistema.View2.Usuario_Actualizar;
-import Sistema.View2.Usuario_CambiarClave;
-import Sistema.View2.Usuario_Consultar;
+import Sistema.View.Perfil_Actualizar;
+import Sistema.View.Perfil_Consultar;
+import Sistema.View.Perfil_Registrar;
+import Sistema.View.Permiso_Usuario;
+import Sistema.View.Usuario_Actualizar;
+import Sistema.View.Usuario_CambiarClave;
+import Sistema.View.Usuario_Consultar;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.FileNotFoundException;
@@ -118,24 +149,25 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private Dimension dim;
     private Usuario user;
     private String tipoConexion;
-    
+    private String cadena="";
     public GUI_Principal() {
         initComponents();
         tipoConexion="";
         
-        this.setTitle("VENTURADATA                                            DB:"+new Conexion_DB_costos_vg(tipoConexion).getBaseDeDatos());
+        this.setTitle("VENTURADATA                                            DB:"+new Conexion_DB_costos_vg(tipoConexion).getBaseDeDatos() /*+ " TypeConnection: "+this.tipoConexion*/);
         //con esto obtienes en tamano en en x y y de tu monitor
         dim=super.getToolkit().getScreenSize();
         //super.setSize(dim); 
         //super.setUndecorated(true);
         //super.setVisible(true);  
         this.getContentPane().setBackground(Color.WHITE);
-        panel.setViewportView(new FondoPanel());
+        //panel.setViewportView(new PanelControl(tipoConexion));
         ocultarMenu();//Inactiva todos los menu
         this.setSize(dim.width, dim.height);
         
-          UIManager.put("jMenuBar1.background", Color.ORANGE);
-        //
+        UIManager.put("jMenuBar1.background", Color.ORANGE);
+        //Cierra procesos al cerrar la ventana
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
     
     public void cargarUsuario(Usuario userT, String tipoConexion) throws ParseException, UnknownHostException, SocketException{
@@ -148,18 +180,23 @@ public final class GUI_Principal extends javax.swing.JFrame {
             NamePc=localHost.getHostName();
             Ip=localHost.getHostAddress();
         } catch (UnknownHostException ex) {
-            Logger.getLogger(Permiso_Usuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        panel.setViewportView(new Panel_Informativo("Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip));
-        //panel.setViewportView(new PanelControl(tipoConexion,"Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip));
-    
-        //userOnline.setText("Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip);   
-        //Registramos el ingreso al sistema
-        try {
-            new ControlDB_Sistema(this.tipoConexion).ingresoSistema(user);
-        } catch (FileNotFoundException ex) {
             Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        cadena="Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip;
+        panel.setViewportView(new PanelControl_Menu(cadena,tipoConexion));
+        //panel.setViewportView(new PanelControl_old(tipoConexion,"Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip));
+    
+        //userOnline.setText("Cedula: "+ user.getCodigo()+"     Nombre: "+ user.getNombres()+" "+ user.getApellidos()+"     Perfil del Usuario: "+user.getPerfilUsuario().getDescripcion()+"     Computador: "+NamePc+ "       IP:"+Ip);   
+        
+        
+        /*****************************************************************/
+          //Registramos el ingreso al sistema
+            /*try {
+                new ControlDB_Sistema(this.tipoConexion).ingresoSistema(user);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+       /************************************************************************************/
         
         //  userOnline.setText(""+userOnline.getText()+" Tipo Conexión:"+tipoConexion+"      Conexión Día:"+new ControlDB_Sistema(this.tipoConexion).contadorIngresoDiario(user));
         validarMenu(user);
@@ -187,6 +224,10 @@ public final class GUI_Principal extends javax.swing.JFrame {
         PROGRAMACION_EQUIPOS_DIRECTA = new javax.swing.JMenuItem();
         ASIGNACION_EQUIPOS_EDITAR = new javax.swing.JMenuItem();
         SOLICITUD_EQUIPOS_EDITAR = new javax.swing.JMenuItem();
+        jMenu15 = new javax.swing.JMenu();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         MODULO_CARBON_PROCESAR_REGISTROS = new javax.swing.JMenuItem();
         MODULO_CARBON_PROGRAMAR_PROCESAMIENTO_REGISTROS = new javax.swing.JMenuItem();
@@ -211,8 +252,50 @@ public final class GUI_Principal extends javax.swing.JFrame {
         MODULO_EQUIPO_GENERAR_MATRIZ = new javax.swing.JMenuItem();
         MODULO_EQUIPO_AGREGAR_REGISTRO = new javax.swing.JMenuItem();
         MODULO_EQUIPO_GENERAR_DISTRIBUCION = new javax.swing.JMenuItem();
+        jMenu34 = new javax.swing.JMenu();
+        jMenu42 = new javax.swing.JMenu();
+        jMenu45 = new javax.swing.JMenu();
+        jMenu46 = new javax.swing.JMenu();
+        jMenuItem47 = new javax.swing.JMenuItem();
+        jMenuItem48 = new javax.swing.JMenuItem();
+        jMenuItem49 = new javax.swing.JMenuItem();
+        jMenu54 = new javax.swing.JMenu();
+        jMenuItem25 = new javax.swing.JMenuItem();
+        jMenuItem45 = new javax.swing.JMenuItem();
+        jMenuItem46 = new javax.swing.JMenuItem();
+        jMenu44 = new javax.swing.JMenu();
+        jMenuItem21 = new javax.swing.JMenuItem();
+        jMenuItem22 = new javax.swing.JMenuItem();
+        jMenuItem44 = new javax.swing.JMenuItem();
+        jMenu43 = new javax.swing.JMenu();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
         jMenu12 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
+        jMenu48 = new javax.swing.JMenu();
+        jMenuItem26 = new javax.swing.JMenuItem();
+        jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
+        jMenu49 = new javax.swing.JMenu();
+        jMenuItem29 = new javax.swing.JMenuItem();
+        jMenuItem30 = new javax.swing.JMenuItem();
+        jMenuItem31 = new javax.swing.JMenuItem();
+        jMenu50 = new javax.swing.JMenu();
+        jMenuItem32 = new javax.swing.JMenuItem();
+        jMenuItem33 = new javax.swing.JMenuItem();
+        jMenuItem34 = new javax.swing.JMenuItem();
+        jMenu51 = new javax.swing.JMenu();
+        jMenuItem35 = new javax.swing.JMenuItem();
+        jMenuItem36 = new javax.swing.JMenuItem();
+        jMenuItem37 = new javax.swing.JMenuItem();
+        jMenu52 = new javax.swing.JMenu();
+        jMenuItem38 = new javax.swing.JMenuItem();
+        jMenuItem39 = new javax.swing.JMenuItem();
+        jMenuItem40 = new javax.swing.JMenuItem();
+        jMenu53 = new javax.swing.JMenu();
+        jMenuItem41 = new javax.swing.JMenuItem();
+        jMenuItem42 = new javax.swing.JMenuItem();
+        jMenuItem43 = new javax.swing.JMenuItem();
         jMenu14 = new javax.swing.JMenu();
         AUDITORIA_CONSULTAR = new javax.swing.JMenuItem();
         jMenu13 = new javax.swing.JMenu();
@@ -322,6 +405,8 @@ public final class GUI_Principal extends javax.swing.JFrame {
         Zoom100 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu29 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -451,6 +536,27 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu41.add(jMenu39);
 
+        jMenu15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_programacion_personal.png"))); // NOI18N
+        jMenu15.setText("Personal");
+        jMenu15.setPreferredSize(new java.awt.Dimension(150, 30));
+
+        jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem15.setText("Registrar");
+        jMenuItem15.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenu15.add(jMenuItem15);
+
+        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem16.setText("Consultar");
+        jMenuItem16.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenu15.add(jMenuItem16);
+
+        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem17.setText("Actualizar");
+        jMenuItem17.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenu15.add(jMenuItem17);
+
+        jMenu41.add(jMenu15);
+
         jMenuBar1.add(jMenu41);
 
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/descargue.png"))); // NOI18N
@@ -540,6 +646,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
         MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Recaudo.png"))); // NOI18N
         MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setText("Informe Recaudo x Lavado Vehículo");
         MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.setPreferredSize(new java.awt.Dimension(350, 30));
+        MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULOActionPerformed(evt);
+            }
+        });
         jMenu4.add(MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULO);
 
         MODULO_CARBON_GENERAR_DISTRIBUCION.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_distribucion.png"))); // NOI18N
@@ -676,6 +787,165 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_liquidacion.png"))); // NOI18N
+        jMenu34.setText("LIQUIDACIÓN");
+
+        jMenu42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_liquidacion_palero.png"))); // NOI18N
+        jMenu42.setText("Palero");
+        jMenu42.setPreferredSize(new java.awt.Dimension(180, 30));
+
+        jMenu45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_procesar.png"))); // NOI18N
+        jMenu45.setText("Parámetros");
+        jMenu45.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenu46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu46.setText("Equipos Liquidación");
+        jMenu46.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem47.setText("Registrar");
+        jMenuItem47.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem47.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem47ActionPerformed(evt);
+            }
+        });
+        jMenu46.add(jMenuItem47);
+
+        jMenuItem48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem48.setText("Consultar");
+        jMenuItem48.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem48.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jMenuItem48AncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jMenuItem48.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem48ActionPerformed(evt);
+            }
+        });
+        jMenu46.add(jMenuItem48);
+
+        jMenuItem49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem49.setText("Actualizar");
+        jMenuItem49.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem49ActionPerformed(evt);
+            }
+        });
+        jMenu46.add(jMenuItem49);
+
+        jMenu45.add(jMenu46);
+
+        jMenu54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu54.setText("Configuración Liquidación");
+        jMenu54.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenu54.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu54ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem25.setText("Registrar");
+        jMenuItem25.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem25ActionPerformed(evt);
+            }
+        });
+        jMenu54.add(jMenuItem25);
+
+        jMenuItem45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem45.setText("Consultar");
+        jMenuItem45.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem45.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem45ActionPerformed(evt);
+            }
+        });
+        jMenu54.add(jMenuItem45);
+
+        jMenuItem46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem46.setText("Actualizar");
+        jMenuItem46.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem46.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem46ActionPerformed(evt);
+            }
+        });
+        jMenu54.add(jMenuItem46);
+
+        jMenu45.add(jMenu54);
+
+        jMenu42.add(jMenu45);
+
+        jMenu44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu44.setText("Marcación");
+        jMenu44.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem21.setText("Cargar");
+        jMenuItem21.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu44.add(jMenuItem21);
+
+        jMenuItem22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem22.setText("Consultar");
+        jMenuItem22.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
+        jMenu44.add(jMenuItem22);
+
+        jMenuItem44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem44.setText("Actualizar");
+        jMenuItem44.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem44.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem44ActionPerformed(evt);
+            }
+        });
+        jMenu44.add(jMenuItem44);
+
+        jMenu42.add(jMenu44);
+
+        jMenu43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu43.setText("Liquidación");
+        jMenu43.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem18.setText("Generar");
+        jMenuItem18.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu43.add(jMenuItem18);
+
+        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem19.setText("Consultar");
+        jMenuItem19.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenu43.add(jMenuItem19);
+
+        jMenu42.add(jMenu43);
+
+        jMenu34.add(jMenu42);
+
+        jMenuBar1.add(jMenu34);
+
         jMenu12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Agua.png"))); // NOI18N
         jMenu12.setText("AGUA");
         jMenu12.setPreferredSize(new java.awt.Dimension(130, 20));
@@ -684,6 +954,196 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_personal.png"))); // NOI18N
         jMenu5.setText("PERSONAL");
         jMenu5.setPreferredSize(new java.awt.Dimension(130, 20));
+
+        jMenu48.setText("Tipo Contrato");
+        jMenu48.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem26.setText("Registrar");
+        jMenuItem26.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem26ActionPerformed(evt);
+            }
+        });
+        jMenu48.add(jMenuItem26);
+
+        jMenuItem27.setText("Consultar");
+        jMenuItem27.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem27ActionPerformed(evt);
+            }
+        });
+        jMenu48.add(jMenuItem27);
+
+        jMenuItem28.setText("Actualizar");
+        jMenuItem28.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMenu48.add(jMenuItem28);
+
+        jMenu5.add(jMenu48);
+
+        jMenu49.setText("Jornada");
+        jMenu49.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem29.setText("Registrar");
+        jMenuItem29.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
+        jMenu49.add(jMenuItem29);
+
+        jMenuItem30.setText("Consultar");
+        jMenuItem30.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem30ActionPerformed(evt);
+            }
+        });
+        jMenu49.add(jMenuItem30);
+
+        jMenuItem31.setText("Actualizar");
+        jMenuItem31.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem31ActionPerformed(evt);
+            }
+        });
+        jMenu49.add(jMenuItem31);
+
+        jMenu5.add(jMenu49);
+
+        jMenu50.setText("Situacion_Medica");
+        jMenu50.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem32.setText("Registrar");
+        jMenuItem32.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem32ActionPerformed(evt);
+            }
+        });
+        jMenu50.add(jMenuItem32);
+
+        jMenuItem33.setText("Consultar");
+        jMenuItem33.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem33ActionPerformed(evt);
+            }
+        });
+        jMenu50.add(jMenuItem33);
+
+        jMenuItem34.setText("Actualizar");
+        jMenuItem34.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem34ActionPerformed(evt);
+            }
+        });
+        jMenu50.add(jMenuItem34);
+
+        jMenu5.add(jMenu50);
+
+        jMenu51.setText("Cargo Nomina");
+        jMenu51.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem35.setText("Registrar");
+        jMenuItem35.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem35ActionPerformed(evt);
+            }
+        });
+        jMenu51.add(jMenuItem35);
+
+        jMenuItem36.setText("Consultar");
+        jMenuItem36.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem36ActionPerformed(evt);
+            }
+        });
+        jMenu51.add(jMenuItem36);
+
+        jMenuItem37.setText("Actualizar");
+        jMenuItem37.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem37ActionPerformed(evt);
+            }
+        });
+        jMenu51.add(jMenuItem37);
+
+        jMenu5.add(jMenu51);
+
+        jMenu52.setText("Personal");
+        jMenu52.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem38.setText("Registrar");
+        jMenuItem38.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem38.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem38ActionPerformed(evt);
+            }
+        });
+        jMenu52.add(jMenuItem38);
+
+        jMenuItem39.setText("Consultar");
+        jMenuItem39.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem39ActionPerformed(evt);
+            }
+        });
+        jMenu52.add(jMenuItem39);
+
+        jMenuItem40.setText("Actualizar");
+        jMenuItem40.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem40ActionPerformed(evt);
+            }
+        });
+        jMenu52.add(jMenuItem40);
+
+        jMenu5.add(jMenu52);
+
+        jMenu53.setText("Tipo Documento");
+        jMenu53.setPreferredSize(new java.awt.Dimension(250, 30));
+
+        jMenuItem41.setText("Registrar");
+        jMenuItem41.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem41ActionPerformed(evt);
+            }
+        });
+        jMenu53.add(jMenuItem41);
+
+        jMenuItem42.setText("Consultar");
+        jMenuItem42.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem42ActionPerformed(evt);
+            }
+        });
+        jMenu53.add(jMenuItem42);
+
+        jMenuItem43.setText("Actualizar");
+        jMenuItem43.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem43ActionPerformed(evt);
+            }
+        });
+        jMenu53.add(jMenuItem43);
+
+        jMenu5.add(jMenu53);
+
         jMenuBar1.add(jMenu5);
 
         jMenu14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Auditoria.png"))); // NOI18N
@@ -706,7 +1166,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu13.setText("CATALOGOS");
         jMenu13.setPreferredSize(new java.awt.Dimension(170, 20));
 
-        jMenu16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_perfil1.png"))); // NOI18N
         jMenu16.setText("Perfil");
         jMenu16.setPreferredSize(new java.awt.Dimension(250, 30));
 
@@ -752,7 +1212,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu16);
 
-        jMenu18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_usuariof.png"))); // NOI18N
         jMenu18.setText("Usuario");
         jMenu18.setPreferredSize(new java.awt.Dimension(150, 30));
 
@@ -975,7 +1435,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu20);
 
-        jMenu33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_companiaF.png"))); // NOI18N
         jMenu33.setText("Compañia");
         jMenu33.setPreferredSize(new java.awt.Dimension(150, 30));
 
@@ -1011,7 +1471,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu33);
 
-        jMenu36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_laborRealizadaF.png"))); // NOI18N
         jMenu36.setText("Labor Realizadas");
         jMenu36.setPreferredSize(new java.awt.Dimension(150, 30));
 
@@ -1124,7 +1584,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu11);
 
-        jMenu26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_motonaveF_.png"))); // NOI18N
         jMenu26.setText("Motonave");
         jMenu26.setPreferredSize(new java.awt.Dimension(150, 30));
 
@@ -1170,7 +1630,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu26);
 
-        jMenu27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_transportadora.png"))); // NOI18N
         jMenu27.setText("Transportadora");
         jMenu27.setPreferredSize(new java.awt.Dimension(150, 30));
 
@@ -1542,26 +2002,51 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
         jMenuItem8.setText("Registrar");
         jMenuItem8.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem8);
 
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
         jMenuItem9.setText("Consultar");
         jMenuItem9.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem9);
 
         jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
         jMenuItem11.setText("Actualizar");
         jMenuItem11.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem11);
 
         jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
-        jMenuItem12.setText("Añadir_Sitio");
+        jMenuItem12.setText("Añadir_Sitio a ZonaTrabajo");
         jMenuItem12.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem12);
 
         jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
-        jMenuItem13.setText("Inactivar_Sitio");
+        jMenuItem13.setText("Actualizar_Sitio");
         jMenuItem13.setPreferredSize(new java.awt.Dimension(150, 30));
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem13);
 
         jMenu13.add(jMenu9);
@@ -1572,7 +2057,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu21.setText("SISTEMA");
         jMenu21.setPreferredSize(new java.awt.Dimension(120, 40));
 
-        jMenu17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_zoom_f.png"))); // NOI18N
         jMenu17.setText("Zoom");
         jMenu17.setPreferredSize(new java.awt.Dimension(150, 30));
 
@@ -1634,6 +2119,21 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu21.add(jMenuItem10);
 
         jMenuBar1.add(jMenu21);
+
+        jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_rendimiento3.png"))); // NOI18N
+        jMenu10.setText("PANEL DE CONTROL");
+
+        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reporte_2.png"))); // NOI18N
+        jMenuItem14.setText("CARGAR");
+        jMenuItem14.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem14);
+
+        jMenuBar1.add(jMenu10);
 
         jMenu29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/salirGUI.png"))); // NOI18N
         jMenu29.setText("SALIR");
@@ -2119,6 +2619,166 @@ public final class GUI_Principal extends javax.swing.JFrame {
         panel.setViewportView(new MvtoCarbon_DebitoZonaTrabajo(user, tipoConexion));
     }//GEN-LAST:event_MODULO_CARBON_REGISTRAR_DEBITO_ZONATRABAJOActionPerformed
 
+    private void MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULOActionPerformed
+        panel.setViewportView(new MvtoCarbon_InformeRecaudoLavadoVehiculo(user, tipoConexion));
+    }//GEN-LAST:event_MODULO_CARBON_GENERAR_INFORME_RECAUDO_LAVADOVEHICULOActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        panel.setViewportView(new ZonaTrabajo_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        panel.setViewportView(new ZonaTrabajo_Consultar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        panel.setViewportView(new ZonaTrabajo_Actualizar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        panel.setViewportView(new ZonaTrabajoPorCentroCostoAuxiliar_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        panel.setViewportView(new ZonaTrabajoActualizarSitio(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        panel.setViewportView(new PanelControl_Menu(cadena,tipoConexion));
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+         panel.setViewportView(new TipoContrato_Actualizar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
+    private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
+        panel.setViewportView(new Jornada_Actualizar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem31ActionPerformed
+
+    private void jMenuItem34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem34ActionPerformed
+        panel.setViewportView(new SituacionMedica_Actualizar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem34ActionPerformed
+
+    private void jMenuItem37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem37ActionPerformed
+        panel.setViewportView(new CargoNomina_Actualizar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem37ActionPerformed
+
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+        panel.setViewportView(new TipoContrato_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
+
+    private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
+         panel.setViewportView(new TipoContrato_Consultar(tipoConexion));
+    }//GEN-LAST:event_jMenuItem27ActionPerformed
+
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+         panel.setViewportView(new Jornada_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
+
+    private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
+        panel.setViewportView(new Jornada_Consultar(tipoConexion));
+    }//GEN-LAST:event_jMenuItem30ActionPerformed
+
+    private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
+        panel.setViewportView(new SituacionMedica_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem32ActionPerformed
+
+    private void jMenuItem33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem33ActionPerformed
+        panel.setViewportView(new SituacionMedica_Consultar(tipoConexion));
+    }//GEN-LAST:event_jMenuItem33ActionPerformed
+
+    private void jMenuItem35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem35ActionPerformed
+        panel.setViewportView(new CargoNomina_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem35ActionPerformed
+
+    private void jMenuItem36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem36ActionPerformed
+        panel.setViewportView(new CargoNomina_Consultar(tipoConexion));
+    }//GEN-LAST:event_jMenuItem36ActionPerformed
+
+    private void jMenuItem38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem38ActionPerformed
+        panel.setViewportView(new Persona_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem38ActionPerformed
+
+    private void jMenuItem41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem41ActionPerformed
+        panel.setViewportView(new TipoDocumento_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem41ActionPerformed
+
+    private void jMenuItem42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem42ActionPerformed
+        panel.setViewportView(new TipoDocumento_Consultar(tipoConexion));
+    }//GEN-LAST:event_jMenuItem42ActionPerformed
+
+    private void jMenuItem43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem43ActionPerformed
+        //panel.setViewportView(new TipoDocumento(tipoConexion));
+    }//GEN-LAST:event_jMenuItem43ActionPerformed
+
+    private void jMenuItem39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem39ActionPerformed
+        panel.setViewportView(new Persona_Consultar(tipoConexion, user));
+    }//GEN-LAST:event_jMenuItem39ActionPerformed
+
+    private void jMenuItem40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem40ActionPerformed
+        panel.setViewportView(new Persona_Actualizar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem40ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        panel.setViewportView(new Marcacion_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+        panel.setViewportView(new Marcacion_Consultar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem22ActionPerformed
+
+    private void jMenuItem44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem44ActionPerformed
+         panel.setViewportView(new Marcacion_Actualizar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem44ActionPerformed
+
+    private void jMenu54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu54ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu54ActionPerformed
+
+    private void jMenuItem47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem47ActionPerformed
+        try {
+            panel.setViewportView(new EquipoLiquidacion_Registrar(user, tipoConexion));
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem47ActionPerformed
+
+    private void jMenuItem48AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jMenuItem48AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem48AncestorAdded
+
+    private void jMenuItem48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem48ActionPerformed
+        try {
+            panel.setViewportView(new EquipoLiquidacion_Consultar(user, tipoConexion));
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem48ActionPerformed
+
+    private void jMenuItem49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem49ActionPerformed
+        try {
+            panel.setViewportView(new EquipoLiquidacion_Actualizar(user, tipoConexion));
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem49ActionPerformed
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+        panel.setViewportView(new ConfiguracionLiquidacion_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem25ActionPerformed
+
+    private void jMenuItem45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem45ActionPerformed
+        panel.setViewportView(new ConfiguracionLiquidacion_Consultar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem45ActionPerformed
+
+    private void jMenuItem46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem46ActionPerformed
+        panel.setViewportView(new ConfiguracionLiquidacion_Actualizar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem46ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        panel.setViewportView(new LiquidacionPalero_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2255,10 +2915,12 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Zoom50;
     private javax.swing.JMenuItem Zoom70;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
     private javax.swing.JMenu jMenu13;
     private javax.swing.JMenu jMenu14;
+    private javax.swing.JMenu jMenu15;
     private javax.swing.JMenu jMenu16;
     private javax.swing.JMenu jMenu17;
     private javax.swing.JMenu jMenu18;
@@ -2279,6 +2941,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu31;
     private javax.swing.JMenu jMenu32;
     private javax.swing.JMenu jMenu33;
+    private javax.swing.JMenu jMenu34;
     private javax.swing.JMenu jMenu35;
     private javax.swing.JMenu jMenu36;
     private javax.swing.JMenu jMenu37;
@@ -2287,7 +2950,19 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu40;
     private javax.swing.JMenu jMenu41;
+    private javax.swing.JMenu jMenu42;
+    private javax.swing.JMenu jMenu43;
+    private javax.swing.JMenu jMenu44;
+    private javax.swing.JMenu jMenu45;
+    private javax.swing.JMenu jMenu46;
+    private javax.swing.JMenu jMenu48;
+    private javax.swing.JMenu jMenu49;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu50;
+    private javax.swing.JMenu jMenu51;
+    private javax.swing.JMenu jMenu52;
+    private javax.swing.JMenu jMenu53;
+    private javax.swing.JMenu jMenu54;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
@@ -2298,9 +2973,42 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem22;
+    private javax.swing.JMenuItem jMenuItem25;
+    private javax.swing.JMenuItem jMenuItem26;
+    private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
+    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem30;
+    private javax.swing.JMenuItem jMenuItem31;
+    private javax.swing.JMenuItem jMenuItem32;
+    private javax.swing.JMenuItem jMenuItem33;
+    private javax.swing.JMenuItem jMenuItem34;
+    private javax.swing.JMenuItem jMenuItem35;
+    private javax.swing.JMenuItem jMenuItem36;
+    private javax.swing.JMenuItem jMenuItem37;
+    private javax.swing.JMenuItem jMenuItem38;
+    private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem40;
+    private javax.swing.JMenuItem jMenuItem41;
+    private javax.swing.JMenuItem jMenuItem42;
+    private javax.swing.JMenuItem jMenuItem43;
+    private javax.swing.JMenuItem jMenuItem44;
+    private javax.swing.JMenuItem jMenuItem45;
+    private javax.swing.JMenuItem jMenuItem46;
+    private javax.swing.JMenuItem jMenuItem47;
+    private javax.swing.JMenuItem jMenuItem48;
+    private javax.swing.JMenuItem jMenuItem49;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
@@ -2702,7 +3410,6 @@ public final class GUI_Principal extends javax.swing.JFrame {
                     MODULO_EQUIPO_GENERAR_DISTRIBUCION.show(true);
                     break;
                 }
-               
                 default:{
                     break;
                 }

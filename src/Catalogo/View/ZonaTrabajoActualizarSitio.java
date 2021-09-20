@@ -1,12 +1,22 @@
-package Catalogo.View1;
+package Catalogo.View;
    
 import Catalogo.Controller.ControlDB_Articulo;
 import Catalogo.Controller.ControlDB_BaseDatos;
+import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
+import Catalogo.Controller.ControlDB_CentroOperacion;
 import Catalogo.Controller.ControlDB_TipoArticulo;
+import Catalogo.Controller.ControlDB_ZonaTrabajo;
 import Catalogo.Model.Articulo;
 import Catalogo.Model.BaseDatos;
+import Catalogo.Model.CentroCostoAuxiliar;
+import Catalogo.Model.CentroCostoSubCentro;
+import Catalogo.Model.CentroOperacion;
+import Catalogo.Model.ListadoSitiosZonaTrabajo;
 import Catalogo.Model.TipoArticulo;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import Catalogo.Model.ZonaTrabajo;
+import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
+import ModuloCarbon.View.MvtoCarbon_ModificarFinal;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.net.SocketException;
@@ -19,56 +29,108 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public final class Articulo_Actualizar extends javax.swing.JPanel {
+public final class ZonaTrabajoActualizarSitio extends javax.swing.JPanel {
     Usuario user;
     private String tipoConexion;
-    ArrayList<TipoArticulo> listadoTipoArticulo = new ArrayList();
-    ArrayList<Articulo> listadoArticulo = new ArrayList();
-    ArrayList<BaseDatos> listadoBaseDatos= new ArrayList();
-//    
-    public Articulo_Actualizar(Usuario us,String tipoConexion) {
+    private ArrayList<CentroOperacion> listadoCentroOperacion = null;
+    private ArrayList<CentroCostoSubCentro> listadoCentroCostoSubCentro = null;
+    private ArrayList<CentroCostoAuxiliar> listadoCentroCostoAuxiliar =null;
+    private ArrayList<ZonaTrabajo> list_zonaTrabajo =null;
+    private ArrayList<ListadoSitiosZonaTrabajo> listarLista_Cc_auxiliar_ZonaTrabajo;
+    private ListadoSitiosZonaTrabajo sitio=null;
+    public ZonaTrabajoActualizarSitio(Usuario us,String tipoConexion) {
         
         initComponents();
         user=us;
         this.tipoConexion= tipoConexion;
         
-         //Cargamos en la interfaz los tipos de articulos activos
-        try {
-            listadoTipoArticulo=new ControlDB_TipoArticulo(tipoConexion).buscarActivos();
-            for(TipoArticulo tipoArticulo: listadoTipoArticulo){
-                Select_TipoArticulo.addItem(tipoArticulo.getDescripcion());
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //Cargamos en la interfaz la lista de las base de datos
-        try {
-            listadoBaseDatos=new ControlDB_BaseDatos(tipoConexion).buscar();
-            if(listadoBaseDatos != null){
-                String datosObjeto[]= new String[listadoBaseDatos.size()];
-                int contador=0;
-                for(BaseDatos objeto : listadoBaseDatos){ 
-                    datosObjeto[contador]=objeto.getDescripcion();
-                    contador++;
-                }
-                final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
-                listado_baseDatos.setModel(model);
-            } 
-        } catch (SQLException ex) {
-            Logger.getLogger(Solicitud_Equipos_Registrar.class.getName()).log(Level.SEVERE, null, ex);
-        }  
-        
         try {
             tabla_Listar("");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al tratar de consultar los articulos");
-            Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZonaTrabajoPorCentroCostoAuxiliar_Registrar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Select_TipoArticulo.setEnabled(false);
-        nombre.setEnabled(false);
-        estado.setEnabled(false);
-        listado_baseDatos.setEnabled(false);
-        Select_TipoArticulo.show(false);
+        
+        //Cargamos en la interfaz los centros de Operaciones
+        try {
+            listadoCentroOperacion=new ControlDB_CentroOperacion(tipoConexion).buscarActivos();
+            //listadoCentroOperacion_mvtoEquipo=listadoCentroOperacion;
+            if(listadoCentroOperacion != null){  
+                String datosObjeto[]= new String[listadoCentroOperacion.size()];
+                int contador=0;
+                for(CentroOperacion listadoCentroOperacion1 : listadoCentroOperacion){ 
+                    datosObjeto[contador]=listadoCentroOperacion1.getDescripcion();
+                    contador++;
+                }
+                final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
+                select_MvtoCarbon_CO.setModel(model);
+                //select_MvtoEquipo_CO.setModel(model);
+            } 
+        } catch (SQLException ex) {
+            Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        
+        //Cargamos en la interfaz los Subcentro de costos según el centro de Operación
+        try {
+            listadoCentroCostoSubCentro=new ControlDB_CentroCostoSubCentro(tipoConexion).buscarActivos(listadoCentroOperacion.get(select_MvtoCarbon_CO.getSelectedIndex()));
+        } catch (SQLException ex) {
+            Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //listadoCentroCostoSubCentro_mvtoEquipo=listadoCentroCostoSubCentro_mvtoEquipo;
+        if(listadoCentroCostoSubCentro != null){
+            String datosObjeto[]= new String[listadoCentroCostoSubCentro.size()];
+            int contador=0;
+            for(CentroCostoSubCentro Objeto : listadoCentroCostoSubCentro){
+                datosObjeto[contador]=Objeto.getDescripcion();
+                contador++;
+            }
+            final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
+            select_MvtoCarbon_SubcentroCosto.setModel(model);
+            //select_MvtoEquipo_SubcentroCosto.setModel(model);
+        } 
+        
+        //Cargamos los la interfaz los auxiliares de costos según selección de SubCentro de costos
+        try {
+            if(listadoCentroCostoSubCentro!= null){
+                listadoCentroCostoAuxiliar=new ControlDB_MvtoCarbon(tipoConexion).buscarCentroCostoAuxiliar(""+listadoCentroCostoSubCentro.get(select_MvtoCarbon_SubcentroCosto.getSelectedIndex()).getCodigo());
+                //listadoCentroCostoAuxiliar_mvtoEquipo=listadoCentroCostoAuxiliar;
+                if(listadoCentroCostoAuxiliar != null){
+                    String datosObjeto[]= new String[listadoCentroCostoAuxiliar.size()];
+                    int contador=0;
+                    for(CentroCostoAuxiliar Objeto : listadoCentroCostoAuxiliar){ 
+                        datosObjeto[contador]=Objeto.getDescripcion();
+                        contador++;
+                    }
+                    final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
+                    //select_MvtoCarbon_CCAuxiliar.setModel(model);
+                    select_MvtoCarbon_CCAuxiliar.setModel(model);
+                } 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Solicitud_Equipos_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Cargamos las zona de Trabajo (Operación)
+        try {
+            list_zonaTrabajo= new ControlDB_ZonaTrabajo(tipoConexion).buscar("");
+            if(list_zonaTrabajo != null){
+                String datosObjeto[]= new String[list_zonaTrabajo.size()];
+                int contador=0;
+                for(ZonaTrabajo Objeto : list_zonaTrabajo){ 
+                    datosObjeto[contador]=Objeto.getDescripcion();
+                    contador++;
+                }
+                final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
+                //select_MvtoCarbon_CCAuxiliar.setModel(model);
+                select_ZonaTrabajo.setModel(model);
+            } 
+        } catch (SQLException ex) {
+            Logger.getLogger(ZonaTrabajoPorCentroCostoAuxiliar_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        select_MvtoCarbon_CO.setEnabled(false);
+        select_MvtoCarbon_SubcentroCosto.setEnabled(false);
+        select_MvtoCarbon_CCAuxiliar.setEnabled(false);
+        select_ZonaTrabajo.setEnabled(false);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -76,26 +138,26 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
 
         Seleccionar = new javax.swing.JPopupMenu();
         Editar = new javax.swing.JMenuItem();
-        nombre = new javax.swing.JTextField();
-        codigo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        estado = new javax.swing.JComboBox<>();
         btnActualizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         valorBusqueda = new javax.swing.JTextField();
         btnConsultar = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         alerta_nombre = new javax.swing.JLabel();
-        chek_TipoArticulo = new javax.swing.JRadioButton();
-        Select_TipoArticulo = new javax.swing.JComboBox<>();
+        titulo29 = new javax.swing.JLabel();
+        select_MvtoCarbon_CO = new javax.swing.JComboBox<>();
+        titulo26 = new javax.swing.JLabel();
+        select_MvtoCarbon_SubcentroCosto = new javax.swing.JComboBox<>();
+        titulo45 = new javax.swing.JLabel();
+        select_MvtoCarbon_CCAuxiliar = new javax.swing.JComboBox<>();
+        titulo25 = new javax.swing.JLabel();
+        select_ZonaTrabajo = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        estado = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        listado_baseDatos = new javax.swing.JComboBox<>();
 
         Editar.setText("Modificar");
         Editar.addActionListener(new java.awt.event.ActionListener() {
@@ -107,25 +169,13 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 390, 30));
-
-        codigo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        add(codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 310, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 153, 153));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("ACTUALIZACIÓN DE ARTICULOS");
+        jLabel2.setText("ACTUALIZACIÓN DE SITIOS POR ZONA DE TRABAJO");
         jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1290, 30));
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setText("Estado:");
-        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 80, 30));
-
-        estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ACTIVO", "INACTIVO" }));
-        estado.setToolTipText("");
-        add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 310, 390, 30));
 
         btnActualizar.setBackground(new java.awt.Color(255, 255, 255));
         btnActualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -141,7 +191,7 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
                 btnActualizarActionPerformed(evt);
             }
         });
-        add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 370, 140, 40));
+        add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 360, 140, 40));
 
         btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -152,7 +202,7 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
                 btnCancelarActionPerformed(evt);
             }
         });
-        add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, 140, 40));
+        add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, 140, 40));
 
         tabla = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
@@ -180,7 +230,7 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tabla);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, 760, 470));
-        add(valorBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, 460, 40));
+        add(valorBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, 620, 40));
 
         btnConsultar.setBackground(new java.awt.Color(255, 255, 255));
         btnConsultar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -191,136 +241,139 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
                 btnConsultarActionPerformed(evt);
             }
         });
-        add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 50, 140, 40));
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setText("Nombre:");
-        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 80, 30));
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setText("Código:");
-        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 80, 30));
+        add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 50, 140, 40));
 
         alerta_nombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         alerta_nombre.setForeground(new java.awt.Color(255, 0, 51));
-        add(alerta_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 380, 20));
+        add(alerta_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 460, 380, 20));
 
-        chek_TipoArticulo.setBackground(new java.awt.Color(255, 255, 255));
-        chek_TipoArticulo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        chek_TipoArticulo.setText("TipoArticulo:");
-        chek_TipoArticulo.addItemListener(new java.awt.event.ItemListener() {
+        titulo29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo29.setForeground(new java.awt.Color(51, 51, 51));
+        titulo29.setText("CENTRO OPERACIÓN:");
+        titulo29.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo29, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 170, 30));
+
+        select_MvtoCarbon_CO.setToolTipText("");
+        select_MvtoCarbon_CO.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                chek_TipoArticuloItemStateChanged(evt);
+                select_MvtoCarbon_COItemStateChanged(evt);
             }
         });
-        add(chek_TipoArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
+        add(select_MvtoCarbon_CO, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 320, 30));
 
-        Select_TipoArticulo.setToolTipText("");
-        add(Select_TipoArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 330, 30));
+        titulo26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo26.setForeground(new java.awt.Color(51, 51, 51));
+        titulo26.setText("SUBCENTRO COSTO:");
+        titulo26.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo26, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 130, 30));
+
+        select_MvtoCarbon_SubcentroCosto.setToolTipText("");
+        select_MvtoCarbon_SubcentroCosto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                select_MvtoCarbon_SubcentroCostoItemStateChanged(evt);
+            }
+        });
+        add(select_MvtoCarbon_SubcentroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 320, 30));
+
+        titulo45.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo45.setForeground(new java.awt.Color(51, 51, 51));
+        titulo45.setText("C.C. AUXILIAR ORIGEN:");
+        titulo45.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo45, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 150, 30));
+
+        select_MvtoCarbon_CCAuxiliar.setToolTipText("");
+        add(select_MvtoCarbon_CCAuxiliar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 320, 30));
+
+        titulo25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo25.setForeground(new java.awt.Color(51, 51, 51));
+        titulo25.setText("ZONA DE TRABAJO:");
+        titulo25.setPreferredSize(new java.awt.Dimension(133, 15));
+        add(titulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 130, 30));
+
+        select_ZonaTrabajo.setToolTipText("");
+        select_ZonaTrabajo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                select_ZonaTrabajoItemStateChanged(evt);
+            }
+        });
+        add(select_ZonaTrabajo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 320, 30));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Estado");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 120, 30));
+
+        estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ACTIVO", "INACTIVO" }));
+        estado.setToolTipText("");
+        add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, 320, 30));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1290, 90));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1290, 60));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 530, 470));
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel13.setText("Base de Datos:");
-        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 30));
-
-        listado_baseDatos.setToolTipText("");
-        add(listado_baseDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 390, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        codigo.setText("");
-        nombre.setText("");
-        estado.setSelectedIndex(0);
-        listado_baseDatos.setSelectedIndex(0);
+        valorBusqueda.setText("");
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        if(codigo.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Error.. Se debe carga un artículo", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        if(sitio == null){
+            JOptionPane.showMessageDialog(null, "Error.. Se debe carga un sitio a ser actualizado", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-           
-                if(nombre.getText().equals("")){
-                    alerta_nombre.setText("El nombre del articulo no puede estar vacio");
+            boolean validar= true;
+            if(estado.getSelectedIndex()==0){//Seleccionó activo
+                if(sitio.getEstado().equals("0")){//El estado incial estaba inactivo, por tal motivo podemos actualizar porque hay cambios
+                    validar=true;
+                    sitio.setEstado("1");
                 }else{
-                    Articulo Objeto = new Articulo();
-                    Objeto.setCodigo(codigo.getText());
-                    if(chek_TipoArticulo.isSelected()){
-                        if(listadoTipoArticulo != null){
-                            try{
-                                Objeto.setTipoArticulo(listadoTipoArticulo.get(Select_TipoArticulo.getSelectedIndex()));
-                            }catch(Exception e){
-                                Objeto.setTipoArticulo(null);
-                            }
-                        }
-                    }else{
-                        TipoArticulo tpArticulo= new TipoArticulo();
-                        tpArticulo.setCodigo("NULL");
-                        
-                        Objeto.setTipoArticulo(tpArticulo);
-                    }
-                    Objeto.setDescripcion(nombre.getText());
-                    //Validamos si selecciono activo o inactivo
-                    if(estado.getSelectedItem().toString().equalsIgnoreCase("ACTIVO")){
-                        Objeto.setEstado("1");
-                    }else{
-                        Objeto.setEstado("0");
-                    }
-                     //Validamos si selecciono activo o inactivo
-                    if(listadoBaseDatos !=null){
-                        Objeto.setBaseDatos(listadoBaseDatos.get(listado_baseDatos.getSelectedIndex()));
-                    }else{
-                        Objeto.setBaseDatos(new BaseDatos("NULL"));
-                    }
-                    try {
-                       // if(!new ControlDB_Articulo(tipoConexion).validarExistenciaActualizar(Objeto)){
-                            int respuesta=new ControlDB_Articulo(tipoConexion).actualizar(Objeto, user);
-                            if(respuesta==1){
-                                JOptionPane.showMessageDialog(null, "Se actualizo el articulo de forma exitosa");
-                                codigo.setText("");
-                                Select_TipoArticulo.setSelectedIndex(0);
-                                nombre.setText("");
-                                estado.setSelectedIndex(0);
-                                listado_baseDatos.setSelectedIndex(0);
-                                tabla_Listar("");
-                                Select_TipoArticulo.setEnabled(false);
-                                nombre.setEnabled(false);
-                                estado.setEnabled(false);
-                            }else{
-                                if(respuesta==0){
-                                    JOptionPane.showMessageDialog(null, "No se pudo actualizar el articulo, valide los datos ingresados");
-                                }
-                            }
-                        //}else{
-                          //  JOptionPane.showMessageDialog(null, "Ya existe un articulo con el mismo nombre, valide los datos ingresados", "Advertencia", JOptionPane.ERROR_MESSAGE);
-                        //}     
-                    } catch (FileNotFoundException ex) {
-                        JOptionPane.showMessageDialog(null, "Error al registrar el articulo");
-                        Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (UnknownHostException ex) {
-                        Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SocketException ex) {
-                        Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    validar=false;
                 }
-            
-        }
+            }else{//Seleccionó inactivo
+                if(sitio.getEstado().equals("1")){//El estado incial estaba activo, por tal motivo podemos actualizar porque hay cambios
+                    validar=true;
+                    sitio.setEstado("0");
+                }else{
+                    validar=false;
+                }
+            }
+            if(validar){//Procedemos a actualizar el estado dle sitio
+                try{
+                    int respuesta=new ControlDB_ZonaTrabajo(tipoConexion).actualizarSitioZonaTrabajo(sitio, user);
+                    if(respuesta==1){
+                        try {
+                            tabla_Listar(valorBusqueda.getText());
+                        } catch (SQLException ex) {
+                            Logger.getLogger(ZonaTrabajoActualizarSitio.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        JOptionPane.showMessageDialog(null, "Se actualizo el sitio de forma exitosa");
+                    }else{
+                        if(respuesta==0){
+                            JOptionPane.showMessageDialog(null, "No se pudo actualizar el sitio, valide los datos ingresados");
+                        }
+                    }    
+                }catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al registrar el articulo");
+                    Logger.getLogger(ZonaTrabajoActualizarSitio.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(ZonaTrabajoActualizarSitio.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SocketException ex) {
+                    Logger.getLogger(ZonaTrabajoActualizarSitio.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "No se han realizado cambios para proceder a actualizar", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            }
+       }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         try {
             tabla_Listar(valorBusqueda.getText());
         } catch (SQLException ex) {
-            Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZonaTrabajoActualizarSitio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
@@ -333,36 +386,62 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
             }
             else{
                 //DefaultTableModel modelo=(DefaultTableModel)tabla.getModel();
-                Articulo articulo=listadoArticulo.get(fila1);
-                codigo.setText(articulo.getCodigo());
-                if(articulo.getTipoArticulo().getCodigo() !=null){
-                    chek_TipoArticulo.setSelected(true);
+                sitio=listarLista_Cc_auxiliar_ZonaTrabajo.get(fila1);
+                //cargamos el Centro de Operación según la selección.
+                try{
                     int contador=0;
-                    for(TipoArticulo tip_art : listadoTipoArticulo){
-                        if(articulo.getTipoArticulo().getCodigo().equals(tip_art.getCodigo())){
-                            Select_TipoArticulo.setSelectedIndex(contador);
+                    for(CentroOperacion centroOperacion: listadoCentroOperacion){
+                        if(centroOperacion.getCodigo()== sitio.getCentroCostoAuxiliar().getCentroCostoSubCentro().getCentroOperacion().getCodigo()){
+                              select_MvtoCarbon_CO.setSelectedIndex(contador);  
                         }
                         contador++;
                     }
-                }else{
-                    chek_TipoArticulo.setSelected(false);
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-                nombre.setText(articulo.getDescripcion());
-                String estadoS=(articulo.getEstado());
-                if(estadoS.equalsIgnoreCase("ACTIVO")){
+                 //cargamos el subcentro de costo según la consulta
+                try{
+                    int contador=0;
+                    for(CentroCostoSubCentro centroCostoSubCentro: listadoCentroCostoSubCentro){
+                        if(centroCostoSubCentro.getCodigo()== sitio.getCentroCostoAuxiliar().getCentroCostoSubCentro().getCodigo()){
+                              select_MvtoCarbon_SubcentroCosto.setSelectedIndex(contador);  
+                        }
+                        contador++;
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                //cargamos los auxiliares de Centro de costos según la consulta
+                try{
+                    int contador=0;
+                    for(CentroCostoAuxiliar centroCostoAuxiliar: listadoCentroCostoAuxiliar){
+                        if(centroCostoAuxiliar.getCodigo() ==  sitio.getCentroCostoAuxiliar().getCodigo()){
+                              select_MvtoCarbon_CCAuxiliar.setSelectedIndex(contador);  
+                        }
+                        contador++;
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                
+                //cargamos los auxiliares de Centro de costos según la consulta
+                try{
+                    int contador=0;
+                    for(ZonaTrabajo zonaTrabajo: list_zonaTrabajo){
+                        if(zonaTrabajo.getCodigo().equals(sitio.getZonaTrabajo().getCodigo())){
+                              select_ZonaTrabajo.setSelectedIndex(contador);  
+                        }
+                        contador++;
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                //Cargamos el estado
+                if(sitio.getEstado().equals("1")){
                     estado.setSelectedIndex(0);
                 }else{
                     estado.setSelectedIndex(1);
-                }
-                if(articulo.getBaseDatos().getCodigo().equals("1")){//Debemos cargar la Base de datos Grupo
-                    listado_baseDatos.setSelectedIndex(0);
-                }else{
-                     if(articulo.getBaseDatos().getCodigo().equals("2")){//Debemos cargar la Base de datos Grupo
-                        listado_baseDatos.setSelectedIndex(1);
-                    }
-                }
-                Select_TipoArticulo.setEnabled(true);
-                nombre.setEnabled(true);
+                } 
                 estado.setEnabled(true);
             }
         }catch(Exception e){
@@ -380,41 +459,67 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
                 }
                 else{
                     //DefaultTableModel modelo=(DefaultTableModel)tabla.getModel();
-                    Articulo articulo=listadoArticulo.get(fila1);
-                    codigo.setText(articulo.getCodigo());
-                    if(articulo.getTipoArticulo().getCodigo() !=null){
-                        chek_TipoArticulo.setSelected(true);
+                    sitio=listarLista_Cc_auxiliar_ZonaTrabajo.get(fila1);
+                    //cargamos el Centro de Operación según la selección.
+                    try{
                         int contador=0;
-                        for(TipoArticulo tip_art : listadoTipoArticulo){
-                            if(articulo.getTipoArticulo().getCodigo().equals(tip_art.getCodigo())){
-                                Select_TipoArticulo.setSelectedIndex(contador);
+                        for(CentroOperacion centroOperacion: listadoCentroOperacion){
+                            if(centroOperacion.getCodigo()== sitio.getCentroCostoAuxiliar().getCentroCostoSubCentro().getCentroOperacion().getCodigo()){
+                                  select_MvtoCarbon_CO.setSelectedIndex(contador);  
                             }
                             contador++;
                         }
-                    }else{
-                        chek_TipoArticulo.setSelected(false);
+                    }catch(Exception e){
+                        e.printStackTrace();
                     }
-                    nombre.setText(articulo.getDescripcion());
-                    String estadoS=(articulo.getEstado());
-                    if(estadoS.equalsIgnoreCase("ACTIVO")){
+                     //cargamos el subcentro de costo según la consulta
+                    try{
+                        int contador=0;
+                        for(CentroCostoSubCentro centroCostoSubCentro: listadoCentroCostoSubCentro){
+                            if(centroCostoSubCentro.getCodigo()== sitio.getCentroCostoAuxiliar().getCentroCostoSubCentro().getCodigo()){
+                                  select_MvtoCarbon_SubcentroCosto.setSelectedIndex(contador);  
+                            }
+                            contador++;
+                        }
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    //cargamos los auxiliares de Centro de costos según la consulta
+                    try{
+                        int contador=0;
+                        for(CentroCostoAuxiliar centroCostoAuxiliar: listadoCentroCostoAuxiliar){
+                            if(centroCostoAuxiliar.getCodigo() ==  sitio.getCentroCostoAuxiliar().getCodigo()){
+                                  select_MvtoCarbon_CCAuxiliar.setSelectedIndex(contador);  
+                            }
+                            contador++;
+                        }
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+                    //cargamos los auxiliares de Centro de costos según la consulta
+                    try{
+                        int contador=0;
+                        for(ZonaTrabajo zonaTrabajo: list_zonaTrabajo){
+                            if(zonaTrabajo.getCodigo().equals(sitio.getZonaTrabajo().getCodigo())){
+                                  select_ZonaTrabajo.setSelectedIndex(contador);  
+                            }
+                            contador++;
+                        }
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    //Cargamos el estado
+                    if(sitio.getEstado().equals("1")){
                         estado.setSelectedIndex(0);
                     }else{
                         estado.setSelectedIndex(1);
-                    }
-                    if(articulo.getBaseDatos().getCodigo().equals("1")){//Debemos cargar la Base de datos Grupo
-                        listado_baseDatos.setSelectedIndex(0);
-                    }else{
-                         if(articulo.getBaseDatos().getCodigo().equals("2")){//Debemos cargar la Base de datos Grupo
-                            listado_baseDatos.setSelectedIndex(1);
-                        }
-                    }
-                    Select_TipoArticulo.setEnabled(true);
-                    nombre.setEnabled(true);
+                    } 
                     estado.setEnabled(true);
                 }
             }catch(Exception e){
                 e.printStackTrace();
-            }    
+            }     
         }   
     }//GEN-LAST:event_tablaMouseClicked
 
@@ -422,52 +527,143 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         alerta_nombre.setText("");
     }//GEN-LAST:event_btnActualizarMouseExited
 
-    private void chek_TipoArticuloItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chek_TipoArticuloItemStateChanged
-        if(chek_TipoArticulo.isSelected()){
-            Select_TipoArticulo.show(true);
-        }else{
-            Select_TipoArticulo.show(false);
+    private void select_MvtoCarbon_COItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_select_MvtoCarbon_COItemStateChanged
+        //Cargamos en la interfaz los subcentro de costos activos
+        listadoCentroCostoAuxiliar=null;
+        listadoCentroCostoSubCentro=null;
+        try {
+            if(listadoCentroOperacion != null){
+                listadoCentroCostoSubCentro=new ControlDB_CentroCostoSubCentro(tipoConexion).buscarActivos(listadoCentroOperacion.get(select_MvtoCarbon_CO.getSelectedIndex()));
+                if(listadoCentroCostoSubCentro != null){
+                    String datosObjeto[]= new String[listadoCentroCostoSubCentro.size()];
+                    int contador=0;
+                    for(CentroCostoSubCentro Objeto : listadoCentroCostoSubCentro){
+                        datosObjeto[contador]=Objeto.getDescripcion();
+                        contador++;
+                    }
+                    final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
+                    select_MvtoCarbon_SubcentroCosto.setModel(model);
+                }else{
+                    listadoCentroCostoSubCentro=null;
+                    select_MvtoCarbon_SubcentroCosto.removeAllItems();
+
+                    listadoCentroCostoAuxiliar=null;
+                    select_MvtoCarbon_CCAuxiliar.removeAllItems();
+                }
+            }else{
+
+                listadoCentroOperacion=null;
+                select_MvtoCarbon_CO.removeAllItems();
+
+                listadoCentroCostoSubCentro=null;
+                select_MvtoCarbon_SubcentroCosto.removeAllItems();
+
+                listadoCentroCostoAuxiliar=null;
+                select_MvtoCarbon_CCAuxiliar.removeAllItems();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ZonaTrabajoPorCentroCostoAuxiliar_Registrar.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_chek_TipoArticuloItemStateChanged
+        //Cargamos los auxiliares
+        if(listadoCentroCostoSubCentro != null){
+            try {
+                listadoCentroCostoAuxiliar = new ControlDB_MvtoCarbon(tipoConexion).buscarCentroCostoAuxiliar(""+listadoCentroCostoSubCentro.get(select_MvtoCarbon_SubcentroCosto.getSelectedIndex()).getCodigo());
+                if(listadoCentroCostoAuxiliar != null){
+                    String datosObjeto[] = new String[listadoCentroCostoAuxiliar.size()];
+                    int contador = 0;
+                    for (CentroCostoAuxiliar listadoCentroCostoAuxiliar1 : listadoCentroCostoAuxiliar) {
+                        datosObjeto[contador] = listadoCentroCostoAuxiliar1.getDescripcion();
+                        contador++;
+                    }
+                    final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
+                    select_MvtoCarbon_CCAuxiliar.setModel(model);
+                }else{
+                    listadoCentroCostoAuxiliar=null;
+                    select_MvtoCarbon_CCAuxiliar.removeAllItems();
+
+                }
+            }catch (SQLException e){
+            }
+        }else{
+            listadoCentroCostoSubCentro=null;
+            select_MvtoCarbon_SubcentroCosto.removeAllItems();
+
+            listadoCentroCostoAuxiliar=null;
+            select_MvtoCarbon_CCAuxiliar.removeAllItems();
+        }
+    }//GEN-LAST:event_select_MvtoCarbon_COItemStateChanged
+
+    private void select_MvtoCarbon_SubcentroCostoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_select_MvtoCarbon_SubcentroCostoItemStateChanged
+        if(listadoCentroCostoSubCentro != null){
+            try {
+                listadoCentroCostoAuxiliar = new ControlDB_MvtoCarbon(tipoConexion).buscarCentroCostoAuxiliar(""+listadoCentroCostoSubCentro.get(select_MvtoCarbon_SubcentroCosto.getSelectedIndex()).getCodigo());
+                if(listadoCentroCostoAuxiliar != null){
+                    String datosObjeto[] = new String[listadoCentroCostoAuxiliar.size()];
+                    int contador = 0;
+                    for (CentroCostoAuxiliar listadoCentroCostoAuxiliar1 : listadoCentroCostoAuxiliar) {
+                        datosObjeto[contador] = listadoCentroCostoAuxiliar1.getDescripcion();
+                        contador++;
+                    }
+                    final DefaultComboBoxModel model = new DefaultComboBoxModel(datosObjeto);
+                    select_MvtoCarbon_CCAuxiliar.setModel(model);
+                }else{
+                    listadoCentroCostoAuxiliar=null;
+                    select_MvtoCarbon_CCAuxiliar.removeAllItems();
+                }
+            }catch (SQLException e){
+            }
+        }else{
+            listadoCentroCostoSubCentro=null;
+            select_MvtoCarbon_SubcentroCosto.removeAllItems();
+            listadoCentroCostoAuxiliar=null;
+            select_MvtoCarbon_CCAuxiliar.removeAllItems();
+        }
+    }//GEN-LAST:event_select_MvtoCarbon_SubcentroCostoItemStateChanged
+
+    private void select_ZonaTrabajoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_select_ZonaTrabajoItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_select_ZonaTrabajoItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Editar;
     private javax.swing.JPopupMenu Seleccionar;
-    private javax.swing.JComboBox<String> Select_TipoArticulo;
     private javax.swing.JLabel alerta_nombre;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConsultar;
-    private javax.swing.JRadioButton chek_TipoArticulo;
-    private javax.swing.JLabel codigo;
     private javax.swing.JComboBox<String> estado;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> listado_baseDatos;
-    private javax.swing.JTextField nombre;
+    private javax.swing.JComboBox<String> select_MvtoCarbon_CCAuxiliar;
+    private javax.swing.JComboBox<String> select_MvtoCarbon_CO;
+    private javax.swing.JComboBox<String> select_MvtoCarbon_SubcentroCosto;
+    private javax.swing.JComboBox<String> select_ZonaTrabajo;
     private javax.swing.JTable tabla;
+    private javax.swing.JLabel titulo25;
+    private javax.swing.JLabel titulo26;
+    private javax.swing.JLabel titulo29;
+    private javax.swing.JLabel titulo45;
     private javax.swing.JTextField valorBusqueda;
     // End of variables declaration//GEN-END:variables
-    public void tabla_Listar(String valorConsulta) throws SQLException{
-        DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código","TipoArticulo", "Nombre","CódigoERP","Unidad_Negocio","Estado","Origen de Datos"});  
-        listadoArticulo=new ControlDB_Articulo(tipoConexion).buscar(valorConsulta);
-        for (Articulo listado1 : listadoArticulo) {
-            String[] registro = new String[7];
-            registro[0] = "" + listado1.getCodigo();
-            registro[1] = "" + listado1.getTipoArticulo().getDescripcion();
-            registro[2] = "" + listado1.getDescripcion();
-            registro[3] = "" + listado1.getTipoArticulo().getCodigoERP();
-            registro[4] = "" + listado1.getTipoArticulo().getUnidadNegocio();
-            registro[5] = "" + listado1.getEstado();
-            registro[6] = "" + listado1.getBaseDatos().getDescripcion();
-            modelo.addRow(registro);      
+   public void tabla_Listar(String valorConsulta) throws SQLException{      
+    DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Centro Operación","Zona Trabajo","CentroCosto_Subcentro","Centro_Costo_Auxiliar","Estado"});  
+        listarLista_Cc_auxiliar_ZonaTrabajo =new ControlDB_ZonaTrabajo(tipoConexion).listarLista_Cc_auxiliar_ZonaTrabajo(valorConsulta);
+        for(ListadoSitiosZonaTrabajo Objeto: listarLista_Cc_auxiliar_ZonaTrabajo){
+            String[] registro = new String[5];
+            registro[0]=""+Objeto.getCentroCostoAuxiliar().getCentroCostoSubCentro().getCentroOperacion().getDescripcion();
+            registro[1]=""+Objeto.getZonaTrabajo().getDescripcion();
+            registro[2]=""+Objeto.getCentroCostoAuxiliar().getCentroCostoSubCentro().getDescripcion();
+            registro[3]=""+Objeto.getCentroCostoAuxiliar().getDescripcion();
+            if(Objeto.getEstado().equals("1")){
+                registro[4]="ACTIVO";
+            }else{
+                registro[4]="INACTIVO";
+            }
+            modelo.addRow(registro);   
         }
         tabla.setModel(modelo);
     }

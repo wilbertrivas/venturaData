@@ -1,5 +1,8 @@
 package Catalogo.Model;
   
+import ModuloPersonal.Model.Persona;
+import java.util.ArrayList;
+
 public class Equipo {   
     private String codigo;
     private TipoEquipo tipoEquipo;
@@ -23,6 +26,7 @@ public class Equipo {
     private String activoFijo_referencia;
     private String activoFijo_descripcion;
     private CentroCostoEquipo centroCostoEquipo;
+    private ArrayList<Persona> listadoPersonas;
     
     public Equipo() {
     }
@@ -225,6 +229,14 @@ public class Equipo {
 
     public void setCentroCostoEquipo(CentroCostoEquipo centroCostoEquipo) {
         this.centroCostoEquipo = centroCostoEquipo;
+    }
+
+    public ArrayList<Persona> getListadoPersonas() {
+        return listadoPersonas;
+    }
+
+    public void setListadoPersonas(ArrayList<Persona> listadoPersonas) {
+        this.listadoPersonas = listadoPersonas;
     }
 
     

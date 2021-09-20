@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
     
 import Consumo.View.Unidad_Registrar;
 import Catalogo.Controller.ControlDB_CentroCostoAuxiliar;
@@ -7,7 +7,7 @@ import Catalogo.Controller.ControlDB_CentroOperacion;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.net.SocketException;

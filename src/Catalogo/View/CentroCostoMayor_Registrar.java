@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Catalogo.Controller.ControlDB_CentroCosto;
 import Catalogo.Controller.ControlDB_CentroCostoMayor;
@@ -12,7 +12,7 @@ import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;
 import Catalogo.Model.Cliente;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.awt.Color;
 import java.awt.HeadlessException;

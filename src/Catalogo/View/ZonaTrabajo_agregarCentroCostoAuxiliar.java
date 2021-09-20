@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
    
 import Catalogo.Controller.ControlDB_Articulo;
 import Catalogo.Controller.ControlDB_BaseDatos;
@@ -6,7 +6,7 @@ import Catalogo.Controller.ControlDB_TipoArticulo;
 import Catalogo.Model.Articulo;
 import Catalogo.Model.BaseDatos;
 import Catalogo.Model.TipoArticulo;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.net.SocketException;
@@ -19,14 +19,14 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public final class Articulo_Actualizar extends javax.swing.JPanel {
+public final class ZonaTrabajo_agregarCentroCostoAuxiliar extends javax.swing.JPanel {
     Usuario user;
     private String tipoConexion;
     ArrayList<TipoArticulo> listadoTipoArticulo = new ArrayList();
     ArrayList<Articulo> listadoArticulo = new ArrayList();
     ArrayList<BaseDatos> listadoBaseDatos= new ArrayList();
 //    
-    public Articulo_Actualizar(Usuario us,String tipoConexion) {
+    public ZonaTrabajo_agregarCentroCostoAuxiliar(Usuario us,String tipoConexion) {
         
         initComponents();
         user=us;
@@ -39,7 +39,7 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
                 Select_TipoArticulo.addItem(tipoArticulo.getDescripcion());
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZonaTrabajo_agregarCentroCostoAuxiliar.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Cargamos en la interfaz la lista de las base de datos
         try {
@@ -62,7 +62,7 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
             tabla_Listar("");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al tratar de consultar los articulos");
-            Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZonaTrabajo_agregarCentroCostoAuxiliar.class.getName()).log(Level.SEVERE, null, ex);
         }
         Select_TipoArticulo.setEnabled(false);
         nombre.setEnabled(false);
@@ -92,10 +92,10 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         alerta_nombre = new javax.swing.JLabel();
         chek_TipoArticulo = new javax.swing.JRadioButton();
         Select_TipoArticulo = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         listado_baseDatos = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         Editar.setText("Modificar");
         Editar.addActionListener(new java.awt.event.ActionListener() {
@@ -115,7 +115,7 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 153, 153));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("ACTUALIZACIÓN DE ARTICULOS");
+        jLabel2.setText("AGREGAR SITIO A LA ZONA DE TRABAJO");
         jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1290, 30));
 
@@ -218,6 +218,13 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         Select_TipoArticulo.setToolTipText("");
         add(Select_TipoArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 330, 30));
 
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setText("Base de Datos:");
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 30));
+
+        listado_baseDatos.setToolTipText("");
+        add(listado_baseDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 390, 30));
+
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1290, 90));
@@ -225,13 +232,6 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 530, 470));
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel13.setText("Base de Datos:");
-        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 30));
-
-        listado_baseDatos.setToolTipText("");
-        add(listado_baseDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 390, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -303,13 +303,13 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
                         //}     
                     } catch (FileNotFoundException ex) {
                         JOptionPane.showMessageDialog(null, "Error al registrar el articulo");
-                        Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ZonaTrabajo_agregarCentroCostoAuxiliar.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (SQLException ex) {
-                        Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ZonaTrabajo_agregarCentroCostoAuxiliar.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (UnknownHostException ex) {
-                        Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ZonaTrabajo_agregarCentroCostoAuxiliar.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (SocketException ex) {
-                        Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ZonaTrabajo_agregarCentroCostoAuxiliar.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             
@@ -320,7 +320,7 @@ public final class Articulo_Actualizar extends javax.swing.JPanel {
         try {
             tabla_Listar(valorBusqueda.getText());
         } catch (SQLException ex) {
-            Logger.getLogger(Articulo_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZonaTrabajo_agregarCentroCostoAuxiliar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 

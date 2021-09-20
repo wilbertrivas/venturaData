@@ -1,13 +1,13 @@
 package Consumo.View;
  
-import Catalogo.View1.Cliente_Consultar;
+import Catalogo.View.Cliente_Consultar;
 import Catalogo.Controller.ControlDB_Cliente;
-import Consumo.Controller2.ControlDB_Consumo;
-import Consumo.Controller2.ControlDB_Insumo;
+import Consumo.Controller.ControlDB_Consumo;
+import Consumo.Controller.ControlDB_Insumo;
 import Catalogo.Model.Cliente;
-import Consumo.Model2.Consumo;
-import Consumo.Model2.Insumo;
-import Consumo.Model2.Unidad;
+import Consumo.Model.Consumo;
+import Consumo.Model.Insumo;
+import Consumo.Model.Unidad;
 import Sistema.Model.Usuario;
 import java.awt.Color;
 import java.awt.HeadlessException;

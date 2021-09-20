@@ -1,11 +1,11 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_CausaInactividad;
 import ModuloEquipo.Model.MvtoEquipo;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
-import Catalogo.View1.CentroCostoAuxiliar_Registrar;
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import Catalogo.View.CentroCostoAuxiliar_Registrar;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import ModuloEquipo.Model.CausaInactividad;
 import Sistema.Model.Usuario;
 import java.awt.Color;

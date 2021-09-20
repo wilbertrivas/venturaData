@@ -1,7 +1,7 @@
 package Consumo.View;
   
-import Consumo.Controller2.ControlDB_Unidad;
-import Consumo.Model2.Unidad;
+import Consumo.Controller.ControlDB_Unidad;
+import Consumo.Model.Unidad;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;

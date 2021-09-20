@@ -1,9 +1,9 @@
 package ModuloCarbon.Controller2; 
 
-import ConnectionDB2.Conexion_DB_ccargaGP;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_ccargaGP;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Catalogo.Model.Cliente;
-import Catalogo.Model.Articulo;
+import Catalogo.Model.Articulo; 
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;
@@ -37,8 +37,12 @@ import ModuloEquipo.Model.SolicitudListadoEquipo;
 import Catalogo.Model.TarifaEquipo;
 import Catalogo.Model.TipoArticulo;
 import Catalogo.Model.TipoEquipo;
-import ConnectionDB2.Conexion_DB_ccargaOPP;
+import ConnectionDB.Conexion_DB_ccargaOPP;
 import ModuloCarbon.Model.PlantillaConectorMvtoCarbon;
+import ModuloCarbon.Model.PlantillaInformeNoLavadoVehiculos;
+import ModuloCarbon.Model.PlantillaInformeRecaudoLavadoVehiculo_PorEquipo;
+import ModuloCarbon.Model.PlantillaInformeRecaudoPorLavadoVehiculo;
+import ModuloCarbon.Model.PlantillaInformeRecaudoPorUsuario;
 import ModuloEquipo.Model.PlantillaConectorMvtoEquipo;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Perfil;
@@ -63,10 +67,10 @@ public class ControlDB_MvtoCarbon {
     private Connection conexion2=null;
     private final String tipoConexion;
     
-    public                                      ControlDB_MvtoCarbon(String tipoConexion) { 
+    public                                          ControlDB_MvtoCarbon(String tipoConexion) { 
         this.tipoConexion= tipoConexion;
     }  
-    public int                                  modificarMvtoCarbon(MvtoCarbon mvtocarbon,  ArrayList<MvtoCarbon_ListadoEquipos> mvtoCarbon_ListadoEquipos, Usuario us, String scriptDB_MvtoCarbon, String scriptDB_MvtoEquipo,String scriptAuditoria_mtvoCarbon, String scriptAuditoria_mtvoEquipo,String razonModificacion) throws FileNotFoundException, UnknownHostException, SocketException{
+    public int                                      modificarMvtoCarbon(MvtoCarbon mvtocarbon,  ArrayList<MvtoCarbon_ListadoEquipos> mvtoCarbon_ListadoEquipos, Usuario us, String scriptDB_MvtoCarbon, String scriptDB_MvtoEquipo,String scriptAuditoria_mtvoCarbon, String scriptAuditoria_mtvoEquipo,String razonModificacion) throws FileNotFoundException, UnknownHostException, SocketException{
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
         int result=0;
@@ -171,7 +175,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return result;
     } 
-    public int                                  modificarEquipoLavado_MvtoCarbon(MvtoCarbon mvtocarbon ,Usuario us, String scriptDB_MvtoCarbon,String scriptAuditoria_mtvoCarbon, String razonModificacion) throws FileNotFoundException, UnknownHostException, SocketException{
+    public int                                      modificarEquipoLavado_MvtoCarbon(MvtoCarbon mvtocarbon ,Usuario us, String scriptDB_MvtoCarbon,String scriptAuditoria_mtvoCarbon, String razonModificacion) throws FileNotFoundException, UnknownHostException, SocketException{
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
         int result=0;
@@ -228,7 +232,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return result;
     } 
-    public ArrayList<MvtoCarbon_ListadoEquipos> buscarMvtoCarbon(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbon(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -774,7 +778,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<MvtoCarbon_ListadoEquipos> buscarMvtoCarbonProgramado(String modalidad, String rango) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbonProgramado(String modalidad, String rango) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -1319,7 +1323,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<MvtoCarbon_ListadoEquipos> buscarMvtoCarbonParticular(MvtoCarbon mvtoCarbonI) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbonParticular(MvtoCarbon mvtoCarbonI) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -1862,7 +1866,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<MvtoCarbon_ListadoEquipos> buscarMvtoCarbonUnicos_Inactivos(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbonUnicos_Inactivos(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -2406,7 +2410,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<MvtoCarbon_ListadoEquipos> buscarMvtoCarbon_GenerarMatriz(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbon_GenerarMatriz(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -3181,6 +3185,392 @@ public class ControlDB_MvtoCarbon {
                     plantillaConectorMvtoCarbon.setTotal(resultSet.getString(7));
                     plantillaConectorMvtoCarbon.setPorcentaje(resultSet.getString(8));
                 listadoObjetos.add(plantillaConectorMvtoCarbon);
+            }
+        }catch (SQLException sqlException) {
+            System.out.println("Error al tratar al consultar");
+            sqlException.printStackTrace();
+        }
+        control.cerrarConexionBaseDatos();
+        return listadoObjetos;
+    } 
+    public ArrayList<PlantillaInformeRecaudoPorLavadoVehiculo>   informeRecaudoPorLavadoVehiculo(String DatetimeInicio, String DatetimeFin) throws SQLException{
+        ArrayList<PlantillaInformeRecaudoPorLavadoVehiculo> listadoObjetos = null;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        try{
+            PreparedStatement query= conexion.prepareStatement("DECLARE @fechaIni datetime, @fechaFin datetime;\n" +
+                                                                "SET @fechaIni='"+DatetimeInicio+"';\n" +
+                                                                "SET @fechaFin='"+DatetimeFin+"'\n" +
+                                                                "\n" +
+                                                                "\n" +
+                                                                "--################################################################################\n" +
+                                                                "DECLARE @totalRecaudo BIGINT;\n" +
+                                                                "SET @totalRecaudo=(\n" +
+                                                                "SELECT	SUM(costo_lavado.RECAUDO)\n" +
+                                                                "FROM \n" +
+                                                                "	(\n" +
+                                                                "		SELECT \n" +
+                                                                "			[zt_cdgo],[zt_desc] as ZONA ,CASE WHEN (SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) IS NULL) THEN 0 ELSE SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) END AS RECAUDO\n" +
+                                                                "		FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [mc_cntro_cost_auxiliar_cdgo] = [cca_cdgo]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[listado_zona_trabajo] ON [lzt_cntro_cost_auxiliar_cdgo]=[mc_cntro_cost_auxiliar_cdgo]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[zona_trabajo] ON [lzt_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "		WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1 \n" +
+                                                                "				GROUP BY [zt_cdgo],[zt_desc]\n" +
+                                                                "	) AS costo_lavado\n" +
+                                                                "  LEFT JOIN (\n" +
+                                                                "				SELECT \n" +
+                                                                "					[zt_cdgo],[zt_desc], CASE WHEN (SUM([dlv_valor])IS NULL) THEN 0 ELSE  SUM([dlv_valor]) END AS DEBITO\n" +
+                                                                "				FROM ["+DB+"].[dbo].[zona_trabajo]\n" +
+                                                                "					LEFT JOIN ["+DB+"].[dbo].[debito_lavado_vehiculo] ON [dlv_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "				WHERE [dlv_fecha_debito] BETWEEN @fechaIni AND @fechaFin\n" +
+                                                                "					GROUP BY [zt_cdgo],[zt_desc]\n" +
+                                                                "  ) AS debito_lavado ON costo_lavado.[zt_cdgo] = debito_lavado.[zt_cdgo]\n" +
+                                                                ")\n" +
+                                                                "--################################################################################\n" +
+                                                                "DECLARE @totalDebito BIGINT;\n" +
+                                                                "SET @totalDebito=(\n" +
+                                                                "SELECT	SUM(CASE WHEN (debito_lavado.DEBITO IS NULL) THEN 0 ELSE debito_lavado.DEBITO END )AS DEBITO\n" +
+                                                                "FROM \n" +
+                                                                "	(\n" +
+                                                                "		SELECT \n" +
+                                                                "			[zt_cdgo],[zt_desc] as ZONA ,CASE WHEN (SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) IS NULL) THEN 0 ELSE SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) END AS RECAUDO\n" +
+                                                                "		FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [mc_cntro_cost_auxiliar_cdgo] = [cca_cdgo]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[listado_zona_trabajo] ON [lzt_cntro_cost_auxiliar_cdgo]=[mc_cntro_cost_auxiliar_cdgo]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[zona_trabajo] ON [lzt_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "		WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1 \n" +
+                                                                "				GROUP BY [zt_cdgo],[zt_desc]\n" +
+                                                                "	) AS costo_lavado\n" +
+                                                                "  LEFT JOIN (\n" +
+                                                                "				SELECT \n" +
+                                                                "					[zt_cdgo],[zt_desc], CASE WHEN (SUM([dlv_valor])IS NULL) THEN 0 ELSE  SUM([dlv_valor]) END AS DEBITO\n" +
+                                                                "				FROM ["+DB+"].[dbo].[zona_trabajo]\n" +
+                                                                "					LEFT JOIN ["+DB+"].[dbo].[debito_lavado_vehiculo] ON [dlv_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "				WHERE [dlv_fecha_debito] BETWEEN @fechaIni AND @fechaFin\n" +
+                                                                "					GROUP BY [zt_cdgo],[zt_desc]\n" +
+                                                                "  ) AS debito_lavado ON costo_lavado.[zt_cdgo] = debito_lavado.[zt_cdgo]\n" +
+                                                                ")\n" +
+                                                                "\n" +
+                                                                "--################################################################################\n" +
+                                                                "(\n" +
+                                                                "	SELECT	costo_lavado.ZONA, \n" +
+                                                                "			costo_lavado.RECAUDO, \n" +
+                                                                "			CASE WHEN (debito_lavado.DEBITO IS NULL) THEN 0 ELSE debito_lavado.DEBITO END AS DEBITO, \n" +
+                                                                "			(costo_lavado.RECAUDO - (CASE WHEN (debito_lavado.DEBITO IS NULL) THEN 0 ELSE debito_lavado.DEBITO END )) AS TOTAL_RECAUDO\n" +
+                                                                "	FROM \n" +
+                                                                "		(\n" +
+                                                                "			SELECT \n" +
+                                                                "				[zt_cdgo],[zt_desc] as ZONA ,CASE WHEN (SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) IS NULL) THEN 0 ELSE SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) END AS RECAUDO\n" +
+                                                                "			FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "				INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [mc_cntro_cost_auxiliar_cdgo] = [cca_cdgo]\n" +
+                                                                "				INNER JOIN ["+DB+"].[dbo].[listado_zona_trabajo] ON [lzt_cntro_cost_auxiliar_cdgo]=[mc_cntro_cost_auxiliar_cdgo]\n" +
+                                                                "				INNER JOIN ["+DB+"].[dbo].[zona_trabajo] ON [lzt_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "			WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1 \n" +
+                                                                "					GROUP BY [zt_cdgo],[zt_desc]\n" +
+                                                                "		) AS costo_lavado\n" +
+                                                                "	  LEFT JOIN (\n" +
+                                                                "					SELECT \n" +
+                                                                "						[zt_cdgo],[zt_desc], CASE WHEN (SUM([dlv_valor])IS NULL) THEN 0 ELSE  SUM([dlv_valor]) END AS DEBITO\n" +
+                                                                "					FROM ["+DB+"].[dbo].[zona_trabajo]\n" +
+                                                                "						LEFT JOIN ["+DB+"].[dbo].[debito_lavado_vehiculo] ON [dlv_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "					WHERE [dlv_fecha_debito] BETWEEN @fechaIni AND @fechaFin\n" +
+                                                                "						GROUP BY [zt_cdgo],[zt_desc]\n" +
+                                                                "	  ) AS debito_lavado ON costo_lavado.[zt_cdgo] = debito_lavado.[zt_cdgo]\n" +
+                                                                "  )\n" +
+                                                                "  UNION \n" +
+                                                                "  (\n" +
+                                                                "	SELECT '_TOTAL',@totalRecaudo,@totalDebito,(SELECT	 \n" +
+                                                                "		SUM (costo_lavado.RECAUDO - (CASE WHEN (debito_lavado.DEBITO IS NULL) THEN 0 ELSE debito_lavado.DEBITO END ))\n" +
+                                                                "	FROM \n" +
+                                                                "	(\n" +
+                                                                "		SELECT \n" +
+                                                                "			[zt_cdgo],[zt_desc] as ZONA ,CASE WHEN (SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) IS NULL) THEN 0 ELSE SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) END AS RECAUDO\n" +
+                                                                "		FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [mc_cntro_cost_auxiliar_cdgo] = [cca_cdgo]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[listado_zona_trabajo] ON [lzt_cntro_cost_auxiliar_cdgo]=[mc_cntro_cost_auxiliar_cdgo]\n" +
+                                                                "			INNER JOIN ["+DB+"].[dbo].[zona_trabajo] ON [lzt_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "		WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1 \n" +
+                                                                "				GROUP BY [zt_cdgo],[zt_desc]\n" +
+                                                                "	) AS costo_lavado\n" +
+                                                                "	  LEFT JOIN (\n" +
+                                                                "					SELECT \n" +
+                                                                "						[zt_cdgo],[zt_desc], CASE WHEN (SUM([dlv_valor])IS NULL) THEN 0 ELSE  SUM([dlv_valor]) END AS DEBITO\n" +
+                                                                "					FROM ["+DB+"].[dbo].[zona_trabajo]\n" +
+                                                                "						LEFT JOIN ["+DB+"].[dbo].[debito_lavado_vehiculo] ON [dlv_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "					WHERE [dlv_fecha_debito] BETWEEN @fechaIni AND @fechaFin\n" +
+                                                                "						GROUP BY [zt_cdgo],[zt_desc]\n" +
+                                                                "	  ) AS debito_lavado ON costo_lavado.[zt_cdgo] = debito_lavado.[zt_cdgo]) \n" +
+                                                                "  )\n" +
+                                                                "\n" +
+                                                                "  ORDER BY ZONA DESC");
+            //1query.setString(1, DatetimeInicio);
+            //query.setString(2, DatetimeFin);
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            boolean validator=true;
+            while(resultSet.next()){
+                if(validator){
+                    listadoObjetos = new ArrayList();
+                    validator=false;
+                }
+                PlantillaInformeRecaudoPorLavadoVehiculo plantillaInformeRecaudoPorLavadoVehiculo = new PlantillaInformeRecaudoPorLavadoVehiculo();
+                    plantillaInformeRecaudoPorLavadoVehiculo.setZona(resultSet.getString(1));
+                    plantillaInformeRecaudoPorLavadoVehiculo.setRecaudo(resultSet.getString(2));
+                    plantillaInformeRecaudoPorLavadoVehiculo.setDebito(resultSet.getString(3));
+                    plantillaInformeRecaudoPorLavadoVehiculo.setTotalRecaudo(resultSet.getString(4));  
+                listadoObjetos.add(plantillaInformeRecaudoPorLavadoVehiculo);
+            }
+        }catch (SQLException sqlException) {
+            System.out.println("Error al tratar al consultar");
+            sqlException.printStackTrace();
+        }
+        control.cerrarConexionBaseDatos();
+        return listadoObjetos;
+    } 
+    public ArrayList<PlantillaInformeRecaudoLavadoVehiculo_PorEquipo>   informeRecaudoPorLavadoVehiculo_porEquipo(String DatetimeInicio, String DatetimeFin) throws SQLException{
+        ArrayList<PlantillaInformeRecaudoLavadoVehiculo_PorEquipo> listadoObjetos = null;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        try{
+            PreparedStatement query= conexion.prepareStatement("DECLARE @fechaIni datetime, @fechaFin datetime;\n" +
+                                                                "DECLARE @cantidadVehiculo BIGINT;\n" +
+                                                                "DECLARE @totalRecaudoEmpresa BIGINT;\n" +
+                                                                "DECLARE @totalRecaudoEquipo BIGINT;\n" +
+                                                                "\n" +
+                                                                "SET @fechaIni='"+DatetimeInicio+"';\n" +
+                                                                "SET @fechaFin='"+DatetimeFin+"'\n" +
+                                                                "SET @cantidadVehiculo=(\n" +
+                                                                "							SELECT \n" +
+                                                                "								COUNT([eq_cdgo]) AS 'CANT VEHICULOS LAVADOS'\n" +
+                                                                "							FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "								LEFT JOIN ["+DB+"].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo]\n" +
+                                                                "								LEFT JOIN ["+DB+"].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo]\n" +
+                                                                "								INNER JOIN ["+DB+"].[dbo].[equipo] ON [eq_cdgo]=[mc_equipo_lavado_cdgo]\n" +
+                                                                "								INNER JOIN ["+DB+"].[dbo].[tipo_equipo] ON [te_cdgo]=[eq_tipo_equipo_cdgo]\n" +
+                                                                "							WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1\n" +
+                                                                "								)\n" +
+                                                                "SET @totalRecaudoEmpresa=(\n" +
+                                                                "							SELECT \n" +
+                                                                "								CASE WHEN (SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) IS NULL) THEN 0 ELSE SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) END AS 'RECAUDO EMPRESA'\n" +
+                                                                "							FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "								LEFT JOIN ["+DB+"].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo]\n" +
+                                                                "								LEFT JOIN ["+DB+"].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo]\n" +
+                                                                "								INNER JOIN ["+DB+"].[dbo].[equipo] ON [eq_cdgo]=[mc_equipo_lavado_cdgo]\n" +
+                                                                "								INNER JOIN ["+DB+"].[dbo].[tipo_equipo] ON [te_cdgo]=[eq_tipo_equipo_cdgo]\n" +
+                                                                "							WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1\n" +
+                                                                "								)\n" +
+                                                                "SET @totalRecaudoEquipo=(\n" +
+                                                                "							SELECT \n" +
+                                                                "								CASE WHEN (SUM([mc_valorRecaudoEquipo_lavadoVehiculo]) IS NULL) THEN 0 ELSE SUM([mc_valorRecaudoEquipo_lavadoVehiculo]) END AS 'RECAUDO EQUIPO'\n" +
+                                                                "							FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "								LEFT JOIN ["+DB+"].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo]\n" +
+                                                                "								LEFT JOIN ["+DB+"].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo]\n" +
+                                                                "								INNER JOIN ["+DB+"].[dbo].[equipo] ON [eq_cdgo]=[mc_equipo_lavado_cdgo]\n" +
+                                                                "								INNER JOIN ["+DB+"].[dbo].[tipo_equipo] ON [te_cdgo]=[eq_tipo_equipo_cdgo]\n" +
+                                                                "							WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1\n" +
+                                                                "								)\n" +
+                                                                "\n" +
+                                                                "	SELECT \n" +
+                                                                "		[cl_desc] AS 'CLIENTE',\n" +
+                                                                "		[ar_desc] AS 'ARTICULO',		\n" +
+                                                                "		[te_desc] AS 'TIPO EQUIPO',\n" +
+                                                                "		(CASE WHEN ([te_desc] LIKE 'PALERO') THEN CONCAT([eq_desc],' ',[eq_modelo]) ELSE [te_desc] end ) AS EQUIPO,\n" +
+                                                                "		COUNT([eq_cdgo]) AS 'CANT VEHICULOS LAVADOS',\n" +
+                                                                "		CASE WHEN (SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) IS NULL) THEN 0 ELSE SUM(mc_valorRecaudoEmpresa_lavadoVehiculo) END AS 'RECAUDO_EMPRESA',\n" +
+                                                                "		CASE WHEN (SUM([mc_valorRecaudoEquipo_lavadoVehiculo]) IS NULL) THEN 0 ELSE SUM([mc_valorRecaudoEquipo_lavadoVehiculo]) END AS 'RECAUDO_EQUIPO'\n" +
+                                                                "	FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo]\n" +
+                                                                "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [eq_cdgo]=[mc_equipo_lavado_cdgo]\n" +
+                                                                "		INNER JOIN ["+DB+"].[dbo].[tipo_equipo] ON [te_cdgo]=[eq_tipo_equipo_cdgo]\n" +
+                                                                "	WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1\n" +
+                                                                "	GROUP BY	\n" +
+                                                                "				[cl_cdgo] ,[cl_desc],\n" +
+                                                                "				[ar_cdgo],[ar_desc]--,\n" +
+                                                                "				,[te_cdgo], [te_desc], (CASE WHEN ([te_desc] LIKE 'PALERO') THEN CONCAT([eq_desc],' ',[eq_modelo]) ELSE [te_desc] end ) 	\n" +
+                                                                "UNION\n" +
+                                                                "	SELECT '','','','_TOTAL',@cantidadVehiculo,@totalRecaudoEmpresa,@totalRecaudoEquipo ORDER BY 'CLIENTE' DESC ");
+            //1query.setString(1, DatetimeInicio);
+            //query.setString(2, DatetimeFin);
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            boolean validator=true;
+            while(resultSet.next()){
+                if(validator){
+                    listadoObjetos = new ArrayList();
+                    validator=false;
+                }
+                PlantillaInformeRecaudoLavadoVehiculo_PorEquipo plantillaInformeRecaudoLavadoVehiculo_PorEquipo = new PlantillaInformeRecaudoLavadoVehiculo_PorEquipo();
+                    plantillaInformeRecaudoLavadoVehiculo_PorEquipo.setCliente(resultSet.getString(1));
+                    plantillaInformeRecaudoLavadoVehiculo_PorEquipo.setArticulo(resultSet.getString(2));
+                    plantillaInformeRecaudoLavadoVehiculo_PorEquipo.setTipoEquipo(resultSet.getString(3));
+                    plantillaInformeRecaudoLavadoVehiculo_PorEquipo.setEquipo(resultSet.getString(4));  
+                    plantillaInformeRecaudoLavadoVehiculo_PorEquipo.setCantidad(resultSet.getString(5));  
+                    plantillaInformeRecaudoLavadoVehiculo_PorEquipo.setRecaudoEmpresa(resultSet.getString(6));  
+                    plantillaInformeRecaudoLavadoVehiculo_PorEquipo.setRecaudoEquipo(resultSet.getString(7));  
+                listadoObjetos.add(plantillaInformeRecaudoLavadoVehiculo_PorEquipo);
+            }
+        }catch (SQLException sqlException) {
+            System.out.println("Error al tratar al consultar");
+            sqlException.printStackTrace();
+        }
+        control.cerrarConexionBaseDatos();
+        return listadoObjetos;
+    } 
+    public ArrayList<PlantillaInformeRecaudoPorUsuario>   informeRecaudoPorLavadoVehiculo_porUsuario(String DatetimeInicio, String DatetimeFin) throws SQLException{
+        ArrayList<PlantillaInformeRecaudoPorUsuario> listadoObjetos = null;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        try{
+            PreparedStatement query= conexion.prepareStatement("DECLARE @fechaIni datetime, @fechaFin datetime;\n" +
+                                                                "SET @fechaIni='"+DatetimeInicio+"';\n" +
+                                                                "SET @fechaFin='"+DatetimeFin+"'\n" +
+                                                                "	SELECT	\n" +
+                                                                "			costo_lavado.[us_cdgo],\n" +
+                                                                "			costo_lavado.usuario,\n" +
+                                                                "			costo_lavado.ZONA, \n" +
+                                                                "			costo_lavado.RECAUDO\n" +
+                                                                "	FROM \n" +
+                                                                "		(\n" +
+                                                                "			SELECT \n" +
+                                                                "				[us_cdgo],(CONCAT ([us_nombres], ' ', [us_apellidos])) AS usuario,[zt_cdgo],[zt_desc] as ZONA ,CASE WHEN (SUM([mc_valorRecaudoEmpresa_lavadoVehiculo]) IS NULL) THEN 0 ELSE SUM([mc_valorRecaudoEmpresa_lavadoVehiculo]) END AS RECAUDO\n" +
+                                                                "			FROM ["+DB+"].[dbo].[mvto_carbon]\n" +
+                                                                "				INNER JOIN ["+DB+"].[dbo].[usuario] ON [us_cdgo]=[mc_usuario_cierre_cdgo]\n" +
+                                                                "				INNER JOIN ["+DB+"].[dbo].[equipo] ON [eq_cdgo]=[mc_equipo_lavado_cdgo]\n" +
+                                                                "				INNER JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] ON [mc_cntro_cost_auxiliar_cdgo] = [cca_cdgo]\n" +
+                                                                "				INNER JOIN ["+DB+"].[dbo].[listado_zona_trabajo] ON [lzt_cntro_cost_auxiliar_cdgo]=[mc_cntro_cost_auxiliar_cdgo]\n" +
+                                                                "				INNER JOIN ["+DB+"].[dbo].[zona_trabajo] ON [lzt_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "			WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin AND [mc_lavado_vehiculo]=1 AND [mc_estad_mvto_carbon_cdgo]=1\n" +
+                                                                "					GROUP BY [us_cdgo],(CONCAT ([us_nombres], ' ', [us_apellidos])), [zt_cdgo],[zt_desc]\n" +
+                                                                "		) AS costo_lavado\n" +
+                                                                "		WHERE costo_lavado.RECAUDO > 0");
+            //1query.setString(1, DatetimeInicio);
+            //query.setString(2, DatetimeFin);
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            boolean validator=true;
+            while(resultSet.next()){
+                if(validator){
+                    listadoObjetos = new ArrayList();
+                    validator=false;
+                }
+                PlantillaInformeRecaudoPorUsuario plantillaInformeRecaudoPorUsuario = new PlantillaInformeRecaudoPorUsuario();
+                    plantillaInformeRecaudoPorUsuario.setCedula(resultSet.getString(1));
+                    plantillaInformeRecaudoPorUsuario.setNombre(resultSet.getString(2));
+                    plantillaInformeRecaudoPorUsuario.setZonaOperacion(resultSet.getString(3));
+                    plantillaInformeRecaudoPorUsuario.setRecaudo(resultSet.getString(4));       
+                listadoObjetos.add(plantillaInformeRecaudoPorUsuario);
+            }
+        }catch (SQLException sqlException) {
+            System.out.println("Error al tratar al consultar");
+            sqlException.printStackTrace();
+        }
+        control.cerrarConexionBaseDatos();
+        return listadoObjetos;
+    } 
+    public ArrayList<PlantillaInformeNoLavadoVehiculos>   informeCantidadVehiculosPorConceptoNOLavado(String DatetimeInicio, String DatetimeFin) throws SQLException{
+        ArrayList<PlantillaInformeNoLavadoVehiculos> listadoObjetos = null;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        try{
+            /*PreparedStatement query= conexion.prepareStatement("DECLARE @fechaIni datetime, @fechaFin datetime; \n" +
+                                                                "DECLARE @cantidadVehiculo BIGINT; \n" +
+                                                                "DECLARE @totalRecaudoEmpresa BIGINT; \n" +
+                                                                "DECLARE @totalRecaudoEquipo BIGINT; \n" +
+                                                                "                                                                 \n" +
+                                                                "SET @fechaIni='"+DatetimeInicio+"'; \n" +
+                                                                "SET @fechaFin='"+DatetimeFin+"' \n" +
+                                                                "SET @cantidadVehiculo=( \n" +
+                                                                "						SELECT\n" +
+                                                                "							COUNT([mc_lavado_vehiculo])\n" +
+                                                                "						FROM ["+DB+"].[dbo].[mvto_carbon] \n" +
+                                                                "							LEFT JOIN ["+DB+"].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo] \n" +
+                                                                "							LEFT JOIN ["+DB+"].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo] \n" +
+                                                                "							LEFT JOIN ["+DB+"].[dbo].[motivo_nolavado_vehiculo] ON [mc_motivo_nolavado_vehiculo_cdgo]=[mnlv_cdgo]\n" +
+                                                                "						WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo] =0 AND [mc_estad_mvto_carbon_cdgo]=1\n" +
+                                                                "						)\n" +
+                                                                "\n" +
+                                                                "\n" +
+                                                                "SELECT  \n" +
+                                                                "    [cl_desc] AS 'CLIENTE', \n" +
+                                                                "    [ar_desc] AS 'ARTICULO',	\n" +
+                                                                "	[zt_desc] AS 'ZONA OPERACIÓN',\n" +
+                                                                "	[mnlv_desc] AS 'MOTIVO_NO_LAVADO_VEHÍCULO',\n" +
+                                                                "	COUNT ([mc_lavado_vehiculo])	 AS 'CANTIDAD_VEHÍCULOS'\n" +
+                                                                "FROM ["+DB+"].[dbo].[mvto_carbon] \n" +
+                                                                "       LEFT JOIN ["+DB+"].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo] \n" +
+                                                                "       LEFT JOIN ["+DB+"].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo] \n" +
+                                                                "       LEFT JOIN ["+DB+"].[dbo].[motivo_nolavado_vehiculo] ON [mc_motivo_nolavado_vehiculo_cdgo]=[mnlv_cdgo]\n" +
+                                                                "	INNER JOIN ["+DB+"].[dbo].[listado_zona_trabajo] ON [lzt_cntro_cost_auxiliar_cdgo]=[mc_cntro_cost_auxiliar_cdgo]\n" +
+                                                                "       INNER JOIN ["+DB+"].[dbo].[zona_trabajo] ON [lzt_zona_trabajo_cdgo]=[zt_cdgo]\n" +
+                                                                "WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo] =0 AND [mc_estad_mvto_carbon_cdgo]=1 \n" +
+                                                                "GROUP BY	 \n" +
+                                                                "            [cl_cdgo] ,[cl_desc], \n" +
+                                                                "            [ar_cdgo],[ar_desc],[zt_desc],[mnlv_desc],[zt_cdgo]	 \n" +
+                                                                "UNION \n" +
+                                                                "SELECT '','','','_TOTAL',@cantidadVehiculo ORDER BY 'CLIENTE' DESC");*/
+            PreparedStatement query= conexion.prepareStatement("DECLARE @fechaIni datetime, @fechaFin datetime; \n" +
+                                                                "DECLARE @cantidadVehiculo BIGINT; \n" +
+                                                                "DECLARE @totalRecaudoEmpresa BIGINT; \n" +
+                                                                "DECLARE @totalRecaudoEquipo BIGINT; \n" +
+                                                                "                                                                 \n" +
+                                                                "SET @fechaIni='"+DatetimeInicio+"'; \n" +
+                                                                "SET @fechaFin='"+DatetimeFin+"' \n" +
+                                                                "SET @cantidadVehiculo=( \n" +
+                                                                "						SELECT\n" +
+                                                                "							COUNT([mc_lavado_vehiculo])\n" +
+                                                                "						FROM ["+DB+"].[dbo].[mvto_carbon] \n" +
+                                                                "							LEFT JOIN ["+DB+"].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo] \n" +
+                                                                "							LEFT JOIN ["+DB+"].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo] \n" +
+                                                                "							LEFT JOIN ["+DB+"].[dbo].[motivo_nolavado_vehiculo] ON [mc_motivo_nolavado_vehiculo_cdgo]=[mnlv_cdgo]\n" +
+                                                                "						WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo] =0 AND [mc_estad_mvto_carbon_cdgo]=1\n" +
+                                                                "						)\n" +
+                                                                "\n" +
+                                                                "\n" +
+                                                                "SELECT  \n" +
+                                                                "    [cl_desc] AS 'CLIENTE', \n" +
+                                                                "    [ar_desc] AS 'ARTICULO',	\n" +
+                                                                "	[zt_desc] AS 'ZONA OPERACIÓN',\n" +
+                                                                "	STRING_AGG( CONCAT ([eq_desc],' ',[eq_modelo]) , ' / ') AS 'EQUIPO',\n" +
+                                                                "	[mnlv_desc] AS 'MOTIVO_NO_LAVADO_VEHÍCULO',\n" +
+                                                                "	COUNT (distinct([mc_fecha]))	 AS 'CANTIDAD_VEHÍCULOS'\n" +
+                                                                "FROM ["+DB+"].[dbo].[mvto_carbon] \n" +
+                                                                "       LEFT JOIN ["+DB+"].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo] \n" +
+                                                                "       LEFT JOIN ["+DB+"].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo] \n" +
+                                                                "       LEFT JOIN ["+DB+"].[dbo].[motivo_nolavado_vehiculo] ON [mc_motivo_nolavado_vehiculo_cdgo]=[mnlv_cdgo]\n" +
+                                                                "	INNER JOIN ["+DB+"].[dbo].[listado_zona_trabajo] ON [lzt_cntro_cost_auxiliar_cdgo]=[mc_cntro_cost_auxiliar_cdgo]\n" +
+                                                                "       INNER JOIN ["+DB+"].[dbo].[zona_trabajo] ON [lzt_zona_trabajo_cdgo]=[zt_cdgo]"
+                                                            +   "         INNER JOIN ["+DB+"].[dbo].[mvto_carbon_listado_equipo] ON [mcle_mvto_carbon_cdgo]= [mc_cdgo]\n" +
+                                                                "		INNER JOIN ["+DB+"].[dbo].[asignacion_equipo] ON [ae_cdgo]=[mcle_asignacion_equipo_cdgo]\n" +
+                                                                "		INNER JOIN ["+DB+"].[dbo].[equipo] ON [eq_cdgo]=[ae_equipo_cdgo]\n" +
+                                                                "   WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo] =0 AND [mc_estad_mvto_carbon_cdgo]=1 \n" +
+                                                                "   GROUP BY	[cl_cdgo] ,[cl_desc],  \n" +
+                                                                "            [ar_cdgo],[ar_desc],[zt_desc],[mnlv_desc],[zt_cdgo],[mc_lavado_vehiculo]\n" +
+                                                                "UNION \n" +
+                                                                "SELECT '','','','','_TOTAL',@cantidadVehiculo ORDER BY 'CLIENTE' DESC");
+            //1query.setString(1, DatetimeInicio);
+            //query.setString(2, DatetimeFin);
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            boolean validator=true;
+            while(resultSet.next()){
+                if(validator){
+                    listadoObjetos = new ArrayList();
+                    validator=false;
+                }
+                PlantillaInformeNoLavadoVehiculos plantillaInformeNoLavadoVehiculos = new PlantillaInformeNoLavadoVehiculos();
+                    plantillaInformeNoLavadoVehiculos.setCliente(resultSet.getString(1));
+                    plantillaInformeNoLavadoVehiculos.setArticulo(resultSet.getString(2));
+                    plantillaInformeNoLavadoVehiculos.setZonaOperacion(resultSet.getString(3));
+                    plantillaInformeNoLavadoVehiculos.setEquipo(resultSet.getString(4));
+                    plantillaInformeNoLavadoVehiculos.setMotivoNoLavado(resultSet.getString(5));       
+                    plantillaInformeNoLavadoVehiculos.setCantidadVehículo(resultSet.getString(6));       
+                listadoObjetos.add(plantillaInformeNoLavadoVehiculos);
             }
         }catch (SQLException sqlException) {
             System.out.println("Error al tratar al consultar");
@@ -7312,7 +7702,7 @@ public class ControlDB_MvtoCarbon {
         //if(Objeto.getMvtoCarbon().getConexionPesoCcarga().equals("NO")){
             try{
                 //System.out.println("==="+Objeto.getMvtoCarbon().getEquipoLavadoVehiculo().getCodigo()+"<--->"+Objeto.getAsignacionEquipo().getEquipo().getCodigo()+"====================>");
-                System.out.println(""
+                /*System.out.println(""
                         +  "DECLARE @cantidadTiqueteMismaTara INT, @placa VARCHAR(50),@fechaInicioDescargue DATETIME, @pesoEntrada INT,@diferenciaMinutosMinimo INT, @fechaEntrada DATETIME;"
                         + "DECLARE @cantidadTiqueteMismaTaraOPP INT, @placaOPP VARCHAR(50),@fechaInicioDescargueOPP DATETIME, @pesoEntradaOPP INT,@diferenciaMinutosMinimoOPP INT, @fechaEntradaOPP DATETIME;\n" +
                         "	SET @placa='"+Objeto.getMvtoCarbon().getPlaca()+"';\n" +
@@ -7343,7 +7733,7 @@ public class ControlDB_MvtoCarbon {
                         "	FROM ["+DB_opp+"].[dbo].[tqte] \n" +
                         "WHERE [ti_plca]=@placaOPP AND [ti_pso_entrda]=@pesoEntradaOPP  AND [ti_fcha_entrda] = @fechaEntradaOPP\n" +
                         "	   AND @fechaInicioDescargueOPP BETWEEN [ti_fcha_entrda] AND [ti_fcha_slda] \n" +
-                        "       AND (DATEDIFF (MINUTE, @fechaInicioDescargueOPP , [ti_fcha_slda]))=@diferenciaMinutosMinimoOPP ");
+                        "       AND (DATEDIFF (MINUTE, @fechaInicioDescargueOPP , [ti_fcha_slda]))=@diferenciaMinutosMinimoOPP ");*/
                 PreparedStatement query= conexion.prepareStatement(""
                         + "DECLARE @cantidadTiqueteMismaTara INT, @placa VARCHAR(50),@fechaInicioDescargue DATETIME, @pesoEntrada INT,@diferenciaMinutosMinimo INT, @fechaEntrada DATETIME;"
                         + "DECLARE @cantidadTiqueteMismaTaraOPP INT, @placaOPP VARCHAR(50),@fechaInicioDescargueOPP DATETIME, @pesoEntradaOPP INT,@diferenciaMinutosMinimoOPP INT, @fechaEntradaOPP DATETIME;\n" +
@@ -7366,13 +7756,61 @@ public class ControlDB_MvtoCarbon {
                         "										BETWEEN @fechaInicioDescargueOPP AND [ti_fcha_slda]\n" +
                         "								   );\n" +
                                 
-                        "SELECT [ti_cnsctvo],[ti_fcha_slda],[ti_pso_slda],[ti_pso_nto],[ti_dpsto]  \n" +
+                        "SELECT [ti_cnsctvo],"
+                                + "[ti_fcha_slda],"
+                                + "[ti_pso_slda],"
+                                + "[ti_pso_nto],"
+                                + " [ti_dpsto],  \n" +
+                                "           PRODUCTO_CODIGO=ar_cdgo,--6 \n" +
+                        "           PRODUCTO=ar_nmbre, --7\n" +
+                        "           CLIENTE_CODIGO=cl_cdgo, --8 \n" +
+                        "           CLIENTE=cl_nmbre,  --9\n" +
+                        "           TRANSPORTADORA_CODIGO=[ti_trnsprtdra],--10 \n" +
+                        "           TRANSPORTADORA_NOMBRE=tr_nmbre,--11 \n" +
+                        "           ORDEN=[ti_orden],--12\n" +
+                        "		DEPOSITO=[ti_dpsto], --13\n" +
+                        "		CONSECUTIVO=[ti_cnsctvo],--14\n" +
+                        "           MN_CODIGO=mo_cdgo, --15\n" +
+                        "           MN=mo_nmbre ,--16\n" +
+                        "		FECHA_TIQUETE=  [ti_fcha], --17\n" +
+                        "		1 AS db --18\n" +
                         "	FROM ["+DB+"].[dbo].[tqte] \n" +
+                                 "  INNER JOIN ["+DB+"].[dbo].dpsto  ON de_cdgo=[ti_dpsto] \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].clnte ON de_clnte= cl_cdgo \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].[arrbo_mtnve] ON de_arrbo_mtnve=[am_cdgo] \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].mtnve ON [am_mtnve]=mo_cdgo \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].artclo ON de_artclo = ar_cdgo \n" +
+                        "           INNER JOIN  ["+DB+"].[dbo].trnsprtdra ON tr_cdgo=[ti_trnsprtdra] \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].cncpto ON  cn_cdgo= [ti_cncpto]  \n" +
                         "WHERE [ti_plca]=@placa AND [ti_pso_entrda]=@pesoEntrada  AND [ti_fcha_entrda] = @fechaEntrada\n" +
                         "	   AND @fechaInicioDescargue BETWEEN [ti_fcha_entrda] AND [ti_fcha_slda] \n" +
                         "       AND (DATEDIFF (MINUTE, @fechaInicioDescargue , [ti_fcha_slda]))=@diferenciaMinutosMinimo   UNION "+
-                        "SELECT [ti_cnsctvo],[ti_fcha_slda],[ti_pso_slda],[ti_pso_nto],[ti_dpsto]  \n" +
+                        "SELECT [ti_cnsctvo],"
+                                + "[ti_fcha_slda],"
+                                + "[ti_pso_slda],"
+                                + "[ti_pso_nto],"
+                                + "[ti_dpsto],  \n" +
+                        "           PRODUCTO_CODIGO=ar_cdgo,--6 \n" +
+                        "           PRODUCTO=ar_nmbre, --7\n" +
+                        "           CLIENTE_CODIGO=cl_cdgo, --8 \n" +
+                        "           CLIENTE=cl_nmbre,  --9\n" +
+                        "           TRANSPORTADORA_CODIGO=[ti_trnsprtdra],--10 \n" +
+                        "           TRANSPORTADORA_NOMBRE=tr_nmbre,--11 \n" +
+                        "           ORDEN=[ti_orden],--12\n" +
+                        "		DEPOSITO=[ti_dpsto], --13\n" +
+                        "		CONSECUTIVO=[ti_cnsctvo],--14\n" +
+                        "           MN_CODIGO=mo_cdgo, --15\n" +
+                        "           MN=mo_nmbre ,--16\n" +
+                        "		FECHA_TIQUETE=  [ti_fcha], --17\n" +
+                        "		2 AS db --18\n" +
                         "	FROM ["+DB_opp+"].[dbo].[tqte] \n" +
+                                   "  INNER JOIN ["+DB_opp+"].[dbo].dpsto  ON de_cdgo=[ti_dpsto] \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].clnte ON de_clnte= cl_cdgo \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].[arrbo_mtnve] ON de_arrbo_mtnve=[am_cdgo] \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].mtnve ON [am_mtnve]=mo_cdgo \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].artclo ON de_artclo = ar_cdgo \n" +
+                        "             INNER JOIN  ["+DB_opp+"].[dbo].trnsprtdra ON tr_cdgo=[ti_trnsprtdra] \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].cncpto ON  cn_cdgo= [ti_cncpto]  \n" +
                         "WHERE [ti_plca]=@placaOPP AND [ti_pso_entrda]=@pesoEntradaOPP  AND [ti_fcha_entrda] = @fechaEntradaOPP\n" +
                         "	   AND @fechaInicioDescargueOPP BETWEEN [ti_fcha_entrda] AND [ti_fcha_slda] \n" +
                         "       AND (DATEDIFF (MINUTE, @fechaInicioDescargueOPP , [ti_fcha_slda]))=@diferenciaMinutosMinimoOPP ");
@@ -7385,6 +7823,25 @@ public class ControlDB_MvtoCarbon {
                     Objeto.getMvtoCarbon().setPesoNeto(resultSet.getString(4));
                     Objeto.getMvtoCarbon().setDeposito(resultSet.getString(5));
                     Objeto.getMvtoCarbon().setConexionPesoCcarga("1");
+                    
+                    
+                    Objeto.getMvtoCarbon().setArticulo(new Articulo(resultSet.getString(6),resultSet.getString(7),"1"));
+                         Objeto.getMvtoCarbon().getArticulo().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                         Objeto.getMvtoCarbon().setArticuloBaseDatos(resultSet.getString(18)); 
+
+                         Objeto.getMvtoCarbon().setCliente(new Cliente(resultSet.getString(8),resultSet.getString(9),"1",0));
+                         Objeto.getMvtoCarbon().getCliente().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                         Objeto.getMvtoCarbon().setClienteBaseDatos(resultSet.getString(18));
+                        
+                        
+                         Objeto.getMvtoCarbon().setTransportadora(new Transportadora(resultSet.getString(10),"",resultSet.getString(11),"","1"));
+                         Objeto.getMvtoCarbon().getTransportadora().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                         Objeto.getMvtoCarbon().setTransportadorBaseDatos(resultSet.getString(18));
+                        
+                        Objeto.getMvtoCarbon().setMotonave(new Motonave(resultSet.getString(15),resultSet.getString(16),"1"));
+                        Objeto.getMvtoCarbon().getMotonave().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    
+                    
                     //Se proceso en controlCarga validando informacion con tabla Tiquete
                     try {
                         int n=actualizarDatosMvtoCarbonSinAuditoria(Objeto,us);
@@ -7764,9 +8221,72 @@ public class ControlDB_MvtoCarbon {
                     }
                 }
             }
-                 
-            System.out.println(""+"UPDATE ["+DB+"].[dbo].[mvto_carbon] set [mc_consecutivo_tqute]="+mvtoCarbon.getMvtoCarbon().getConsecutivo()+",[mc_deposito]="+mvtoCarbon.getMvtoCarbon().getDeposito()+", [mc_peso_lleno]="+mvtoCarbon.getMvtoCarbon().getPesoLleno()+",[mc_peso_neto]="+mvtoCarbon.getMvtoCarbon().getPesoNeto()+",[mc_fecha_salid]='"+mvtoCarbon.getMvtoCarbon().getFecha_SalidaVehiculo()+"',[mc_conexion_peso_ccarga]='"+mvtoCarbon.getMvtoCarbon().getConexionPesoCcarga()+"',[mc_cntro_cost_cdgo]="+mvtoCarbon.getMvtoCarbon().getCentroCosto().getCodigo()+" ,[mc_cntro_cost_mayor_cdgo]="+mvtoCarbon.getMvtoCarbon().getCentroCostoMayor().getCodigo()+" "+data+" WHERE [mc_cdgo]="+mvtoCarbon.getMvtoCarbon().getCodigo()+"");
-            PreparedStatement queryActualizar= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[mvto_carbon] set [mc_consecutivo_tqute]=?,[mc_deposito]=?, [mc_peso_lleno]=?,[mc_peso_neto]=?,[mc_fecha_salid]='"+mvtoCarbon.getMvtoCarbon().getFecha_SalidaVehiculo()+"',[mc_conexion_peso_ccarga]='"+mvtoCarbon.getMvtoCarbon().getConexionPesoCcarga()+"',[mc_cntro_cost_cdgo]="+mvtoCarbon.getMvtoCarbon().getCentroCosto().getCodigo()+" ,[mc_cntro_cost_mayor_cdgo]="+mvtoCarbon.getMvtoCarbon().getCentroCostoMayor().getCodigo()+" "+data+" WHERE [mc_cdgo]=?");
+                 try {
+                    if(!mvtoCarbon.getMvtoCarbon().getArticulo().getCodigo().equals("NULL")) {
+                        if (!validarExistenciaArticulo(mvtoCarbon.getMvtoCarbon().getArticulo())) {
+                            int n = registrarArticulo(mvtoCarbon.getMvtoCarbon().getArticulo(), us);
+                            if (n == 1) {
+                                System.out.println("Hemos registrado un articulo nuevo en el sistema");
+                            }
+                        }
+                    }
+                    if(!mvtoCarbon.getMvtoCarbon().getCliente().getCodigo().equals("NULL")) {
+                        if (!validarExistenciaCliente(mvtoCarbon.getMvtoCarbon().getCliente())) {
+                            int n = registrarCliente(mvtoCarbon.getMvtoCarbon().getCliente(), us);
+                            if (n == 1) {
+                                System.out.println("Hemos registrado un nuevo cliente en el sistema");
+                            }
+                        }
+                    }
+                    if(!mvtoCarbon.getMvtoCarbon().getTransportadora().getCodigo().equals("NULL")) {
+                        if (!validarExistenciaTransportadora(mvtoCarbon.getMvtoCarbon().getTransportadora())) {
+                            int n = registrarTransportadora(mvtoCarbon.getMvtoCarbon().getTransportadora(), us);
+                            if (n == 1) {
+                                System.out.println("Hemos registrado una nueva transportadora en el sistema");
+                            }
+                        }
+                    }
+                    if(!mvtoCarbon.getMvtoCarbon().getMotonave().getCodigo().equals("NULL")) {
+                        if (!validarExistenciaMotonave(mvtoCarbon.getMvtoCarbon().getMotonave())) {
+                            int n = registrarMotonave(mvtoCarbon.getMvtoCarbon().getMotonave(), us);
+                            if (n == 1) {
+                                System.out.println("Hemos registrado una nueva motonave en el sistema");
+                            }
+                        }
+                    }
+                }catch(Exception e){
+                    System.out.println("Error validandos datos y registrados nuevos Items, Cliente, Motonave, Transportadora, Articulo");
+                }
+                conexion= control.ConectarBaseDatos();
+                String codigoArticulo="",codigoCliente="",codigoTransportadora="";
+                String codigoArticulo_BD="",codigoCliente_BD="",codigoTransportadora_BD="";
+
+                if(!mvtoCarbon.getMvtoCarbon().getArticulo().getCodigo().equals("NULL")) {
+                    codigoArticulo = "'" + mvtoCarbon.getMvtoCarbon().getArticulo().getCodigo() + "'";
+                    codigoArticulo_BD=mvtoCarbon.getMvtoCarbon().getArticulo().getBaseDatos().getCodigo();
+                }else{
+                    codigoArticulo = mvtoCarbon.getMvtoCarbon().getArticulo().getCodigo();
+                    codigoArticulo_BD="NULL";
+                }
+
+                if(!mvtoCarbon.getMvtoCarbon().getCliente().getCodigo().equals("NULL")) {
+                    codigoCliente = "'" + mvtoCarbon.getMvtoCarbon().getCliente().getCodigo() + "'";
+                    codigoCliente_BD=mvtoCarbon.getMvtoCarbon().getArticulo().getBaseDatos().getCodigo();
+                }else{
+                    codigoCliente = mvtoCarbon.getMvtoCarbon().getCliente().getCodigo();
+                    codigoCliente_BD="NULL";
+                }
+
+                if(!mvtoCarbon.getMvtoCarbon().getTransportadora().getCodigo().equals("NULL")) {
+                    codigoTransportadora= "'" + mvtoCarbon.getMvtoCarbon().getTransportadora().getCodigo() + "'";
+                    codigoTransportadora_BD=mvtoCarbon.getMvtoCarbon().getArticulo().getBaseDatos().getCodigo();
+                }else{
+                    codigoTransportadora = mvtoCarbon.getMvtoCarbon().getCliente().getCodigo();
+                    codigoTransportadora_BD="NULL";
+                }
+                
+            //System.out.println(""+"UPDATE ["+DB+"].[dbo].[mvto_carbon] set [mc_consecutivo_tqute]="+mvtoCarbon.getMvtoCarbon().getConsecutivo()+",[mc_deposito]="+mvtoCarbon.getMvtoCarbon().getDeposito()+", [mc_peso_lleno]="+mvtoCarbon.getMvtoCarbon().getPesoLleno()+",[mc_peso_neto]="+mvtoCarbon.getMvtoCarbon().getPesoNeto()+",[mc_fecha_salid]='"+mvtoCarbon.getMvtoCarbon().getFecha_SalidaVehiculo()+"',[mc_conexion_peso_ccarga]='"+mvtoCarbon.getMvtoCarbon().getConexionPesoCcarga()+"',[mc_cntro_cost_cdgo]="+mvtoCarbon.getMvtoCarbon().getCentroCosto().getCodigo()+" ,[mc_cntro_cost_mayor_cdgo]="+mvtoCarbon.getMvtoCarbon().getCentroCostoMayor().getCodigo()+" "+data+" ,[mc_articulo_cdgo]="+codigoArticulo+",[mc_cliente_cdgo]="+codigoCliente+",[mc_transprtdora_cdgo]="+codigoTransportadora+",[mc_cliente_base_datos_cdgo]="+codigoCliente_BD+",[mc_transprtdora_base_datos_cdgo]="+codigoTransportadora_BD+",[mc_articulo_base_datos_cdgo]="+codigoArticulo_BD+" WHERE [mc_cdgo]="+mvtoCarbon.getMvtoCarbon().getCodigo()+"");
+            PreparedStatement queryActualizar= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[mvto_carbon] set [mc_consecutivo_tqute]=?,[mc_deposito]=?, [mc_peso_lleno]=?,[mc_peso_neto]=?,[mc_fecha_salid]='"+mvtoCarbon.getMvtoCarbon().getFecha_SalidaVehiculo()+"',[mc_conexion_peso_ccarga]='"+mvtoCarbon.getMvtoCarbon().getConexionPesoCcarga()+"',[mc_cntro_cost_cdgo]="+mvtoCarbon.getMvtoCarbon().getCentroCosto().getCodigo()+" ,[mc_cntro_cost_mayor_cdgo]="+mvtoCarbon.getMvtoCarbon().getCentroCostoMayor().getCodigo()+" "+data+",[mc_articulo_cdgo]="+codigoArticulo+",[mc_cliente_cdgo]="+codigoCliente+",[mc_transprtdora_cdgo]="+codigoTransportadora+",[mc_cliente_base_datos_cdgo]="+codigoCliente_BD+",[mc_transprtdora_base_datos_cdgo]="+codigoTransportadora_BD+",[mc_articulo_base_datos_cdgo]="+codigoArticulo_BD+" WHERE [mc_cdgo]=?");
             queryActualizar.setString(1,mvtoCarbon.getMvtoCarbon().getConsecutivo());
             queryActualizar.setString(2,mvtoCarbon.getMvtoCarbon().getDeposito());
             queryActualizar.setString(3,mvtoCarbon.getMvtoCarbon().getPesoLleno());
@@ -7777,42 +8297,28 @@ public class ControlDB_MvtoCarbon {
             queryActualizar.setString(5,mvtoCarbon.getMvtoCarbon().getCodigo());
             queryActualizar.execute();
             result=1;
-            /*if(result==1){
-                result=0;
-                 //Extraemos el nombre del Equipo y la IP        
-                String namePc=new ControlDB_Config().getNamePC();
-                String ipPc=new ControlDB_Config().getIpPc();
-                String macPC=new ControlDB_Config().getMacAddress();
-                PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
-                                        "      ,[au_fecha]\n" +
-                                        "      ,[au_usuario_cdgo_registro]\n" +
-                                        "      ,[au_nombre_dispositivo_registro]\n" +
-                                        "      ,[au_ip_dispositivo_registro]\n" +
-                                        "      ,[au_mac_dispositivo_registro]\n" +
-                                        "      ,[au_cdgo_mtvo]\n" +
-                                        "      ,[au_desc_mtvo]\n" +
-                                        "      ,[au_detalle_mtvo])\n" +
-                        "     VALUES("+
-                        "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
-                        "           ,(SELECT SYSDATETIME())"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,'DESCARGUE_CARBON'" +
-                        "           ,CONCAT('Se registró una nueva actualización en el sistema sobre el descargue de carbon de Código:',?,' Consecutivo: ',?,' Placa: ',?));"); 
-                Query_Auditoria.setString(1, us.getCodigo());
-                Query_Auditoria.setString(2, namePc);
-                Query_Auditoria.setString(3, ipPc);
-                Query_Auditoria.setString(4, macPC);
-                Query_Auditoria.setString(5, mvtoCarbon.getMvtoCarbon().getCodigo());
-                Query_Auditoria.setString(6, mvtoCarbon.getMvtoCarbon().getCodigo());
-                Query_Auditoria.setString(7, mvtoCarbon.getMvtoCarbon().getConsecutivo());
-                Query_Auditoria.setString(8, mvtoCarbon.getMvtoCarbon().getPlaca()+" Pesos: Vacio:"+mvtoCarbon.getMvtoCarbon().getPesoVacio()+" Lleno: "+mvtoCarbon.getMvtoCarbon().getPesoLleno()+" Neto:"+mvtoCarbon.getMvtoCarbon().getPesoNeto()+"CentroCentro: "+mvtoCarbon.getMvtoCarbon().getCentroCosto().getCodigo()+"CentroCosto_Mayor: "+mvtoCarbon.getMvtoCarbon().getCentroCostoMayor().getCodigo());
-                Query_Auditoria.execute();
+            if(result==1){
+                //Actualizamos lo0s registros de MvtoEquipo en caso que el Deposito cambio y con ello cambia el cliente y articulo
+                System.out.println("  UPDATE  ["+DB+"].[dbo].[mvto_equipo] \n" +
+                                                                                "	  SET		[me_cliente_cdgo]="+codigoCliente+",\n" +
+                                                                                "				[me_articulo_cdgo]="+codigoArticulo+",\n" +
+                                                                                "				[me_cliente_base_datos_cdgo]="+codigoCliente_BD+",\n" +
+                                                                                "				[me_articulo_base_datos_cdgo]="+codigoArticulo_BD+" \n" +
+                                                                                "  FROM   ["+DB+"].[dbo].[mvto_equipo]\n" +
+                                                                                "  INNER JOIN ["+DB+"].[dbo].[mvto_carbon_listado_equipo] ON [mcle_mvto_equipo_cdgo]=[me_cdgo] AND [mcle_mvto_carbon_cdgo]="+mvtoCarbon.getMvtoCarbon().getCodigo()+";");
+                PreparedStatement queryActualizarMvtoEquipo= conexion.prepareStatement("  UPDATE  ["+DB+"].[dbo].[mvto_equipo] \n" +
+                                                                                "	  SET		[me_cliente_cdgo]="+codigoCliente+",\n" +
+                                                                                "				[me_articulo_cdgo]="+codigoArticulo+",\n" +
+                                                                                "				[me_cliente_base_datos_cdgo]="+codigoCliente_BD+",\n" +
+                                                                                "				[me_articulo_base_datos_cdgo]="+codigoArticulo_BD+" \n" +
+                                                                                "  FROM   ["+DB+"].[dbo].[mvto_equipo]\n" +
+                                                                                "  INNER JOIN ["+DB+"].[dbo].[mvto_carbon_listado_equipo] ON [mcle_mvto_equipo_cdgo]=[me_cdgo] AND [mcle_mvto_carbon_cdgo]=?");
+                
+                queryActualizarMvtoEquipo.setString(1,mvtoCarbon.getMvtoCarbon().getCodigo());
+                queryActualizarMvtoEquipo.execute();
                 result=1;
-            } */
+                 
+            } 
         }
         catch (SQLException sqlException ){   
             result=0;

@@ -1,9 +1,9 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import ModuloEquipo.Model.MvtoEquipo;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import Sistema.Model.Usuario;
 import java.awt.Color;
 import java.awt.Component;
@@ -734,7 +734,7 @@ public final class MvtoEquipo_ActivarEquipo extends javax.swing.JPanel implement
         jLabel58.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         InternaFrame_VisualizarMvtoEquipo.getContentPane().add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 1140, 210));
 
-        add(InternaFrame_VisualizarMvtoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 720));
+        add(InternaFrame_VisualizarMvtoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 760));
 
         InternaFrame_VisualizarMvtoCarbon.setBackground(new java.awt.Color(255, 255, 255));
         InternaFrame_VisualizarMvtoCarbon.setClosable(true);

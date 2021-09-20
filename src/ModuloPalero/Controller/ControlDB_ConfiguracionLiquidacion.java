@@ -1,11 +1,18 @@
-package Catalogo.Controller;
+package ModuloPalero.Controller;
   
-import ConnectionDB2.Conexion_DB_ccargaGP;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Catalogo.Model.Articulo;
 import Catalogo.Model.BaseDatos;
+import Catalogo.Model.Compañia;
+import Catalogo.Model.Equipo;
 import Catalogo.Model.TipoArticulo;
-import ConnectionDB2.Conexion_DB_ccargaOPP;
+import Catalogo.Model.TipoEquipo;
+import ModuloPalero.Model.ConfiguracionLiquidacion;
+import ModuloPalero.Model.EquipoLiquidacion;
+import ModuloPersonal.Model.CargoNomina;
+import ModuloPersonal.Model.Persona;
+import ModuloPersonal.Model.TipoContrato;
+import ModuloPersonal.Model.TipoDocumento;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
@@ -17,18 +24,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import org.eclipse.persistence.jpa.jpql.parser.OnClause;
 
-public class ControlDB_Articulo {
+public class ControlDB_ConfiguracionLiquidacion {
     private Connection conexion=null;
     private  Conexion_DB_costos_vg control=null;  
-    private String tipoConexion;
+    private final String tipoConexion;
     
-    public ControlDB_Articulo(String tipoConexion) {
+    public ControlDB_ConfiguracionLiquidacion(String tipoConexion) {
         this.tipoConexion= tipoConexion;
         control = new Conexion_DB_costos_vg(tipoConexion);
-    }
-    public int registrar(Articulo Objeto, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException{
+    }  
+    public int registrar(ConfiguracionLiquidacion Objeto) throws FileNotFoundException, UnknownHostException, SocketException, SQLException{
         int result=0;
         try{
             conexion= control.ConectarBaseDatos();
@@ -39,492 +45,258 @@ public class ControlDB_Articulo {
             }else{
                 estado="INACTIVO";
             }  
-            if(!validarExistencia(Objeto)){
-                conexion= control.ConectarBaseDatos();
-                if(Objeto.getTipoArticulo().getCodigo() != null){
-                    if(!new ControlDB_TipoArticulo(tipoConexion).validarExistencia(Objeto.getTipoArticulo())){
-                        conexion= control.ConectarBaseDatos();
 
-                        new ControlDB_TipoArticulo(tipoConexion).registrar(Objeto.getTipoArticulo(),us);
-                        conexion= control.ConectarBaseDatos();
+            // conexion= control.ConectarBaseDatos();
+            PreparedStatement Query= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[config_liquidacion] ("
+                    + "         [cl_cdgo]\n" +
+                        "      ,[cl_cargo_nomina_cdgo]\n" +
+                        "      ,[cl_fecha_inicio]\n" +
+                        "      ,[cl_fecha_fin]\n" +
+                        "      ,[cl_cant_dias]\n" +
+                        "      ,[cl_ano]\n" +
+                        "      ,[cl_desc]\n" +
+                        "      ,[cl_valor_tonelada]\n" +
+                        "      ,[cl_cant_tonelada_salario]\n" +
+                        "      ,[cl_usuario_registra_cdgo]\n" +
+                        "      ,[cl_estad]) "
+                    + "VALUES ("
+                    + "(SELECT (CASE WHEN (MAX([cl_cdgo]) IS NULL) THEN 1 ELSE (MAX([cl_cdgo])+1) END)AS [cl_cdgo] FROM ["+DB+"].[dbo].[config_liquidacion]),"
+                            + "?,?,?,((DATEDIFF(DAY, ?, ?))+1),YEAR(?),?,?,?,?,?);");
+            Query.setString(1, Objeto.getCargoNomina().getCodigo());
+            Query.setString(2, Objeto.getFechaInicio());
+            Query.setString(3, Objeto.getFechaFinalizacion());
+            Query.setString(4, Objeto.getFechaInicio());
+            Query.setString(5, Objeto.getFechaFinalizacion());
+            Query.setString(6, Objeto.getFechaInicio());
+            Query.setString(7, Objeto.getDescripcion());
+            Query.setInt(8, Objeto.getValorTonelada());
+            Query.setInt(9, Objeto.getCantidadToneladaSalario());
+            Query.setString(10, Objeto.getUsuario().getCodigo());
+            Query.setString(11, Objeto.getEstado());
+            Query.execute();
+            result=1;
+            if(result==1){
+                result=0;
+                //Sacamos el ultimo valor 
+                PreparedStatement queryConsultarMaximo= conexion.prepareStatement("SELECT MAX(cl_cdgo) FROM ["+DB+"].[dbo].[config_liquidacion];");
+                ResultSet resultSetMaximo= queryConsultarMaximo.executeQuery();
+                while(resultSetMaximo.next()){ 
+                    if(resultSetMaximo.getString(1) != null){
+                        Objeto.setCodigo(resultSetMaximo.getString(1));
                     }
                 }
-                PreparedStatement Query= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[articulo] ([ar_cdgo],[ar_tipo_articulo_cdgo],[ar_desc],[ar_estad],[ar_base_datos_cdgo]) VALUES (?,?,?,?,?);");
-                Query.setString(1, Objeto.getCodigo());
-                Query.setString(2, Objeto.getTipoArticulo().getCodigo());
-                Query.setString(3, Objeto.getDescripcion());
-                Query.setString(4, Objeto.getEstado());
-                Query.setString(5, Objeto.getBaseDatos().getCodigo());
-                Query.execute();
                 result=1;
-                if(result==1){
-                    result=0;
-                    //Extraemos el nombre del Equipo y la IP        
-                    String namePc=new ControlDB_Config().getNamePC();
-                    String ipPc=new ControlDB_Config().getIpPc();
-                    String macPC=new ControlDB_Config().getMacAddress();
-                    
-                    PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
-                                        "      ,[au_fecha]\n" +
-                                        "      ,[au_usuario_cdgo_registro]\n" +
-                                        "      ,[au_nombre_dispositivo_registro]\n" +
-                                        "      ,[au_ip_dispositivo_registro]\n" +
-                                        "      ,[au_mac_dispositivo_registro]\n" +
-                                        "      ,[au_cdgo_mtvo]\n" +
-                                        "      ,[au_desc_mtvo]\n" +
-                                        "      ,[au_detalle_mtvo])\n" +
-                        "     VALUES("+
-                        "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
-                        "           ,(SELECT SYSDATETIME())"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,?"+
-                        "           ,'ARTICULO'" +
-                        "           ,CONCAT (?,?,'TipoArticulo:',?,' Nombre: ',?,' Estado: ',?,' BaseDatos: ',? ));");
-                    Query_Auditoria.setString(1, us.getCodigo());
-                    Query_Auditoria.setString(2, namePc);
-                    Query_Auditoria.setString(3, ipPc);
-                    Query_Auditoria.setString(4, macPC);
-                    Query_Auditoria.setString(5, Objeto.getCodigo());
-                    Query_Auditoria.setString(6, "Se registró un nuevo articulo en el sistema, con Código: ");
-                    Query_Auditoria.setString(7, Objeto.getCodigo());
-                    Query_Auditoria.setString(8, Objeto.getTipoArticulo().getCodigo());
-                    Query_Auditoria.setString(9, Objeto.getDescripcion());
-                    Query_Auditoria.setString(10, estado);
-                    Query_Auditoria.setString(11, Objeto.getBaseDatos().getNombre());
-                    Query_Auditoria.execute();
-                    result=1;
-                }
-            }/*else{
-                try{
-                    Articulo ProductoAnterior=buscarEspecifico(""+Objeto.getCodigo());
-                    if(Objeto.getEstado().equalsIgnoreCase("1")){
-                        estado="ACTIVO";
-                    }else{
-                        estado="INACTIVO";
-                    }
-                    conexion= control.ConectarBaseDatos();
-                    new ControlDB_TipoArticulo(tipoConexion).actualizar(Objeto.getTipoArticulo(), us);
-                    PreparedStatement query= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[articulo] SET [ar_tipo_articulo_cdgo]=?, [ar_desc]=? --, [ar_estad]=?\n WHERE [ar_cdgo]=? AND ");
-                    query.setString(1, Objeto.getTipoArticulo().getCodigo());
-                    query.setString(2, Objeto.getDescripcion());
-                    //query.setString(3, Objeto.getEstado());
-                    query.setString(3, Objeto.getCodigo());
-                    query.execute();
-                    result=1;
-                    if(result==1){
-                        result=0;
-                        //Extraemos el nombre del Equipo y la IP        
-                        String namePc=new ControlDB_Config().getNamePC();
-                        String ipPc=new ControlDB_Config().getIpPc();
-                        String macPC=new ControlDB_Config().getMacAddress();
-                        PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
-                                                "      ,[au_fecha]\n" +
-                                                "      ,[au_usuario_cdgo_registro]\n" +
-                                                "      ,[au_nombre_dispositivo_registro]\n" +
-                                                "      ,[au_ip_dispositivo_registro]\n" +
-                                                "      ,[au_mac_dispositivo_registro]\n" +
-                                                "      ,[au_cdgo_mtvo]\n" +
-                                                "      ,[au_desc_mtvo]\n" +
-                                                "      ,[au_detalle_mtvo])\n" +
-                                "     VALUES("+
-                                "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
-                                "           ,(SELECT SYSDATETIME())"+
-                                "           ,?"+
-                                "           ,?"+
-                                "           ,?"+
-                                "           ,?"+
-                                "           ,?"+
-                                "           ,'ACTICULO'" +
-                                "           ,CONCAT('Se registró una nueva actualización en el sistema sobre ',?,' Código: ',?,' TipoArticulo:',?,' Nombre: ',?,' Estado: ',?,"
-                                                    + "' actualizando la siguiente informacion a Código: ',?,' TipoArticulo:',?,' Nombre: ',?,' Estado: ',?));");
-                        Query_Auditoria.setString(1, us.getCodigo());
-                        Query_Auditoria.setString(2, namePc);
-                        Query_Auditoria.setString(3, ipPc);
-                        Query_Auditoria.setString(4, macPC);
-                        Query_Auditoria.setString(5, ProductoAnterior.getCodigo());
-                        Query_Auditoria.setString(6, "el articulo :");
-                        Query_Auditoria.setString(7, ProductoAnterior.getCodigo());
-                        Query_Auditoria.setString(8, ProductoAnterior.getTipoArticulo().getCodigo());
-                        Query_Auditoria.setString(9, ProductoAnterior.getDescripcion());
-                        Query_Auditoria.setString(10, ProductoAnterior.getEstado());
-                        Query_Auditoria.setString(11, Objeto.getCodigo());
-                        Query_Auditoria.setString(12, Objeto.getTipoArticulo().getCodigo());
-                        Query_Auditoria.setString(13, Objeto.getDescripcion());
-                        Query_Auditoria.setString(14, estado);
-                        Query_Auditoria.execute();
-                        result=1;
-                        System.out.print("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
-                                                "      ,[au_fecha]\n" +
-                                                "      ,[au_usuario_cdgo_registro]\n" +
-                                                "      ,[au_nombre_dispositivo_registro]\n" +
-                                                "      ,[au_ip_dispositivo_registro]\n" +
-                                                "      ,[au_mac_dispositivo_registro]\n" +
-                                                "      ,[au_cdgo_mtvo]\n" +
-                                                "      ,[au_desc_mtvo]\n" +
-                                                "      ,[au_detalle_mtvo])\n" +
-                                "     VALUES("+
-                                "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
-                                "           ,(SELECT SYSDATETIME())"+
-                                "           ,?"+
-                                "           ,?"+
-                                "           ,?"+
-                                "           ,?"+
-                                "           ,?"+
-                                "           ,'ACTICULO'" +
-                                "           ,CONCAT('Se registró una nueva actualización en el sistema sobre ',?,' Código: ',?,' TipoArticulo:',?,' Nombre: ',?,' Estado: ',?,"
-                                                    + "' actualizando la siguiente informacion a Código: ',?,' TipoArticulo:',?,' Nombre: ',?,' Estado: ',?));");
-                    }
-                }
-                catch (SQLException sqlException ){   
-                    result=0;
-                    JOptionPane.showMessageDialog(null, "ERROR al querer insertar los datos.");
-                    sqlException.printStackTrace();
-                }  
-                catch(Exception e ){
-                    e.printStackTrace();
-                }
-                control.cerrarConexionBaseDatos();
-                return result;
-            }*/
+            }
+            if(result==1){
+                result=0;
+                //Extraemos el nombre del Equipo y la IP        
+                String namePc=new ControlDB_Config().getNamePC();
+                String ipPc=new ControlDB_Config().getIpPc();
+                String macPC=new ControlDB_Config().getMacAddress();
+
+                PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
+                                    "      ,[au_fecha]\n" +
+                                    "      ,[au_usuario_cdgo_registro]\n" +
+                                    "      ,[au_nombre_dispositivo_registro]\n" +
+                                    "      ,[au_ip_dispositivo_registro]\n" +
+                                    "      ,[au_mac_dispositivo_registro]\n" +
+                                    "      ,[au_cdgo_mtvo]\n" +
+                                    "      ,[au_desc_mtvo]\n" +
+                                    "      ,[au_detalle_mtvo])\n" +
+                    "     VALUES("+
+                    "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
+                    "           ,(SELECT SYSDATETIME())"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,'CONFIGURACION_LIQUIDACION'" +
+                    "           ,CONCAT (?,?,'Para el cargo:',?, '  Descripcion: ',?,' ValorTonelada: ',?,' CantidadToneladaSalario: ',? ,' Estado: ',?));");
+                Query_Auditoria.setString(1, Objeto.getUsuario().getCodigo());
+                Query_Auditoria.setString(2, namePc);
+                Query_Auditoria.setString(3, ipPc);
+                Query_Auditoria.setString(4, macPC);
+                Query_Auditoria.setString(5, Objeto.getCodigo());
+                Query_Auditoria.setString(6, "Se registró un nueva configuracion de liquidacion con Código: ");
+                Query_Auditoria.setString(7, Objeto.getCodigo());
+                Query_Auditoria.setString(8, Objeto.getCargoNomina().getDescripcion());
+                Query_Auditoria.setString(9, Objeto.getDescripcion());
+                Query_Auditoria.setInt(10, Objeto.getValorTonelada());
+                Query_Auditoria.setInt(11, Objeto.getCantidadToneladaSalario());
+                Query_Auditoria.setString(12, estado);
+                Query_Auditoria.execute();
+                result=1;
+            }      
         }
         catch (SQLException sqlException ){   
             result=0;
             sqlException.printStackTrace();
-        }  
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
         control.cerrarConexionBaseDatos();
         return result;
     } 
-    public ArrayList<Articulo> buscar(String valorConsulta) throws SQLException{
-        ArrayList<Articulo> listadoObjetos = new ArrayList();
-       conexion= control.ConectarBaseDatos();
-       String DB=control.getBaseDeDatos();
+    public ArrayList<ConfiguracionLiquidacion>     buscarConfiguracionesLiquidaciones (String DatetimeInicio, String DatetimeFin) throws SQLException{
+        ArrayList<ConfiguracionLiquidacion> listadoObjetos = null;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
         try{
-            ResultSet resultSet; 
-            if(valorConsulta.equals("")){
-                PreparedStatement query= conexion.prepareStatement("SELECT  [ar_cdgo]--1\n" +
-                                                                    "      ,[ar_tipo_articulo_cdgo]--2\n" +
-                                                                    "		  ,[tar_cdgo]--3\n" +
-                                                                    "		  ,[tar_desc]--4\n" +
-                                                                    "		  ,[tar_cdgo_erp]--5\n" +
-                                                                    "		  ,[tar_undad_ngcio]--6\n" +
-                                                                    "		  ,[tar_estado]--7\n" +
-                                                                    "      ,[ar_desc]--8\n" +
-                                                                    "      ,CASE WHEN (ar_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS ar_estad--9\n" +
-                                                                    "      ,[ar_base_datos_cdgo]--10\n" +
-                                                                    "		  ,[bd_cdgo]--11\n" +
-                                                                    "		  ,[bd_name]--12\n" +
-                                                                    "		  ,[bd_desc]--13\n" +
-                                                                    "		  ,[bd_estad]--14\n" +
-                                                                    "  FROM ["+DB+"].[dbo].[articulo]\n" +
-                                                                    "  LEFT JOIN ["+DB+"].[dbo].[tipo_articulo] ON [ar_tipo_articulo_cdgo]=[tar_cdgo]\n" +
-                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos] ON [ar_base_datos_cdgo]=[bd_cdgo]     ORDER BY [ar_desc] ASC;");
-                resultSet= query.executeQuery();
-            }else{
-                PreparedStatement query= conexion.prepareStatement("SELECT  [ar_cdgo]--1\n" +
-                                                                    "      ,[ar_tipo_articulo_cdgo]--2\n" +
-                                                                    "		  ,[tar_cdgo]--3\n" +
-                                                                    "		  ,[tar_desc]--4\n" +
-                                                                    "		  ,[tar_cdgo_erp]--5\n" +
-                                                                    "		  ,[tar_undad_ngcio]--6\n" +
-                                                                    "		  ,[tar_estado]--7\n" +
-                                                                    "      ,[ar_desc]--8\n" +
-                                                                    "      ,CASE WHEN (ar_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS ar_estad--9\n" +
-                                                                    "      ,[ar_base_datos_cdgo]--10\n" +
-                                                                    "		  ,[bd_cdgo]--11\n" +
-                                                                    "		  ,[bd_name]--12\n" +
-                                                                    "		  ,[bd_desc]--13\n" +
-                                                                    "		  ,[bd_estad]--14\n" +
-                                                                    "  FROM ["+DB+"].[dbo].[articulo]\n" +
-                                                                    "  LEFT JOIN ["+DB+"].[dbo].[tipo_articulo] ON [ar_tipo_articulo_cdgo]=[tar_cdgo]\n" +
-                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos] ON [ar_base_datos_cdgo]=[bd_cdgo]  WHERE ([ar_cdgo] LIKE ? OR [ar_desc] like ?);");
-                query.setString(1, "%"+valorConsulta+"%");
-                query.setString(2, "%"+valorConsulta+"%");
-                resultSet= query.executeQuery();              
-            }
-            while(resultSet.next()){  
-                Articulo Objeto = new Articulo(); 
-                Objeto.setCodigo(resultSet.getString(1));
-                Objeto.setDescripcion(resultSet.getString(8));
-                Objeto.setEstado(resultSet.getString(9));
-                    TipoArticulo Objeto2 = new TipoArticulo();
-                    Objeto2.setCodigo(resultSet.getString(3));
-                    Objeto2.setDescripcion(resultSet.getString(4));
-                    Objeto2.setCodigoERP(resultSet.getString(5));
-                    Objeto2.setUnidadNegocio(resultSet.getString(6));
-                    Objeto2.setEstado(resultSet.getString(7));
-                Objeto.setTipoArticulo(Objeto2);
-                BaseDatos baseDatos = new BaseDatos();
-                        baseDatos.setCodigo(resultSet.getString(11));
-                        baseDatos.setNombre(resultSet.getString(12));
-                        baseDatos.setDescripcion(resultSet.getString(13));
-                        baseDatos.setEstado(resultSet.getString(14));
-                Objeto.setBaseDatos(baseDatos);
-                listadoObjetos.add(Objeto);
+            PreparedStatement query= conexion.prepareStatement("SELECT [cl_cdgo] --1\n" +
+                                                            "      ,[cl_cargo_nomina_cdgo]--2\n" +
+                                                            "		  ,[cn_cdgo]--3\n" +
+                                                            "		  ,[cn_desc]--4\n" +
+                                                            "		  ,[cn_estad]--5\n" +
+                                                            "      ,[cl_fecha_inicio]--6\n" +
+                                                            "      ,[cl_fecha_fin]--7\n" +
+                                                            "      ,[cl_cant_dias]--8\n" +
+                                                            "      ,[cl_ano]--9\n" +
+                                                            "      ,[cl_desc]--10\n" +
+                                                            "      ,[cl_valor_tonelada]--11\n" +
+                                                            "      ,[cl_cant_tonelada_salario]--12\n" +
+                                                            "      ,[cl_usuario_registra_cdgo]--13\n" +
+                                                            "		  ,[us_cdgo]--14\n" +
+                                                            "		  ,[us_nombres]--15\n" +
+                                                            "		  ,[us_apellidos]--16\n" +
+                                                            "		  ,[us_correo]--17\n" +
+                                                            "  ,CASE WHEN (cl_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS cl_estad --18\n" +
+                                                            "  FROM ["+DB+"].[dbo].[config_liquidacion]\n" +
+                                                            "  INNER JOIN ["+DB+"].[dbo].[cargo_nomina] ON [cl_cargo_nomina_cdgo]=[cn_cdgo]\n" +
+                                                            "  INNER JOIN ["+DB+"].[dbo].[usuario] ON [cl_usuario_registra_cdgo]=[us_cdgo] "
+                                                            + " WHERE (([cl_fecha_inicio] BETWEEN ? AND ?) OR (? BETWEEN [cl_fecha_inicio] AND [cl_fecha_fin]) OR  (? BETWEEN [cl_fecha_inicio] AND [cl_fecha_fin]))ORDER BY [cl_cdgo] DESC");
+            query.setString(1, DatetimeInicio);
+            query.setString(2, DatetimeFin);
+            query.setString(3, DatetimeInicio);
+            query.setString(4, DatetimeFin);
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            boolean validar= true;
+            while(resultSet.next()){ 
+                try{
+                    if(validar){
+                        listadoObjetos= new ArrayList<>();
+                        validar= false;
+                    }
+                    ConfiguracionLiquidacion configuracionLiquidacion = new ConfiguracionLiquidacion();
+                    configuracionLiquidacion.setCodigo(resultSet.getString(1));
+                    configuracionLiquidacion.setCargoNomina(new CargoNomina(resultSet.getString(3), resultSet.getString(4), resultSet.getString(5)));
+                    configuracionLiquidacion.setFechaInicio(resultSet.getString(6));
+                    configuracionLiquidacion.setFechaFinalizacion(resultSet.getString(7));
+                    configuracionLiquidacion.setCantidadDias(Integer.parseInt(resultSet.getString(8)));
+                    configuracionLiquidacion.setCantidadDias(Integer.parseInt(resultSet.getString(8)));
+                    configuracionLiquidacion.setAno(resultSet.getString(9));
+                    configuracionLiquidacion.setDescripcion(resultSet.getString(10));
+                    configuracionLiquidacion.setValorTonelada(Integer.parseInt(resultSet.getString(11)));
+                    configuracionLiquidacion.setCantidadToneladaSalario(Integer.parseInt(resultSet.getString(12)));
+                        Usuario usuario = new Usuario();
+                            usuario.setCodigo(resultSet.getString(14));
+                            usuario.setNombres(resultSet.getString(15));
+                            usuario.setApellidos(resultSet.getString(16));
+                            usuario.setCorreo(resultSet.getString(17));
+                    configuracionLiquidacion.setUsuario(usuario);
+                    configuracionLiquidacion.setEstado(resultSet.getString(18));           
+                    listadoObjetos.add(configuracionLiquidacion);    
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         }catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Error al tratar al consultar los articulo");
+            JOptionPane.showMessageDialog(null, "Error al tratar al consultar las configuraciones de liquidación");
             sqlException.printStackTrace();
         } 
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
-    } 
-    public Articulo buscarEspecifico(String codigo, String db) throws SQLException{
-        Articulo Objeto =null; 
+    }
+    public ArrayList<ConfiguracionLiquidacion>     buscarConfiguracionesLiquidacionesActivas (String DatetimeInicio, String DatetimeFin) throws SQLException{
+        ArrayList<ConfiguracionLiquidacion> listadoObjetos = null;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
         conexion= control.ConectarBaseDatos();
         String DB=control.getBaseDeDatos();
         try{
-            PreparedStatement query= conexion.prepareStatement("SELECT  [ar_cdgo]--1\n" +
-                                                                    "      ,[ar_tipo_articulo_cdgo]--2\n" +
-                                                                    "		  ,[tar_cdgo]--3\n" +
-                                                                    "		  ,[tar_desc]--4\n" +
-                                                                    "		  ,[tar_cdgo_erp]--5\n" +
-                                                                    "		  ,[tar_undad_ngcio]--6\n" +
-                                                                    "		  ,[tar_estado]--7\n" +
-                                                                    "      ,[ar_desc]--8\n" +
-                                                                    "      ,CASE WHEN (ar_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS ar_estad--9\n" +
-                                                                    "      ,[ar_base_datos_cdgo]--10\n" +
-                                                                    "		  ,[bd_cdgo]--11\n" +
-                                                                    "		  ,[bd_name]--12\n" +
-                                                                    "		  ,[bd_desc]--13\n" +
-                                                                    "		  ,[bd_estad]--14\n" +
-                                                                    "  FROM ["+DB+"].[dbo].[articulo]\n" +
-                                                                    "  LEFT JOIN ["+DB+"].[dbo].[tipo_articulo] ON [ar_tipo_articulo_cdgo]=[tar_cdgo]\n" +
-                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos] ON [ar_base_datos_cdgo]=[bd_cdgo]  WHERE [ar_cdgo] LIKE ? AND ar_base_datos_cdgo=?;"); 
-            query.setString(1, codigo);
-            query.setString(2, db);
-            ResultSet resultSet= query.executeQuery();
+            PreparedStatement query= conexion.prepareStatement("SELECT [cl_cdgo] --1\n" +
+                                                            "      ,[cl_cargo_nomina_cdgo]--2\n" +
+                                                            "		  ,[cn_cdgo]--3\n" +
+                                                            "		  ,[cn_desc]--4\n" +
+                                                            "		  ,[cn_estad]--5\n" +
+                                                            "      ,[cl_fecha_inicio]--6\n" +
+                                                            "      ,[cl_fecha_fin]--7\n" +
+                                                            "      ,[cl_cant_dias]--8\n" +
+                                                            "      ,[cl_ano]--9\n" +
+                                                            "      ,[cl_desc]--10\n" +
+                                                            "      ,[cl_valor_tonelada]--11\n" +
+                                                            "      ,[cl_cant_tonelada_salario]--12\n" +
+                                                            "      ,[cl_usuario_registra_cdgo]--13\n" +
+                                                            "		  ,[us_cdgo]--14\n" +
+                                                            "		  ,[us_nombres]--15\n" +
+                                                            "		  ,[us_apellidos]--16\n" +
+                                                            "		  ,[us_correo]--17\n" +
+                                                            "  ,CASE WHEN (cl_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS cl_estad --18\n" +
+                                                            "  FROM ["+DB+"].[dbo].[config_liquidacion]\n" +
+                                                            "  INNER JOIN ["+DB+"].[dbo].[cargo_nomina] ON [cl_cargo_nomina_cdgo]=[cn_cdgo]\n" +
+                                                            "  INNER JOIN ["+DB+"].[dbo].[usuario] ON [cl_usuario_registra_cdgo]=[us_cdgo] "
+                                                            + " WHERE [cl_estad]= 1 AND (([cl_fecha_inicio] BETWEEN ? AND ?) OR (? BETWEEN [cl_fecha_inicio] AND [cl_fecha_fin]) OR  (? BETWEEN [cl_fecha_inicio] AND [cl_fecha_fin]))ORDER BY [cl_cdgo] DESC");
+            query.setString(1, DatetimeInicio);
+            query.setString(2, DatetimeFin);
+            query.setString(3, DatetimeInicio);
+            query.setString(4, DatetimeFin);
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            boolean validar= true;
             while(resultSet.next()){ 
-                Objeto = new Articulo(); 
-                Objeto.setCodigo(resultSet.getString(1));
-                Objeto.setDescripcion(resultSet.getString(8));
-                Objeto.setEstado(resultSet.getString(9));
-                    TipoArticulo Objeto2 = new TipoArticulo();
-                    Objeto2.setCodigo(resultSet.getString(3));
-                    Objeto2.setDescripcion(resultSet.getString(4));
-                    Objeto2.setCodigoERP(resultSet.getString(5));
-                    Objeto2.setUnidadNegocio(resultSet.getString(6));
-                    Objeto2.setEstado(resultSet.getString(7));
-                Objeto.setTipoArticulo(Objeto2);
-                BaseDatos baseDatos = new BaseDatos();
-                        baseDatos.setCodigo(resultSet.getString(11));
-                        baseDatos.setNombre(resultSet.getString(12));
-                        baseDatos.setDescripcion(resultSet.getString(13));
-                        baseDatos.setEstado(resultSet.getString(14));
-                Objeto.setBaseDatos(baseDatos);
+                try{
+                    if(validar){
+                        listadoObjetos= new ArrayList<>();
+                        validar= false;
+                    }
+                    ConfiguracionLiquidacion configuracionLiquidacion = new ConfiguracionLiquidacion();
+                    configuracionLiquidacion.setCodigo(resultSet.getString(1));
+                    configuracionLiquidacion.setCargoNomina(new CargoNomina(resultSet.getString(3), resultSet.getString(4), resultSet.getString(5)));
+                    configuracionLiquidacion.setFechaInicio(resultSet.getString(6));
+                    configuracionLiquidacion.setFechaFinalizacion(resultSet.getString(7));
+                    configuracionLiquidacion.setCantidadDias(Integer.parseInt(resultSet.getString(8)));
+                    configuracionLiquidacion.setCantidadDias(Integer.parseInt(resultSet.getString(8)));
+                    configuracionLiquidacion.setAno(resultSet.getString(9));
+                    configuracionLiquidacion.setDescripcion(resultSet.getString(10));
+                    configuracionLiquidacion.setValorTonelada(Integer.parseInt(resultSet.getString(11)));
+                    configuracionLiquidacion.setCantidadToneladaSalario(Integer.parseInt(resultSet.getString(12)));
+                        Usuario usuario = new Usuario();
+                            usuario.setCodigo(resultSet.getString(14));
+                            usuario.setNombres(resultSet.getString(15));
+                            usuario.setApellidos(resultSet.getString(16));
+                            usuario.setCorreo(resultSet.getString(17));
+                    configuracionLiquidacion.setUsuario(usuario);
+                    configuracionLiquidacion.setEstado(resultSet.getString(18));           
+                    listadoObjetos.add(configuracionLiquidacion);    
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         }catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Error al tratar al consultar los articulos");
-            sqlException.printStackTrace();
-        } 
-        control.cerrarConexionBaseDatos();
-        return Objeto;
-    } 
-    public ArrayList<Articulo> buscarActivos() throws SQLException{
-        ArrayList<Articulo> listadoObjetos = new ArrayList();
-        conexion= control.ConectarBaseDatos();
-        String DB=control.getBaseDeDatos();
-        try{
-            PreparedStatement query= conexion.prepareStatement("SELECT  [ar_cdgo]--1\n" +
-                                                                    "      ,[ar_tipo_articulo_cdgo]--2\n" +
-                                                                    "		  ,[tar_cdgo]--3\n" +
-                                                                    "		  ,[tar_desc]--4\n" +
-                                                                    "		  ,[tar_cdgo_erp]--5\n" +
-                                                                    "		  ,[tar_undad_ngcio]--6\n" +
-                                                                    "		  ,[tar_estado]--7\n" +
-                                                                    "      ,[ar_desc]--8\n" +
-                                                                    "      ,CASE WHEN (ar_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS ar_estad--9\n" +
-                                                                    "      ,[ar_base_datos_cdgo]--10\n" +
-                                                                    "		  ,[bd_cdgo]--11\n" +
-                                                                    "		  ,[bd_name]--12\n" +
-                                                                    "		  ,[bd_desc]--13\n" +
-                                                                    "		  ,[bd_estad]--14\n" +
-                                                                    "  FROM ["+DB+"].[dbo].[articulo]\n" +
-                                                                    "  LEFT JOIN ["+DB+"].[dbo].[tipo_articulo] ON [ar_tipo_articulo_cdgo]=[tar_cdgo]\n" +
-                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos] ON [ar_base_datos_cdgo]=[bd_cdgo]  WHERE [ar_estad]=1;");
-            ResultSet resultSet= query.executeQuery();
-            while(resultSet.next()){ 
-                Articulo Objeto = new Articulo(); 
-                Objeto.setCodigo(resultSet.getString(1));
-                Objeto.setDescripcion(resultSet.getString(8));
-                Objeto.setEstado(resultSet.getString(9));
-                    TipoArticulo Objeto2 = new TipoArticulo();
-                    Objeto2.setCodigo(resultSet.getString(3));
-                    Objeto2.setDescripcion(resultSet.getString(4));
-                    Objeto2.setCodigoERP(resultSet.getString(5));
-                    Objeto2.setUnidadNegocio(resultSet.getString(6));
-                    Objeto2.setEstado(resultSet.getString(7));
-                Objeto.setTipoArticulo(Objeto2);
-                BaseDatos baseDatos = new BaseDatos();
-                        baseDatos.setCodigo(resultSet.getString(11));
-                        baseDatos.setNombre(resultSet.getString(12));
-                        baseDatos.setDescripcion(resultSet.getString(13));
-                        baseDatos.setEstado(resultSet.getString(14));
-                Objeto.setBaseDatos(baseDatos);
-                listadoObjetos.add(Objeto);
-            }
-        }catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Error al tratar de consultar los articulos");
+            JOptionPane.showMessageDialog(null, "Error al tratar al consultar las configuraciones de liquidación");
             sqlException.printStackTrace();
         } 
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
-    } 
-    
-    public ArrayList<Articulo> buscarActivosConParametros(String valorBusqueda) throws SQLException{
-        ArrayList<Articulo> listadoObjetos = new ArrayList();
-        conexion= control.ConectarBaseDatos();
-        String DB=control.getBaseDeDatos();
-        try{
-            PreparedStatement query= conexion.prepareStatement("SELECT  [ar_cdgo]--1\n" +
-                                                                    "      ,[ar_tipo_articulo_cdgo]--2\n" +
-                                                                    "		  ,[tar_cdgo]--3\n" +
-                                                                    "		  ,[tar_desc]--4\n" +
-                                                                    "		  ,[tar_cdgo_erp]--5\n" +
-                                                                    "		  ,[tar_undad_ngcio]--6\n" +
-                                                                    "		  ,[tar_estado]--7\n" +
-                                                                    "      ,[ar_desc]--8\n" +
-                                                                    "      ,CASE WHEN (ar_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS ar_estad--9\n" +
-                                                                    "      ,[ar_base_datos_cdgo]--10\n" +
-                                                                    "		  ,[bd_cdgo]--11\n" +
-                                                                    "		  ,[bd_name]--12\n" +
-                                                                    "		  ,[bd_desc]--13\n" +
-                                                                    "		  ,[bd_estad]--14\n" +
-                                                                    "  FROM ["+DB+"].[dbo].[articulo]\n" +
-                                                                    "  LEFT JOIN ["+DB+"].[dbo].[tipo_articulo] ON [ar_tipo_articulo_cdgo]=[tar_cdgo]\n" +
-                                                                    "  INNER JOIN ["+DB+"].[dbo].[base_datos] ON [ar_base_datos_cdgo]=[bd_cdgo]  WHERE [ar_estad]=1 AND [ar_desc] LIKE ?;");
-            query.setString(1, "%"+valorBusqueda+"%");
-            ResultSet resultSet= query.executeQuery();
-            while(resultSet.next()){ 
-                Articulo Objeto = new Articulo(); 
-                Objeto.setCodigo(resultSet.getString(1));
-                Objeto.setDescripcion(resultSet.getString(8));
-                Objeto.setEstado(resultSet.getString(9));
-                    TipoArticulo Objeto2 = new TipoArticulo();
-                    Objeto2.setCodigo(resultSet.getString(3));
-                    Objeto2.setDescripcion(resultSet.getString(4));
-                    Objeto2.setCodigoERP(resultSet.getString(5));
-                    Objeto2.setUnidadNegocio(resultSet.getString(6));
-                    Objeto2.setEstado(resultSet.getString(7));
-                Objeto.setTipoArticulo(Objeto2);
-                BaseDatos baseDatos = new BaseDatos();
-                        baseDatos.setCodigo(resultSet.getString(11));
-                        baseDatos.setNombre(resultSet.getString(12));
-                        baseDatos.setDescripcion(resultSet.getString(13));
-                        baseDatos.setEstado(resultSet.getString(14));
-                Objeto.setBaseDatos(baseDatos);
-                listadoObjetos.add(Objeto);
-            }
-        }catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Error al tratar de consultar los articulos");
-            sqlException.printStackTrace();
-        } 
-        control.cerrarConexionBaseDatos();
-        return listadoObjetos;
-    } 
-    /*public String buscar_nombre(String nombre) throws SQLException{
-        conexion= control.ConectarBaseDatos();
-        String DB=control.getBaseDeDatos();
-        try{
-            PreparedStatement query= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[articulo] WHERE [ar_desc] like ?;");
-            query.setString(1, nombre);
-            ResultSet resultSet= query.executeQuery();
-            while(resultSet.next()){ 
-                return resultSet.getString(1);
-            }
-        }catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Error al tratar de consultar los articulos");
-            sqlException.printStackTrace();
-        } 
-        control.cerrarConexionBaseDatos();
-        return "";
-    } */
-   /* public String buscar_Id(String id) throws SQLException{
-        conexion= control.ConectarBaseDatos();
-        String DB=control.getBaseDeDatos();
-        try{
-            PreparedStatement query= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[articulo] WHERE [ar_cdgo] =?;");
-            query.setString(1, id);
-            ResultSet resultSet= query.executeQuery();
-            while(resultSet.next()){ 
-                return resultSet.getString(3);
-            }
-        }catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Error al tratar de consultar los articulos");
-            sqlException.printStackTrace();
-        } 
-        control.cerrarConexionBaseDatos();
-        return "";
-    } */
-    public boolean validarExistencia(Articulo Objeto){
-        conexion= control.ConectarBaseDatos();
-        String DB=control.getBaseDeDatos();
-        boolean retorno=false;
-        try{
-            PreparedStatement query= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[articulo] WHERE [ar_cdgo] like ? AND [ar_base_datos_cdgo]=?;");
-            query.setString(1, Objeto.getCodigo());
-            query.setString(2, Objeto.getBaseDatos().getCodigo());
-            ResultSet resultSet= query.executeQuery();
-            while(resultSet.next()){ 
-                retorno =true;               
-            }
-        }catch (SQLException sqlException){
-            JOptionPane.showMessageDialog(null, "Error al Tratar de buscar");
-            sqlException.printStackTrace();
-        } 
-        control.cerrarConexionBaseDatos();
-        return retorno;
-    }   
-    /*public boolean validarExistenciaActualizar(Articulo Objeto){
-        conexion= control.ConectarBaseDatos();
-        String DB=control.getBaseDeDatos();
-        boolean retorno=false;
-        try{
-            PreparedStatement query= conexion.prepareStatement("SELECT * FROM ["+DB+"].[dbo].[articulo] WHERE [ar_desc] like ? AND [ar_cdgo]<> ?;");
-            query.setString(1, Objeto.getDescripcion());
-            query.setString(2, Objeto.getCodigo());
-            ResultSet resultSet= query.executeQuery();
-            while(resultSet.next()){ 
-                retorno =true;               
-            }
-        }catch (SQLException sqlException){
-            JOptionPane.showMessageDialog(null, "Error al Tratar de buscar");
-            sqlException.printStackTrace();
-        } 
-        control.cerrarConexionBaseDatos();
-        return retorno;
-    }  */
-    public int actualizar(Articulo Objeto, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException{
+    }
+    public int actualizar(ConfiguracionLiquidacion Objeto, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException{
         int result=0;
         try{
-            Articulo ProductoAnterior=buscarEspecifico(""+Objeto.getCodigo(), Objeto.getBaseDatos().getCodigo());
-            String estado="";
-            if(Objeto.getEstado().equalsIgnoreCase("1")){
-                estado="ACTIVO";
-            }else{
-                estado="INACTIVO";
-            }
+
             conexion= control.ConectarBaseDatos();
             String DB=control.getBaseDeDatos();      
             PreparedStatement query;
-            if(Objeto.getTipoArticulo().getCodigo().equals("NULL")){
-                 query= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[articulo] SET [ar_tipo_articulo_cdgo]=NULL, [ar_desc]=?, [ar_estad]=? "
-                    + "WHERE [ar_cdgo] LIKE ? AND [ar_base_datos_cdgo]=?");
-                  query.setString(1, Objeto.getDescripcion());
-                query.setString(2, Objeto.getEstado());
-                query.setString(3, Objeto.getCodigo());
-                query.setString(4, Objeto.getBaseDatos().getCodigo());
+            String valorEstado="";
+            if(Objeto.getEstado().equals("ACTIVO")){
+                valorEstado="0";
             }else{
-                query= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[articulo] SET [ar_tipo_articulo_cdgo]=?, [ar_desc]=?, [ar_estad]=? "
-                    + "WHERE [ar_cdgo] LIKE ? AND [ar_base_datos_cdgo]=?");
-                  query.setString(1, Objeto.getTipoArticulo().getCodigo());
-                  query.setString(2, Objeto.getDescripcion());
-                query.setString(3, Objeto.getEstado());
-                query.setString(4, Objeto.getCodigo());
-                query.setString(5, Objeto.getBaseDatos().getCodigo());
-            }                      
+                valorEstado="1";
+            }
+            query= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[config_liquidacion] SET [cl_estad]=? WHERE [cl_cdgo] = ?");
+            query.setString(1, valorEstado);
+            query.setString(2, Objeto.getCodigo());
             query.execute();
             result=1;
             if(result==1){
@@ -550,155 +322,31 @@ public class ControlDB_Articulo {
                         "           ,?"+
                         "           ,?"+
                         "           ,?"+
-                        "           ,'ACTICULO'" +
-                        "           ,CONCAT('Se registró una nueva actualización en el sistema sobre ',?,' Código: ',?,' TipoArticulo:',?,' Nombre: ',?,' Estado: ',?,"
-                                            + "' actualizando la siguiente informacion a Código: ',?,' TipoArticulo:',?,' Nombre: ',?,' Estado: ',?,' BaseDatos: ',?));");
+                        "           ,'CONFIGURACION_LIQUIDACION'" +
+                        "           ,CONCAT('Se registró una nueva actualización en el sistema sobre el estado de la configuración de liquidación de Código: ',?,' Pasadon de estado:',?,' a estado : ',?));");
                 Query_Auditoria.setString(1, us.getCodigo());
                 Query_Auditoria.setString(2, namePc);
                 Query_Auditoria.setString(3, ipPc);
                 Query_Auditoria.setString(4, macPC);
-                Query_Auditoria.setString(5, ProductoAnterior.getCodigo());
-                Query_Auditoria.setString(6, "el articulo :");
-                Query_Auditoria.setString(7, ProductoAnterior.getCodigo());
-                Query_Auditoria.setString(8, ProductoAnterior.getTipoArticulo().getCodigo());
-                Query_Auditoria.setString(9, ProductoAnterior.getDescripcion());
-                Query_Auditoria.setString(10, ProductoAnterior.getEstado());
-                Query_Auditoria.setString(11, Objeto.getCodigo());
-                Query_Auditoria.setString(12, Objeto.getTipoArticulo().getCodigo());
-                Query_Auditoria.setString(13, Objeto.getDescripcion());
-                Query_Auditoria.setString(14, estado);
-                Query_Auditoria.setString(15, Objeto.getBaseDatos().getCodigo());
+                Query_Auditoria.setString(5, Objeto.getCodigo());
+                Query_Auditoria.setString(6, Objeto.getCodigo());
+                if(valorEstado.equals("0")){
+                    Query_Auditoria.setString(7, "ACTIVO");
+                    Query_Auditoria.setString(8, "INACTIVO");
+                }else{
+                    Query_Auditoria.setString(7, "INACTIVO");
+                    Query_Auditoria.setString(8, "ACTIVO");
+                }
                 Query_Auditoria.execute();
                 result=1;
             }
         }
         catch (SQLException sqlException ){   
             result=0;
-            JOptionPane.showMessageDialog(null, "ERROR al querer insertar los datos.");
+            JOptionPane.showMessageDialog(null, "ERROR al querer actualizar los datos.");
             sqlException.printStackTrace();
         }  
         control.cerrarConexionBaseDatos();
         return result;
     } 
-
-     //Consultas Articulo en Ccarga GP
-    public ArrayList<Articulo> buscarArticuloGP(String valor) throws SQLException{
-        ArrayList<Articulo> listadoArticulo = new ArrayList();
-        Conexion_DB_ccargaGP controlGP = new Conexion_DB_ccargaGP(tipoConexion);
-        Connection conexionGP=null;
-        conexionGP= controlGP.ConectarBaseDatos();
-        String DB=controlGP.getBaseDeDatos();
-        try{
-            ResultSet resultSet;
-            if(valor.equalsIgnoreCase("")){
-                PreparedStatement query= conexionGP.prepareStatement("SELECT  [ar_cdgo] \n" +
-                                                                    "        ,[ar_nmbre] \n" +
-                                                                    "		,[ar_actvo] \n" +
-                                                                    "		,[ta_cdgo]\n" +
-                                                                    "        ,[ta_dscrpcion]\n" +
-                                                                    "        ,[ta_cdgos_erp]\n" +
-                                                                    "        ,[ta_undad_ngcio]\n" +
-                                                                    "		,1 AS ta_estad\n" +
-                                                                    "    FROM ["+DB+"].[dbo].[artclo] \n" +
-                                                                    "	LEFT JOIN ["+DB+"].[dbo].[tpo_artclo] ON [ar_tpo_artclo] =[ta_cdgo]\n" +
-                                                                    "	ORDER BY ar_nmbre ASC");
-                resultSet= query.executeQuery();
-            }else{
-                PreparedStatement query= conexionGP.prepareStatement("SELECT  [ar_cdgo] \n" +
-                                                                    "        ,[ar_nmbre] \n" +
-                                                                    "		,[ar_actvo] \n" +
-                                                                    "	     ,[ta_cdgo]\n" +
-                                                                    "        ,[ta_dscrpcion]\n" +
-                                                                    "        ,[ta_cdgos_erp]\n" +
-                                                                    "        ,[ta_undad_ngcio]\n" +
-                                                                    "		,1 AS ta_estad\n" +
-                                                                    "    FROM ["+DB+"].[dbo].[artclo] \n" +
-                                                                    "	LEFT JOIN ["+DB+"].[dbo].[tpo_artclo] ON [ar_tpo_artclo] =[ta_cdgo]"
-                                                                            + " WHERE ([ar_cdgo] LIKE ? OR [ar_nmbre] LIKE ?) ORDER BY ar_nmbre ASC");
-                query.setString(1, "%"+valor+"%");
-                query.setString(2, "%"+valor+"%");
-                resultSet= query.executeQuery();
-            }
-            while(resultSet.next()){ 
-                Articulo Objeto = new Articulo(); 
-                Objeto.setCodigo(resultSet.getString(1));
-                Objeto.setDescripcion(resultSet.getString(2));
-                Objeto.setEstado(resultSet.getString(3));
-                    TipoArticulo Objeto2 = new TipoArticulo();
-                    Objeto2.setCodigo(resultSet.getString(4));
-                    Objeto2.setDescripcion(resultSet.getString(5));
-                    Objeto2.setCodigoERP(resultSet.getString(6));
-                    Objeto2.setUnidadNegocio(resultSet.getString(7));
-                    Objeto2.setEstado(resultSet.getString(8));
-                Objeto.setTipoArticulo(Objeto2);
-                Objeto.setBaseDatos(new BaseDatos("1"));
-                listadoArticulo.add(Objeto);
-            }
-        }catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Error al tratar al consultar los articulos en ccarga GP");
-            sqlException.printStackTrace();
-        } 
-        controlGP.cerrarConexionBaseDatos();
-        return listadoArticulo;
-    }
-     //Consultas Articulo en Ccarga OPP
-    public ArrayList<Articulo> buscarArticuloOPP(String valor) throws SQLException{
-        ArrayList<Articulo> listadoArticulo = new ArrayList();
-        Conexion_DB_ccargaOPP controlOPP = new Conexion_DB_ccargaOPP(tipoConexion);
-        Connection conexionOPP=null;
-        conexionOPP= controlOPP.ConectarBaseDatos();
-        String DB=controlOPP.getBaseDeDatos();
-        try{
-            ResultSet resultSet;
-            if(valor.equalsIgnoreCase("")){
-                PreparedStatement query= conexionOPP.prepareStatement("SELECT  [ar_cdgo] \n" +
-                                                                    "        ,[ar_nmbre] \n" +
-                                                                    "		,[ar_actvo] \n" +
-                                                                    "		,[ta_cdgo]\n" +
-                                                                    "        ,[ta_dscrpcion]\n" +
-                                                                    "        ,[ta_cdgos_erp]\n" +
-                                                                    "        ,[ta_undad_ngcio]\n" +
-                                                                    "		,1 AS ta_estad\n" +
-                                                                    "    FROM ["+DB+"].[dbo].[artclo] \n" +
-                                                                    "	LEFT JOIN ["+DB+"].[dbo].[tpo_artclo] ON [ar_tpo_artclo] =[ta_cdgo]\n" +
-                                                                    "	ORDER BY ar_nmbre ASC");
-                resultSet= query.executeQuery();
-            }else{
-                PreparedStatement query= conexionOPP.prepareStatement("SELECT  [ar_cdgo] \n" +
-                                                                    "        ,[ar_nmbre] \n" +
-                                                                    "		,[ar_actvo] \n" +
-                                                                    "	     ,[ta_cdgo]\n" +
-                                                                    "        ,[ta_dscrpcion]\n" +
-                                                                    "        ,[ta_cdgos_erp]\n" +
-                                                                    "        ,[ta_undad_ngcio]\n" +
-                                                                    "		,1 AS ta_estad\n" +
-                                                                    "    FROM ["+DB+"].[dbo].[artclo] \n" +
-                                                                    "	LEFT JOIN ["+DB+"].[dbo].[tpo_artclo] ON [ar_tpo_artclo] =[ta_cdgo]"
-                                                                            + " WHERE ([ar_cdgo] LIKE ? OR [ar_nmbre] LIKE ?) ORDER BY ar_nmbre ASC");
-                query.setString(1, "%"+valor+"%");
-                query.setString(2, "%"+valor+"%");
-                resultSet= query.executeQuery();
-            }
-            while(resultSet.next()){ 
-                Articulo Objeto = new Articulo(); 
-                Objeto.setCodigo(resultSet.getString(1));
-                Objeto.setDescripcion(resultSet.getString(2));
-                Objeto.setEstado(resultSet.getString(3));
-                    TipoArticulo Objeto2 = new TipoArticulo();
-                    Objeto2.setCodigo(resultSet.getString(4));
-                    Objeto2.setDescripcion(resultSet.getString(5));
-                    Objeto2.setCodigoERP(resultSet.getString(6));
-                    Objeto2.setUnidadNegocio(resultSet.getString(7));
-                    Objeto2.setEstado(resultSet.getString(8));
-                Objeto.setTipoArticulo(Objeto2);
-                Objeto.setBaseDatos(new BaseDatos("2"));
-                listadoArticulo.add(Objeto);
-            }
-        }catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Error al tratar al consultar los articulos en ccarga opp");
-            sqlException.printStackTrace();
-        } 
-        controlOPP.cerrarConexionBaseDatos();
-        return listadoArticulo;
-    }
 }

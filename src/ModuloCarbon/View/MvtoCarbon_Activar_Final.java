@@ -1,4 +1,4 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
   
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon;

@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Consumo.View.Unidad_Registrar;
 import Catalogo.Controller.ControlDB_CentroCostoMayor;
@@ -266,7 +266,8 @@ public final class CentroCostoMayor_Consultar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "El usuario no tiene un correo configurado para el envio de correo, favor actualizar los datos");
         }else{
             File archivo;
-            archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_CentroCostosMayores.xlsx");
+            //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_CentroCostosMayores.xlsx");
+            archivo= new File( System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporte_CentroCostosMayores.xlsx");
             Workbook wb;
             String respuesta="No se realizó con exito la exportacion";
             int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();

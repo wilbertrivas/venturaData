@@ -1,10 +1,10 @@
 package Catalogo.Controller; 
  
 import Catalogo.Model.BaseDatos;
-import ConnectionDB2.Conexion_DB_ccargaGP;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_ccargaGP;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Catalogo.Model.Transportadora;
-import ConnectionDB2.Conexion_DB_ccargaOPP;
+import ConnectionDB.Conexion_DB_ccargaOPP;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
@@ -80,7 +80,7 @@ public class ControlDB_Transportadora {
                     Query_Auditoria.setString(5, Objeto.getCodigo());
                     Query_Auditoria.setString(6, "Se registró una nueva transportadora en el sistema, con Código: ");
                     Query_Auditoria.setString(7, Objeto.getCodigo());
-                    Query_Auditoria.setString(8, Objeto.getNit()+" Nombre: "+Objeto.getDescripcion()+" Obervacion:"+Objeto.getObservacion());
+                    Query_Auditoria.setString(8, Objeto.getNit()+" Nombre: "+Objeto.getDescripcion()+" Observacion:"+Objeto.getObservacion());
                     Query_Auditoria.setString(9, estado);
                     Query_Auditoria.setString(10, Objeto.getBaseDatos().getNombre());
                     Query_Auditoria.execute();

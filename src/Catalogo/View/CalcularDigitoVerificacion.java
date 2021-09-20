@@ -1,5 +1,5 @@
 
-package Catalogo.View1;
+package Catalogo.View;
   
 public class CalcularDigitoVerificacion {
     public  byte generarDv(long nit){

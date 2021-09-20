@@ -1,8 +1,8 @@
 package Catalogo.Controller;
  
 import Catalogo.Model.CentroCostoEquipo;
-import ConnectionDB2.Conexion_DB_ERP;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_ERP;
+import ConnectionDB.Conexion_DB_costos_vg;
 import ModuloEquipo.Model.AutorizacionRecobro;
 import Catalogo.Model.ClasificadorEquipo;
 import Catalogo.Model.Equipo;
@@ -161,13 +161,14 @@ public class ControlDB_Equipo {
                     new ControlDB_PertenenciaEquipo(tipoConexion).registrar(Objeto.getPertenenciaEquipo(), us);
                 }
                 //validamos si el centro de costo del equipo existe
-                if(!new ControlDB_CentroCostoEquipo(tipoConexion).validarPorCodigo(Objeto.getCentroCostoEquipo())){
-                    //Procedemos a registrar el proveedor de Equipo
-                    new ControlDB_CentroCostoEquipo(tipoConexion).registrar(Objeto.getCentroCostoEquipo(), us);
-                }else{//procedemos a actualizar el Centro de Costo
-                    new ControlDB_CentroCostoEquipo(tipoConexion).actualizar(Objeto.getCentroCostoEquipo(), us);
-                }
-                    
+                if(Objeto.getCentroCostoEquipo().getCodigo() != null){
+                    if(!new ControlDB_CentroCostoEquipo(tipoConexion).validarPorCodigo(Objeto.getCentroCostoEquipo())){
+                        //Procedemos a registrar el proveedor de Equipo
+                        new ControlDB_CentroCostoEquipo(tipoConexion).registrar(Objeto.getCentroCostoEquipo(), us);
+                    }else{//procedemos a actualizar el Centro de Costo
+                        new ControlDB_CentroCostoEquipo(tipoConexion).actualizar(Objeto.getCentroCostoEquipo(), us);
+                    }
+               }
                 
                 String estado;
                 if(Objeto.getEstado().equalsIgnoreCase("1")){
@@ -1244,6 +1245,77 @@ public class ControlDB_Equipo {
         String DB=control.getBaseDeDatos();
         try{
             ResultSet resultSetBuscar;
+            System.out.println("SELECT  [eq_cdgo]						--1 Equipo_codigo \n" +
+                                "                        ,[eq_tipo_equipo_cdgo]					--2 Tipo_Equipo_Codigo \n" +
+                                "                            ,[te_cdgo]							--3 Tipo_Equipo_Codigo \n" +
+                                "                            ,[te_desc]							--4 Tipo_Equipo_Descripcion \n" +
+                                "                            ,[te_estad]							--5 Tipo_Equipo_Estado \n" +
+                                "                        ,[eq_codigo_barra]						--6 Equipo_CodigoBarra \n" +
+                                "                        ,[eq_referencia]							--7 Equipo_Referencia \n" +
+                                "                        ,[eq_producto]							--8 Equipo_Producto \n" +
+                                "                        ,[eq_capacidad]							--9 Equipo_Capacidad \n" +
+                                "                        ,[eq_marca]								--10 Equipo_Marca \n" +
+                                "                        ,[eq_modelo]								--11 Equipo_Modelo \n" +
+                                "                        ,[eq_serial]								--12 Equipo_Serial \n" +
+                                "                        ,[eq_desc]								--13 Equipo_Descripcion \n" +
+                                "                        ,[eq_clasificador1_cdgo]					--14 Equipo_Clasificador1_Código \n" +
+                                "                            ,clasificador1.[ce_cdgo]				--15 Equipo_Clasificador1_Código \n" +
+                                "                            ,clasificador1.[ce_desc]				--16 Equipo_Clasificador1_Descripción \n" +
+                                "                            ,clasificador1.[ce_estad]				--17 Equipo_Clasificador1_Estado \n" +
+                                "                        ,[eq_clasificador2_cdgo]					--18 Equipo_Clasificador2_Código \n" +
+                                "                            ,clasificador2.[ce_cdgo]				--19 Equipo_Clasificador2_Código \n" +
+                                "                            ,clasificador2.[ce_desc]				--20 Equipo_Clasificador2_Descripción \n" +
+                                "                            ,clasificador2.[ce_estad]				--21 Equipo_Clasificador2_Estado \n" +
+                                "                        ,[eq_proveedor_equipo_cdgo]							--22 Equipo_valorHora \n" +
+                                "                        ,[eq_proveedor_equipo_cdgo]				--23 Equipo_ProveedorEquipo_Código \n" +
+                                "                            ,[pe_cdgo]							--24 Equipo_ProveedorEquipo_Código \n" +
+                                "                            ,[pe_nit]								--25 Equipo_ProveedorEquipo_NIT \n" +
+                                "                            ,[pe_desc]							--26 Equipo_ProveedorEquipo_Descripción \n" +
+                                "                            ,[pe_estad]							--27 Equipo_ProveedorEquipo_Estado \n" +
+                                "                        ,[eq_equipo_pertenencia_cdgo]				--28 Equipo_Pertenencia_Código \n" +
+                                "                            ,[ep_cdgo]							--29 Equipo_Pertenencia_Código \n" +
+                                "                            ,[ep_desc]							--30 Equipo_Pertenencia_Descripción \n" +
+                                "                            ,[ep_estad]							--31 Equipo_Pertenencia_Estado \n" +
+                                "                        ,[eq_observ]								--32 Equipo_Observación \n" +
+                                "                        ,[eq_estad]								--33 Equipo_Estado \n" +
+                                "                        ,[eq_actvo_fijo_id]								--34 Equipo_ActivoFijo_cdgo \n" +
+                                "                        ,[eq_actvo_fijo_referencia]								--35 Equipo_ActivoFijo_referencia \n" +
+                                "                        ,[eq_actvo_fijo_desc]								--36 Equipo_ActivoFijo_descripcion \n" +
+                                "						,[tarifa_equipo].[tae_ano]                   --37 tarifa año\n" +
+                                "						,[tarifa_equipo].[tae_valorhoraOperacion]		--38 tarifa valorOperacion\n" +
+                                "						,[tarifa_equipo].[tae_valorhoraAlquiler]		--39 tarifa valorAlquiler\n" +
+                                "						,[tarifa_equipo].[tae_fecha_hora_inicio] --40 \n" +
+                                "						,[tarifa_equipo].[tae_fecha_hora_fin] --41 \n" +
+                                "						,[tarifa_equipo].[tae_costoLavadoVehiculo] --42 \n"+
+                                "                         ,[eq_cntro_cost_equipo_cdgo]--43\n" +
+                                "                               ,[cce_cdgo]--44\n" +
+                                "                               ,[cce_cdgo_intern]--45\n" +
+                                "                               ,[cce_desc]--46\n" +
+                                "                               ,[cce_estad] --47\n" +
+                                "                               ,[tarifa_equipo].[tae_valorRecaudoEmpresa] --48\n" +
+                                "                               ,[tarifa_equipo].[tae_valorRecaudoEquipo] --49\n" +
+                                "                    FROM ["+DB+"].[dbo].[equipo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[tipo_equipo] ON [eq_tipo_equipo_cdgo]=[te_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[clasificador_equipo] clasificador1 ON clasificador1.ce_cdgo =[eq_clasificador1_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[clasificador_equipo] clasificador2 ON clasificador2.ce_cdgo =[eq_clasificador2_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[proveedor_equipo] ON [pe_cdgo] =[eq_proveedor_equipo_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[equipo_pertenencia] ON [eq_equipo_pertenencia_cdgo]=[ep_cdgo] \n" +
+                                "                        LEFT JOIN ["+DB+"].[dbo].[cntro_cost_equipo] ON [eq_cntro_cost_equipo_cdgo]=[cce_cdgo] \n" +
+                                "						LEFT JOIN (  SELECT  [tarifa_equipo].[tae_cdgo]\n" +
+                                "								  ,[tarifa_equipo].[tae_ano]\n" +
+                                "								  ,[tarifa_equipo].[tae_equipo_cdgo]\n" +
+                                "								  ,[tarifa_equipo].[tae_valorhoraOperacion]\n" +
+                                "								  ,[tarifa_equipo].[tae_valorhoraAlquiler]\n" +
+                                "								  ,[tarifa_equipo].[tae_fecha_hora_inicio]\n" +
+                                "								  ,[tarifa_equipo].[tae_fecha_hora_fin]\n" +
+                                "								  ,[tarifa_equipo].[tae_costoLavadoVehiculo]\n" +
+                                "								  ,[tarifa_equipo].[tae_valorRecaudoEmpresa]\n" +
+                                "								  ,[tarifa_equipo].[tae_valorRecaudoEquipo]\n" +
+                                "							  FROM ["+DB+"].[dbo].[tarifa_equipo]\n" +
+                                "							  INNER JOIN (SELECT MAX( [tae_cdgo]) AS [tae_cdgo]\n" +
+                                "								  ,[tae_equipo_cdgo] \n" +
+                                "							  FROM ["+DB+"].[dbo].[tarifa_equipo] GROUP BY [tae_equipo_cdgo]) AS t ON t.[tae_cdgo]=[tarifa_equipo].[tae_cdgo])AS\n" +
+                                "							  [tarifa_equipo] ON [tarifa_equipo].[tae_equipo_cdgo]=[equipo].[eq_cdgo] "+sql);
             PreparedStatement queryBuscar= conexion.prepareStatement("SELECT  [eq_cdgo]						--1 Equipo_codigo \n" +
                                 "                        ,[eq_tipo_equipo_cdgo]					--2 Tipo_Equipo_Codigo \n" +
                                 "                            ,[te_cdgo]							--3 Tipo_Equipo_Codigo \n" +
@@ -1990,6 +2062,7 @@ public class ControlDB_Equipo {
         conexion= control.ConectarBaseDatos();
         String retorno = "";
         try{
+            System.out.println(" SELECT DATEDIFF(minute, "+fechaInicio+", "+fechaFinal+") as DiferenciaFecha;");
             PreparedStatement query= conexion.prepareStatement(" SELECT DATEDIFF(minute, "+fechaInicio+", "+fechaFinal+") as DiferenciaFecha;");
             ResultSet resultSet= query.executeQuery();
             while(resultSet.next()){

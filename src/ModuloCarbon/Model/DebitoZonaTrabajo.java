@@ -5,6 +5,7 @@ import Catalogo.Model.ZonaTrabajo;
 import Sistema.Model.Usuario;
 
 public class DebitoZonaTrabajo {
+    private String codigo;
     private String fechaMvomiento;
     private ZonaTrabajo zonaTrabajo;
     private String valor;
@@ -16,6 +17,14 @@ public class DebitoZonaTrabajo {
     public DebitoZonaTrabajo() {
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    
     public String getFechaMvomiento() {
         return fechaMvomiento;
     }

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import java.awt.Color;
 import java.awt.Component;

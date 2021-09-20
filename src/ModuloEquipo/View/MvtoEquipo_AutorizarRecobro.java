@@ -1,4 +1,4 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import ModuloEquipo.Model.Recobro;
 import ModuloEquipo.Model.MvtoEquipo;
@@ -6,7 +6,7 @@ import ModuloEquipo.Model.AutorizacionRecobro;
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
 import Catalogo.Controller.ControlDB_Equipo;
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import Sistema.Model.Usuario;
 import java.awt.Color;
 import java.awt.Component;

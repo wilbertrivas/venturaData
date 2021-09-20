@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_Equipo;
 import Catalogo.Model.CentroOperacion;
 import Catalogo.Model.Equipo;
-import ModuloEquipo.Controller2.ControlDB_RendiminentoEquipo;
+import ModuloEquipo.Controller.ControlDB_RendiminentoEquipo;
 import ModuloEquipo.Model.AsignacionEquipo;
 import ModuloEquipo.Model.EstadoSolicitudEquipos;
 import ModuloEquipo.Model.SolicitudEquipo;
@@ -201,6 +201,64 @@ public class RendimientoEquipo extends javax.swing.JPanel {
         jSeparator9 = new javax.swing.JSeparator();
         parada_costo = new javax.swing.JLabel();
         operativa_costo = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        fechaInicioAsignacion1 = new com.toedter.calendar.JDateChooser();
+        jLabel17 = new javax.swing.JLabel();
+        horaInicioAsignacion1 = new javax.swing.JComboBox<>();
+        jLabel28 = new javax.swing.JLabel();
+        minutoInicioAsignacion1 = new javax.swing.JComboBox<>();
+        horarioTiempoInicioSolicitudEquiposRegistrar2 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        fechaFinAsignacion1 = new com.toedter.calendar.JDateChooser();
+        jLabel19 = new javax.swing.JLabel();
+        horaFinAsignacion1 = new javax.swing.JComboBox<>();
+        jLabel29 = new javax.swing.JLabel();
+        minutoFinAsignacion1 = new javax.swing.JComboBox<>();
+        horarioTiempoIFinalSolicitudEquiposRegistrar2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        titulo59 = new javax.swing.JLabel();
+        selectTipo1 = new javax.swing.JComboBox<>();
+        titulo61 = new javax.swing.JLabel();
+        selectMarca1 = new javax.swing.JComboBox<>();
+        titulo65 = new javax.swing.JLabel();
+        selectModelo1 = new javax.swing.JComboBox<>();
+        titulo62 = new javax.swing.JLabel();
+        selectEquipos1 = new javax.swing.JComboBox<>();
+        panel1 = new javax.swing.JScrollPane();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        parada_minutos1 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        consulta_horas1 = new javax.swing.JLabel();
+        consulta_minutos1 = new javax.swing.JLabel();
+        operativa_horas1 = new javax.swing.JLabel();
+        operativa_minutos1 = new javax.swing.JLabel();
+        parada_horas1 = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        jSeparator11 = new javax.swing.JSeparator();
+        jSeparator12 = new javax.swing.JSeparator();
+        jSeparator13 = new javax.swing.JSeparator();
+        jSeparator14 = new javax.swing.JSeparator();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        equipo_descripcion1 = new javax.swing.JLabel();
+        equipo_modelo1 = new javax.swing.JLabel();
+        equipo_codigo1 = new javax.swing.JLabel();
+        Cronograma_titulo34 = new javax.swing.JLabel();
+        jSeparator15 = new javax.swing.JSeparator();
+        jSeparator16 = new javax.swing.JSeparator();
+        jSeparator17 = new javax.swing.JSeparator();
+        jLabel32 = new javax.swing.JLabel();
+        noRegistrada_horas1 = new javax.swing.JLabel();
+        noRegistrada_minutos1 = new javax.swing.JLabel();
+        jSeparator18 = new javax.swing.JSeparator();
+        parada_costo1 = new javax.swing.JLabel();
+        operativa_costo1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -512,6 +570,319 @@ public class RendimientoEquipo extends javax.swing.JPanel {
         operativa_costo.setForeground(new java.awt.Color(102, 102, 102));
         operativa_costo.setText("..........");
         add(operativa_costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 360, 250, 20));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel16.setText("Fecha/Hora Inicio:");
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 120, 30));
+
+        fechaInicioAsignacion1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fechaInicioAsignacion1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                fechaInicioAsignacion1MouseEntered(evt);
+            }
+        });
+        jPanel1.add(fechaInicioAsignacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 170, 30));
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel17.setText("Hora");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, -1, 30));
+
+        horaInicioAsignacion1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                horaInicioAsignacion1ItemStateChanged(evt);
+            }
+        });
+        jPanel1.add(horaInicioAsignacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 50, 30));
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel28.setText(":");
+        jPanel1.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 40, 20, 30));
+
+        minutoInicioAsignacion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minutoInicioAsignacion1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(minutoInicioAsignacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, 50, 30));
+
+        horarioTiempoInicioSolicitudEquiposRegistrar2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        horarioTiempoInicioSolicitudEquiposRegistrar2.setForeground(new java.awt.Color(102, 102, 102));
+        horarioTiempoInicioSolicitudEquiposRegistrar2.setText("AM");
+        jPanel1.add(horarioTiempoInicioSolicitudEquiposRegistrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 40, 30));
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel18.setText("Fecha /Hora Fin");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 40, 120, 30));
+
+        fechaFinAsignacion1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fechaFinAsignacion1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                fechaFinAsignacion1MouseEntered(evt);
+            }
+        });
+        jPanel1.add(fechaFinAsignacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 40, 170, 30));
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel19.setText("Hora");
+        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 40, -1, 30));
+
+        horaFinAsignacion1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                horaFinAsignacion1ItemStateChanged(evt);
+            }
+        });
+        horaFinAsignacion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                horaFinAsignacion1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(horaFinAsignacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 40, 50, 30));
+
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel29.setText(":");
+        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 20, 30));
+
+        minutoFinAsignacion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minutoFinAsignacion1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(minutoFinAsignacion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 40, 50, 30));
+
+        horarioTiempoIFinalSolicitudEquiposRegistrar2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        horarioTiempoIFinalSolicitudEquiposRegistrar2.setForeground(new java.awt.Color(102, 102, 102));
+        horarioTiempoIFinalSolicitudEquiposRegistrar2.setText("AM");
+        jPanel1.add(horarioTiempoIFinalSolicitudEquiposRegistrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 40, 50, 30));
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jButton2.setText("CALCULAR RENDIMIENTO");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 110, 190, 40));
+
+        titulo59.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo59.setForeground(new java.awt.Color(51, 51, 51));
+        titulo59.setText("Tipo Equipo:");
+        jPanel1.add(titulo59, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 120, 30));
+
+        selectTipo1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        selectTipo1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                selectTipo1ItemStateChanged(evt);
+            }
+        });
+        selectTipo1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectTipo1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                selectTipo1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                selectTipo1MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                selectTipo1MousePressed(evt);
+            }
+        });
+        selectTipo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectTipo1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(selectTipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 390, 30));
+
+        titulo61.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo61.setForeground(new java.awt.Color(51, 51, 51));
+        titulo61.setText("Marca:");
+        jPanel1.add(titulo61, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 140, 30));
+
+        selectMarca1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                selectMarca1ItemStateChanged(evt);
+            }
+        });
+        selectMarca1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                selectMarca1MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                selectMarca1MouseExited(evt);
+            }
+        });
+        selectMarca1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMarca1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(selectMarca1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 80, 450, 30));
+
+        titulo65.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo65.setForeground(new java.awt.Color(51, 51, 51));
+        titulo65.setText("Modelo:");
+        jPanel1.add(titulo65, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 120, 30));
+
+        selectModelo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectModelo1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(selectModelo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 390, 30));
+
+        titulo62.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo62.setForeground(new java.awt.Color(51, 51, 51));
+        titulo62.setText("Equipo:");
+        jPanel1.add(titulo62, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, 60, 30));
+
+        selectEquipos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectEquipos1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(selectEquipos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 120, 450, 30));
+        jPanel1.add(panel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 790, 460));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("EQUIPO");
+        jLabel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 180, 560, 30));
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel20.setText("Equivalente en Minutos");
+        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 280, 200, 20));
+
+        parada_minutos1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        parada_minutos1.setForeground(new java.awt.Color(102, 102, 102));
+        parada_minutos1.setText("..........");
+        jPanel1.add(parada_minutos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 390, 140, 20));
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel21.setText("PARADA:");
+        jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 390, 90, 20));
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel22.setText("MODELO:");
+        jPanel1.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 250, 130, 20));
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel23.setText("OPERATIVO:");
+        jPanel1.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 340, 110, 20));
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel24.setText("TIEMPO");
+        jPanel1.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 280, 90, 20));
+
+        consulta_horas1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        consulta_horas1.setForeground(new java.awt.Color(102, 102, 102));
+        consulta_horas1.setText("..........");
+        jPanel1.add(consulta_horas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 310, 250, 20));
+
+        consulta_minutos1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        consulta_minutos1.setForeground(new java.awt.Color(102, 102, 102));
+        consulta_minutos1.setText("..........");
+        jPanel1.add(consulta_minutos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 310, 130, 20));
+
+        operativa_horas1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        operativa_horas1.setForeground(new java.awt.Color(102, 102, 102));
+        operativa_horas1.setText("..........");
+        jPanel1.add(operativa_horas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 340, 250, 20));
+
+        operativa_minutos1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        operativa_minutos1.setForeground(new java.awt.Color(102, 102, 102));
+        operativa_minutos1.setText("..........");
+        jPanel1.add(operativa_minutos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 340, 130, 20));
+
+        parada_horas1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        parada_horas1.setForeground(new java.awt.Color(102, 102, 102));
+        parada_horas1.setText("..........");
+        jPanel1.add(parada_horas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 390, 250, 20));
+        jPanel1.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 1300, 10));
+        jPanel1.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 480, 560, 10));
+        jPanel1.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 340, 560, 10));
+        jPanel1.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 310, 560, 10));
+        jPanel1.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 390, 560, 10));
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel25.setText("TOTAL:");
+        jPanel1.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 310, 120, 20));
+
+        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel30.setText("CÓDIGO:");
+        jPanel1.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 210, 120, 20));
+
+        jLabel31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel31.setText("DESCRIPCIÓN:");
+        jPanel1.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 230, 120, 20));
+
+        equipo_descripcion1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        equipo_descripcion1.setForeground(new java.awt.Color(102, 102, 102));
+        equipo_descripcion1.setText("..........");
+        jPanel1.add(equipo_descripcion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 230, 420, 20));
+
+        equipo_modelo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        equipo_modelo1.setForeground(new java.awt.Color(102, 102, 102));
+        equipo_modelo1.setText("..........");
+        jPanel1.add(equipo_modelo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 250, 420, 20));
+
+        equipo_codigo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        equipo_codigo1.setForeground(new java.awt.Color(102, 102, 102));
+        equipo_codigo1.setText("..........");
+        jPanel1.add(equipo_codigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 210, 420, 20));
+
+        Cronograma_titulo34.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Cronograma_titulo34.setForeground(new java.awt.Color(102, 102, 102));
+        Cronograma_titulo34.setText("RENDIMIENTO DE EQUIPO");
+        jPanel1.add(Cronograma_titulo34, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 250, 30));
+
+        jSeparator15.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(1370, 210, 30, 270));
+        jPanel1.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 280, 560, 20));
+
+        jSeparator17.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 210, 30, 270));
+
+        jLabel32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel32.setText("NO REGISTRADO");
+        jPanel1.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 440, 120, 20));
+
+        noRegistrada_horas1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        noRegistrada_horas1.setForeground(new java.awt.Color(102, 102, 102));
+        noRegistrada_horas1.setText("..........");
+        jPanel1.add(noRegistrada_horas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 440, 240, 20));
+
+        noRegistrada_minutos1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        noRegistrada_minutos1.setForeground(new java.awt.Color(102, 102, 102));
+        noRegistrada_minutos1.setText("..........");
+        jPanel1.add(noRegistrada_minutos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 440, 130, 20));
+        jPanel1.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 440, 560, 10));
+
+        parada_costo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        parada_costo1.setForeground(new java.awt.Color(102, 102, 102));
+        parada_costo1.setText("..........");
+        jPanel1.add(parada_costo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 410, 250, 20));
+
+        operativa_costo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        operativa_costo1.setForeground(new java.awt.Color(102, 102, 102));
+        operativa_costo1.setText("..........");
+        jPanel1.add(operativa_costo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 360, 250, 20));
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void fechaInicioAsignacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicioAsignacionMouseClicked
@@ -775,7 +1146,6 @@ public class RendimientoEquipo extends javax.swing.JPanel {
                     dataset.setValue(num2, "", "Operativo");
                     dataset.setValue(num3, "", "Parada");
                     dataset.setValue(num4, "", "No Registrado");
-                    
                     JFreeChart barChart = ChartFactory.createBarChart(
                             "Código: "+equipo.getCodigo()+"\nDescripción: "+equipo.getDescripcion()+" "+equipo.getModelo(),
                             "Fecha_Inicio: "+fechaInicio+"         Fecha_Final: "+fechaFin,
@@ -800,21 +1170,122 @@ public class RendimientoEquipo extends javax.swing.JPanel {
                
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void fechaInicioAsignacion1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicioAsignacion1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaInicioAsignacion1MouseClicked
+
+    private void fechaInicioAsignacion1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicioAsignacion1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaInicioAsignacion1MouseEntered
+
+    private void horaInicioAsignacion1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_horaInicioAsignacion1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_horaInicioAsignacion1ItemStateChanged
+
+    private void minutoInicioAsignacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minutoInicioAsignacion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_minutoInicioAsignacion1ActionPerformed
+
+    private void fechaFinAsignacion1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaFinAsignacion1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaFinAsignacion1MouseClicked
+
+    private void fechaFinAsignacion1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaFinAsignacion1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaFinAsignacion1MouseEntered
+
+    private void horaFinAsignacion1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_horaFinAsignacion1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_horaFinAsignacion1ItemStateChanged
+
+    private void horaFinAsignacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horaFinAsignacion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_horaFinAsignacion1ActionPerformed
+
+    private void minutoFinAsignacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minutoFinAsignacion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_minutoFinAsignacion1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void selectTipo1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectTipo1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectTipo1ItemStateChanged
+
+    private void selectTipo1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectTipo1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectTipo1MouseClicked
+
+    private void selectTipo1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectTipo1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectTipo1MouseEntered
+
+    private void selectTipo1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectTipo1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectTipo1MouseExited
+
+    private void selectTipo1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectTipo1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectTipo1MousePressed
+
+    private void selectTipo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectTipo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectTipo1ActionPerformed
+
+    private void selectMarca1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectMarca1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectMarca1ItemStateChanged
+
+    private void selectMarca1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectMarca1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectMarca1MouseClicked
+
+    private void selectMarca1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectMarca1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectMarca1MouseExited
+
+    private void selectMarca1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectMarca1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectMarca1ActionPerformed
+
+    private void selectModelo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectModelo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectModelo1ActionPerformed
+
+    private void selectEquipos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEquipos1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectEquipos1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cronograma_titulo33;
+    private javax.swing.JLabel Cronograma_titulo34;
     private javax.swing.JLabel consulta_horas;
+    private javax.swing.JLabel consulta_horas1;
     private javax.swing.JLabel consulta_minutos;
+    private javax.swing.JLabel consulta_minutos1;
     private javax.swing.JLabel equipo_codigo;
+    private javax.swing.JLabel equipo_codigo1;
     private javax.swing.JLabel equipo_descripcion;
+    private javax.swing.JLabel equipo_descripcion1;
     private javax.swing.JLabel equipo_modelo;
+    private javax.swing.JLabel equipo_modelo1;
     private com.toedter.calendar.JDateChooser fechaFinAsignacion;
+    private com.toedter.calendar.JDateChooser fechaFinAsignacion1;
     private com.toedter.calendar.JDateChooser fechaInicioAsignacion;
+    private com.toedter.calendar.JDateChooser fechaInicioAsignacion1;
     private javax.swing.JComboBox<String> horaFinAsignacion;
+    private javax.swing.JComboBox<String> horaFinAsignacion1;
     private javax.swing.JComboBox<String> horaInicioAsignacion;
+    private javax.swing.JComboBox<String> horaInicioAsignacion1;
     private javax.swing.JLabel horarioTiempoIFinalSolicitudEquiposRegistrar1;
+    private javax.swing.JLabel horarioTiempoIFinalSolicitudEquiposRegistrar2;
     private javax.swing.JLabel horarioTiempoInicioSolicitudEquiposRegistrar1;
+    private javax.swing.JLabel horarioTiempoInicioSolicitudEquiposRegistrar2;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -822,16 +1293,42 @@ public class RendimientoEquipo extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator15;
+    private javax.swing.JSeparator jSeparator16;
+    private javax.swing.JSeparator jSeparator17;
+    private javax.swing.JSeparator jSeparator18;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -841,23 +1338,42 @@ public class RendimientoEquipo extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JComboBox<String> minutoFinAsignacion;
+    private javax.swing.JComboBox<String> minutoFinAsignacion1;
     private javax.swing.JComboBox<String> minutoInicioAsignacion;
+    private javax.swing.JComboBox<String> minutoInicioAsignacion1;
     private javax.swing.JLabel noRegistrada_horas;
+    private javax.swing.JLabel noRegistrada_horas1;
     private javax.swing.JLabel noRegistrada_minutos;
+    private javax.swing.JLabel noRegistrada_minutos1;
     private javax.swing.JLabel operativa_costo;
+    private javax.swing.JLabel operativa_costo1;
     private javax.swing.JLabel operativa_horas;
+    private javax.swing.JLabel operativa_horas1;
     private javax.swing.JLabel operativa_minutos;
+    private javax.swing.JLabel operativa_minutos1;
     private javax.swing.JScrollPane panel;
+    private javax.swing.JScrollPane panel1;
     private javax.swing.JLabel parada_costo;
+    private javax.swing.JLabel parada_costo1;
     private javax.swing.JLabel parada_horas;
+    private javax.swing.JLabel parada_horas1;
     private javax.swing.JLabel parada_minutos;
+    private javax.swing.JLabel parada_minutos1;
     private javax.swing.JComboBox<String> selectEquipos;
+    private javax.swing.JComboBox<String> selectEquipos1;
     private javax.swing.JComboBox<String> selectMarca;
+    private javax.swing.JComboBox<String> selectMarca1;
     private javax.swing.JComboBox<String> selectModelo;
+    private javax.swing.JComboBox<String> selectModelo1;
     private javax.swing.JComboBox<String> selectTipo;
+    private javax.swing.JComboBox<String> selectTipo1;
     private javax.swing.JLabel titulo57;
     private javax.swing.JLabel titulo58;
+    private javax.swing.JLabel titulo59;
     private javax.swing.JLabel titulo60;
+    private javax.swing.JLabel titulo61;
+    private javax.swing.JLabel titulo62;
     private javax.swing.JLabel titulo64;
+    private javax.swing.JLabel titulo65;
     // End of variables declaration//GEN-END:variables
 }

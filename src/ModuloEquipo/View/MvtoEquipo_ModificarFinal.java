@@ -1,4 +1,4 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_Articulo;
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
@@ -22,8 +22,8 @@ import Catalogo.Model.LaborRealizada;
 import Catalogo.Model.MotivoParada;
 import Catalogo.Model.Motonave;
 import Catalogo.Model.TipoEquipo;
-import ModuloCarbon.View2.MvtoCarbon_ModificarFinal;
-import ModuloEquipo.Controller2.ControlDB_MvtoEquipo;
+import ModuloCarbon.View.MvtoCarbon_ModificarFinal;
+import ModuloEquipo.Controller.ControlDB_MvtoEquipo;
 import ModuloEquipo.Model.AsignacionEquipo;
 import Sistema.Controller.ControlDB_Usuario;
 import Sistema.Model.Usuario;
@@ -5385,7 +5385,7 @@ public final class MvtoEquipo_ModificarFinal extends javax.swing.JPanel implemen
         selectMvtoEquipo_costoTotal.setSelected(true);
         selectMvtoEquipo_Recobro.setSelected(true);
         selectMvtoEquipo_UsuarioRegistraMvto_codigo.setSelected(false);
-        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setSelected(false); 
+        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setSelected(true); 
         selectMvtoEquipo_UsuarioCierraMvto_codigo.setSelected(false);
         selectMvtoEquipo_UsuarioCierraMvto_nombre.setSelected(false);
         selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setSelected(false);

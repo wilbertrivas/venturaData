@@ -1,21 +1,21 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
   
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
-import ModuloCarbon.Model.PlantillaConectorMvtoCarbon;
+import ModuloCarbon.Model.PlantillaInformeNoLavadoVehiculos;
+import ModuloCarbon.Model.PlantillaInformeRecaudoLavadoVehiculo_PorEquipo;
+import ModuloCarbon.Model.PlantillaInformeRecaudoPorLavadoVehiculo;
+import ModuloCarbon.Model.PlantillaInformeRecaudoPorUsuario;
 import Sistema.Model.Usuario;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.activation.DataHandler;
@@ -34,6 +34,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -48,14 +49,14 @@ import utilities.ModeloDeTabla;
 import utilities.PaginadorDeTabla;
 import utilities.ProveedorDeDatosDePaginacion;
  
-public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel implements ActionListener, TableModelListener{
-    ArrayList<PlantillaConectorMvtoCarbon> listado=null;
+public final class MvtoCarbon_InformeRecaudoLavadoVehiculo extends javax.swing.JPanel{
+    ArrayList<PlantillaInformeRecaudoPorLavadoVehiculo> listadoZonaOperacion=null;
+    ArrayList<PlantillaInformeRecaudoLavadoVehiculo_PorEquipo> listadoPorEquipo=null;
+    ArrayList<PlantillaInformeRecaudoPorUsuario> listadoPorUsuario=null;
+    ArrayList<PlantillaInformeNoLavadoVehiculos> listadoPorVehiculoNoLavados=null;
     private final Usuario user;
     private final String tipoConexion;
-    private PaginadorDeTabla<PlantillaConectorMvtoCarbon> paginadorDeTabla;  
-    ProveedorDeDatosDePaginacion<PlantillaConectorMvtoCarbon> proveedorDeDatos;
-    ArrayList<String> encabezadoTabla=null;
-    public MvtoCarbon_MatrizDistribucion(Usuario user, String tipoConexion) {
+    public MvtoCarbon_InformeRecaudoLavadoVehiculo(Usuario user, String tipoConexion) {
         initComponents();
         //Ocultamos opción de exportar
         //icon_exportar.show(false);
@@ -82,16 +83,12 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
             }
         }
         Dimension dim=super.getToolkit().getScreenSize();      
-        encabezadoTabla= new ArrayList<String>();
-        pageJComboBox.show(false);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         titulo = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla = new javax.swing.JTable();
         consultar = new javax.swing.JButton();
         fechaInicio = new com.toedter.calendar.JDateChooser();
         minutoInicio = new javax.swing.JComboBox<>();
@@ -104,7 +101,6 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
         horaFin = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        alerta_fechaFinal = new javax.swing.JLabel();
         alerta_fechaInicio = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         icon_exportar = new javax.swing.JLabel();
@@ -113,41 +109,29 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
         jLabel25 = new javax.swing.JLabel();
         horarioTiempoIFinalMvtoCarbon_Procesar = new javax.swing.JLabel();
         horarioTiempoInicioMvtoCarbon_Procesar = new javax.swing.JLabel();
-        paginationPanel = new javax.swing.JPanel();
-        pageJComboBox = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaPorEquipo = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaPorUsuario = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaZonaOperacion = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaVehiculosNoLavados = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         titulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         titulo.setForeground(new java.awt.Color(0, 153, 153));
-        titulo.setText("DISTRIBUCIÓN CENTRO DE COSTOS  MVTO CARBON");
+        titulo.setText("INFORME DE RECAUDO LAVADO DE VEHÍCULOS");
         add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 510, 30));
-
-        tabla = new javax.swing.JTable(){
-            public boolean isCellEditable(int rowIndex, int colIndex){
-                return false;
-            }
-
-        };
-        tabla.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        tabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane1.setViewportView(tabla);
-
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 1390, 590));
 
         consultar.setBackground(new java.awt.Color(255, 255, 255));
         consultar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -239,14 +223,10 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
         jLabel13.setText("FECHA/HORA INICIO");
         add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 30));
 
-        alerta_fechaFinal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        alerta_fechaFinal.setForeground(new java.awt.Color(255, 0, 51));
-        add(alerta_fechaFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, 480, 20));
-
         alerta_fechaInicio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         alerta_fechaInicio.setForeground(new java.awt.Color(255, 0, 51));
         add(alerta_fechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 430, 20));
-        add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 1270, 10));
+        add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 1270, 10));
 
         icon_exportar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         icon_exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/Img/ExportarExcel.png"))); // NOI18N
@@ -280,11 +260,6 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
         horarioTiempoInicioMvtoCarbon_Procesar.setText("AM");
         add(horarioTiempoInicioMvtoCarbon_Procesar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, 50, 30));
 
-        paginationPanel.setBackground(new java.awt.Color(255, 255, 255));
-        add(paginationPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 710, 1300, 80));
-
-        add(pageJComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 10, 60, 40));
-
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/enviar_mail.png"))); // NOI18N
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -298,13 +273,127 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
         jLabel16.setForeground(new java.awt.Color(51, 51, 51));
         jLabel16.setText("Correo");
         add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 50, 80, 10));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablaPorEquipo = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tablaPorEquipo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tablaPorEquipo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tablaPorEquipo);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 480));
+
+        jTabbedPane1.addTab("RECAUDO POR EQUIPO", jPanel1);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablaPorUsuario = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tablaPorUsuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tablaPorUsuario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(tablaPorUsuario);
+
+        jPanel3.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 620));
+
+        jTabbedPane1.addTab("RECAUDO POR USUARIO", jPanel3);
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablaZonaOperacion = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tablaZonaOperacion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tablaZonaOperacion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tablaZonaOperacion);
+
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 1120, 460));
+
+        jTabbedPane1.addTab("RECAUDO POR ZONA OPERACIÓN", jPanel4);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablaVehiculosNoLavados = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tablaVehiculosNoLavados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tablaVehiculosNoLavados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane4.setViewportView(tablaVehiculosNoLavados);
+
+        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 1120, 460));
+
+        jTabbedPane1.addTab("VEHÍCULOS NO LAVADO", jPanel2);
+
+        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 1220, 520));
     }// </editor-fold>//GEN-END:initComponents
 
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
-        paginationPanel.removeAll();
-        validarSeleccionCampos();
+        
+        
+        //paginationPanel.removeAll();
+        //paginationPanelPorEquipo.removeAll();
+        //validarSeleccionCampos();
         generarListadoMvtoCarbon();
-        resizeColumnWidth(tabla);
+        //resizeColumnWidth(tabla);
+        //resizeColumnWidth(tablaPorEquipo);
     }//GEN-LAST:event_consultarActionPerformed
 
     private void fechaInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicioMouseClicked
@@ -320,7 +409,7 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
     }//GEN-LAST:event_minutoInicioActionPerformed
 
     private void fechaFinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaFinMouseClicked
-       alerta_fechaFinal.setText("");
+      
     }//GEN-LAST:event_fechaFinMouseClicked
 
     private void fechaFinMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaFinMouseEntered
@@ -332,119 +421,171 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
     }//GEN-LAST:event_minutoFinActionPerformed
 
     private void consultarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultarMouseExited
-        alerta_fechaInicio.setText("");
-        alerta_fechaFinal.setText("");
+       
     }//GEN-LAST:event_consultarMouseExited
 
     private void icon_exportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_exportarMouseClicked
-         if(listado != null){
-            JFileChooser selecArchivo= new JFileChooser();
-            File archivo;
-            if(selecArchivo.showDialog(null, "Exportar") ==JFileChooser.APPROVE_OPTION){
-                archivo=new File(selecArchivo.getSelectedFile()+".xlsx");
-                if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
-                    //JOptionPane.showMessageDialog(null, Exportar(archivo));
-                    Workbook wb;
-                    String respuesta="No se realizó con exito la exportacion";
-                    listado.size();
-                   
-                    //int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();
-                    int numFila=listado.size();
-                    int numColumna=encabezadoTabla.size();
-                    if(archivo.getName().endsWith("xls")){
-                        wb = new HSSFWorkbook();
-                    }else{
-                        wb= new XSSFWorkbook();
-                    }
-                    Sheet hoja= wb.createSheet("Matriz_Distribución_MvtoCarbón");
-                    int costoTotalApuntadorA=300000;
-                    int costoTotalApuntadorB=300000;
-                    try{
-                        for(int i= -1; i < numFila; i++ ){
-                            Row fila= hoja.createRow(i+1);
-                            for(int j=0; j< numColumna; j++){
-                                boolean validarUnidadNegocio = false;
-                                Cell celda= fila.createCell(j);
-                                if(i==-1){
-                                    //celda.setCellValue(String.valueOf(tabla.getColumnName(j)));
-                                    celda.setCellValue(encabezadoTabla.get(j));
-                                    //String nameColumn=String.valueOf(tabla.getColumnName(j));
-                                    if(encabezadoTabla.get(j).equals("Total")){
-                                        costoTotalApuntadorA=j;
-                                    }
-                                    if(encabezadoTabla.get(j).equals("%")){
-                                        costoTotalApuntadorB=j;
-                                    }
-                                }else{
-                                    String data="";
-                                    switch(encabezadoTabla.get(j)){
-                                        case "Equipo":{
-                                            data=""+  listado.get(i).getEquipo();
-                                            break;
-                                        }
-                                        case "Cliente":{
-                                            data=""+  listado.get(i).getCliente();
-                                            break;
-                                        }
-                                        case "Subcentro":{
-                                            data=""+  listado.get(i).getSubcentro();
-                                            break;
-                                        }
-                                        case "Centro_CostoAuxiliar":{
-                                            data=""+  listado.get(i).getCentroCostosAuxiliar();
-                                            break;
-                                        }
-                                        case "Centro_Costo":{
-                                            data=""+  listado.get(i).getCentroCosto();
-                                            break;
-                                        }
-                                        case "Unidad_Negocio":{
-                                            validarUnidadNegocio=true;
-                                            data=""+  listado.get(i).getUnidadNegocio();
-                                            break;
-                                        }
-                                        case "Total_Kilogramo":{
-                                            data=""+  listado.get(i).getTotal();
-                                            break;
-                                        }
-                                        case "%":{
-                                            data=""+  listado.get(i).getPorcentaje();
-                                            break;
-                                        }  
-                                    }                              
-                                    try{
-                                        if(validarUnidadNegocio){
-                                            celda.setCellValue(String.valueOf(data));
-                                            validarUnidadNegocio=false;
+        if(listadoPorEquipo != null || listadoPorUsuario != null || listadoZonaOperacion!= null || listadoPorVehiculoNoLavados!= null){
+            int option =jTabbedPane1.getSelectedIndex();
+            switch(option){
+                case 0:{//Recaudo por Equipo
+                    JFileChooser selecArchivo= new JFileChooser();
+                    File archivo;
+                    if(selecArchivo.showDialog(null, "Exportar") ==JFileChooser.APPROVE_OPTION){
+                        archivo=new File(selecArchivo.getSelectedFile()+".xlsx");
+                        if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
+                            Workbook wb;
+                            String respuesta="No se realizó con exito la exportacion";
+                            int  numFila=tablaPorEquipo.getRowCount();
+                            int numColumna=tablaPorEquipo.getColumnCount();
+                            if(archivo.getName().endsWith("xls")){
+                                wb = new HSSFWorkbook();
+                            }else{
+                                wb= new XSSFWorkbook();
+                            }
+                            Sheet hoja= wb.createSheet("RecuadoPorEquipo");
+                            int columnaCantidadVehiculos=300000;
+                            int columnaRecaudoEmpresa=300000;
+                            int columnaRecuadoEquipo=300000;
+                            try{
+                                for(int i= -1; i < numFila; i++ ){
+                                    Row fila= hoja.createRow(i+1);
+                                    for(int j=0; j< numColumna; j++){
+                                        Cell celda= fila.createCell(j);
+                                        if(i==-1){
+                                            celda.setCellValue(String.valueOf(tablaPorEquipo.getColumnName(j)));
+                                            String nameColumn=String.valueOf(tablaPorEquipo.getColumnName(j));
+                                            if(nameColumn.equals("CANTIDAD VEHÍCULOS")){
+                                                columnaCantidadVehiculos=j;
+                                            }
+                                            if(nameColumn.equals("RECAUDO EMPRESA")){
+                                                columnaRecaudoEmpresa=j;
+                                            }
+                                            if(nameColumn.equals("RECAUDO EQUIPO")){
+                                                columnaRecuadoEquipo=j;
+                                            }
                                         }else{
-                                            String[] valor=String.valueOf(data).split("-");
-                                            if(valor.length==3){
-                                                String[] valor2=valor[2].split(":");
-                                               if(valor2.length >= 3){
-                                                   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                   Date fechaM = dateFormat.parse(String.valueOf(data));
-                                                   CellStyle cellStyle = wb.createCellStyle();
-                                                   CreationHelper createHelper = wb.getCreationHelper();
-                                                   cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
-                                                   celda.setCellValue(fechaM);
-                                                   celda.setCellStyle(cellStyle);
-                                               }else{
-                                                   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                                   Date fechaM = dateFormat.parse(String.valueOf(data));
-                                                   CellStyle cellStyle = wb.createCellStyle();
-                                                   CreationHelper createHelper = wb.getCreationHelper();
-                                                   cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy"));
-                                                   //cell = row.createCell(1);
-                                                   celda.setCellValue(fechaM);
-                                                   celda.setCellStyle(cellStyle);
-                                               }
-                                            }else{
-                                                try{
-                                                    celda.setCellValue(Integer.parseInt(data));
-                                                }catch(Exception e){
+                                            try{
+                                                String data=tablaPorEquipo.getValueAt(i, j).toString();
+                                                String[] valor=String.valueOf(tablaPorEquipo.getValueAt(i, j)).split("-");
+                                                if(valor.length==3){
+                                                    String[] valor2=valor[2].split(":");
+                                                    if(valor2.length >= 3){
+                                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                        Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                        CellStyle cellStyle = wb.createCellStyle();
+                                                        CreationHelper createHelper = wb.getCreationHelper();
+                                                        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
+                                                        //cell = row.createCell(1);
+                                                        celda.setCellValue(fechaM);
+                                                        celda.setCellStyle(cellStyle);
+                                                    }else{
+                                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                        Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                        CellStyle cellStyle = wb.createCellStyle();
+                                                        CreationHelper createHelper = wb.getCreationHelper();
+                                                        celda.setCellValue(fechaM);
+                                                        celda.setCellStyle(cellStyle);
+                                                    }
+                                                }else{
                                                     try{
-                                                        if(costoTotalApuntadorA == j || costoTotalApuntadorB == j ){
-                                                            celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                        if(columnaCantidadVehiculos == j){
+                                                            celda.setCellValue(Integer.parseInt(listadoPorEquipo.get(i).getCantidad()));
+                                                            //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                        }else{
+                                                            if(columnaRecaudoEmpresa == j){
+                                                                celda.setCellValue(Integer.parseInt(listadoPorEquipo.get(i).getRecaudoEmpresa()));
+                                                                //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                            }else{
+                                                                 if(columnaRecuadoEquipo == j){
+                                                                    celda.setCellValue(Integer.parseInt(listadoPorEquipo.get(i).getRecaudoEquipo()));
+                                                                    //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                                }else{
+                                                                    celda.setCellValue(String.valueOf(data));
+                                                                }
+                                                            }
+                                                        }
+                                                    }catch(Exception ex){
+                                                        celda.setCellValue(String.valueOf(data));
+                                                    }
+                                                }
+                                            }
+                                            catch(Exception e){
+                                                celda.setCellValue(String.valueOf(tablaPorEquipo.getValueAt(i, j)));
+                                            }
+                                        }
+                                    }
+                                }
+                                for(int j=0; j<=numColumna; j++){
+                                    hoja.autoSizeColumn(j,true);
+                                }
+                                wb.write(new FileOutputStream(archivo));
+                                respuesta= "Exportacion exitosa";
+                            }catch(Exception e){}
+                            JOptionPane.showMessageDialog(null, respuesta);
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Elija un formato valido");
+                        }
+                    }
+                    break;
+                }
+                case 1:{//Recaudo por Usuario
+                    JFileChooser selecArchivo= new JFileChooser();
+                    File archivo;
+                    if(selecArchivo.showDialog(null, "Exportar") ==JFileChooser.APPROVE_OPTION){
+                        archivo=new File(selecArchivo.getSelectedFile()+".xlsx");
+                        if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
+                            Workbook wb;
+                            String respuesta="No se realizó con exito la exportacion";
+                            int  numFila=tablaPorUsuario.getRowCount();
+                            int numColumna=tablaPorUsuario.getColumnCount();
+                            if(archivo.getName().endsWith("xls")){
+                                wb = new HSSFWorkbook();
+                            }else{
+                                wb= new XSSFWorkbook();
+                            }
+                            Sheet hoja= wb.createSheet("RecuadoPorUsuario");
+                            int columnaRecaudo=300000;
+                            try{
+                                for(int i= -1; i < numFila; i++ ){
+                                    Row fila= hoja.createRow(i+1);
+                                    for(int j=0; j< numColumna; j++){
+                                        Cell celda= fila.createCell(j);
+                                        if(i==-1){
+                                            celda.setCellValue(String.valueOf(tablaPorUsuario.getColumnName(j)));
+                                            String nameColumn=String.valueOf(tablaPorUsuario.getColumnName(j));
+                                            if(nameColumn.equals("RECAUDO")){
+                                                columnaRecaudo=j;
+                                            }
+                                        }else{
+                                            try{
+                                                String data=tablaPorUsuario.getValueAt(i, j).toString();
+                                                String[] valor=String.valueOf(tablaPorUsuario.getValueAt(i, j)).split("-");
+
+                                                if(valor.length==3){
+                                                    String[] valor2=valor[2].split(":");
+                                                    if(valor2.length >= 3){
+                                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                        Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                        CellStyle cellStyle = wb.createCellStyle();
+                                                        CreationHelper createHelper = wb.getCreationHelper();
+                                                        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
+                                                        //cell = row.createCell(1);
+                                                        celda.setCellValue(fechaM);
+                                                        celda.setCellStyle(cellStyle);
+                                                    }else{
+                                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                        Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                        CellStyle cellStyle = wb.createCellStyle();
+                                                        CreationHelper createHelper = wb.getCreationHelper();
+                                                        celda.setCellValue(fechaM);
+                                                        celda.setCellStyle(cellStyle);
+                                                    }
+                                                }else{
+                                                    try{
+                                                        if(columnaRecaudo == j){
+                                                            celda.setCellValue(Integer.parseInt(listadoPorUsuario.get(i).getRecaudo()));
+                                                            //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
                                                         }else{
                                                             celda.setCellValue(String.valueOf(data));
                                                         }
@@ -452,28 +593,219 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
                                                         celda.setCellValue(String.valueOf(data));
                                                     }
                                                 }
-                                            }   
+                                            }
+                                            catch(Exception e){
+                                                celda.setCellValue(String.valueOf(tablaPorUsuario.getValueAt(i, j)));
+                                            }
                                         }
-                                    }   
-                                    catch(Exception e){
-                                        //celda.setCellValue(String.valueOf(tabla.getValueAt(i, j)));
-                                        celda.setCellValue(String.valueOf(data));
                                     }
                                 }
+                                for(int j=0; j<=numColumna; j++){
+                                    hoja.autoSizeColumn(j,true);
+                                }
+                                wb.write(new FileOutputStream(archivo));
+                                respuesta= "Exportacion exitosa";
+                            }catch(Exception e){}
+                            JOptionPane.showMessageDialog(null, respuesta);
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Elija un formato valido");
+                        }
+                    }
+                    break;
+                }
+                case 2:{//Recaudo por ZonaOperación
+                    JFileChooser selecArchivo= new JFileChooser();
+                    File archivo;
+                    if(selecArchivo.showDialog(null, "Exportar") ==JFileChooser.APPROVE_OPTION){
+                        archivo=new File(selecArchivo.getSelectedFile()+".xlsx");
+                        if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
+                            Workbook wb;
+                            String respuesta="No se realizó con exito la exportacion";
+                            int  numFila=tablaZonaOperacion.getRowCount();
+                            int numColumna=tablaZonaOperacion.getColumnCount();
+                            if(archivo.getName().endsWith("xls")){
+                                wb = new HSSFWorkbook();
+                            }else{
+                                wb= new XSSFWorkbook();
                             }
+                            Sheet hoja= wb.createSheet("RecuadoPorZonaOperación");
+                            int columnaRecaudoEmpresa=300000;
+                            int columnaDebito=300000;
+                            int columnaTotalRecuado=300000;
+                            try{
+                                for(int i= -1; i < numFila; i++ ){
+                                    Row fila= hoja.createRow(i+1);
+                                    for(int j=0; j< numColumna; j++){
+                                        Cell celda= fila.createCell(j);
+                                        if(i==-1){
+                                            celda.setCellValue(String.valueOf(tablaZonaOperacion.getColumnName(j)));
+                                            String nameColumn=String.valueOf(tablaZonaOperacion.getColumnName(j));
+                                            if(nameColumn.equals("VALOR RECAUDADO")){
+                                                columnaRecaudoEmpresa=j;
+                                            }
+                                            if(nameColumn.equals("VALOR DEBITOS")){
+                                                columnaDebito=j;
+                                            }
+                                            if(nameColumn.equals("TOTAL RECAUDADO")){
+                                                columnaTotalRecuado=j;
+                                            }
+                                        }else{
+                                            try{
+                                                String data=tablaZonaOperacion.getValueAt(i, j).toString();
+                                                String[] valor=String.valueOf(tablaZonaOperacion.getValueAt(i, j)).split("-");
+
+                                                if(valor.length==3){
+                                                    String[] valor2=valor[2].split(":");
+                                                    if(valor2.length >= 3){
+                                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                        Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                        CellStyle cellStyle = wb.createCellStyle();
+                                                        CreationHelper createHelper = wb.getCreationHelper();
+                                                        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
+                                                        //cell = row.createCell(1);
+                                                        celda.setCellValue(fechaM);
+                                                        celda.setCellStyle(cellStyle);
+                                                    }else{
+                                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                        Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                        CellStyle cellStyle = wb.createCellStyle();
+                                                        CreationHelper createHelper = wb.getCreationHelper();
+                                                        celda.setCellValue(fechaM);
+                                                        celda.setCellStyle(cellStyle);
+                                                    }
+                                                }else{
+                                                    try{
+                                                        if(columnaRecaudoEmpresa == j){
+                                                            celda.setCellValue(Integer.parseInt(listadoZonaOperacion.get(i).getRecaudo()));
+                                                            //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                        }else{
+                                                            if(columnaDebito == j){
+                                                                celda.setCellValue(Integer.parseInt(listadoZonaOperacion.get(i).getDebito()));
+                                                                //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                            }else{
+                                                                 if(columnaTotalRecuado == j){
+                                                                    celda.setCellValue(Integer.parseInt(listadoZonaOperacion.get(i).getTotalRecaudo()));
+                                                                    //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                                }else{
+                                                                    celda.setCellValue(String.valueOf(data));
+                                                                }
+                                                            }
+                                                        }
+                                                    }catch(Exception ex){
+                                                        celda.setCellValue(String.valueOf(data));
+                                                    }
+                                                }
+                                            }
+                                            catch(Exception e){
+                                                celda.setCellValue(String.valueOf(tablaZonaOperacion.getValueAt(i, j)));
+                                            }
+                                        }
+                                    }
+                                }
+                                for(int j=0; j<=numColumna; j++){
+                                    hoja.autoSizeColumn(j,true);
+                                }
+                                wb.write(new FileOutputStream(archivo));
+                                respuesta= "Exportacion exitosa";
+                            }catch(Exception e){}
+                            JOptionPane.showMessageDialog(null, respuesta);
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Elija un formato valido");
                         }
-                        for(int j=0; j<=numColumna; j++){
-                            hoja.autoSizeColumn(j,true);
+                    }
+                    break;
+                }
+                case 3:{//Vehículos no lavados
+                    JFileChooser selecArchivo= new JFileChooser();
+                    File archivo;
+                    if(selecArchivo.showDialog(null, "Exportar") ==JFileChooser.APPROVE_OPTION){
+                        archivo=new File(selecArchivo.getSelectedFile()+".xlsx");
+                        if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
+                            Workbook wb;
+                            String respuesta="No se realizó con exito la exportacion";
+                            int  numFila=tablaVehiculosNoLavados.getRowCount();
+                            int numColumna=tablaVehiculosNoLavados.getColumnCount();
+                            if(archivo.getName().endsWith("xls")){
+                                wb = new HSSFWorkbook();
+                            }else{
+                                wb= new XSSFWorkbook();
+                            }
+                            Sheet hoja= wb.createSheet("InformeVehículosNoLavados");
+                            int columnaCantidadVehiculos=300000;
+                            try{
+                                for(int i= -1; i < numFila; i++ ){
+                                    Row fila= hoja.createRow(i+1);
+                                    for(int j=0; j< numColumna; j++){
+                                        Cell celda= fila.createCell(j);
+                                        if(i==-1){
+                                            celda.setCellValue(String.valueOf(tablaVehiculosNoLavados.getColumnName(j)));
+                                            String nameColumn=String.valueOf(tablaVehiculosNoLavados.getColumnName(j));  
+                                            if(nameColumn.equals("CANTIDAD_VEHÍCULOS_NO_LAVADOS")){
+                                                columnaCantidadVehiculos=j;
+                                            }
+                                        }else{
+                                            try{
+                                                String data=tablaVehiculosNoLavados.getValueAt(i, j).toString();
+                                                String[] valor=String.valueOf(tablaVehiculosNoLavados.getValueAt(i, j)).split("-");
+
+                                                if(valor.length==3){
+                                                    String[] valor2=valor[2].split(":");
+                                                    if(valor2.length >= 3){
+                                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                        Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                        CellStyle cellStyle = wb.createCellStyle();
+                                                        CreationHelper createHelper = wb.getCreationHelper();
+                                                        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
+                                                        //cell = row.createCell(1);
+                                                        celda.setCellValue(fechaM);
+                                                        celda.setCellStyle(cellStyle);
+                                                    }else{
+                                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                        Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                        CellStyle cellStyle = wb.createCellStyle();
+                                                        CreationHelper createHelper = wb.getCreationHelper();
+                                                        celda.setCellValue(fechaM);
+                                                        celda.setCellStyle(cellStyle);
+                                                    }
+                                                }else{
+                                                    try{
+                                                       if(columnaCantidadVehiculos == j){
+                                                            celda.setCellValue(Integer.parseInt(listadoPorVehiculoNoLavados.get(i).getCantidadVehículo()));
+                                                            //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                        }else{
+                                                            celda.setCellValue(String.valueOf(data));
+                                                        }
+                                                    }catch(Exception ex){
+                                                        celda.setCellValue(String.valueOf(data));
+                                                    }
+                                                }
+                                            }
+                                            catch(Exception e){
+                                                celda.setCellValue(String.valueOf(tablaZonaOperacion.getValueAt(i, j)));
+                                            }
+                                        }
+                                    }
+                                }
+                                for(int j=0; j<=numColumna; j++){
+                                    hoja.autoSizeColumn(j,true);
+                                }
+                                wb.write(new FileOutputStream(archivo));
+                                respuesta= "Exportacion exitosa";
+                            }catch(Exception e){}
+                            JOptionPane.showMessageDialog(null, respuesta);
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Elija un formato valido");
                         }
-                        wb.write(new FileOutputStream(archivo));
-                        respuesta= "Exportacion exitosa";
-                    }catch(Exception e){}
-                    JOptionPane.showMessageDialog(null, respuesta);
-                }else{
-                    JOptionPane.showMessageDialog(null,"Elija un formato valido");
+                    }
+                    break;
+                }
+                default:{
+                    break;
                 }
             }
-       }  
+        }else{
+            JOptionPane.showMessageDialog(null, "La consulta fue vacia, no contiene información","Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_icon_exportarMouseClicked
 
     private void horaInicioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_horaInicioItemStateChanged
@@ -497,183 +829,10 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
     }//GEN-LAST:event_horaFinActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        if(user.getCorreo().equals("")){
-            JOptionPane.showMessageDialog(null, "El usuario no tiene un correo configurado para el envio de correo, favor actualizar los datos");
-        }else{
-            if(listado != null){
-                File archivo;
-                archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteDistribuciónMvtoCarbón.xlsx");
-                Workbook wb;
-                String respuesta="No se realizó con exito la exportacion";
-                listado.size();
-
-                        int numFila=listado.size();
-                    int numColumna=encabezadoTabla.size();
-                    if(archivo.getName().endsWith("xls")){
-                        wb = new HSSFWorkbook();
-                    }else{
-                        wb= new XSSFWorkbook();
-                    }
-                    Sheet hoja= wb.createSheet("Matriz_DistribuciónMvtoCarbón");
-                    int costoTotalApuntadorA=300000;
-                    int costoTotalApuntadorB=300000;
-                    try{ 
-                        for(int i= -1; i < numFila; i++ ){
-                            Row fila= hoja.createRow(i+1);
-                            for(int j=0; j< numColumna; j++){
-                                boolean validarUnidadNegocio = false;
-                                Cell celda= fila.createCell(j);
-                                if(i==-1){
-                                    //celda.setCellValue(String.valueOf(tabla.getColumnName(j)));
-                                    celda.setCellValue(encabezadoTabla.get(j));
-                                    //String nameColumn=String.valueOf(tabla.getColumnName(j));
-                                    if(encabezadoTabla.get(j).equals("Total")){
-                                        costoTotalApuntadorA=j;
-                                    }
-                                    if(encabezadoTabla.get(j).equals("%")){
-                                        costoTotalApuntadorB=j;
-                                    }
-                                }else{
-                                    String data="";
-                                    switch(encabezadoTabla.get(j)){
-                                        case "Equipo":{
-                                            data=""+  listado.get(i).getEquipo();
-                                            break;
-                                        }
-                                        case "Cliente":{
-                                            data=""+  listado.get(i).getCliente();
-                                            break;
-                                        }
-                                        case "Subcentro":{
-                                            data=""+  listado.get(i).getSubcentro();
-                                            break;
-                                        }
-                                        case "Centro_CostoAuxiliar":{
-                                            data=""+  listado.get(i).getCentroCostosAuxiliar();
-                                            break;
-                                        }
-                                        case "Centro_Costo":{
-                                            data=""+  listado.get(i).getCentroCosto();
-                                            break;
-                                        }
-                                        case "Unidad_Negocio":{
-                                            validarUnidadNegocio=true;
-                                            data=""+  listado.get(i).getUnidadNegocio();
-                                            break;
-                                        }
-                                        case "Total_Kilogramo":{
-                                            data=""+  listado.get(i).getTotal();
-                                            break;
-                                        }
-                                        case "%":{
-                                            data=""+  listado.get(i).getPorcentaje();
-                                            break;
-                                        }  
-                                    }                              
-                                    try{
-                                        if(validarUnidadNegocio){
-                                            celda.setCellValue(String.valueOf(data));
-                                            validarUnidadNegocio=false;
-                                        }else{
-                                            String[] valor=String.valueOf(data).split("-");
-                                            if(valor.length==3){
-                                                String[] valor2=valor[2].split(":");
-                                               if(valor2.length >= 3){
-                                                   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                   Date fechaM = dateFormat.parse(String.valueOf(data));
-                                                   CellStyle cellStyle = wb.createCellStyle();
-                                                   CreationHelper createHelper = wb.getCreationHelper();
-                                                   cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
-                                                   celda.setCellValue(fechaM);
-                                                   celda.setCellStyle(cellStyle);
-                                               }else{
-                                                   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                                   Date fechaM = dateFormat.parse(String.valueOf(data));
-                                                   CellStyle cellStyle = wb.createCellStyle();
-                                                   CreationHelper createHelper = wb.getCreationHelper();
-                                                   cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy"));
-                                                   //cell = row.createCell(1);
-                                                   celda.setCellValue(fechaM);
-                                                   celda.setCellStyle(cellStyle);
-                                               }
-                                            }else{
-                                                try{
-                                                    celda.setCellValue(Integer.parseInt(data));
-                                                }catch(Exception e){
-                                                    try{
-                                                        if(costoTotalApuntadorA == j || costoTotalApuntadorB == j ){
-                                                            celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
-                                                        }else{
-                                                            celda.setCellValue(String.valueOf(data));
-                                                        }
-                                                    }catch(Exception ex){
-                                                        celda.setCellValue(String.valueOf(data));
-                                                    }
-                                                }
-                                            }   
-                                        }
-                                    }   
-                                    catch(Exception e){
-                                        //celda.setCellValue(String.valueOf(tabla.getValueAt(i, j)));
-                                        celda.setCellValue(String.valueOf(data));
-                                    }
-                                }
-                            }
-                        }
-                    for(int j=0; j<=numColumna; j++){
-                        hoja.autoSizeColumn(j,true);
-                    }
-                    wb.write(new FileOutputStream(archivo));
-                    respuesta= "Envío exitoso";
-                    String remitente = "venturadatavg";  //Para la dirección nomcuenta@gmail.com
-                    String clave = "VG#V3ntur4D4t4!#";  //Para la dirección nomcuenta@gmail.com
-
-                    Properties props = System.getProperties();
-                    props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
-                    props.put("mail.smtp.user", remitente);
-                    props.put("mail.smtp.clave", clave);    //La clave de la cuenta
-                    props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
-                    props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
-                    props.put("mail.smtp.port", "587");//El puerto SMTP seguro de Google
-
-                    Session session = Session.getDefaultInstance(props);
-                    MimeMessage message = new MimeMessage(session);
-                    try {
-                        message.setFrom(new InternetAddress(remitente));
-                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getCorreo()));
-                        BodyPart texto = new MimeBodyPart();
-                        texto.setText("Archivo de distribución generado desde VenturaData");
-                        BodyPart adjunto = new MimeBodyPart();
-                        //adjunto.setDataHandler(new DataHandler(new FileDataSource("d:/futbol.png")));
-                        adjunto.setDataHandler(new DataHandler(new FileDataSource(archivo)));
-                        adjunto.setFileName("Distribución_Carbón.xlsx");
-                        MimeMultipart multiParte = new MimeMultipart();
-                        multiParte.addBodyPart(texto);
-                        multiParte.addBodyPart(adjunto);
-                        message.setSubject("Distribución Carbón");
-                        message.setContent(multiParte);
-                        Transport transport = session.getTransport("smtps");
-                        transport.connect("smtp.gmail.com", remitente, clave);
-                        transport.sendMessage(message, message.getAllRecipients());
-                        transport.close();
-                    }
-                    catch (MessagingException me) {
-                        me.printStackTrace();   //Si se produce un error
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
-                    }
-
-                }catch(Exception e){}
-                JOptionPane.showMessageDialog(null, respuesta);
-            }else{
-                JOptionPane.showMessageDialog(null,"Elija un formato valido");
-            }
-        }
+        
     }//GEN-LAST:event_jLabel5MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel alerta_fechaFinal;
     private javax.swing.JLabel alerta_fechaInicio;
     private javax.swing.JButton consultar;
     private com.toedter.calendar.JDateChooser fechaFin;
@@ -692,27 +851,27 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel label_exportar;
     private javax.swing.JComboBox<String> minutoFin;
     private javax.swing.JComboBox<String> minutoInicio;
-    private javax.swing.JComboBox<Integer> pageJComboBox;
-    public javax.swing.JPanel paginationPanel;
-    private javax.swing.JTable tabla;
+    private javax.swing.JTable tablaPorEquipo;
+    private javax.swing.JTable tablaPorUsuario;
+    private javax.swing.JTable tablaVehiculosNoLavados;
+    private javax.swing.JTable tablaZonaOperacion;
     private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
     
-    public void tabla_Listar(String data1, String data2) throws SQLException{
-        tabla.setModel(crearModeloDeTabla());
-        listado=new ControlDB_MvtoCarbon(tipoConexion).conectorMvtoCarbon(data1, data2);
-        proveedorDeDatos = crearProveedorDeDatos(listado); 
-        paginadorDeTabla = new PaginadorDeTabla(tabla, proveedorDeDatos, new int[]{5, 10, 20, 50, 75, 100}, 10);
-        paginadorDeTabla.crearListadoDeFilasPermitidas(this.paginationPanel);
-        pageJComboBox = paginadorDeTabla.getComboBoxPage();
-        events();
-        pageJComboBox.setSelectedItem(Integer.parseInt("50"));
-    }
+    
     public void generarListadoMvtoCarbon(){
         try{
             String fechaMvtoCarbon_Inicial="";
@@ -756,15 +915,115 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
                 fechaMvtoCarbon_Final=anoF+"-"+mesF+"-"+diaF;
                 contador++;
             }catch(Exception e){
-                alerta_fechaFinal.setText("Verifique la fecha Final");
+                JOptionPane.showMessageDialog(null, "Verifique la fecha Final","Advertencia", JOptionPane.INFORMATION_MESSAGE);
             } 
             if(contador==2){//Se validaron las dos fechas y contienen formato correcto
                 fechaMvtoCarbon_Inicial = fechaMvtoCarbon_Inicial+" "+horaInicio.getSelectedItem().toString()+":"+minutoInicio.getSelectedItem().toString();
                 fechaMvtoCarbon_Final = fechaMvtoCarbon_Final+" "+horaFin.getSelectedItem().toString()+":"+minutoFin.getSelectedItem().toString();
                 try {
-                    tabla_Listar(fechaMvtoCarbon_Inicial,fechaMvtoCarbon_Final);
+                    
+                    listadoZonaOperacion=new ControlDB_MvtoCarbon(tipoConexion).informeRecaudoPorLavadoVehiculo(fechaMvtoCarbon_Inicial, fechaMvtoCarbon_Final);
+                    DefaultTableModel modeloZona = new DefaultTableModel(null, new String[] {"ZONA OPERACIÓN", "VALOR RECAUDADO","VALOR DEBITOS", "TOTAL RECAUDADO"});  
+                    DecimalFormat formatea = new DecimalFormat("###,###.##");
+                    if(listadoZonaOperacion != null){
+                        for(PlantillaInformeRecaudoPorLavadoVehiculo objeto:  listadoZonaOperacion){
+                            String[]  registro = new String[4]; 
+                            registro[0]=""+objeto.getZona();
+                            
+                            if(objeto.getRecaudo() != null){
+                                registro[1]="$ "+formatea.format(Double.parseDouble(objeto.getRecaudo()));
+                            }else{
+                                registro[1]=objeto.getRecaudo();
+                            }
+                            if(objeto.getDebito()!= null){
+                                registro[2]="$ "+formatea.format(Double.parseDouble(objeto.getDebito()));
+                            }else{
+                                registro[2]=objeto.getDebito();
+                            }
+                            
+                            if(objeto.getTotalRecaudo() != null){
+                                registro[3]="$ "+formatea.format(Double.parseDouble(objeto.getTotalRecaudo()));
+                            }else{
+                                registro[3]=objeto.getTotalRecaudo();
+                            }
+                            modeloZona.addRow(registro);
+                        }
+                        
+                    }
+                    tablaZonaOperacion.setModel(modeloZona);
+                    //resizeColumnWidth(tabla);
+                    
+                    listadoPorEquipo=new ControlDB_MvtoCarbon(tipoConexion).informeRecaudoPorLavadoVehiculo_porEquipo(fechaMvtoCarbon_Inicial, fechaMvtoCarbon_Final);
+                    DefaultTableModel modeloPorEquipo = new DefaultTableModel(null, new String[] {"CLIENTE", "ARTÍCULO","TIPO", "EQUIPO","CANTIDAD VEHÍCULOS","RECAUDO EMPRESA","RECAUDO EQUIPO"});  
+                    if(listadoPorEquipo != null){
+                        for(PlantillaInformeRecaudoLavadoVehiculo_PorEquipo objeto:  listadoPorEquipo){
+                            String[]  registro = new String[7]; 
+                            registro[0]=""+objeto.getCliente();
+                            registro[1]=""+objeto.getArticulo();
+                            registro[2]=""+objeto.getTipoEquipo();
+                            registro[3]=""+objeto.getEquipo();
+                            if(objeto.getCantidad() != null){
+                                registro[4]=""+formatea.format(Double.parseDouble(objeto.getCantidad()));
+                            }else{
+                                registro[4]=objeto.getCantidad();
+                            }
+                            if(objeto.getRecaudoEmpresa() != null){
+                                registro[5]="$ "+formatea.format(Double.parseDouble(objeto.getRecaudoEmpresa()));
+                            }else{
+                                registro[5]=objeto.getRecaudoEmpresa();
+                            }
+                            if(objeto.getRecaudoEquipo() != null){
+                                registro[6]="$ "+formatea.format(Double.parseDouble(objeto.getRecaudoEquipo()));
+                            }else{
+                                registro[6]=objeto.getRecaudoEquipo();
+                            }
+                            modeloPorEquipo.addRow(registro);
+                        }
+                        
+                    }
+                    tablaPorEquipo.setModel(modeloPorEquipo);
+                    //resizeColumnWidth(tablaPorEquipo);
+                    
+                    listadoPorUsuario=new ControlDB_MvtoCarbon(tipoConexion).informeRecaudoPorLavadoVehiculo_porUsuario(fechaMvtoCarbon_Inicial, fechaMvtoCarbon_Final);
+                    DefaultTableModel modeloPorUsuario = new DefaultTableModel(null, new String[] {"CEDULA", "NOMBRE","ZONA OPERACIÓN", "RECAUDO"});  
+                    if(listadoPorUsuario != null){
+                        for(PlantillaInformeRecaudoPorUsuario objeto:  listadoPorUsuario){
+                            String[]  registro = new String[4]; 
+                            registro[0]=""+objeto.getCedula();
+                            registro[1]=""+objeto.getNombre();
+                            registro[2]=""+objeto.getZonaOperacion();
+                            if(objeto.getRecaudo() != null){
+                                registro[3]="$ "+formatea.format(Double.parseDouble(objeto.getRecaudo()));
+                            }else{
+                                registro[3]=objeto.getRecaudo();
+                            }
+                            modeloPorUsuario.addRow(registro);
+                        }
+                   
+                    }
+                    tablaPorUsuario.setModel(modeloPorUsuario);
+                    
+                    listadoPorVehiculoNoLavados=new ControlDB_MvtoCarbon(tipoConexion).informeCantidadVehiculosPorConceptoNOLavado(fechaMvtoCarbon_Inicial, fechaMvtoCarbon_Final);
+                    DefaultTableModel modeloPorVehiculosNoLavados = new DefaultTableModel(null, new String[] {"CLIENTE", "ARTICULO","ZONA OPERACIÓN","EQUIPO", "MOTIVO NO LAVADO","CANTIDAD_VEHÍCULOS_NO_LAVADOS"});  
+                    if(listadoPorVehiculoNoLavados != null){
+                        for(PlantillaInformeNoLavadoVehiculos objeto:  listadoPorVehiculoNoLavados){
+                            String[]  registro = new String[6]; 
+                            registro[0]=""+objeto.getCliente();
+                            registro[1]=""+objeto.getArticulo();
+                            registro[2]=""+objeto.getZonaOperacion();
+                            registro[3]=""+objeto.getEquipo();
+                            registro[4]=""+objeto.getMotivoNoLavado();
+                            if(objeto.getCantidadVehículo() != null){
+                                registro[5]=""+formatea.format(Double.parseDouble(objeto.getCantidadVehículo()));
+                            }else{
+                                registro[5]=objeto.getCantidadVehículo();
+                            }
+                            modeloPorVehiculosNoLavados.addRow(registro);
+                        }
+                    }
+                    tablaVehiculosNoLavados.setModel(modeloPorVehiculosNoLavados);
                 } catch (SQLException ex) {
-                    Logger.getLogger(MvtoCarbon_MatrizDistribucion.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MvtoCarbon_InformeRecaudoLavadoVehiculo.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }catch(Exception e){
@@ -772,96 +1031,6 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
             JOptionPane.showMessageDialog(null,"No se puedo procesar el descargue de Carbon", "Advertencia",JOptionPane.ERROR_MESSAGE);
         }   
     }
-    
-    
-    public final void events(){
-       pageJComboBox.addActionListener(this);
-       tabla.getModel().addTableModelListener(this);
-    }
-    private ModeloDeTabla crearModeloDeTabla() {
-        return new ModeloDeTabla<PlantillaConectorMvtoCarbon>() {            
-            @Override
-            public Object getValueAt(PlantillaConectorMvtoCarbon listado1, int columnas) {
-               switch(encabezadoTabla.get(columnas)){
-                   case "Equipo":{
-                       return listado1.getEquipo();
-                    }
-                   case "Cliente":{
-                       return listado1.getCliente();
-                    }
-                    case "Subcentro":{
-                       return listado1.getSubcentro();
-                    }
-                    case "Centro_CostoAuxiliar":{
-                       return listado1.getCentroCostosAuxiliar();
-                    }
-                    case "Centro_Costo":{
-                       return listado1.getCentroCosto();
-                    }
-                    case "Unidad_Negocio":{
-                       return listado1.getUnidadNegocio();
-                    }
-                    case "Total_Kilogramo":{
-                       return listado1.getTotal();
-                    }
-                    case "%":{
-                       return listado1.getPorcentaje();
-                    }
-               }
-               return null;
-            }
-
-            @Override
-            public String getColumnName(int columnas) {
-                return encabezadoTabla.get(columnas);
-            }
-
-            @Override
-            public int getColumnCount() {
-                return encabezadoTabla.size();
-            }
-
-        }; 
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object evt = e.getSource();
-        paginadorDeTabla.eventCombobBox(pageJComboBox);
-    }
-    @Override
-    public void tableChanged(TableModelEvent e) {
-        paginadorDeTabla.refreshPageButtonPanel();
-    }
-    private ProveedorDeDatosDePaginacion<PlantillaConectorMvtoCarbon> crearProveedorDeDatos(final ArrayList<PlantillaConectorMvtoCarbon> model) {
-        //Obtenemos el listado de registros existentes haciendo una consulta a la base de datos.
-        
-        //Retornamos un interfaz de tipo ProveedorDeDatosDePaginacion en la cual sobreescribimos sus metodos abtractos
-        //1 metodo: obtenemos el numero total de registros agregados al JTable.
-        //2 metodo: obtenemos una subLista la cual será mostrada en el JTable, seria nuestra pagina actual.
-        return new ProveedorDeDatosDePaginacion<PlantillaConectorMvtoCarbon>() {
-            @Override
-            public int getTotalRowCount() {
-                return model.size();
-            }
-
-            @Override
-            public List<PlantillaConectorMvtoCarbon> getRows(int startIndex, int endIndex) {
-                return model.subList(startIndex, endIndex);
-            }
-        };
-    }
-    public void validarSeleccionCampos(){
-        encabezadoTabla= new ArrayList<>();
-        encabezadoTabla.add("Equipo");
-        encabezadoTabla.add("Cliente");
-        encabezadoTabla.add("Subcentro");
-        encabezadoTabla.add("Centro_CostoAuxiliar");
-        encabezadoTabla.add("Centro_Costo");
-        encabezadoTabla.add("Unidad_Negocio");
-        encabezadoTabla.add("Total_Kilogramo");
-        encabezadoTabla.add("%");
-    }
-   
     //Ajustar aNcho de las tablas de acuerdo al contenido
     public void resizeColumnWidth(JTable table) {
         final TableColumnModel columnModel = table.getColumnModel();
@@ -877,4 +1046,46 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
+    
+    //Script donde saca tambien los equipos pero no es conveniente
+    /*DECLARE @fechaIni datetime, @fechaFin datetime;  
+        DECLARE @cantidadVehiculo BIGINT;  
+        DECLARE @totalRecaudoEmpresa BIGINT;  
+        DECLARE @totalRecaudoEquipo BIGINT;  
+
+        SET @fechaIni='2020-02-09 14:05:42.600';  
+        SET @fechaFin='2022-02-09 14:05:42.600'  
+        SET @cantidadVehiculo=(  
+                                SELECT 
+                                    COUNT([mc_lavado_vehiculo]) 
+                                FROM [costos_vg_test].[dbo].[mvto_carbon]  
+                                    LEFT JOIN [costos_vg_test].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo]  
+                                    LEFT JOIN [costos_vg_test].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo]  
+                                    LEFT JOIN [costos_vg_test].[dbo].[motivo_nolavado_vehiculo] ON [mc_motivo_nolavado_vehiculo_cdgo]=[mnlv_cdgo] 
+                                WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo] =0 AND [mc_estad_mvto_carbon_cdgo]=1 
+                                ) 
+
+
+        SELECT   --[mc_cdgo],
+            [cl_desc] AS 'CLIENTE',  
+            [ar_desc] AS 'ARTICULO',	 
+            [zt_desc] AS 'ZONA OPERACIÓN', 
+            [mnlv_desc] AS 'MOTIVO_NO_LAVADO_VEHÍCULO', 
+            COUNT (distinct([mc_fecha]))	 AS 'CANTIDAD_VEHÍCULOS',
+                STRING_AGG( CONCAT ([eq_desc],' ',[eq_modelo]) , '/n') AS 'EQUIPO'
+        FROM [costos_vg_test].[dbo].[mvto_carbon]  
+                LEFT JOIN [costos_vg_test].[dbo].[cliente] ON [mc_cliente_cdgo]=[cl_cdgo]  
+                LEFT JOIN [costos_vg_test].[dbo].[articulo] ON [ar_cdgo]=[mc_articulo_cdgo]  
+                LEFT JOIN [costos_vg_test].[dbo].[motivo_nolavado_vehiculo] ON [mc_motivo_nolavado_vehiculo_cdgo]=[mnlv_cdgo] 
+                        INNER JOIN [costos_vg_test].[dbo].[listado_zona_trabajo] ON [lzt_cntro_cost_auxiliar_cdgo]=[mc_cntro_cost_auxiliar_cdgo] 
+                INNER JOIN [costos_vg_test].[dbo].[zona_trabajo] ON [lzt_zona_trabajo_cdgo]=[zt_cdgo] 
+                        INNER JOIN [costos_vg_test].[dbo].[mvto_carbon_listado_equipo] ON [mcle_mvto_carbon_cdgo]= [mc_cdgo]
+                        INNER JOIN [costos_vg_test].[dbo].[asignacion_equipo] ON [ae_cdgo]=[mcle_asignacion_equipo_cdgo]
+                        INNER JOIN [costos_vg_test].[dbo].[equipo] ON [eq_cdgo]=[ae_equipo_cdgo]
+        WHERE [mc_fecha_inicio_descargue] BETWEEN @fechaIni AND @fechaFin	AND [mc_lavado_vehiculo] =0 AND [mc_estad_mvto_carbon_cdgo]=1  
+        GROUP BY	  
+                    [mc_cdgo], [cl_cdgo] ,[cl_desc],  
+                    [ar_cdgo],[ar_desc],[zt_desc],[mnlv_desc],[zt_cdgo],[mc_lavado_vehiculo]--,CONCAT ([eq_desc],' ',[eq_modelo])  
+        --UNION  
+        --SELECT '','','','_TOTAL',@cantidadVehiculo ORDER BY 'CLIENTE' DESC*/
 }

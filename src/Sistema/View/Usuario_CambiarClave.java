@@ -1,8 +1,9 @@
-package Sistema.View2;
+package Sistema.View;
 
 import Sistema.Controller.ControlDB_Usuario;
 import Sistema.Model.Perfil;
 import Sistema.Model.Usuario;
+import ViewPrincipal.GUI_CambiarPassword;
 import ViewPrincipal.GUI_Iniciar;
 import java.awt.Toolkit;
 import java.io.FileNotFoundException;
@@ -22,7 +23,11 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
     private String tipoConexion;
     public Usuario_CambiarClave(Usuario u,String tipoConexion) { 
         initComponents();
-        user= u;
+        try {
+            user = new ControlDB_Usuario(tipoConexion).buscarUsuarioEspecifico(u.getCodigo());
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI_CambiarPassword.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.tipoConexion= tipoConexion;
         
         //Deshabilitamos ciertos campos
@@ -39,6 +44,7 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
         us_clave_actual.show(false);
         us_clave_nueva1.show(false);
         us_clave_nueva2.show(false);
+        viewPassword23.show(false);
         
         //Si el usuario es diferente de null procedemos a mostrar la información del usuario actual logueado en la aplicación
         if(user != null){
@@ -80,6 +86,7 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
         jLabel30 = new javax.swing.JLabel();
         estado = new javax.swing.JTextField();
         us_perfil = new javax.swing.JTextField();
+        viewPassword23 = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -212,6 +219,16 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
             }
         });
         add(us_perfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 100, 400, 30));
+
+        viewPassword23.setBackground(new java.awt.Color(255, 255, 255));
+        viewPassword23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        viewPassword23.setText("Mostrar Contraseña");
+        viewPassword23.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                viewPassword23ItemStateChanged(evt);
+            }
+        });
+        add(viewPassword23, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 310, -1, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void us_cdgoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_us_cdgoMouseClicked
@@ -246,6 +263,7 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
             us_clave_actual.show(true);
             us_clave_nueva1.show(true);
             us_clave_nueva2.show(true);    
+            viewPassword23.show(true);    
         }else{
             jLabel29.show(false);
             jLabel30.show(false);
@@ -253,6 +271,7 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
             us_clave_actual.show(false);
             us_clave_nueva1.show(false);
             us_clave_nueva2.show(false);
+            viewPassword23.show(false);
         }
     }//GEN-LAST:event_restablecerContrasenaStateChanged
 
@@ -261,87 +280,94 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
     }//GEN-LAST:event_RegistrarUsuarioMouseExited
 
     private void RegistrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarUsuarioActionPerformed
+        boolean validar= true;
+        boolean validarClave=false;
         if(us_correo.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Debe digitar un correo", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            validar=true;
         }else{
             // Patrón para validar el email
             Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-
             // El email a validar
             String email = us_correo.getText();
             Matcher mather = pattern.matcher(email);
             if (mather.find() == true) {
-                String correoAnterior=user.getCorreo();
-                user.setCorreo(us_correo.getText());
-                if(restablecerContrasena.isSelected()){
-                    if(us_clave_actual.getText().equals("")){
-                        JOptionPane.showMessageDialog(null, "Error!!.. La contraseña no puede estar vacia","Advertencia", JOptionPane.INFORMATION_MESSAGE);
-                        //alerta_us_clave.setText("Error!!.. La contraseña no puede estar vacia");
-                    }else{  
-                        String claveActual=us_clave_actual.getText();
-                        if(new ControlDB_Usuario(tipoConexion).validarContraseña(user.getCodigo(),claveActual)){ //Contraseña actual digitada es correcta
-                            //JOptionPane.showMessageDialog(null, "Contraseña correcta");
-                            if(us_clave_nueva1.getText().equals("") || us_clave_nueva2.getText().equals("")){
-                                JOptionPane.showMessageDialog(null, "las contraseñas nuevas no puede estar vacia","Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                validar=true;
+            }else{
+                validar=false;
+            }
+        }
+        if(validar){
+            String correoAnterior=user.getCorreo();
+            user.setCorreo(us_correo.getText());
+            if(restablecerContrasena.isSelected()){
+                validarClave=true;
+                if(us_clave_actual.getText().equals("")){
+                    JOptionPane.showMessageDialog(null, "Error!!.. La contraseña actual no puede estar vacia","Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                }else{  
+                    String claveActual=us_clave_actual.getText();
+                    if(new ControlDB_Usuario(tipoConexion).validarContraseña(user.getCodigo(),claveActual)){
+                        if(us_clave_nueva1.getText().equals("")|| us_clave_nueva2.getText().equals("")){
+                            JOptionPane.showMessageDialog(null, "Ninguno de los dos campos de contraseñas pueden estar vacio", "Error!!", JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            if(!(us_clave_nueva1.getText().equals(us_clave_nueva2.getText()))){//Las dos contraseñas son diferentes
+                                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden verifique datos", "Error!!", JOptionPane.ERROR_MESSAGE);
                             }else{
-                                if(us_clave_nueva1.getText().equals(us_clave_nueva2.getText())){//Las contraseñas nuevas son iguales
-                                    user.setClave(us_clave_nueva1.getText());
-                                    //Procedemos a registrar tanto el correo, como la nueva contraseña del usuario
-                                    int result = 0;
-                                        try {
-                                            result = new ControlDB_Usuario(tipoConexion).cambiarContraseñaConCorreo(user, correoAnterior);
-                                        } catch (FileNotFoundException ex) {
+                                String claveCifrada= new EncriptarPassword().md5(us_clave_nueva1.getText());
+                                if(claveCifrada.equals(user.getClave()) || claveCifrada.equals(user.getClaveAnterior1()) || claveCifrada.equals(user.getClaveAnterior2())){
+                                    JOptionPane.showMessageDialog(null, "La contraseña digitada ya fue registrada anteriormente debe cambiarla", "Error!!", JOptionPane.ERROR_MESSAGE);
+                                }else{
+                                    if(new ControlDB_Usuario(tipoConexion).validarComplejidadContraseña(us_clave_nueva1.getText())){
+                                        //Procedemos a registrar tanto el correo, como la nueva contraseña del usuario
+                                        int result = 0;
+                                            try {
+                                                String contraseñaNueva=us_clave_nueva1.getText();
+                                                String contraseñaAnterior1=user.getClave();
+                                                String contraseñaAnterior2=user.getClaveAnterior1();
+                                                user.setClave(contraseñaNueva);
+                                                user.setClaveAnterior1(contraseñaAnterior1);
+                                                user.setClaveAnterior2(contraseñaAnterior2);
+                                                if(validarClave){
+                                                    result = new ControlDB_Usuario(tipoConexion).cambiarContraseñaConCorreo(user, correoAnterior);
+                                                }
+                                            } catch (FileNotFoundException ex) {
+                                                Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
+                                            } catch (UnknownHostException ex) {
                                             Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
-                                        } catch (UnknownHostException ex) {
-                                        Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
-                                    } catch (SocketException ex) {
-                                        Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (SocketException ex) {
+                                            Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        if(result==1){
+                                          
+                                            JOptionPane.showMessageDialog(null, "Actualización registrada exitosamente");
+                                            System.exit(0);
+                                        }else{
+                                            JOptionPane.showMessageDialog(null, "Error al actualizar la información suministrada");
+                                        }
                                     }
-                                    if(result==1){
-                                        System.exit(0);
-                                        JOptionPane.showMessageDialog(null, "Actualización registrada exitosamente");
-                                        /*JOptionPane.showMessageDialog(null, "Actualización registrada exitosamente");
-                                        GUI_Iniciar gui_Iniciar = new GUI_Iniciar();
-                                        gui_Iniciar.setVisible(true);
-                                        this.removeAll();
-                                        this.setVisible(false);*/
-                                        
-                                    }else{
-                                        JOptionPane.showMessageDialog(null, "Error al actualizar la información suministrada");
-                                    }
-                                }else{// las nuevas contraseñas no coinciden
-                                    JOptionPane.showMessageDialog(null, "las nuevas contraseñas deben coincidir","Advertencia", JOptionPane.INFORMATION_MESSAGE);
                                 }
-                            }    
-                        }else{//Contraseña actual digitada incorrecta
-                            JOptionPane.showMessageDialog(null, "Contraseña incorrecta");
+                            }
                         }
-                    }
-                }else{
-                    //procedemos a actualizar solo el correo del usuario
-                    int result = 0;
-                        try {
-                            result = new ControlDB_Usuario(tipoConexion).cambiarCorreo(user, correoAnterior);
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (UnknownHostException ex) {
-                        Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SocketException ex) {
-                        Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    if(result==1){
-                        System.exit(0);
-                        JOptionPane.showMessageDialog(null, "Actualización registrada exitosamente");
-                        /*GUI_Iniciar gui_Iniciar = new GUI_Iniciar();
-                        gui_Iniciar.setVisible(true);
-                        this.removeAll();
-                        this.setVisible(false);*/
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Error al actualizar la información suministrada");
+                    }else{//Contraseña actual digitada incorrecta
+                        JOptionPane.showMessageDialog(null, "La contraseña actual es incorrecta");
                     }
                 }
             }else{
-                JOptionPane.showMessageDialog(null, "El email ingresado es inválido.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                int result = 0;
+                try {
+                    result = new ControlDB_Usuario(tipoConexion).cambiarCorreo(user, correoAnterior);
+                } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (UnknownHostException ex) {
+                    Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SocketException ex) {
+                    Logger.getLogger(Usuario_CambiarClave.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(result==1){
+                    JOptionPane.showMessageDialog(null, "Actualización registrada exitosamente");
+                    System.exit(0);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al actualizar la información suministrada");
+                }
             }
         }
     }//GEN-LAST:event_RegistrarUsuarioActionPerformed
@@ -370,6 +396,18 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_us_perfilMouseClicked
 
+    private void viewPassword23ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_viewPassword23ItemStateChanged
+        if(viewPassword23.isSelected()){
+            us_clave_actual.setEchoChar((char)0); // este método es el que hace visible el texto del jPasswordField
+            us_clave_nueva1.setEchoChar((char)0); // este método es el que hace visible el texto del jPasswordField
+            us_clave_nueva2.setEchoChar((char)0); // este método es el que hace visible el texto del jPasswordField
+        } else {
+            us_clave_actual.setEchoChar('*'); // i es el char
+            us_clave_nueva1.setEchoChar('*'); // i es el char
+            us_clave_nueva2.setEchoChar('*'); // i es el char
+        }
+    }//GEN-LAST:event_viewPassword23ItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RegistrarUsuario;
@@ -393,6 +431,7 @@ public final class Usuario_CambiarClave extends javax.swing.JPanel {
     private javax.swing.JTextField us_correo;
     private javax.swing.JTextField us_nombres;
     private javax.swing.JTextField us_perfil;
+    private javax.swing.JCheckBox viewPassword23;
     // End of variables declaration//GEN-END:variables
     /*String resultado = "Muy Buena";    // Resultado de password valido
 

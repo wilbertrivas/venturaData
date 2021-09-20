@@ -1,6 +1,6 @@
-package ModuloEquipo.Controller2;
+package ModuloEquipo.Controller;
 
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Catalogo.Model.Producto;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;

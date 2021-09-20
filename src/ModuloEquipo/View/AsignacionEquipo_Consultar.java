@@ -1,9 +1,9 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_CentroOperacion;
 import Catalogo.Model.CentroOperacion;
-import ModuloEquipo.Controller2.ControlDB_AsignacionEquipo;
-import ModuloEquipo.Controller2.ControlDB_SolicitudEquipo;
+import ModuloEquipo.Controller.ControlDB_AsignacionEquipo;
+import ModuloEquipo.Controller.ControlDB_SolicitudEquipo;
 import ModuloEquipo.Model.AsignacionEquipo;
 import ModuloEquipo.Model.ConfirmacionSolicitudEquipos;
 import ModuloEquipo.Model.SolicitudEquipo;

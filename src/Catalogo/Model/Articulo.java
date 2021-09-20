@@ -23,6 +23,7 @@ public class Articulo {
         this.descripcion = descripcion;
         this.estado = estado;
     }
+    
 
     public String getCodigo() {
         return codigo;

@@ -1,7 +1,7 @@
 package Catalogo.Controller;
   
 import Catalogo.Model.CentroCostoEquipo;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;

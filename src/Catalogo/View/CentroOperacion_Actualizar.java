@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Consumo.View.Unidad_Registrar;
 import Catalogo.Controller.ControlDB_CentroOperacion;

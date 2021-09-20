@@ -1,10 +1,10 @@
 package Consumo.View;
  
-import Consumo.Controller2.ControlDB_Compra;
-import Consumo.Controller2.ControlDB_Insumo;
-import Consumo.Model2.Compra;
-import Consumo.Model2.Insumo;
-import Consumo.Model2.Unidad;
+import Consumo.Controller.ControlDB_Compra;
+import Consumo.Controller.ControlDB_Insumo;
+import Consumo.Model.Compra;
+import Consumo.Model.Insumo;
+import Consumo.Model.Unidad;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;

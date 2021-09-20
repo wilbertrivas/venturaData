@@ -1,4 +1,4 @@
-package ModuloCarbon.View2;
+package ModuloCarbon.View;
   
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
@@ -2449,13 +2449,25 @@ public final class MvtoCarbon_Procesar extends javax.swing.JPanel implements Act
                        return listado1.getMvtoCarbon().getArticulo().getDescripcion();
                     }
                     case "Artículo_Tipo":{
-                       return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion();
+                        if(listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion() != null){
+                            return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion();
+                        }else{
+                            return "";
+                        }
                     }
                     case "Artículo_Código_ERP":{
-                       return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP();
+                        if(listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP() != null){
+                            return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP();
+                        }else{
+                            return "";
+                        } 
                     }
                     case "Artículo_Unidad_Negocio":{
-                       return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio();
+                        if(listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio() != null){
+                            return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio();
+                        }else{
+                            return "";
+                        }
                     }
                     case "Cliente_Código":{
                        return listado1.getMvtoCarbon().getCliente().getCodigo();

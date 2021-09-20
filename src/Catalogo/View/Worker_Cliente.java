@@ -1,6 +1,6 @@
-package Catalogo.View1;
+package Catalogo.View;
    
-import Catalogo.View1.Cliente_RegistroSincronizado;
+import Catalogo.View.Cliente_RegistroSincronizado;
 import Catalogo.Controller.ControlDB_Cliente;
 import Catalogo.Model.Cliente;
 import Sistema.Model.Usuario;

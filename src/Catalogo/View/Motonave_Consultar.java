@@ -1,4 +1,4 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Catalogo.Controller.ControlDB_Motonave;
 import Catalogo.Model.Motonave;
@@ -70,6 +70,7 @@ public final class Motonave_Consultar extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         titulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titulo.setForeground(new java.awt.Color(0, 153, 153));
         titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titulo.setText("CONSULTA DE MOTONAVES");
         titulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -264,6 +265,7 @@ public final class Motonave_Consultar extends javax.swing.JPanel {
         }else{
             File archivo;
             archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_Motonaves.xlsx");
+            archivo= new File( System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporte_Motonaves.xlsx");
             Workbook wb;
             String respuesta="No se realizó con exito la exportacion";
             int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();

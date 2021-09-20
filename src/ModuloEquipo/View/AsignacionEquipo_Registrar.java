@@ -1,11 +1,11 @@
-package ModuloEquipo.View2;
+package ModuloEquipo.View;
 
 import Catalogo.Controller.ControlDB_CentroOperacion;
 import Catalogo.Model.CentroOperacion;
-import ModuloEquipo.Controller2.ControlDB_AsignacionEquipo;
+import ModuloEquipo.Controller.ControlDB_AsignacionEquipo;
 import Catalogo.Controller.ControlDB_Equipo;
-import ModuloEquipo.Controller2.ControlDB_EstadoSolicitudEquipos;
-import ModuloEquipo.Controller2.ControlDB_SolicitudEquipo;
+import ModuloEquipo.Controller.ControlDB_EstadoSolicitudEquipos;
+import ModuloEquipo.Controller.ControlDB_SolicitudEquipo;
 import ModuloEquipo.Model.AsignacionEquipo;
 import Catalogo.Model.Equipo;
 import Correos.mail;
@@ -333,6 +333,9 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
         titulo18 = new javax.swing.JLabel();
         titulo15 = new javax.swing.JLabel();
         titulo27 = new javax.swing.JLabel();
+        titulo67 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        equiposSugeridos = new javax.swing.JTextArea();
         titulo35 = new javax.swing.JLabel();
         titulo36 = new javax.swing.JLabel();
         titulo28 = new javax.swing.JLabel();
@@ -660,8 +663,8 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
 
         titulo48.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         titulo48.setForeground(new java.awt.Color(51, 51, 51));
-        titulo48.setText("Motonave:");
-        InternalFrame_AsignacionEquipos.getContentPane().add(titulo48, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, 160, 20));
+        titulo48.setText("Equipos Sugeridos:");
+        InternalFrame_AsignacionEquipos.getContentPane().add(titulo48, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, 160, 20));
 
         asignacion_fechaHoraFin.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         asignacion_fechaHoraFin.setForeground(new java.awt.Color(102, 102, 102));
@@ -1271,6 +1274,18 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
 
         InternalFrame_AsignacionEquipos.getContentPane().add(InternalFrameSelectorCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1290, 360));
 
+        titulo67.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo67.setForeground(new java.awt.Color(51, 51, 51));
+        titulo67.setText("Motonave:");
+        InternalFrame_AsignacionEquipos.getContentPane().add(titulo67, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, 160, 20));
+
+        equiposSugeridos.setEditable(false);
+        equiposSugeridos.setColumns(20);
+        equiposSugeridos.setRows(5);
+        jScrollPane1.setViewportView(equiposSugeridos);
+
+        InternalFrame_AsignacionEquipos.getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 140, 460, 60));
+
         add(InternalFrame_AsignacionEquipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1310, 700));
 
         titulo35.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -1707,9 +1722,9 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
         } 
         //Validamos que sean solicitudes en estado de elaboración (1)
         if(sql.equals("")){
-            sql +=" WHERE ([ese_cdgo] = 1 OR [ese_cdgo] = 2) AND [se_confirmacion_solicitud_equipo_cdgo] IS NULL  ORDER BY [se_fecha] DESC";
+            sql +=" WHERE ([ese_cdgo] = 1 OR [ese_cdgo] = 2) AND [se_confirmacion_solicitud_equipo_cdgo] IS NULL  ORDER BY [se_fecha_registro] DESC";
         }else{
-            sql +=" AND ([ese_cdgo] = 1 OR [ese_cdgo] = 2) AND [se_confirmacion_solicitud_equipo_cdgo] IS NULL ORDER BY [se_fecha] DESC";
+            sql +=" AND ([ese_cdgo] = 1 OR [ese_cdgo] = 2) AND [se_confirmacion_solicitud_equipo_cdgo] IS NULL ORDER BY [se_fecha_registro] DESC";
         }
         try {
             DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"C.O","Fecha", "Usuario_Cedula","Usuario_Nombre","Fecha_Registro","Estado"});      
@@ -1809,6 +1824,7 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
                     asignacion_Auxiliar.setText(solicitudListadoEquipo.getCentroCostoAuxiliar().getDescripcion());
                     asignacion_compañia.setText(solicitudListadoEquipo.getCompañia().getDescripcion());
                     asignacion_motonave.setText(solicitudListadoEquipo.getMotonave().getDescripcion());
+                    equiposSugeridos.setText(solicitudListadoEquipo.getObservacacion());
                     InternalFrame_AsignacionEquipos.show(true);
                   //Cargamos la fecha y la hora de Inicio      
                     String[] fechaInicioA= solicitudListadoEquipo.getFechaHoraInicio().split(" ");
@@ -1868,6 +1884,7 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
                 asignacion_Auxiliar.setText(solicitudListadoEquipo.getCentroCostoAuxiliar().getDescripcion());
                 asignacion_compañia.setText(solicitudListadoEquipo.getCompañia().getDescripcion());
                 asignacion_motonave.setText(solicitudListadoEquipo.getMotonave().getDescripcion());
+                equiposSugeridos.setText(solicitudListadoEquipo.getObservacacion());
                 InternalFrame_AsignacionEquipos.show(true);
               //Cargamos la fecha y la hora de Inicio      
                 String[] fechaInicioA= solicitudListadoEquipo.getFechaHoraInicio().split(" ");
@@ -1947,7 +1964,7 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
                 String dataEquipo[]= new String[listadoEquipo.size()];
                 for(int i = 0; i< dataEquipo.length; i++){
                     //dataEquipo[i]=""+(listadoEquipo.get(i).getDescripcion());  
-                    dataEquipo[i]=""+(listadoEquipo.get(i).getCodigo()+" "+listadoEquipo.get(i).getDescripcion());
+                    dataEquipo[i]=""+(listadoEquipo.get(i).getCodigo()+" "+listadoEquipo.get(i).getDescripcion()+ " "+ listadoEquipo.get(i).getModelo());
                 }    
                 final DefaultComboBoxModel modelListadoEquipos = new DefaultComboBoxModel(dataEquipo);
                 selectEquipos.setModel(modelListadoEquipos);
@@ -1989,7 +2006,7 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
                     String dataEquipo[]= new String[listadoEquipo.size()];
                     for(int i = 0; i< dataEquipo.length; i++){
                         //dataEquipo[i]=""+(listadoEquipo.get(i).getDescripcion());  
-                        dataEquipo[i]=""+(listadoEquipo.get(i).getCodigo()+" "+listadoEquipo.get(i).getDescripcion());
+                        dataEquipo[i]=""+(listadoEquipo.get(i).getCodigo()+" "+listadoEquipo.get(i).getDescripcion()+ " "+ listadoEquipo.get(i).getModelo());
                     }    
                     final DefaultComboBoxModel modelListadoEquipos = new DefaultComboBoxModel(dataEquipo);
                     selectEquipos.setModel(modelListadoEquipos);
@@ -2447,6 +2464,7 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
     private javax.swing.JRadioButton checkCentroOperacion;
     private javax.swing.JRadioButton checkFechaSolicitud;
     private javax.swing.JRadioButton checkUsuario;
+    private javax.swing.JTextArea equiposSugeridos;
     private javax.swing.JComboBox<String> estadoSolicitud;
     private com.toedter.calendar.JDateChooser fechaFin;
     private com.toedter.calendar.JDateChooser fechaFinAsignacion;
@@ -2478,6 +2496,7 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2593,6 +2612,7 @@ public class AsignacionEquipo_Registrar extends javax.swing.JPanel {
     private javax.swing.JLabel titulo64;
     private javax.swing.JLabel titulo65;
     private javax.swing.JLabel titulo66;
+    private javax.swing.JLabel titulo67;
     private javax.swing.JLabel titulo7;
     private javax.swing.JLabel titulo9;
     // End of variables declaration//GEN-END:variables

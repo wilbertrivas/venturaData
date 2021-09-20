@@ -1,8 +1,8 @@
-package Consumo.Controller2;
+package Consumo.Controller;
  
-import ConnectionDB2.Conexion_DB_costos_vg;
-import Consumo.Model2.Insumo;
-import Consumo.Model2.Unidad;
+import ConnectionDB.Conexion_DB_costos_vg;
+import Consumo.Model.Insumo;
+import Consumo.Model.Unidad;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;

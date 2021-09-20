@@ -1,11 +1,11 @@
 package Catalogo.Controller;
   
-import ConnectionDB2.Conexion_DB_ccargaGP;
-import ConnectionDB2.Conexion_DB_costos_vg;
+import ConnectionDB.Conexion_DB_ccargaGP;
+import ConnectionDB.Conexion_DB_costos_vg;
 import Catalogo.Model.Articulo;
 import Catalogo.Model.BaseDatos;
 import Catalogo.Model.TipoArticulo;
-import ConnectionDB2.Conexion_DB_ccargaOPP;
+import ConnectionDB.Conexion_DB_ccargaOPP;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import org.eclipse.persistence.jpa.jpql.parser.OnClause;
 
 public class ControlDB_Articulo {
     private Connection conexion=null;
@@ -372,7 +371,6 @@ public class ControlDB_Articulo {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     } 
-    
     public ArrayList<Articulo> buscarActivosConParametros(String valorBusqueda) throws SQLException{
         ArrayList<Articulo> listadoObjetos = new ArrayList();
         conexion= control.ConectarBaseDatos();

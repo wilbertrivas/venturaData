@@ -1,10 +1,10 @@
-package Catalogo.View1;
+package Catalogo.View;
   
 import Catalogo.Controller.ControlDB_BaseDatos;
 import Catalogo.Controller.ControlDB_Motonave;
 import Catalogo.Model.BaseDatos;
 import Catalogo.Model.Motonave;
-import ModuloEquipo.View2.Solicitud_Equipos_Registrar;
+import ModuloEquipo.View.Solicitud_Equipos_Registrar;
 import Sistema.Model.Usuario;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -383,7 +383,8 @@ public final class Motonave_RegistroSincronizado extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "El usuario no tiene un correo configurado para el envio de correo, favor actualizar los datos");
         }else{
             File archivo;
-            archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_Motonaves.xlsx");
+            //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporte_Motonaves.xlsx");
+            archivo= new File( System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporte_Motonaves.xlsx");
             Workbook wb;
             String respuesta="No se realizó con exito la exportacion";
             int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();
