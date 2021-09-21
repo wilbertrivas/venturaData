@@ -1148,7 +1148,7 @@ public final class MvtoCarbon_Procesar extends javax.swing.JPanel implements Act
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 65)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
         jLabel9.setText("|");
-        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 40, 70));
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 30, 70));
 
         fechaFin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

@@ -1,7 +1,6 @@
 package ModuloCarbon.View;
  
 import ModuloCarbon.Controller2.ControlDB_MvtoCarbon;
-import ModuloCarbon.Model.MvtoCarbon;
 import ModuloCarbon.Model.MvtoCarbon_ListadoEquipos;
 import Sistema.Model.Usuario;
 import java.awt.Color;

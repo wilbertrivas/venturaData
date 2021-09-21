@@ -2,7 +2,6 @@ package ModuloPalero.Controller;
   
 import ConnectionDB.Conexion_DB_costos_vg;
 import Catalogo.Model.Articulo;
-import Catalogo.Model.BaseDatos;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;
@@ -10,14 +9,12 @@ import Catalogo.Model.Cliente;
 import Catalogo.Model.Compañia;
 import Catalogo.Model.Equipo;
 import Catalogo.Model.LaborRealizada;
-import Catalogo.Model.TipoArticulo;
 import Catalogo.Model.TipoEquipo;
 import Catalogo.Model.Transportadora;
 import ModuloCarbon.Model.MvtoCarbon;
 import ModuloEquipo.Model.AsignacionEquipo;
 import ModuloEquipo.Model.MvtoEquipo;
 import ModuloPalero.Model.ConfiguracionLiquidacion;
-import ModuloPalero.Model.EquipoLiquidacion;
 import ModuloPalero.Model.Liquidacion;
 import ModuloPalero.Model.MvtoCarbon_ListadoEquipos_LiquidacionPaleros;
 import ModuloPalero.Model.MvtoPaleroPreliquidacionTEMP;
@@ -235,6 +232,10 @@ public class ControlDB_LiquidacionPalero {
         return listadoObjetos;
     }
     public ArrayList<MvtoCarbon_ListadoEquipos_LiquidacionPaleros>     procesarLiquidacion (ArrayList<MvtoCarbon_ListadoEquipos_LiquidacionPaleros> listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros) throws SQLException{
+        /*
+            Funcionalidad:  Este metodo recibe como parámetro un listado de MvtoCarbon_ListadoEquipos_LiquidacionPaleros el cual contiene los vehículos descargados en ese periodo de tiempo de liquidación
+                            cuya finalidad es validar el equipo de descargue que personas están asociada y posteriormente eliminar a las personas que no asistieron ese día.
+        */
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
         conexion= control.ConectarBaseDatos();
@@ -266,6 +267,32 @@ public class ControlDB_LiquidacionPalero {
         control.cerrarConexionBaseDatos();
         return listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros;
     }
+    
+    public MvtoCarbon_ListadoEquipos_LiquidacionPaleros     procesarLiquidacion2 (MvtoCarbon_ListadoEquipos_LiquidacionPaleros listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros) throws SQLException{
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        try{
+            listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros=consultarPersonasPorEquipoLiquidacion(listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros);
+            conexion= control.ConectarBaseDatos();
+            if(listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas()!= null){
+                for(int j=0; j    < listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size(); j++){
+                    if(!new ControlDB_Marcacion(tipoConexion).validarMarcacionEquipoPersona(listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().get(j),listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros.getMvtoCarbon().getFechaRegistro())){
+                        listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().remove(j);
+                        j--;
+                    }
+                }
+            }else{
+                listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros= null;
+            }
+        }catch (SQLException sqlException) {
+            JOptionPane.showMessageDialog(null, "Error al tratar de procesar los registros");
+            sqlException.printStackTrace();
+        } 
+        control.cerrarConexionBaseDatos();
+        return listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros;
+    }
+    
     public MvtoCarbon_ListadoEquipos_LiquidacionPaleros consultarPersonasPorEquipoLiquidacion(MvtoCarbon_ListadoEquipos_LiquidacionPaleros mvtoCarbon_ListadoEquipos_LiquidacionPaleros) throws SQLException{
         ArrayList<Persona> listadoObjetos =null;
         conexion= control.ConectarBaseDatos();

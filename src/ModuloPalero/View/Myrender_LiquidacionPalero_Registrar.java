@@ -9,15 +9,13 @@ public class Myrender_LiquidacionPalero_Registrar extends DefaultTableCellRender
      private final int columna_patron ;
      private String fecha ;
      
-    public Myrender_LiquidacionPalero_Registrar(int Colpatron)
-    {
+    public Myrender_LiquidacionPalero_Registrar(int Colpatron){
         this.columna_patron = Colpatron;
         //this.fecha = fecha;
     }
  
      @Override
-    public Component getTableCellRendererComponent ( JTable table, Object value, boolean selected, boolean focused, int row, int column )
-    {
+    public Component getTableCellRendererComponent ( JTable table, Object value, boolean selected, boolean focused, int row, int column ){
         setBackground(Color.white);//color de fondo
         table.setForeground(Color.black);//color de texto
         if(table.getValueAt(row,columna_patron).toString().equals("ROJO"))  {
@@ -30,5 +28,4 @@ public class Myrender_LiquidacionPalero_Registrar extends DefaultTableCellRender
     super.getTableCellRendererComponent(table, value, selected, focused, row, column);
         return this;
     }
-
 }
