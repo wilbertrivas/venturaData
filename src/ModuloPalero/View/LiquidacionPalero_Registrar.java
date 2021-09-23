@@ -1481,7 +1481,7 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                             JOptionPane.showMessageDialog(null,"Elija un formato valido");
                         }
                     }
-                }else{
+                }else{//d
                     if(level==4){
                         //listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros = worker.getListado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros();
                         //si  listadoPreliquidacion
