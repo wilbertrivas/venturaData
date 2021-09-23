@@ -99,7 +99,7 @@ import utilities.ModeloDeTabla;
 import utilities.PaginadorDeTabla;
 import utilities.ProveedorDeDatosDePaginacion;
 
-public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements ActionListener, TableModelListener {
+public class LiquidacionPalero_RegistrarBackup extends javax.swing.JPanel implements ActionListener, TableModelListener {
     Usuario user;
     private String tipoConexion;
     ArrayList<TipoArticulo> listadoTipoArticulo = new ArrayList();
@@ -115,11 +115,10 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
     ArrayList<PlantillaArchivoLiquidacion> listadoPlantillaArchivoLiquidacion = null;
     ArrayList<String> listadoPreliquidacion=null;
     Worker_PaleroMarcacionPersonas  worker;
-    Worker_LiquidacionNivel2  worker2;
     boolean validarNext = true;
     int level = 0;
 
-    public LiquidacionPalero_Registrar(Usuario us, String tipoConexion) {
+    public LiquidacionPalero_RegistrarBackup(Usuario us, String tipoConexion) {
         initComponents();
         user = us;
         this.tipoConexion = tipoConexion;
@@ -631,7 +630,7 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                         buttonNext.show(true);
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             } else {
@@ -665,10 +664,10 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                 //###########################
                 jProgressBar1.show(true);
                 if(listado!=null){
-                    worker = new Worker_PaleroMarcacionPersonas (Label_level,jProgressBar1,buttonNext,tablaListadoVehiculosPorEquipoLiquidacion,listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros, user,tipoConexion);
+                    worker = new Worker_PaleroMarcacionPersonas (jProgressBar1,buttonNext,tablaListadoVehiculosPorEquipoLiquidacion,listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros, user,tipoConexion);
                     worker.execute();
                     level = 2;
-                    //Label_level.setText("NIVEL " + level);
+                    Label_level.setText("NIVEL " + level);
                     senMailLabel.show(false);
                     sendMailIcon.show(false);
                     
@@ -721,122 +720,105 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                 if (level == 2) {//Vamos a proceder a registrar en la base de datos
                     listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros = worker.getListado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros();
                     //Limpiamos las tablas temporales para proceder con el almanenamiento de los datos
-                    jProgressBar1.show(true);
-                    worker2= new Worker_LiquidacionNivel2(Label_level, jProgressBar1, buttonNext, tablaListadoVehiculosPorEquipoLiquidacion, listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros, configuracionLiquidacionliquidar, user, tipoConexion);
-                    worker2.execute();
-                    
-                    level = 3;
-                    //Label_level.setText("NIVEL " + level); 
-                    senMailLabel.show(false);
-                    sendMailIcon.show(false);
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-//                    
-//                    new ControlDB_LiquidacionPalero(tipoConexion).limpiarRegistroLiquidacion();
-//
-//                    ArrayList<MvtoPaleroPreliquidacionTEMP> listado_MvtoPaleroPreliquidacionTEMP= null;
-//                    if(listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros != null){
-//                        listado_MvtoPaleroPreliquidacionTEMP = new ArrayList<>();
-//                        for (MvtoCarbon_ListadoEquipos_LiquidacionPaleros objeto : listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros) {
-//                             for (int i = 0; i < objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size(); i++) {
-//                                MvtoPaleroPreliquidacionTEMP mvtoPaleroPreliquidacionTEMP = new MvtoPaleroPreliquidacionTEMP();
-//                                mvtoPaleroPreliquidacionTEMP.setMvtoVehiculoPalerosTEMP(new MvtoVehiculoPalerosTEMP(null, objeto, "1"));
-//                                mvtoPaleroPreliquidacionTEMP.setConfiguracionLiquidacion(configuracionLiquidacion);
-//                                mvtoPaleroPreliquidacionTEMP.setFecha(objeto.getMvtoCarbon().getFechaRegistro());
-//                                mvtoPaleroPreliquidacionTEMP.setPersona(objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().get(i));
-//                                mvtoPaleroPreliquidacionTEMP.setEquipoLiquidacion(new EquipoLiquidacion(null, objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo(), "1"));
-//                                DecimalFormat formato3 = new DecimalFormat("0.00"); 
-//                                mvtoPaleroPreliquidacionTEMP.setPesoAsignado(""+formato3.format((Double.parseDouble(objeto.getMvtoCarbon().getPesoNeto()) / objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size())));
-//                                mvtoPaleroPreliquidacionTEMP.setEstado("1");
-//                                listado_MvtoPaleroPreliquidacionTEMP.add(mvtoPaleroPreliquidacionTEMP);
-//                            }
-//                        }
-//                        try {
-//                            //Procedemos a registrar las preliquidaciones en las tablar temporales con el objeto listado_MvtoPaleroPreliquidacionTEMP
-//                            //listado_MvtoPaleroPreliquidacionTEMP
-//                            int result= new ControlDB_LiquidacionPalero(tipoConexion).registrar_Preliquidacion(listado_MvtoPaleroPreliquidacionTEMP, user);
-//                            if(result==1){
-//                                //JOptionPane.showMessageDialog(null, "Se registro la preliqudacion de forma exitosa","Registro exitoiso", JOptionPane.INFORMATION_MESSAGE);
-//                                listadoPreliquidacion = new ArrayList<>();
-//                                listadoPreliquidacion=new ControlDB_LiquidacionPalero(tipoConexion).consultarPreliquidacion();
-//                                if(listadoPreliquidacion!= null){
-//                                    //Limpiamos todos los registro de la tabla
-//                                    DefaultTableModel md = (DefaultTableModel) tablaListadoVehiculosPorEquipoLiquidacion.getModel();
-//                                    int CantEliminar = tablaListadoVehiculosPorEquipoLiquidacion.getRowCount() - 1;
-//                                    for (int i = CantEliminar; i >= 0; i--) {
-//                                        md.removeRow(i);
-//                                    }
-//                                    DefaultTableModel modeloT = new DefaultTableModel(null, new String[]{"CEDULA", "NOMBRE", "CUADRILLA", "FECHA", "CANTIDAD_VEHÍCULOS_DESCARGADOS","VEHÍCULOS_DESCARGADOS", "TOTAL DESCARGADO EN KG", "TOTAL ASIGNADO EN KG"});
-//
-//                                    //Cargamos la nueva información
-//                                    for(String data : listadoPreliquidacion){
-//                                        DecimalFormat formato2 = new DecimalFormat("0.00");
-//                                        String[] informacion = data.split("@@");
-//                                        String[] registro = new String[8];
-//                                        registro[0] = "" + informacion[0];
-//                                        registro[1] = "" + informacion[1];
-//                                        registro[2] = "" + informacion[2];
-//                                        registro[3] = "" + informacion[3];
-//                                        registro[4] = "" + informacion[7];
-//                                        registro[5] = "" + informacion[4];
-//                                        registro[6] = "" + formato2.format(Double.parseDouble(informacion[5]));
-//                                        registro[7] = "" + formato2.format(Double.parseDouble(informacion[6]));
-//                                        modeloT.addRow(registro);
-//                                    }
-//                                    tablaListadoVehiculosPorEquipoLiquidacion.setModel(modeloT);
-//                                    tablaListadoVehiculosPorEquipoLiquidacion.setDefaultRenderer(Object.class, new Myrender_LiquidacionPalero_Registrar(2));
-//                                    resizeColumnWidth(tablaListadoVehiculosPorEquipoLiquidacion);
-//                                    level = 3;
-//                                    Label_level.setText("NIVEL " + level); 
-//                                    buttonNext.setText("GENERAR LIQUIDACIÓN");
-//                                    senMailLabel.show(false);
-//                                    sendMailIcon.show(false);
-//                                }
-//
-//
-//
-//                                /**
-//                                    SELECT  --[mppt_cdgo]
-//                                          --,[mppt_mvto_vehiculos_paleros_temp_cdgo]
-//                                          --,[mppt_config_liquidacion_cdgo]
-//                                         -- ,[mppt_fecha]
-//                                          --,
-//                                              DISTINCT([mppt_persona_cdgo])
-//                                          --,[mppt_persona_tipo_documento_cdgo]
-//                                          --,[mppt_equipos_liquidacion_cdgo]
-//                                          --,SUM([mppt_peso_articulo])
-//                                              --,(CONVERT (decimal(38,2), [mppt_peso_articulo]))
-//                                              --,CAST([mppt_peso_articulo] AS decimal(20,2))
-//                                             -- ,(CONVERT(FLOAT, CONCAT('','6622.00')))
-//                                             -- ,(mppt_peso_articulo)
-//                                              ,SUM(convert(money, REPLACE(mppt_peso_articulo, ',','.')))
-//                                              --,(convert(money, mppt_peso_articulo, 1))
-//                                              -- ,convert(money, mppt_peso_articulo, 1)
-//                                      FROM [costos_vg_test].[dbo].[mvto_palero_preliquidacion_temp]
-//
-//
-//                                      GROUP BY [mppt_persona_cdgo],[mppt_persona_tipo_documento_cdgo]--,[mppt_peso_articulo]*/
-//                            }else{
-//                                if(result==0){
-//                                    JOptionPane.showMessageDialog(null, "No se pudo registrar la preliquidacion en el sistema","Error!!.", JOptionPane.ERROR_MESSAGE);
-//                                }
-//                            }
-//                        } catch (FileNotFoundException ex) {
-//                            Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
-//                        } catch (UnknownHostException ex) {
-//                            Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
-//                        } catch (SocketException ex) {
-//                            Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
-//                        } catch (SQLException ex) {
-//                            Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-                    //}
+                    new ControlDB_LiquidacionPalero(tipoConexion).limpiarRegistroLiquidacion();
+
+                    ArrayList<MvtoPaleroPreliquidacionTEMP> listado_MvtoPaleroPreliquidacionTEMP= null;
+                    if(listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros != null){
+                        listado_MvtoPaleroPreliquidacionTEMP = new ArrayList<>();
+                        for (MvtoCarbon_ListadoEquipos_LiquidacionPaleros objeto : listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros) {
+                             for (int i = 0; i < objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size(); i++) {
+                                MvtoPaleroPreliquidacionTEMP mvtoPaleroPreliquidacionTEMP = new MvtoPaleroPreliquidacionTEMP();
+                                mvtoPaleroPreliquidacionTEMP.setMvtoVehiculoPalerosTEMP(new MvtoVehiculoPalerosTEMP(null, objeto, "1"));
+                                mvtoPaleroPreliquidacionTEMP.setConfiguracionLiquidacion(configuracionLiquidacion);
+                                mvtoPaleroPreliquidacionTEMP.setFecha(objeto.getMvtoCarbon().getFechaRegistro());
+                                mvtoPaleroPreliquidacionTEMP.setPersona(objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().get(i));
+                                mvtoPaleroPreliquidacionTEMP.setEquipoLiquidacion(new EquipoLiquidacion(null, objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo(), "1"));
+                                DecimalFormat formato3 = new DecimalFormat("0.00"); 
+                                mvtoPaleroPreliquidacionTEMP.setPesoAsignado(""+formato3.format((Double.parseDouble(objeto.getMvtoCarbon().getPesoNeto()) / objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size())));
+                                mvtoPaleroPreliquidacionTEMP.setEstado("1");
+                                listado_MvtoPaleroPreliquidacionTEMP.add(mvtoPaleroPreliquidacionTEMP);
+                            }
+                        }
+                        try {
+                            //Procedemos a registrar las preliquidaciones en las tablar temporales con el objeto listado_MvtoPaleroPreliquidacionTEMP
+                            //listado_MvtoPaleroPreliquidacionTEMP
+                            int result= new ControlDB_LiquidacionPalero(tipoConexion).registrar_Preliquidacion(listado_MvtoPaleroPreliquidacionTEMP, user);
+                            if(result==1){
+                                //JOptionPane.showMessageDialog(null, "Se registro la preliqudacion de forma exitosa","Registro exitoiso", JOptionPane.INFORMATION_MESSAGE);
+                                listadoPreliquidacion = new ArrayList<>();
+                                listadoPreliquidacion=new ControlDB_LiquidacionPalero(tipoConexion).consultarPreliquidacion();
+                                if(listadoPreliquidacion!= null){
+                                    //Limpiamos todos los registro de la tabla
+                                    DefaultTableModel md = (DefaultTableModel) tablaListadoVehiculosPorEquipoLiquidacion.getModel();
+                                    int CantEliminar = tablaListadoVehiculosPorEquipoLiquidacion.getRowCount() - 1;
+                                    for (int i = CantEliminar; i >= 0; i--) {
+                                        md.removeRow(i);
+                                    }
+                                    DefaultTableModel modeloT = new DefaultTableModel(null, new String[]{"CEDULA", "NOMBRE", "CUADRILLA", "FECHA", "CANTIDAD_VEHÍCULOS_DESCARGADOS","VEHÍCULOS_DESCARGADOS", "TOTAL DESCARGADO EN KG", "TOTAL ASIGNADO EN KG"});
+
+                                    //Cargamos la nueva información
+                                    for(String data : listadoPreliquidacion){
+                                        DecimalFormat formato2 = new DecimalFormat("0.00");
+                                        String[] informacion = data.split("@@");
+                                        String[] registro = new String[8];
+                                        registro[0] = "" + informacion[0];
+                                        registro[1] = "" + informacion[1];
+                                        registro[2] = "" + informacion[2];
+                                        registro[3] = "" + informacion[3];
+                                        registro[4] = "" + informacion[7];
+                                        registro[5] = "" + informacion[4];
+                                        registro[6] = "" + formato2.format(Double.parseDouble(informacion[5]));
+                                        registro[7] = "" + formato2.format(Double.parseDouble(informacion[6]));
+                                        modeloT.addRow(registro);
+                                    }
+                                    tablaListadoVehiculosPorEquipoLiquidacion.setModel(modeloT);
+                                    tablaListadoVehiculosPorEquipoLiquidacion.setDefaultRenderer(Object.class, new Myrender_LiquidacionPalero_Registrar(2));
+                                    resizeColumnWidth(tablaListadoVehiculosPorEquipoLiquidacion);
+                                    level = 3;
+                                    Label_level.setText("NIVEL " + level); 
+                                    buttonNext.setText("GENERAR LIQUIDACIÓN");
+                                    senMailLabel.show(false);
+                                    sendMailIcon.show(false);
+                                }
+
+
+
+                                /**
+                                    SELECT  --[mppt_cdgo]
+                                          --,[mppt_mvto_vehiculos_paleros_temp_cdgo]
+                                          --,[mppt_config_liquidacion_cdgo]
+                                         -- ,[mppt_fecha]
+                                          --,
+                                              DISTINCT([mppt_persona_cdgo])
+                                          --,[mppt_persona_tipo_documento_cdgo]
+                                          --,[mppt_equipos_liquidacion_cdgo]
+                                          --,SUM([mppt_peso_articulo])
+                                              --,(CONVERT (decimal(38,2), [mppt_peso_articulo]))
+                                              --,CAST([mppt_peso_articulo] AS decimal(20,2))
+                                             -- ,(CONVERT(FLOAT, CONCAT('','6622.00')))
+                                             -- ,(mppt_peso_articulo)
+                                              ,SUM(convert(money, REPLACE(mppt_peso_articulo, ',','.')))
+                                              --,(convert(money, mppt_peso_articulo, 1))
+                                              -- ,convert(money, mppt_peso_articulo, 1)
+                                      FROM [costos_vg_test].[dbo].[mvto_palero_preliquidacion_temp]
+
+
+                                      GROUP BY [mppt_persona_cdgo],[mppt_persona_tipo_documento_cdgo]--,[mppt_peso_articulo]*/
+                            }else{
+                                if(result==0){
+                                    JOptionPane.showMessageDialog(null, "No se pudo registrar la preliquidacion en el sistema","Error!!.", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (UnknownHostException ex) {
+                            Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SocketException ex) {
+                            Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }else{
                     if (level == 3) {//Vamos a proceder a generar la liquidación y posterior generar el archivo en excel
                         ArrayList<Liquidacion> listadoliquidacion=new ControlDB_LiquidacionPalero(tipoConexion).consultarRegistroLiquidacion(configuracionLiquidacionliquidar);
@@ -886,13 +868,13 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                                     }
                                 }
                             } catch (FileNotFoundException ex) {
-                                Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
                             } catch (UnknownHostException ex) {
-                                Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
                             } catch (SocketException ex) {
-                                Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
                             } catch (SQLException ex) {
-                                Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         
@@ -1386,7 +1368,6 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                 
             }else{
                 if(level ==3){
-                    listadoPreliquidacion=worker2.getListadoPreliquidacion();
                     //listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros = worker.getListado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros();
                     //si  listadoPreliquidacion
                     ArrayList<String> encabezadoTabla= new ArrayList<>();

@@ -520,6 +520,162 @@ public class ControlDB_LiquidacionPalero {
         control.cerrarConexionBaseDatos();
         return result;
     }
+    public int registrar_Preliquidacion2(MvtoPaleroPreliquidacionTEMP objeto, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException, SQLException {
+        int result=0;
+        try{
+            conexion= control.ConectarBaseDatos();
+            String DB=control.getBaseDeDatos();
+
+                PreparedStatement Query= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[mvto_vehiculos_paleros_temp] ("
+                + "        [mvpt_cdgo]\n" +
+                    "      ,[mvpt_mvto_carbon_listado_equipo_cdgo]\n" +
+                    "      ,[mvpt_estad]) "
+                + "VALUES ("
+                + "(SELECT (CASE WHEN (MAX([mvpt_cdgo]) IS NULL) THEN 1 ELSE (MAX([mvpt_cdgo])+1) END)AS [mvpt_cdgo] FROM ["+DB+"].[dbo].[mvto_vehiculos_paleros_temp]),"
+                        + "?,?);");
+                Query.setString(1, objeto.getMvtoVehiculoPalerosTEMP().getMvtoCarbon_ListadoEquipos_LiquidacionPaleros().getCodigo());
+                Query.setString(2, objeto.getMvtoVehiculoPalerosTEMP().getEstado());           
+                Query.execute();
+                result=1;
+                if(result==1){
+                    result=0;
+                    //Sacamos el ultimo valor 
+                    PreparedStatement queryConsultarMaximo= conexion.prepareStatement("SELECT MAX(mvpt_cdgo) FROM ["+DB+"].[dbo].[mvto_vehiculos_paleros_temp];");
+                    ResultSet resultSetMaximo= queryConsultarMaximo.executeQuery();
+                    while(resultSetMaximo.next()){ 
+                        if(resultSetMaximo.getString(1) != null){
+                            objeto.getMvtoVehiculoPalerosTEMP().setCodigo(resultSetMaximo.getString(1));
+                        }
+                    }
+                    result=1;
+                    if(result==1){
+                        result=0;
+                        PreparedStatement Query2= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[mvto_palero_preliquidacion_temp]\n" +
+                                                                    "           ([mppt_cdgo]\n" +
+                                                                    "           ,[mppt_mvto_vehiculos_paleros_temp_cdgo]\n" +
+                                                                    "           ,[mppt_config_liquidacion_cdgo]\n" +
+                                                                    "           ,[mppt_fecha]\n" +
+                                                                    "           ,[mppt_persona_cdgo]\n" +
+                                                                    "           ,[mppt_persona_tipo_documento_cdgo]\n" +
+                                                                    "           ,[mppt_equipos_liquidacion_cdgo]\n" +
+                                                                    "           ,[mppt_peso_articulo]) "
+                                                        + "VALUES ("
+                                                                + "(SELECT (CASE WHEN (MAX([mppt_cdgo]) IS NULL) THEN 1 ELSE (MAX([mppt_cdgo])+1) END)AS [mppt_cdgo] FROM ["+DB+"].[dbo].[mvto_palero_preliquidacion_temp]),"
+                                                                        + ""+objeto.getMvtoVehiculoPalerosTEMP().getCodigo()+","
+
+                                                                + ""+objeto.getConfiguracionLiquidacion().getCodigo()+","
+                                                                + ""+"'"+objeto.getFecha().split(" ")[0]+"'"+","
+                                                                + "'"+objeto.getPersona().getCodigo()+"',"
+                                                                + ""+objeto.getPersona().getTipoDocumento().getCodigo()+","
+                                                        + "(SELECT [el_cdgo] FROM ["+DB+"].[dbo].[equipos_liquidacion] WHERE [el_equipo_cdgo]="+objeto.getEquipoLiquidacion().getEquipo().getCodigo()+"),"
+                                                                + ""+"'"+objeto.getPesoAsignado()+"'"+");");         
+                        Query2.execute();
+                        result=1;
+                    }
+                }   
+            
+            /*if(result==1){
+                result=0;
+                //Extraemos el nombre del Equipo y la IP        
+                String namePc=new ControlDB_Config().getNamePC();
+                String ipPc=new ControlDB_Config().getIpPc();
+                String macPC=new ControlDB_Config().getMacAddress();
+
+                PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
+                                    "      ,[au_fecha]\n" +
+                                    "      ,[au_usuario_cdgo_registro]\n" +
+                                    "      ,[au_nombre_dispositivo_registro]\n" +
+                                    "      ,[au_ip_dispositivo_registro]\n" +
+                                    "      ,[au_mac_dispositivo_registro]\n" +
+                                    "      ,[au_cdgo_mtvo]\n" +
+                                    "      ,[au_desc_mtvo]\n" +
+                                    "      ,[au_detalle_mtvo])\n" +
+                    "     VALUES("+
+                    "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
+                    "           ,(SELECT SYSDATETIME())"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,'PRELIQUIDACION'" +
+                    "           ,CONCAT (?,?,?));");
+                Query_Auditoria.setString(1, us.getCodigo());
+                Query_Auditoria.setString(2, namePc);
+                Query_Auditoria.setString(3, ipPc);
+                Query_Auditoria.setString(4, macPC);
+                Query_Auditoria.setString(5, listado.get(0).getConfiguracionLiquidacion().getCodigo());
+                Query_Auditoria.setString(6, "Se registró un nueva preliquidacion en el sistema para la configuración de liquidación con código: ");
+                Query_Auditoria.setString(7, listado.get(0).getConfiguracionLiquidacion().getCodigo());
+                Query_Auditoria.setString(8, " Descripción: "+ listado.get(0).getConfiguracionLiquidacion().getDescripcion());
+                Query_Auditoria.execute();
+                result=1;
+            } */  
+        }
+        catch (SQLException sqlException ){   
+            result=0;
+            sqlException.printStackTrace();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        control.cerrarConexionBaseDatos();
+        return result;
+    }
+    public int registrar_PreliquidacionAuditoria(MvtoPaleroPreliquidacionTEMP objeto, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException, SQLException {
+        int result=0;
+        try{
+            conexion= control.ConectarBaseDatos();
+            String DB=control.getBaseDeDatos();
+            if(result==1){
+                result=0;
+                //Extraemos el nombre del Equipo y la IP        
+                String namePc=new ControlDB_Config().getNamePC();
+                String ipPc=new ControlDB_Config().getIpPc();
+                String macPC=new ControlDB_Config().getMacAddress();
+                PreparedStatement Query_Auditoria= conexion.prepareStatement("INSERT INTO ["+DB+"].[dbo].[auditoria]([au_cdgo]\n" +
+                                    "      ,[au_fecha]\n" +
+                                    "      ,[au_usuario_cdgo_registro]\n" +
+                                    "      ,[au_nombre_dispositivo_registro]\n" +
+                                    "      ,[au_ip_dispositivo_registro]\n" +
+                                    "      ,[au_mac_dispositivo_registro]\n" +
+                                    "      ,[au_cdgo_mtvo]\n" +
+                                    "      ,[au_desc_mtvo]\n" +
+                                    "      ,[au_detalle_mtvo])\n" +
+                    "     VALUES("+
+                    "           (SELECT (CASE WHEN (MAX([au_cdgo]) IS NULL) THEN 1 ELSE (MAX([au_cdgo])+1) END)AS [au_cdgo] FROM ["+DB+"].[dbo].[auditoria])"+
+                    "           ,(SELECT SYSDATETIME())"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,?"+
+                    "           ,'PRELIQUIDACION'" +
+                    "           ,CONCAT (?,?,?));");
+                Query_Auditoria.setString(1, us.getCodigo());
+                Query_Auditoria.setString(2, namePc);
+                Query_Auditoria.setString(3, ipPc);
+                Query_Auditoria.setString(4, macPC);
+                Query_Auditoria.setString(5, objeto.getConfiguracionLiquidacion().getCodigo());
+                Query_Auditoria.setString(6, "Se registró un nueva preliquidacion en el sistema para la configuración de liquidación con código: ");
+                Query_Auditoria.setString(7, objeto.getConfiguracionLiquidacion().getCodigo());
+                Query_Auditoria.setString(8, " Descripción: "+ objeto.getConfiguracionLiquidacion().getDescripcion());
+                Query_Auditoria.execute();
+                result=1;
+            } 
+        }
+        catch (SQLException sqlException ){   
+            result=0;
+            sqlException.printStackTrace();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        control.cerrarConexionBaseDatos();
+        return result;
+    }
+    
+    
     public ArrayList<String>     consultarPreliquidacion () throws SQLException{
         ArrayList<String> listadoObjetos = null;
         Conexion_DB_costos_vg control=null;  

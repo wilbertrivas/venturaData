@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
@@ -30,7 +31,8 @@ public class Worker_PaleroMarcacionPersonas extends SwingWorker{
     private Connection conexion=null;
     private final JButton boton;
     private JTable tabla;
-    Worker_PaleroMarcacionPersonas(JProgressBar barra, JButton boton,JTable tabla, ArrayList<MvtoCarbon_ListadoEquipos_LiquidacionPaleros> listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros, Usuario user, String tipoConexion) {
+    private JLabel Label_level;
+    Worker_PaleroMarcacionPersonas(JLabel Label_level,JProgressBar barra, JButton boton,JTable tabla, ArrayList<MvtoCarbon_ListadoEquipos_LiquidacionPaleros> listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros, Usuario user, String tipoConexion) {
         progreso = barra;
         this.tabla=tabla;
         this.boton=boton;
@@ -38,6 +40,7 @@ public class Worker_PaleroMarcacionPersonas extends SwingWorker{
         this.tipoConexion= tipoConexion;
         this.listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros=listado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros;
         this.us=user;
+        this.Label_level=Label_level;
     }
     @Override
     public Double doInBackground() throws Exception {
@@ -104,6 +107,7 @@ public class Worker_PaleroMarcacionPersonas extends SwingWorker{
             //tabla.setDefaultRenderer(Object.class, new Myrender_LiquidacionPalero_Registrar(2));
             resizeColumnWidth(tabla);
             boton.setText("GENERAR PRELIQUIDACIÓN");
+            Label_level.setText("NIVEL " + 2);
             //boton.setEnabled(true);
         }
         boton.setEnabled(true);
