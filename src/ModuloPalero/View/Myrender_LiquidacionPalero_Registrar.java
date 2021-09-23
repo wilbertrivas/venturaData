@@ -16,7 +16,7 @@ public class Myrender_LiquidacionPalero_Registrar extends DefaultTableCellRender
  
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row, int column) {
-        try {
+        try {   
             setBackground(Color.white);//color de fondo
             table.setForeground(Color.black);//color de texto
             if (table.getValueAt(row, columna_patron).toString().equals("ROJO")) {
