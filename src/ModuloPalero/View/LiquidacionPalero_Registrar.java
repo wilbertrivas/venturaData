@@ -112,6 +112,8 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
     ConfiguracionLiquidacion configuracionLiquidacion = null;
     ConfiguracionLiquidacion configuracionLiquidacionliquidar = null;
     ArrayList<MvtoCarbon_ListadoEquipos_LiquidacionPaleros> listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros = null;
+    ArrayList<PlantillaArchivoLiquidacion> listadoPlantillaArchivoLiquidacion = null;
+    ArrayList<String> listadoPreliquidacion=null;
     Worker_PaleroMarcacionPersonas  worker;
     boolean validarNext = true;
     int level = 0;
@@ -125,6 +127,8 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
         InternaFrame_buscarConfiguracionLiquidacion.getContentPane().setBackground(Color.WHITE);
         InternaFrame_buscarConfiguracionLiquidacion.show(false);
         buttonNext.setEnabled(false);
+        senMailLabel.show(false);
+        sendMailIcon.show(false);
     }
     
     @SuppressWarnings("unchecked")
@@ -148,19 +152,19 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
         tabla = new javax.swing.JTable();
         paginationPanel = new javax.swing.JPanel();
         pageJComboBox1 = new javax.swing.JComboBox<>();
+        buttonNext = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         icon_exportar = new javax.swing.JLabel();
         label_exportar = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        sendMailIcon = new javax.swing.JLabel();
+        senMailLabel = new javax.swing.JLabel();
         icon_buscarClientes = new javax.swing.JLabel();
         icon_buscarClientes1 = new javax.swing.JLabel();
         label_configuracionLiquidacion = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaListadoVehiculosPorEquipoLiquidacion = new javax.swing.JTable();
-        buttonNext = new javax.swing.JButton();
         Label_level = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -291,6 +295,16 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
         InternaFrame_buscarConfiguracionLiquidacion.getContentPane().add(pageJComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1410, 10, 60, 40));
 
         add(InternaFrame_buscarConfiguracionLiquidacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1300, 490));
+
+        buttonNext.setBackground(new java.awt.Color(255, 255, 255));
+        buttonNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/nextF.png"))); // NOI18N
+        buttonNext.setText("SIGUIENTE");
+        buttonNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonNextActionPerformed(evt);
+            }
+        });
+        add(buttonNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 660, 290, 60));
         add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 1010, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -312,19 +326,19 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
         label_exportar.setText("Exportar");
         add(label_exportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 60, 10));
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/enviar_mail.png"))); // NOI18N
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        sendMailIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sendMailIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/enviar_mail.png"))); // NOI18N
+        sendMailIcon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                sendMailIconMouseClicked(evt);
             }
         });
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 110, 40, 40));
+        add(sendMailIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 110, 40, 40));
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel18.setText("Correo");
-        add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 100, 80, 10));
+        senMailLabel.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        senMailLabel.setForeground(new java.awt.Color(51, 51, 51));
+        senMailLabel.setText("Correo");
+        add(senMailLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 100, 80, 10));
 
         icon_buscarClientes.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         icon_buscarClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
@@ -387,16 +401,6 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
         jScrollPane2.setViewportView(tablaListadoVehiculosPorEquipoLiquidacion);
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 1390, 490));
-
-        buttonNext.setBackground(new java.awt.Color(255, 255, 255));
-        buttonNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/nextF.png"))); // NOI18N
-        buttonNext.setText("SIGUIENTE");
-        buttonNext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonNextActionPerformed(evt);
-            }
-        });
-        add(buttonNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 670, 290, 60));
 
         Label_level.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         Label_level.setForeground(new java.awt.Color(0, 102, 102));
@@ -582,6 +586,8 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                         level = 1;
                         Label_level.setText("NIVEL " + level);
                         buttonNext.setText("SIGUIENTE");
+                        senMailLabel.show(false);
+                        sendMailIcon.show(false);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(LiquidacionPalero_Registrar.class.getName()).log(Level.SEVERE, null, ex);
@@ -622,10 +628,10 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                     worker.execute();
                     level = 2;
                     Label_level.setText("NIVEL " + level);
+                    senMailLabel.show(false);
+                    sendMailIcon.show(false);
                     
                 }
-                
-                
                 //#########################
                 
                 /*if (listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros != null) {
@@ -699,8 +705,8 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                             int result= new ControlDB_LiquidacionPalero(tipoConexion).registrar_Preliquidacion(listado_MvtoPaleroPreliquidacionTEMP, user);
                             if(result==1){
                                 //JOptionPane.showMessageDialog(null, "Se registro la preliqudacion de forma exitosa","Registro exitoiso", JOptionPane.INFORMATION_MESSAGE);
-
-                                ArrayList<String> listadoPreliquidacion=new ControlDB_LiquidacionPalero(tipoConexion).consultarPreliquidacion();
+                                listadoPreliquidacion = new ArrayList<>();
+                                listadoPreliquidacion=new ControlDB_LiquidacionPalero(tipoConexion).consultarPreliquidacion();
                                 if(listadoPreliquidacion!= null){
                                     //Limpiamos todos los registro de la tabla
                                     DefaultTableModel md = (DefaultTableModel) tablaListadoVehiculosPorEquipoLiquidacion.getModel();
@@ -708,20 +714,21 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                                     for (int i = CantEliminar; i >= 0; i--) {
                                         md.removeRow(i);
                                     }
-                                    DefaultTableModel modeloT = new DefaultTableModel(null, new String[]{"CEDULA", "NOMBRE", "CUADRILLA", "FECHA", "VEHÍCULOS_DESCARGADOS", "TOTAL DESCARGADO EN KG", "TOTAL ASIGNADO EN KG"});
+                                    DefaultTableModel modeloT = new DefaultTableModel(null, new String[]{"CEDULA", "NOMBRE", "CUADRILLA", "FECHA", "CANTIDAD_VEHÍCULOS_DESCARGADOS","VEHÍCULOS_DESCARGADOS", "TOTAL DESCARGADO EN KG", "TOTAL ASIGNADO EN KG"});
 
                                     //Cargamos la nueva información
                                     for(String data : listadoPreliquidacion){
                                         DecimalFormat formato2 = new DecimalFormat("0.00");
                                         String[] informacion = data.split("@@");
-                                        String[] registro = new String[7];
+                                        String[] registro = new String[8];
                                         registro[0] = "" + informacion[0];
                                         registro[1] = "" + informacion[1];
                                         registro[2] = "" + informacion[2];
                                         registro[3] = "" + informacion[3];
-                                        registro[4] = "" + informacion[4];
-                                        registro[5] = "" + formato2.format(Double.parseDouble(informacion[5]));
-                                        registro[6] = "" + formato2.format(Double.parseDouble(informacion[6]));
+                                        registro[4] = "" + informacion[7];
+                                        registro[5] = "" + informacion[4];
+                                        registro[6] = "" + formato2.format(Double.parseDouble(informacion[5]));
+                                        registro[7] = "" + formato2.format(Double.parseDouble(informacion[6]));
                                         modeloT.addRow(registro);
                                     }
                                     tablaListadoVehiculosPorEquipoLiquidacion.setModel(modeloT);
@@ -730,6 +737,8 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                                     level = 3;
                                     Label_level.setText("NIVEL " + level); 
                                     buttonNext.setText("GENERAR LIQUIDACIÓN");
+                                    senMailLabel.show(false);
+                                    sendMailIcon.show(false);
                                 }
 
 
@@ -778,7 +787,7 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                                 int result=new ControlDB_LiquidacionPalero(tipoConexion).registrar_Liquidacion(listadoliquidacion,user);
                                 if(result == 1){
                                     JOptionPane.showMessageDialog(null, "Se generó la liquidación de forma exitosa");
-                                    ArrayList<PlantillaArchivoLiquidacion> listadoPlantillaArchivoLiquidacion= new ControlDB_LiquidacionPalero(tipoConexion).consultarLiquidacion(configuracionLiquidacionliquidar);
+                                    listadoPlantillaArchivoLiquidacion= new ControlDB_LiquidacionPalero(tipoConexion).consultarLiquidacion(configuracionLiquidacionliquidar);
                                     if(listadoPlantillaArchivoLiquidacion!= null){
                                         //Limpiamos todos los registro de la tabla
                                         DefaultTableModel md = (DefaultTableModel) tablaListadoVehiculosPorEquipoLiquidacion.getModel();
@@ -813,6 +822,8 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                                         level = 4;
                                         Label_level.setText("NIVEL " + level); 
                                         //buttonNext.setText("LIQUIDACIÓN GENERADA CON");
+                                        senMailLabel.show(true);
+                                        sendMailIcon.show(true);
                                         
                                     }
                                 }
@@ -1317,1118 +1328,545 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
                 
             }else{
                 if(level ==3){
-                    
+                    //listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros = worker.getListado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros();
+                    //si  listadoPreliquidacion
+                    ArrayList<String> encabezadoTabla= new ArrayList<>();
+                    encabezadoTabla.add("CEDULA");
+                    encabezadoTabla.add("NOMBRE");
+                    encabezadoTabla.add("CUADRILLA");
+                    encabezadoTabla.add("FECHA");
+                    encabezadoTabla.add("CANTIDAD_VEHÍCULOS_DESCARGADOS");
+                    encabezadoTabla.add("VEHÍCULOS_DESCARGADOS");
+                    encabezadoTabla.add("TOTAL DESCARGADO EN KG");
+                    encabezadoTabla.add("TOTAL ASIGNADO EN KG");
+ 
+                    JFileChooser selecArchivo= new JFileChooser();
+                    File archivo;
+                    //selecArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xls)", "xls"));
+                    //selecArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xlsx)", "xlsx"));
+                    if(selecArchivo.showDialog(null, "Exportar") ==JFileChooser.APPROVE_OPTION){
+                        archivo=new File(selecArchivo.getSelectedFile()+".xlsx");
+                        //archivo=selecArchivo.getSelectedFile();
+                        if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
+                            //JOptionPane.showMessageDialog(null, Exportar(archivo));
+                            Workbook wb;
+                            String respuesta="No se realizó con exito la exportacion";
+                            listadoPreliquidacion.size();
+
+                            //int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();
+                            int numFila=listadoPreliquidacion.size();
+                            int numColumna=encabezadoTabla.size();
+                            if(archivo.getName().endsWith("xls")){
+                                wb = new HSSFWorkbook();
+                            }else{
+                                wb= new XSSFWorkbook();
+                            }
+                            Sheet hoja= wb.createSheet("Reporte_Preliquidacion_Level_3");
+                            int costoTotalApuntador=300000;
+                            try{
+                                for(int i= -1; i < numFila; i++ ){
+                                    Row fila= hoja.createRow(i+1);
+                                    for(int j=0; j< numColumna; j++){
+                                        //boolean validarUnidadNegocio = false;
+                                        Cell celda= fila.createCell(j);
+                                        if(i==-1){
+                                            //celda.setCellValue(String.valueOf(tabla.getColumnName(j)));
+                                            celda.setCellValue(encabezadoTabla.get(j));
+                                            //String nameColumn=String.valueOf(tabla.getColumnName(j));
+                                            if(encabezadoTabla.get(j).equals("Costo_Total")){
+                                                costoTotalApuntador=j;
+                                            }
+                                        }else{
+                                            String data="";
+                                            String[] informacion=listadoPreliquidacion.get(i).split("@@");
+                                            switch(encabezadoTabla.get(j)){
+                                                
+                                                case "ITEM":{
+                                                    data=""+  (i+1);
+                                                    break;
+                                                }
+                                                case "CEDULA":{
+                                                    data=""+    informacion[0];
+                                                    break;
+                                                }
+                                                case "NOMBRE":{
+                                                    data=""+   informacion[1];
+                                                    break;
+                                                }
+                                                case "CUADRILLA":{
+                                                    data=""+   informacion[2];
+                                                    break;
+                                                }
+                                                case "FECHA":{
+                                                    data=""+   informacion[3];
+                                                    break;
+                                                }
+                                                case "CANTIDAD_VEHÍCULOS_DESCARGADOS":{
+                                                    data=""+   informacion[7];
+                                                    break;
+                                                } 
+                                                case "VEHÍCULOS_DESCARGADOS":{
+                                                    data=""+   informacion[4];
+                                                    break;
+                                                }
+                                                case "TOTAL DESCARGADO EN KG":{
+                                                    data=""+   informacion[5];
+                                                    break;
+                                                }  
+                                                case "TOTAL ASIGNADO EN KG":{
+                                                    data=""+   informacion[6];
+                                                    break;
+                                                }  
+                                            }
+                                            try{
+                                                /*if(validarUnidadNegocio){
+                                                    celda.setCellValue(String.valueOf(data));
+                                                    validarUnidadNegocio=false;
+                                                }else{*/
+                                                    String[] valor=String.valueOf(data).split("-");
+                                                    if(valor.length==3){
+                                                        String[] valor2=valor[2].split(":");
+                                                        if(valor2.length >= 3){
+                                                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                            Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                            CellStyle cellStyle = wb.createCellStyle();
+                                                            CreationHelper createHelper = wb.getCreationHelper();
+                                                            cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
+                                                            celda.setCellValue(fechaM);
+                                                            celda.setCellStyle(cellStyle);
+                                                        }else{
+                                                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                            Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                            CellStyle cellStyle = wb.createCellStyle();
+                                                            CreationHelper createHelper = wb.getCreationHelper();
+                                                            cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy"));
+                                                            //cell = row.createCell(1);
+                                                            celda.setCellValue(fechaM);
+                                                            celda.setCellStyle(cellStyle);
+                                                        }
+                                                    }else{
+                                                        try{
+                                                            celda.setCellValue(Integer.parseInt(data));
+                                                        }catch(Exception e){
+                                                            try{
+                                                                celda.setCellValue(Double.parseDouble(String.valueOf(data)));
+                                                                //if(costoTotalApuntador == j){
+                                                                    //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                                //}else{
+                                                                  //  celda.setCellValue(String.valueOf(data));
+                                                                //}
+                                                            }catch(Exception ex){
+                                                                celda.setCellValue(String.valueOf(data));
+                                                            }
+                                                        }
+                                                    }
+                                                //}
+                                            }
+                                            catch(Exception e){
+                                                //celda.setCellValue(String.valueOf(tabla.getValueAt(i, j)));
+                                                celda.setCellValue(String.valueOf(data));
+                                            }
+                                        
+                                        }
+                                    }
+                                }
+                                for(int j=0; j<=numColumna; j++){
+                                    hoja.autoSizeColumn(j,true);
+                                }
+                                wb.write(new FileOutputStream(archivo));
+                                respuesta= "Exportacion exitosa";
+                            }catch(Exception e){}
+                            JOptionPane.showMessageDialog(null, respuesta);
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Elija un formato valido");
+                        }
+                    }
                 }else{
                     if(level==4){
-                    
-                    }
-                }
-            }
-        }
-        
-        
-        /*if(listado != null){
-            //ArrayList<String> colmnas={"Hola", "Hola", "Hola"});
-        JFileChooser selecArchivo= new JFileChooser();
-        File archivo;
-        //selecArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xls)", "xls"));
-        //selecArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xlsx)", "xlsx"));
-        if(selecArchivo.showDialog(null, "Exportar") ==JFileChooser.APPROVE_OPTION){
-            archivo=new File(selecArchivo.getSelectedFile()+".xlsx");
-            //archivo=selecArchivo.getSelectedFile();
-            if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
-                //JOptionPane.showMessageDialog(null, Exportar(archivo));
-                Workbook wb;
-                String respuesta="No se realizó con exito la exportacion";
-                listado.size();
+                        //listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros = worker.getListado_mvtoCarbon_ListadoEquipos_LiquidacionPaleros();
+                        //si  listadoPreliquidacion
+                        ArrayList<String> encabezadoTabla= new ArrayList<>();
+                        encabezadoTabla.add("FECHA INICIO PERIODO");
+                        encabezadoTabla.add("FECHA FIN PERIODO");
+                        encabezadoTabla.add("CUADRILLA");
+                        encabezadoTabla.add("DOCUMENTO");
+                        encabezadoTabla.add("EMPLEADO");
+                        encabezadoTabla.add("KILOS");
+                        encabezadoTabla.add("DIAS LABORADOS");
+                        encabezadoTabla.add("DCTO TONELADA MES");
+                        encabezadoTabla.add("VALOR TONELADA");
+                        encabezadoTabla.add("TONELADA SALARIO");
+                        encabezadoTabla.add("TONELADAS A PAGAR");
+                        encabezadoTabla.add("TOTAL COMISION");
 
-                //int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();
-                int numFila=listado.size();
-                int numColumna=encabezadoTabla.size();
-                if(archivo.getName().endsWith("xls")){
-                    wb = new HSSFWorkbook();
-                }else{
-                    wb= new XSSFWorkbook();
-                }
-                Sheet hoja= wb.createSheet("Matriz_Carbon");
-                int costoTotalApuntador=300000;
-                try{
-                    for(int i= -1; i < numFila; i++ ){
-                        Row fila= hoja.createRow(i+1);
-                        for(int j=0; j< numColumna; j++){
-                            boolean validarUnidadNegocio = false;
-                            Cell celda= fila.createCell(j);
-                            if(i==-1){
-                                //celda.setCellValue(String.valueOf(tabla.getColumnName(j)));
-                                celda.setCellValue(encabezadoTabla.get(j));
-                                //String nameColumn=String.valueOf(tabla.getColumnName(j));
-                                if(encabezadoTabla.get(j).equals("Costo_Total")){
-                                    costoTotalApuntador=j;
+                        JFileChooser selecArchivo= new JFileChooser();
+                        File archivo;
+                        //selecArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xls)", "xls"));
+                        //selecArchivo.setFileFilter(new FileNameExtensionFilter("Excel (*.xlsx)", "xlsx"));
+                        if(selecArchivo.showDialog(null, "Exportar") ==JFileChooser.APPROVE_OPTION){
+                            archivo=new File(selecArchivo.getSelectedFile()+".xlsx");
+                            //archivo=selecArchivo.getSelectedFile();
+                            if(archivo.getName().endsWith("xls") || archivo.getName().endsWith("xlsx")){
+                                //JOptionPane.showMessageDialog(null, Exportar(archivo));
+                                Workbook wb;
+                                String respuesta="No se realizó con exito la exportacion";
+                                listadoPlantillaArchivoLiquidacion.size();
+
+                                //int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();
+                                int numFila=listadoPlantillaArchivoLiquidacion.size();
+                                int numColumna=encabezadoTabla.size();
+                                if(archivo.getName().endsWith("xls")){
+                                    wb = new HSSFWorkbook();
+                                }else{
+                                    wb= new XSSFWorkbook();
                                 }
-                            }else{
-                                String data="";
-                                switch(encabezadoTabla.get(j)){
-                                    case "Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCodigo();
-                                        break;
-                                    }
-                                    case "Centro_Operacion":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroOperacion().getDescripcion();
-                                        break;
-                                    }
-                                    case "Subcentro_Costo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCostoAuxiliar().getCentroCostoSubCentro().getDescripcion();
-                                        break;
-                                    }
-                                    case "Centro_Costo_Auxiliar_Origen":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCostoAuxiliar().getDescripcion();
-                                        break;
-                                    }
-                                    case "Centro_Costo_Auxiliar_Destino":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCostoAuxiliarDestino().getDescripcion();
-                                        break;
-                                    }
-                                    case "Centro_Costo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCosto().getDescripción();
-                                        break;
-                                    }
-                                    case "Centro_Costo_Mayor":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCostoMayor().getDescripcion();
-                                        break;
-                                    }
-                                    case "Labor_Realizada":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getLaborRealizada().getDescripcion();
-                                        break;
-                                    }
-                                    case "Artículo_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getCodigo();
-                                        break;
-                                    }
-                                    case "Artículo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getDescripcion();
-                                        break;
-                                    }
-                                    case "Artículo_Tipo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion();
-                                        break;
-                                    }
-                                    case "Artículo_Código_ERP":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP();
-                                        break;
-                                    }
-                                    case "Artículo_Unidad_Negocio":{
-                                        validarUnidadNegocio=true;
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio();
-                                        break;
-                                    }
-                                    case "Cliente_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCliente().getCodigo();
-                                        break;
-                                    }
-                                    case "Cliente_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCliente().getDescripcion();
-                                        break;
-                                    }
-                                    case "Transportadora_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getTransportadora().getCodigo();
-                                        break;
-                                    }
-                                    case "Transportadora_Nit":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getTransportadora().getNit();
-                                        break;
-                                    }
-                                    case "Transportadora_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getTransportadora().getDescripcion();
-                                        break;
-                                    }
-                                    case "Mes":{
-                                        data=""+  getMes(listado.get(i).getMvtoCarbon().getMes());
-                                        break;
-                                    }
-                                    case "Día":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getDia();
-                                        break;
-                                    }
-                                    case "Fecha_Registro":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFechaRegistro();
-                                        break;
-                                    }
-                                    case "Lavado_Vehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getLavadoVehiculo();
-                                        break;
-                                    }
-                                    case "Lavado_Vehículo_Observación":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getLavadoVehiculo_Observacion();
-                                        break;
-                                    }
-
-                                    case "Motivo_No_LavadoVehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getMotivoNoLavado().getDescripcion();
-                                        break;
-                                    }
-                                    case "Equipo_Quien_Realiza_LavadoVehículo_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getEquipoLavadoVehiculo().getCodigo();
-                                        break;
-                                    }
-                                    case "Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getEquipoLavadoVehiculo().getTipoEquipo().getDescripcion();
-                                        break;
-                                    }
-                                    case "Equipo_Quien_Realiza_LavadoVehículo_Descripción":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getEquipoLavadoVehiculo().getDescripcion()+" "+listado.get(i).getMvtoCarbon().getEquipoLavadoVehiculo().getModelo();
-                                        break;
-                                    }
-                                    case "Costo_Lavado_Vehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCostoLavadoVehiculo();
-                                        break;
-                                    }
-                                    case "Valor_Recaudo_Empresa_LavadoVehículos":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getValorRecaudoEmpresa_lavadoVehiculo();
-                                        break;
-                                    }
-                                    case "Valor_Recaudo_Equipo_LavadoVehículos":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getValorRecaudoEquipo_lavadoVehiculo();
-                                        break;
-                                    }
-
-                                    case "Número_Orden":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getNumero_orden();
-                                        break;
-                                    }
-                                    case "Deposito":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getDeposito();
-                                        break;
-                                    }
-                                    case "Consecutivo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getConsecutivo();
-                                        break;
-                                    }
-                                    case "Placa":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getPlaca();
-                                        break;
-                                    }
-                                    case "PesoVacio":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getPesoVacio();
-                                        break;
-                                    }
-                                    case "Peso_Lleno":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getPesoLleno();
-                                        break;
-                                    }
-                                    case "Peso_Neto":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getPesoNeto();
-                                        break;
-                                    }
-                                    case "Fecha_Entrada_Vehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFechaEntradaVehiculo();
-                                        break;
-                                    }
-                                    case "Fecha_Salida_Vehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFecha_SalidaVehiculo();
-                                        break;
-                                    }
-                                    case "Fecha_Inicio_Descargue":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFechaInicioDescargue();
-                                        break;
-                                    }
-                                    case "Fecha_Fin_Descargue":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFechaFinDescargue();
-                                        break;
-                                    }
-                                    case "Cantidad_Minutos":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCantidadHorasDescargue();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Registra_Vehículo_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistroMovil().getCodigo();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Registra_Vehículo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistroMovil().getNombres()+" "+listado.get(i).getMvtoCarbon().getUsuarioRegistroMovil().getApellidos();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Registra_Vehículo_Correo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistroMovil().getCorreo();
-                                        break;
-                                    }
-                                    case "Observación":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getObservacion();
-                                        break;
-                                    }
-                                    case "Estado":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getEstadoMvtoCarbon().getDescripcion();
-                                        break;
-                                    }
-                                    case "Conexión_Peso_CCARGA":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getConexionPesoCcarga();
-                                        break;
-                                    }
-                                    case "Registro_Manual":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getRegistroManual();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_RegistraManual_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistraManual().getCodigo();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_RegistraManual_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistraManual().getNombres()+" "+listado.get(i).getMvtoCarbon().getUsuarioRegistraManual().getApellidos();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_RegistraManual_Correo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistraManual().getCorreo();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Cierra_Vehículo_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioCierraRegistro().getCodigo();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Cierra_Vehículo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioCierraRegistro().getNombres()+" "+listado.get(i).getMvtoCarbon().getUsuarioCierraRegistro().getApellidos();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_MES":{
-                                        data=""+  getMes(listado.get(i).getMvtoEquipo().getMes());
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Fecha_Registro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getFechaRegistro();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_ProveedorEquipo_NIT":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getProveedorEquipo().getNit();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_ProveedorEquipo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getProveedorEquipo().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Número_Orden":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getNumeroOrden();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Operación":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroOperacion().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Subcentro_Costo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCostoAuxiliar().getCentroCostoSubCentro().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Costo_Auxiliar_Origen":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCostoAuxiliar().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Costo_Auxiliar_Destino":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCostoAuxiliarDestino().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Costo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCosto().getDescripción();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Costo_Mayor":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCostoMayor().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Labor_Realizada":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getLaborRealizada().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Cliente_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCliente().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Cliente_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCliente().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Artículo_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getArticulo().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Artículo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getArticulo().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Motonave_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getMotonave().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Motonave_Descripción":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getMotonave().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_FechaInicio_Actividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getFechaHoraInicio();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_FechaFinalización_Actividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getFechaHoraFin();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Duración_Actividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getTotalMinutos();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Valor_Hora":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getValorHora();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Costo_Total":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCostoTotal();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Recobro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getRecobro().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienRegistra_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioQuieRegistra().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienRegistra_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioQuieRegistra().getNombres();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienAutoriza_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioAutorizaRecobro().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienAutoriza_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioAutorizaRecobro().getNombres();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Autorización_Recobro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAutorizacionRecobro().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Observación_Autorización_Recobro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getObservacionAutorizacion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Inactividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getInactividad();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Causal_Inactividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCausaInactividad().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienInactiva_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioInactividad().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienInactiva_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioInactividad().getNombres();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioCierraMvto_codigo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioQuienCierra().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioCierraMvto_nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioQuienCierra().getNombres();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Motivo_Parada":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getMotivoParada().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_MvtoEquipo_Observación":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getObservacionMvtoEquipo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Estado":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getEstado();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Desde_Carbón":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getDesdeCarbon();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Tipo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getTipoEquipo().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Marca":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getMarca();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Modelo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getModelo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Descripción":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Pertenencia":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getPertenencia().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_FechaRegistro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getFechaRegistro();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_FechaInicioActividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getFechaHoraInicio();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_FechaFinalizaciónActividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getFechaHoraFin();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_CantidadMinutosProgramados":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getCantidadMinutosProgramados();
-                                        break;
-                                    }
-                                }
+                                Sheet hoja= wb.createSheet("Reporte_Preliquidacion_Level_3");
+                                int costoTotalApuntador=300000;
                                 try{
-                                    if(validarUnidadNegocio){
-                                        celda.setCellValue(String.valueOf(data));
-                                        validarUnidadNegocio=false;
-                                    }else{
-                                        String[] valor=String.valueOf(data).split("-");
-                                        if(valor.length==3){
-                                            String[] valor2=valor[2].split(":");
-                                            if(valor2.length >= 3){
-                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                Date fechaM = dateFormat.parse(String.valueOf(data));
-                                                CellStyle cellStyle = wb.createCellStyle();
-                                                CreationHelper createHelper = wb.getCreationHelper();
-                                                cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
-                                                celda.setCellValue(fechaM);
-                                                celda.setCellStyle(cellStyle);
+                                    for(int i= -1; i < numFila; i++ ){
+                                        Row fila= hoja.createRow(i+1);
+                                        for(int j=0; j< numColumna; j++){
+                                            //boolean validarUnidadNegocio = false;
+                                            Cell celda= fila.createCell(j);
+                                            if(i==-1){
+                                                //celda.setCellValue(String.valueOf(tabla.getColumnName(j)));
+                                                celda.setCellValue(encabezadoTabla.get(j));
+                                                //String nameColumn=String.valueOf(tabla.getColumnName(j));
+                                                if(encabezadoTabla.get(j).equals("Costo_Total")){
+                                                    costoTotalApuntador=j;
+                                                }
                                             }else{
-                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                                Date fechaM = dateFormat.parse(String.valueOf(data));
-                                                CellStyle cellStyle = wb.createCellStyle();
-                                                CreationHelper createHelper = wb.getCreationHelper();
-                                                cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy"));
-                                                //cell = row.createCell(1);
-                                                celda.setCellValue(fechaM);
-                                                celda.setCellStyle(cellStyle);
-                                            }
-                                        }else{
-                                            try{
-                                                celda.setCellValue(Integer.parseInt(data));
-                                            }catch(Exception e){
-                                                try{
-                                                    if(costoTotalApuntador == j){
-                                                        celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
-                                                    }else{
-                                                        celda.setCellValue(String.valueOf(data));
+                                                String data="";
+                                                //DecimalFormat formato2 = new DecimalFormat("0.00");
+                                                switch(encabezadoTabla.get(j)){
+
+                                                    case "FECHA INICIO PERIODO":{
+                                                        data=""+  listadoPlantillaArchivoLiquidacion.get(i).getFechaInicio();
+                                                        break;
                                                     }
-                                                }catch(Exception ex){
+                                                    case "FECHA FIN PERIODO":{
+                                                        data=""+    listadoPlantillaArchivoLiquidacion.get(i).getFechaFin();
+                                                        break;
+                                                    }
+                                                    case "CUADRILLA":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getEquipo();
+                                                        break;
+                                                    }
+                                                    case "DOCUMENTO":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getPersonaDocumento();
+                                                        break;
+                                                    }
+                                                    case "EMPLEADO":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getPersonaNombre();
+                                                        break;
+                                                    }
+                                                     
+                                             //formato2.format(Double.parseDouble(informacion[6]));
+                                                    case "KILOS":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getCantidadAcumuladasKilos();
+                                                        break;
+                                                    } 
+                                                    case "DIAS LABORADOS":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getCantidadDias();
+                                                        break;
+                                                    }
+                                                    case "DCTO TONELADA MES":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getToneladaMes();
+                                                        break;
+                                                    }  
+                                                    case "VALOR TONELADA":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getValorTonelada();
+                                                        break;
+                                                    }  
+                                                    case "TONELADA SALARIO":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getToneladaSalario();
+                                                        break;
+                                                    } 
+                                                    case "TONELADAS A PAGAR":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getToneladaAPagar();
+                                                        break;
+                                                    } 
+                                                    case "TOTAL COMISION":{
+                                                        data=""+   listadoPlantillaArchivoLiquidacion.get(i).getTotalComision();
+                                                        break;
+                                                    } 
+                                                }
+                                                try{
+                                                    /*if(validarUnidadNegocio){
+                                                        celda.setCellValue(String.valueOf(data));
+                                                        validarUnidadNegocio=false;
+                                                    }else{*/
+                                                        String[] valor=String.valueOf(data).split("-");
+                                                        if(valor.length==3){
+                                                            String[] valor2=valor[2].split(":");
+                                                            if(valor2.length >= 3){
+                                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                                Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                                CellStyle cellStyle = wb.createCellStyle();
+                                                                CreationHelper createHelper = wb.getCreationHelper();
+                                                                cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
+                                                                celda.setCellValue(fechaM);
+                                                                celda.setCellStyle(cellStyle);
+                                                            }else{
+                                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                                Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                                CellStyle cellStyle = wb.createCellStyle();
+                                                                CreationHelper createHelper = wb.getCreationHelper();
+                                                                cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy"));
+                                                                //cell = row.createCell(1);
+                                                                celda.setCellValue(fechaM);
+                                                                celda.setCellStyle(cellStyle);
+                                                            }
+                                                        }else{
+                                                            try{
+                                                                celda.setCellValue(Integer.parseInt(data));
+                                                            }catch(Exception e){
+                                                                try{
+                                                                    celda.setCellValue(Double.parseDouble(String.valueOf(data)));
+                                                                    //if(costoTotalApuntador == j){
+                                                                        //celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+                                                                    //}else{
+                                                                      //  celda.setCellValue(String.valueOf(data));
+                                                                    //}
+                                                                }catch(Exception ex){
+                                                                    celda.setCellValue(String.valueOf(data));
+                                                                }
+                                                            }
+                                                        }
+                                                    //}
+                                                }
+                                                catch(Exception e){
+                                                    //celda.setCellValue(String.valueOf(tabla.getValueAt(i, j)));
                                                     celda.setCellValue(String.valueOf(data));
                                                 }
+
                                             }
                                         }
                                     }
-                                }
-                                catch(Exception e){
-                                    //celda.setCellValue(String.valueOf(tabla.getValueAt(i, j)));
-                                    celda.setCellValue(String.valueOf(data));
-                                }
+                                    for(int j=0; j<=numColumna; j++){
+                                        hoja.autoSizeColumn(j,true);
+                                    }
+                                    wb.write(new FileOutputStream(archivo));
+                                    respuesta= "Exportacion exitosa";
+                                }catch(Exception e){}
+                                JOptionPane.showMessageDialog(null, respuesta);
+                            }else{
+                                JOptionPane.showMessageDialog(null,"Elija un formato valido");
                             }
                         }
                     }
-                    for(int j=0; j<=numColumna; j++){
-                        hoja.autoSizeColumn(j,true);
-                    }
-                    wb.write(new FileOutputStream(archivo));
-                    respuesta= "Exportacion exitosa";
-                }catch(Exception e){}
-                JOptionPane.showMessageDialog(null, respuesta);
-            }else{
-                JOptionPane.showMessageDialog(null,"Elija un formato valido");
+                }
             }
         }
-        }*/
     }//GEN-LAST:event_icon_exportarMouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        /*if(user.getCorreo().equals("")){
-            JOptionPane.showMessageDialog(null, "El usuario no tiene un correo configurado para el envio de correo, favor actualizar los datos");
-        }else{
-            if(listado != null){
-                File archivo;
-                //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteCarbon.xlsx");
-                archivo= new File(System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"reporteCarbon.xlsx");
-                Workbook wb;
-                String respuesta="No se realizó con exito la exportacion";
-                listado.size();
+    private void sendMailIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendMailIconMouseClicked
+        if(level==4){
+            if(user.getCorreo().equals("")){
+                JOptionPane.showMessageDialog(null, "El usuario no tiene un correo configurado para el envio de correo, favor actualizar los datos");
+            }else{
+                if(listado != null){
+                    ArrayList<String> encabezadoTabla= new ArrayList<>();
+                    encabezadoTabla.add("FECHA INICIO PERIODO");
+                    encabezadoTabla.add("FECHA FIN PERIODO");
+                    encabezadoTabla.add("CUADRILLA");
+                    encabezadoTabla.add("DOCUMENTO");
+                    encabezadoTabla.add("EMPLEADO");
+                    encabezadoTabla.add("KILOS");
+                    encabezadoTabla.add("DIAS LABORADOS");
+                    encabezadoTabla.add("DCTO TONELADA MES");
+                    encabezadoTabla.add("VALOR TONELADA");
+                    encabezadoTabla.add("TONELADA SALARIO");
+                    encabezadoTabla.add("TONELADAS A PAGAR");
+                    encabezadoTabla.add("TOTAL COMISION");
 
-                //int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();
-                int numFila=listado.size();
-                int numColumna=encabezadoTabla.size();
-                if(archivo.getName().endsWith("xls")){
-                    wb = new HSSFWorkbook();
-                }else{
-                    wb= new XSSFWorkbook();
-                }
-                Sheet hoja= wb.createSheet("Matriz_Carbon");
-                int costoTotalApuntador=300000;
-                try{
-                    for(int i= -1; i < numFila; i++ ){
-                        Row fila= hoja.createRow(i+1);
-                        for(int j=0; j< numColumna; j++){
-                            boolean validarUnidadNegocio = false;
-                            Cell celda= fila.createCell(j);
-                            if(i==-1){
-                                //celda.setCellValue(String.valueOf(tabla.getColumnName(j)));
-                                celda.setCellValue(encabezadoTabla.get(j));
-                                //String nameColumn=String.valueOf(tabla.getColumnName(j));
-                                if(encabezadoTabla.get(j).equals("Costo_Total")){
-                                    costoTotalApuntador=j;
-                                }
-                            }else{
-                                String data="";
-                                switch(encabezadoTabla.get(j)){
-                                    case "Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCodigo();
-                                        break;
-                                    }
-                                    case "Centro_Operacion":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroOperacion().getDescripcion();
-                                        break;
-                                    }
-                                    case "Subcentro_Costo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCostoAuxiliar().getCentroCostoSubCentro().getDescripcion();
-                                        break;
-                                    }
-                                    case "Centro_Costo_Auxiliar_Origen":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCostoAuxiliar().getDescripcion();
-                                        break;
-                                    }
-                                    case "Centro_Costo_Auxiliar_Destino":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCostoAuxiliarDestino().getDescripcion();
-                                        break;
-                                    }
-                                    case "Centro_Costo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCosto().getDescripción();
-                                        break;
-                                    }
-                                    case "Centro_Costo_Mayor":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCentroCostoMayor().getDescripcion();
-                                        break;
-                                    }
-                                    case "Labor_Realizada":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getLaborRealizada().getDescripcion();
-                                        break;
-                                    }
-                                    case "Artículo_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getCodigo();
-                                        break;
-                                    }
-                                    case "Artículo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getDescripcion();
-                                        break;
-                                    }
-                                    case "Artículo_Tipo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion();
-                                        break;
-                                    }
-                                    case "Artículo_Código_ERP":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP();
-                                        break;
-                                    }
-                                    case "Artículo_Unidad_Negocio":{
-                                        validarUnidadNegocio=true;
-                                        data=""+  listado.get(i).getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio();
-                                        break;
-                                    }
-                                    case "Cliente_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCliente().getCodigo();
-                                        break;
-                                    }
-                                    case "Cliente_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCliente().getDescripcion();
-                                        break;
-                                    }
-                                    case "Transportadora_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getTransportadora().getCodigo();
-                                        break;
-                                    }
-                                    case "Transportadora_Nit":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getTransportadora().getNit();
-                                        break;
-                                    }
-                                    case "Transportadora_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getTransportadora().getDescripcion();
-                                        break;
-                                    }
-                                    case "Mes":{
-                                        data=""+  getMes(listado.get(i).getMvtoCarbon().getMes());
-                                        break;
-                                    }
-                                    case "Día":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getDia();
-                                        break;
-                                    }
-                                    case "Fecha_Registro":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFechaRegistro();
-                                        break;
-                                    }
-                                    case "Lavado_Vehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getLavadoVehiculo();
-                                        break;
-                                    }
-                                    case "Lavado_Vehículo_Observación":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getLavadoVehiculo_Observacion();
-                                        break;
-                                    }
+                    File archivo;
+                    //archivo= new File( "reportes/"+user.getCodigo()+"_"+"reporteCarbon.xlsx");
+                    archivo= new File(System.getProperty("java.io.tmpdir")+user.getCodigo()+"_"+"LIQUIDACIÓN_"+configuracionLiquidacionliquidar.getDescripcion()+"_+.xlsx");
+                    Workbook wb;
+                    String respuesta="No se realizó con exito la exportacion";
+                    listadoPlantillaArchivoLiquidacion.size();
 
-                                    case "Motivo_No_LavadoVehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getMotivoNoLavado().getDescripcion();
-                                        break;
-                                    }
-                                    case "Equipo_Quien_Realiza_LavadoVehículo_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getEquipoLavadoVehiculo().getCodigo();
-                                        break;
-                                    }
-                                    case "Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getEquipoLavadoVehiculo().getTipoEquipo().getDescripcion();
-                                        break;
-                                    }
-                                    case "Equipo_Quien_Realiza_LavadoVehículo_Descripción":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getEquipoLavadoVehiculo().getDescripcion()+" "+listado.get(i).getMvtoCarbon().getEquipoLavadoVehiculo().getModelo();
-                                        break;
-                                    }
-                                    case "Costo_Lavado_Vehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCostoLavadoVehiculo();
-                                        break;
-                                    }
-                                    case "Valor_Recaudo_Empresa_LavadoVehículos":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getValorRecaudoEmpresa_lavadoVehiculo();
-                                        break;
-                                    }
-                                    case "Valor_Recaudo_Equipo_LavadoVehículos":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getValorRecaudoEquipo_lavadoVehiculo();
-                                        break;
-                                    }
-
-                                    case "Número_Orden":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getNumero_orden();
-                                        break;
-                                    }
-                                    case "Deposito":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getDeposito();
-                                        break;
-                                    }
-                                    case "Consecutivo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getConsecutivo();
-                                        break;
-                                    }
-                                    case "Placa":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getPlaca();
-                                        break;
-                                    }
-                                    case "PesoVacio":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getPesoVacio();
-                                        break;
-                                    }
-                                    case "Peso_Lleno":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getPesoLleno();
-                                        break;
-                                    }
-                                    case "Peso_Neto":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getPesoNeto();
-                                        break;
-                                    }
-                                    case "Fecha_Entrada_Vehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFechaEntradaVehiculo();
-                                        break;
-                                    }
-                                    case "Fecha_Salida_Vehículo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFecha_SalidaVehiculo();
-                                        break;
-                                    }
-                                    case "Fecha_Inicio_Descargue":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFechaInicioDescargue();
-                                        break;
-                                    }
-                                    case "Fecha_Fin_Descargue":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getFechaFinDescargue();
-                                        break;
-                                    }
-                                    case "Cantidad_Minutos":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getCantidadHorasDescargue();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Registra_Vehículo_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistroMovil().getCodigo();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Registra_Vehículo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistroMovil().getNombres()+" "+listado.get(i).getMvtoCarbon().getUsuarioRegistroMovil().getApellidos();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Registra_Vehículo_Correo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistroMovil().getCorreo();
-                                        break;
-                                    }
-                                    case "Observación":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getObservacion();
-                                        break;
-                                    }
-                                    case "Estado":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getEstadoMvtoCarbon().getDescripcion();
-                                        break;
-                                    }
-                                    case "Conexión_Peso_CCARGA":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getConexionPesoCcarga();
-                                        break;
-                                    }
-                                    case "Registro_Manual":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getRegistroManual();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_RegistraManual_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistraManual().getCodigo();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_RegistraManual_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistraManual().getNombres()+" "+listado.get(i).getMvtoCarbon().getUsuarioRegistraManual().getApellidos();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_RegistraManual_Correo":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioRegistraManual().getCorreo();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Cierra_Vehículo_Código":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioCierraRegistro().getCodigo();
-                                        break;
-                                    }
-                                    case "Usuario_Quien_Cierra_Vehículo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoCarbon().getUsuarioCierraRegistro().getNombres()+" "+listado.get(i).getMvtoCarbon().getUsuarioCierraRegistro().getApellidos();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_MES":{
-                                        data=""+  getMes(listado.get(i).getMvtoEquipo().getMes());
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Fecha_Registro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getFechaRegistro();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_ProveedorEquipo_NIT":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getProveedorEquipo().getNit();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_ProveedorEquipo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getProveedorEquipo().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Número_Orden":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getNumeroOrden();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Operación":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroOperacion().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Subcentro_Costo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCostoAuxiliar().getCentroCostoSubCentro().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Costo_Auxiliar_Origen":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCostoAuxiliar().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Costo_Auxiliar_Destino":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCostoAuxiliarDestino().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Costo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCosto().getDescripción();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Centro_Costo_Mayor":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCentroCostoMayor().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Labor_Realizada":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getLaborRealizada().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Cliente_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCliente().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Cliente_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCliente().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Artículo_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getArticulo().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Artículo_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getArticulo().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Motonave_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getMotonave().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Motonave_Descripción":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getMotonave().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_FechaInicio_Actividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getFechaHoraInicio();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_FechaFinalización_Actividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getFechaHoraFin();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Duración_Actividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getTotalMinutos();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Valor_Hora":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getValorHora();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Costo_Total":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCostoTotal();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Recobro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getRecobro().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienRegistra_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioQuieRegistra().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienRegistra_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioQuieRegistra().getNombres();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienAutoriza_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioAutorizaRecobro().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienAutoriza_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioAutorizaRecobro().getNombres();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Autorización_Recobro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAutorizacionRecobro().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Observación_Autorización_Recobro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getObservacionAutorizacion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Inactividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getInactividad();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Causal_Inactividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getCausaInactividad().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienInactiva_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioInactividad().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioQuienInactiva_Nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioInactividad().getNombres();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioCierraMvto_codigo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioQuienCierra().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_UsuarioCierraMvto_nombre":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getUsuarioQuienCierra().getNombres();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Motivo_Parada":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getMotivoParada().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_MvtoEquipo_Observación":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getObservacionMvtoEquipo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Estado":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getEstado();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Desde_Carbón":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getDesdeCarbon();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Tipo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getTipoEquipo().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Marca":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getMarca();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Modelo":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getModelo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Descripción":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getEquipo().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Equipo_Pertenencia":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getPertenencia().getDescripcion();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_Código":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getCodigo();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_FechaRegistro":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getFechaRegistro();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_FechaInicioActividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getFechaHoraInicio();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_FechaFinalizaciónActividad":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getFechaHoraFin();
-                                        break;
-                                    }
-                                    case "MvtoEquipo_Asignación_CantidadMinutosProgramados":{
-                                        data=""+  listado.get(i).getMvtoEquipo().getAsignacionEquipo().getCantidadMinutosProgramados();
-                                        break;
-                                    }
-                                }
-                                try{
-                                    if(validarUnidadNegocio){
-                                        celda.setCellValue(String.valueOf(data));
-                                        validarUnidadNegocio=false;
-                                    }else{
-                                        String[] valor=String.valueOf(data).split("-");
-                                        if(valor.length==3){
-                                            String[] valor2=valor[2].split(":");
-                                            if(valor2.length >= 3){
-                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                Date fechaM = dateFormat.parse(String.valueOf(data));
-                                                CellStyle cellStyle = wb.createCellStyle();
-                                                CreationHelper createHelper = wb.getCreationHelper();
-                                                cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
-                                                celda.setCellValue(fechaM);
-                                                celda.setCellStyle(cellStyle);
+                    //int numFila=tabla.getRowCount(), numColumna=tabla.getColumnCount();
+                    int numFila=listadoPlantillaArchivoLiquidacion.size();
+                    int numColumna=encabezadoTabla.size();
+                    if(archivo.getName().endsWith("xls")){
+                        wb = new HSSFWorkbook();
+                    }else{
+                        wb= new XSSFWorkbook();
+                    }
+                    Sheet hoja= wb.createSheet("LiquidacionPalero");
+                    int costoTotalApuntador=300000;
+                    try{
+                        for(int i= -1; i < numFila; i++ ){
+                            Row fila= hoja.createRow(i+1);
+                            for(int j=0; j< numColumna; j++){
+                                boolean validarUnidadNegocio = false;
+                                Cell celda= fila.createCell(j);
+                                if(i==-1){
+                                    //celda.setCellValue(String.valueOf(tabla.getColumnName(j)));
+                                    celda.setCellValue(encabezadoTabla.get(j));
+                                    //String nameColumn=String.valueOf(tabla.getColumnName(j));
+                                    if(encabezadoTabla.get(j).equals("Costo_Total")){
+                                        costoTotalApuntador=j;
+                                    }
+                                }else{
+                                    String data="";
+                                    switch(encabezadoTabla.get(j)){
+                                        case "FECHA INICIO PERIODO":{
+                                            data=""+  listadoPlantillaArchivoLiquidacion.get(i).getFechaInicio();
+                                            break;
+                                        }
+                                        case "FECHA FIN PERIODO":{
+                                            data=""+    listadoPlantillaArchivoLiquidacion.get(i).getFechaFin();
+                                            break;
+                                        }
+                                        case "CUADRILLA":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getEquipo();
+                                            break;
+                                        }
+                                        case "DOCUMENTO":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getPersonaDocumento();
+                                            break;
+                                        }
+                                        case "EMPLEADO":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getPersonaNombre();
+                                            break;
+                                        }
+                                        case "KILOS":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getCantidadAcumuladasKilos();
+                                            break;
+                                        } 
+                                        case "DIAS LABORADOS":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getCantidadDias();
+                                            break;
+                                        }
+                                        case "DCTO TONELADA MES":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getToneladaMes();
+                                            break;
+                                        }  
+                                        case "VALOR TONELADA":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getValorTonelada();
+                                            break;
+                                        }  
+                                        case "TONELADA SALARIO":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getToneladaSalario();
+                                            break;
+                                        } 
+                                        case "TONELADAS A PAGAR":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getToneladaAPagar();
+                                            break;
+                                        } 
+                                        case "TOTAL COMISION":{
+                                            data=""+   listadoPlantillaArchivoLiquidacion.get(i).getTotalComision();
+                                            break;
+                                        } 
+                                    }
+                                    try{
+    //                                    if(validarUnidadNegocio){
+    //                                        celda.setCellValue(String.valueOf(data));
+    //                                        validarUnidadNegocio=false;
+    //                                    }else{
+                                            String[] valor=String.valueOf(data).split("-");
+                                            if(valor.length==3){
+                                                String[] valor2=valor[2].split(":");
+                                                if(valor2.length >= 3){
+                                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                    Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                    CellStyle cellStyle = wb.createCellStyle();
+                                                    CreationHelper createHelper = wb.getCreationHelper();
+                                                    cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy h:mm:ss"));
+                                                    celda.setCellValue(fechaM);
+                                                    celda.setCellStyle(cellStyle);
+                                                }else{
+                                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                    Date fechaM = dateFormat.parse(String.valueOf(data));
+                                                    CellStyle cellStyle = wb.createCellStyle();
+                                                    CreationHelper createHelper = wb.getCreationHelper();
+                                                    cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy"));
+                                                    //cell = row.createCell(1);
+                                                    celda.setCellValue(fechaM);
+                                                    celda.setCellStyle(cellStyle);
+                                                }
                                             }else{
-                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                                Date fechaM = dateFormat.parse(String.valueOf(data));
-                                                CellStyle cellStyle = wb.createCellStyle();
-                                                CreationHelper createHelper = wb.getCreationHelper();
-                                                cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("d/m/yy"));
-                                                //cell = row.createCell(1);
-                                                celda.setCellValue(fechaM);
-                                                celda.setCellStyle(cellStyle);
-                                            }
-                                        }else{
-                                            try{
-                                                celda.setCellValue(Integer.parseInt(data));
-                                            }catch(Exception e){
                                                 try{
-                                                    if(costoTotalApuntador == j){
-                                                        celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
-                                                    }else{
+                                                    celda.setCellValue(Integer.parseInt(data));
+                                                }catch(Exception e){
+                                                    try{
+                                                        celda.setCellValue(Double.parseDouble(String.valueOf(data)));
+    //                                                    if(costoTotalApuntador == j){
+    //                                                        celda.setCellValue(Double.parseDouble(String.valueOf(data).replace(",", ".")));
+    //                                                    }else{
+    //                                                        celda.setCellValue(String.valueOf(data));
+    //                                                    }
+                                                    }catch(Exception ex){
                                                         celda.setCellValue(String.valueOf(data));
                                                     }
-                                                }catch(Exception ex){
-                                                    celda.setCellValue(String.valueOf(data));
                                                 }
-                                            }
+    //                                        }
                                         }
                                     }
-                                }
-                                catch(Exception e){
-                                    //celda.setCellValue(String.valueOf(tabla.getValueAt(i, j)));
-                                    celda.setCellValue(String.valueOf(data));
+                                    catch(Exception e){
+                                        //celda.setCellValue(String.valueOf(tabla.getValueAt(i, j)));
+                                        celda.setCellValue(String.valueOf(data));
+                                    }
                                 }
                             }
                         }
-                    }
-                    for(int j=0; j<=numColumna; j++){
-                        hoja.autoSizeColumn(j,true);
-                    }
-                    wb.write(new FileOutputStream(archivo));
-                    respuesta= "Envío exitoso";
-                    String remitente = "venturadatavg";  //Para la dirección nomcuenta@gmail.com
-                    String clave = "VG#V3ntur4D4t4!#";  //Para la dirección nomcuenta@gmail.com
+                        for(int j=0; j<=numColumna; j++){
+                            hoja.autoSizeColumn(j,true);
+                        }
+                        wb.write(new FileOutputStream(archivo));
+                        respuesta= "Envío exitoso";
+                        String remitente = "venturadatavg";  //Para la dirección nomcuenta@gmail.com
+                        String clave = "VG#V3ntur4D4t4!#";  //Para la dirección nomcuenta@gmail.com
 
-                    Properties props = System.getProperties();
-                    props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
-                    props.put("mail.smtp.user", remitente);
-                    props.put("mail.smtp.clave", clave);    //La clave de la cuenta
-                    props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
-                    props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
-                    props.put("mail.smtp.port", "587");//El puerto SMTP seguro de Google
+                        Properties props = System.getProperties();
+                        props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
+                        props.put("mail.smtp.user", remitente);
+                        props.put("mail.smtp.clave", clave);    //La clave de la cuenta
+                        props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
+                        props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
+                        props.put("mail.smtp.port", "587");//El puerto SMTP seguro de Google
 
-                    Session session = Session.getDefaultInstance(props);
-                    MimeMessage message = new MimeMessage(session);
+                        Session session = Session.getDefaultInstance(props);
+                        MimeMessage message = new MimeMessage(session);
 
-                    try {
-                        message.setFrom(new InternetAddress(remitente));
-                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getCorreo()));
-                        BodyPart texto = new MimeBodyPart();
-                        texto.setText("Matriz de Carbón generada desde VenturaData");
-                        BodyPart adjunto = new MimeBodyPart();
-                        //adjunto.setDataHandler(new DataHandler(new FileDataSource("d:/futbol.png")));
-                        adjunto.setDataHandler(new DataHandler(new FileDataSource(archivo)));
-                        adjunto.setFileName("Matriz_carbon.xlsx");
-                        MimeMultipart multiParte = new MimeMultipart();
-                        multiParte.addBodyPart(texto);
-                        multiParte.addBodyPart(adjunto);
-                        message.setSubject("Matriz de la operación de carbón");
-                        message.setContent(multiParte);
-                        Transport transport = session.getTransport("smtps");
-                        transport.connect("smtp.gmail.com", remitente, clave);
-                        transport.sendMessage(message, message.getAllRecipients());
-                        transport.close();
-                    }
-                    catch (MessagingException me) {
-                        me.printStackTrace();   //Si se produce un error
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
-                    }
+                        try {
+                            message.setFrom(new InternetAddress(remitente));
+                            message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getCorreo()));
+                            BodyPart texto = new MimeBodyPart();
+                            texto.setText("Matriz de Carbón generada desde VenturaData");
+                            BodyPart adjunto = new MimeBodyPart();
+                            //adjunto.setDataHandler(new DataHandler(new FileDataSource("d:/futbol.png")));
+                            adjunto.setDataHandler(new DataHandler(new FileDataSource(archivo)));
+                            adjunto.setFileName(user.getCodigo()+"_"+"LIQUIDACIÓN_"+configuracionLiquidacionliquidar.getDescripcion()+"_+.xlsx");
+                            MimeMultipart multiParte = new MimeMultipart();
+                            multiParte.addBodyPart(texto);
+                            multiParte.addBodyPart(adjunto);
+                            message.setSubject("Liquidación Paleros");
+                            message.setContent(multiParte);
+                            Transport transport = session.getTransport("smtps");
+                            transport.connect("smtp.gmail.com", remitente, clave);
+                            transport.sendMessage(message, message.getAllRecipients());
+                            transport.close();
+                        }
+                        catch (MessagingException me) {
+                            me.printStackTrace();   //Si se produce un error
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
+                        }
 
-                }catch(Exception e){}
-                JOptionPane.showMessageDialog(null, respuesta);
-            }else{
-                JOptionPane.showMessageDialog(null,"Elija un formato valido");
+                    }catch(Exception e){}
+                    JOptionPane.showMessageDialog(null, respuesta);
+                }else{
+                    JOptionPane.showMessageDialog(null,"Elija un formato valido");
+                }
             }
-        }*/
-    }//GEN-LAST:event_jLabel5MouseClicked
-    int i = 20;
+        }
+    }//GEN-LAST:event_sendMailIconMouseClicked
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Eliminar;
@@ -2450,8 +1888,6 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JProgressBar jProgressBar1;
@@ -2463,6 +1899,8 @@ public class LiquidacionPalero_Registrar extends javax.swing.JPanel implements A
     private javax.swing.JComboBox<Integer> pageJComboBox;
     private javax.swing.JComboBox<Integer> pageJComboBox1;
     public javax.swing.JPanel paginationPanel;
+    private javax.swing.JLabel senMailLabel;
+    private javax.swing.JLabel sendMailIcon;
     private javax.swing.JTable tabla;
     private javax.swing.JTable tablaListadoVehiculosPorEquipoLiquidacion;
     // End of variables declaration//GEN-END:variables

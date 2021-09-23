@@ -153,7 +153,6 @@ public class ControlDB_LiquidacionPalero {
                         objeto.getMvtoCarbon().setCentroCostoAuxiliar(new CentroCostoAuxiliar());                    
                         objeto.getMvtoCarbon().getCentroCostoAuxiliar().setCentroCostoSubCentro(new CentroCostoSubCentro());
                         objeto.getMvtoCarbon().getCentroCostoAuxiliar().getCentroCostoSubCentro().setDescripcion(resultSet.getString(4));
-          
                         objeto.getMvtoCarbon().getCentroCostoAuxiliar().setDescripcion(resultSet.getString(5));
                         objeto.getMvtoCarbon().setLaborRealizada(new LaborRealizada());
                         objeto.getMvtoCarbon().getLaborRealizada().setDescripcion(resultSet.getString(6));
@@ -221,8 +220,7 @@ public class ControlDB_LiquidacionPalero {
                         listadoObjetos.set(contador, objeto); 
                     }
                     contador++;
-                }
-                
+                } 
             }
         }catch (SQLException sqlException) {
             JOptionPane.showMessageDialog(null, "Error al tratar al consultar las vehículos descargados por los equipos que estan configurados para liquidación");
@@ -538,7 +536,7 @@ public class ControlDB_LiquidacionPalero {
                                                         "	   ,STRING_AGG([mc_placa_vehiculo],'  -  ') AS 'VEHÍCULOS_DESCARGADOS'\n" +
                                                         "	   ,SUM(convert(money, REPLACE([mc_peso_neto], ',','.'))) AS 'TOTAL DESCARGADO EN KG'\n" +
                                                         "	   ,SUM(convert(money, REPLACE([mppt_peso_articulo], ',','.'))) AS 'TOTAL ASIGNADO EN KG'\n" +
-                                                        "	   \n" +
+                                                        "	   ,COUNT([mc_placa_vehiculo])\n" +
                                                         "	  /*TOP 1000 [mppt_cdgo],[mppt_mvto_vehiculos_paleros_temp_cdgo]\n" +
                                                         "		  ,[mvpt_cdgo]\n" +
                                                         "		  ,[mvpt_mvto_carbon_listado_equipo_cdgo]\n" +
@@ -658,8 +656,8 @@ public class ControlDB_LiquidacionPalero {
                         listadoObjetos= new ArrayList<>();
                         validar= false;
                     }
-                    System.out.println(resultSet.getString(1)+"@@"+resultSet.getString(2)+"@@"+resultSet.getString(3)+"@@"+resultSet.getString(4)+"@@"+resultSet.getString(5)+"@@"+resultSet.getString(6)+"@@"+resultSet.getString(7));
-                    listadoObjetos.add(resultSet.getString(1)+"@@"+resultSet.getString(2)+"@@"+resultSet.getString(3)+"@@"+resultSet.getString(4)+"@@"+resultSet.getString(5)+"@@"+resultSet.getString(6)+"@@"+resultSet.getString(7));
+                    System.out.println(resultSet.getString(1)+"@@"+resultSet.getString(2)+"@@"+resultSet.getString(3)+"@@"+resultSet.getString(4)+"@@"+resultSet.getString(5)+"@@"+resultSet.getString(6)+"@@"+resultSet.getString(7)+"@@"+resultSet.getString(8));
+                    listadoObjetos.add(resultSet.getString(1)+"@@"+resultSet.getString(2)+"@@"+resultSet.getString(3)+"@@"+resultSet.getString(4)+"@@"+resultSet.getString(5)+"@@"+resultSet.getString(6)+"@@"+resultSet.getString(7)+"@@"+resultSet.getString(8));
                 }catch(Exception e){
                     e.printStackTrace();
                 }                

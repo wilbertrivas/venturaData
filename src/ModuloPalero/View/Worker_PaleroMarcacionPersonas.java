@@ -101,7 +101,7 @@ public class Worker_PaleroMarcacionPersonas extends SwingWorker{
                 contadorT++;
             }
             tabla.setModel(modelo);
-            tabla.setDefaultRenderer(Object.class, new Myrender_LiquidacionPalero_Registrar(2));
+            //tabla.setDefaultRenderer(Object.class, new Myrender_LiquidacionPalero_Registrar(2));
             resizeColumnWidth(tabla);
             boton.setText("GENERAR PRELIQUIDACIÓN");
             //boton.setEnabled(true);
