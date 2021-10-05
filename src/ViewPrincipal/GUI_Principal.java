@@ -105,7 +105,6 @@ import ModuloPalero.View.EquipoLiquidacion_Actualizar;
 import ModuloPalero.View.EquipoLiquidacion_Consultar;
 import ModuloPalero.View.EquipoLiquidacion_Registrar;
 import ModuloPalero.View.LiquidacionPalero_Registrar;
-import ModuloPalero.View.LiquidacionPalero_RegistrarBackup;
 import ModuloPalero.View.Marcacion_Actualizar;
 import ModuloPalero.View.Marcacion_Registrar;
 import ModuloPalero.View.Marcacion_Consultar;
@@ -169,6 +168,15 @@ public final class GUI_Principal extends javax.swing.JFrame {
         UIManager.put("jMenuBar1.background", Color.ORANGE);
         //Cierra procesos al cerrar la ventana
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        
+        /*TEMPORALES*/
+        jMenu48.show(false);
+        jMenu49.show(false);
+        jMenu50.show(false);
+        jMenu51.show(false);
+        jMenu52.show(false);
+        jMenu53.show(false);
     }
     
     public void cargarUsuario(Usuario userT, String tipoConexion) throws ParseException, UnknownHostException, SocketException{
@@ -192,11 +200,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
         
         /*****************************************************************/
           //Registramos el ingreso al sistema
-            /*try {
+            try {
                 new ControlDB_Sistema(this.tipoConexion).ingresoSistema(user);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
        /************************************************************************************/
         
         //  userOnline.setText(""+userOnline.getText()+" Tipo Conexión:"+tipoConexion+"      Conexión Día:"+new ControlDB_Sistema(this.tipoConexion).contadorIngresoDiario(user));
@@ -257,20 +265,20 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu42 = new javax.swing.JMenu();
         jMenu45 = new javax.swing.JMenu();
         jMenu46 = new javax.swing.JMenu();
-        jMenuItem47 = new javax.swing.JMenuItem();
-        jMenuItem48 = new javax.swing.JMenuItem();
-        jMenuItem49 = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR = new javax.swing.JMenuItem();
         jMenu54 = new javax.swing.JMenu();
-        jMenuItem25 = new javax.swing.JMenuItem();
-        jMenuItem45 = new javax.swing.JMenuItem();
-        jMenuItem46 = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR = new javax.swing.JMenuItem();
         jMenu44 = new javax.swing.JMenu();
-        jMenuItem21 = new javax.swing.JMenuItem();
-        jMenuItem22 = new javax.swing.JMenuItem();
-        jMenuItem44 = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR = new javax.swing.JMenuItem();
         jMenu43 = new javax.swing.JMenu();
-        jMenuItem18 = new javax.swing.JMenuItem();
-        jMenuItem19 = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR = new javax.swing.JMenuItem();
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR = new javax.swing.JMenuItem();
         jMenu12 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenu48 = new javax.swing.JMenu();
@@ -803,43 +811,43 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu46.setText("Equipos Liquidación");
         jMenu46.setPreferredSize(new java.awt.Dimension(250, 30));
 
-        jMenuItem47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
-        jMenuItem47.setText("Registrar");
-        jMenuItem47.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem47.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setText("Registrar");
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem47ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRARActionPerformed(evt);
             }
         });
-        jMenu46.add(jMenuItem47);
+        jMenu46.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR);
 
-        jMenuItem48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
-        jMenuItem48.setText("Consultar");
-        jMenuItem48.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem48.addAncestorListener(new javax.swing.event.AncestorListener() {
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setText("Consultar");
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jMenuItem48AncestorAdded(evt);
+                MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
-        jMenuItem48.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem48ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARActionPerformed(evt);
             }
         });
-        jMenu46.add(jMenuItem48);
+        jMenu46.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR);
 
-        jMenuItem49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
-        jMenuItem49.setText("Actualizar");
-        jMenuItem49.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setText("Actualizar");
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem49ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZARActionPerformed(evt);
             }
         });
-        jMenu46.add(jMenuItem49);
+        jMenu46.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR);
 
         jMenu45.add(jMenu46);
 
@@ -852,35 +860,35 @@ public final class GUI_Principal extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
-        jMenuItem25.setText("Registrar");
-        jMenuItem25.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setText("Registrar");
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem25ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRARActionPerformed(evt);
             }
         });
-        jMenu54.add(jMenuItem25);
+        jMenu54.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR);
 
-        jMenuItem45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
-        jMenuItem45.setText("Consultar");
-        jMenuItem45.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem45.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setText("Consultar");
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem45ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTARActionPerformed(evt);
             }
         });
-        jMenu54.add(jMenuItem45);
+        jMenu54.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR);
 
-        jMenuItem46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
-        jMenuItem46.setText("Actualizar");
-        jMenuItem46.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem46.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setText("Actualizar");
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem46ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZARActionPerformed(evt);
             }
         });
-        jMenu54.add(jMenuItem46);
+        jMenu54.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR);
 
         jMenu45.add(jMenu54);
 
@@ -890,35 +898,35 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu44.setText("Marcación");
         jMenu44.setPreferredSize(new java.awt.Dimension(250, 30));
 
-        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
-        jMenuItem21.setText("Registrar");
-        jMenuItem21.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setText("Registrar");
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem21ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRARActionPerformed(evt);
             }
         });
-        jMenu44.add(jMenuItem21);
+        jMenu44.add(MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR);
 
-        jMenuItem22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
-        jMenuItem22.setText("Consultar");
-        jMenuItem22.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setText("Consultar");
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem22ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTARActionPerformed(evt);
             }
         });
-        jMenu44.add(jMenuItem22);
+        jMenu44.add(MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR);
 
-        jMenuItem44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
-        jMenuItem44.setText("Actualizar");
-        jMenuItem44.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem44.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setText("Actualizar");
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem44ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZARActionPerformed(evt);
             }
         });
-        jMenu44.add(jMenuItem44);
+        jMenu44.add(MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR);
 
         jMenu42.add(jMenu44);
 
@@ -926,20 +934,20 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu43.setText("Liquidación");
         jMenu43.setPreferredSize(new java.awt.Dimension(270, 30));
 
-        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
-        jMenuItem18.setText("Generar");
-        jMenuItem18.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setText("Generar");
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem18ActionPerformed(evt);
+                MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERARActionPerformed(evt);
             }
         });
-        jMenu43.add(jMenuItem18);
+        jMenu43.add(MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR);
 
-        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
-        jMenuItem19.setText("Consultar");
-        jMenuItem19.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenu43.add(jMenuItem19);
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setText("Consultar");
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenu43.add(MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR);
 
         jMenu42.add(jMenu43);
 
@@ -2750,65 +2758,65 @@ public final class GUI_Principal extends javax.swing.JFrame {
         panel.setViewportView(new Persona_Actualizar(user, tipoConexion));
     }//GEN-LAST:event_jMenuItem40ActionPerformed
 
-    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRARActionPerformed
         panel.setViewportView(new Marcacion_Registrar(user, tipoConexion));
-    }//GEN-LAST:event_jMenuItem21ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRARActionPerformed
 
-    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTARActionPerformed
         panel.setViewportView(new Marcacion_Consultar(user, tipoConexion));
-    }//GEN-LAST:event_jMenuItem22ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTARActionPerformed
 
-    private void jMenuItem44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem44ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZARActionPerformed
          panel.setViewportView(new Marcacion_Actualizar(user, tipoConexion));
-    }//GEN-LAST:event_jMenuItem44ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZARActionPerformed
 
     private void jMenu54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu54ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu54ActionPerformed
 
-    private void jMenuItem47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem47ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRARActionPerformed
         try {
             panel.setViewportView(new EquipoLiquidacion_Registrar(user, tipoConexion));
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jMenuItem47ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRARActionPerformed
 
-    private void jMenuItem48AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jMenuItem48AncestorAdded
+    private void MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARAncestorAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem48AncestorAdded
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARAncestorAdded
 
-    private void jMenuItem48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem48ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARActionPerformed
         try {
             panel.setViewportView(new EquipoLiquidacion_Consultar(user, tipoConexion));
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jMenuItem48ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARActionPerformed
 
-    private void jMenuItem49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem49ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZARActionPerformed
         try {
             panel.setViewportView(new EquipoLiquidacion_Actualizar(user, tipoConexion));
         } catch (SQLException ex) {
             Logger.getLogger(GUI_Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jMenuItem49ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZARActionPerformed
 
-    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRARActionPerformed
         panel.setViewportView(new ConfiguracionLiquidacion_Registrar(user, tipoConexion));
-    }//GEN-LAST:event_jMenuItem25ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRARActionPerformed
 
-    private void jMenuItem45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem45ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTARActionPerformed
         panel.setViewportView(new ConfiguracionLiquidacion_Consultar(user, tipoConexion));
-    }//GEN-LAST:event_jMenuItem45ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTARActionPerformed
 
-    private void jMenuItem46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem46ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZARActionPerformed
         panel.setViewportView(new ConfiguracionLiquidacion_Actualizar(user, tipoConexion));
-    }//GEN-LAST:event_jMenuItem46ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZARActionPerformed
 
-    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+    private void MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERARActionPerformed
         panel.setViewportView(new LiquidacionPalero_Registrar(user, tipoConexion));
-    }//GEN-LAST:event_jMenuItem18ActionPerformed
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERARActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2915,6 +2923,17 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MODULO_EQUIPO_PROCESAR_REGISTROS;
     private javax.swing.JMenuItem MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS;
     private javax.swing.JMenuItem MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR;
+    private javax.swing.JMenuItem MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR;
     private javax.swing.JMenuItem MOTIVO_PARADA_ACTUALIZAR;
     private javax.swing.JMenuItem MOTIVO_PARADA_CONSULTAR;
     private javax.swing.JMenuItem MOTIVO_PARADA_REGISTRAR;
@@ -3008,12 +3027,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
-    private javax.swing.JMenuItem jMenuItem18;
-    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem21;
-    private javax.swing.JMenuItem jMenuItem22;
-    private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
     private javax.swing.JMenuItem jMenuItem28;
@@ -3034,12 +3048,6 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem41;
     private javax.swing.JMenuItem jMenuItem42;
     private javax.swing.JMenuItem jMenuItem43;
-    private javax.swing.JMenuItem jMenuItem44;
-    private javax.swing.JMenuItem jMenuItem45;
-    private javax.swing.JMenuItem jMenuItem46;
-    private javax.swing.JMenuItem jMenuItem47;
-    private javax.swing.JMenuItem jMenuItem48;
-    private javax.swing.JMenuItem jMenuItem49;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
@@ -3441,6 +3449,51 @@ public final class GUI_Principal extends javax.swing.JFrame {
                     MODULO_EQUIPO_GENERAR_DISTRIBUCION.show(true);
                     break;
                 }
+                
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR":{
+                    MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR":{
+                    MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR":{
+                    MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR":{
+                    MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.show(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR":{
+                    MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.show(true);
+                    break;
+                }
                 default:{
                     break;
                 }
@@ -3549,5 +3602,18 @@ public final class GUI_Principal extends javax.swing.JFrame {
         MODULO_CARBON_GENERAR_DISTRIBUCION.show(false);
         MODULO_EQUIPO_AGREGAR_REGISTRO.show(false);
         MODULO_EQUIPO_GENERAR_DISTRIBUCION.show(false);
+        
+        
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.show(false);
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.show(false);
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.show(false);
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.show(false);
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.show(false);
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.show(false);
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.show(false);
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.show(false);
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.show(false);
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.show(false);
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.show(false);
     }
 }

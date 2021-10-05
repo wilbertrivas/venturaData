@@ -81,6 +81,23 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         MODULO_EQUIPO_PROCESAR_REGISTROS = new javax.swing.JCheckBox();
         MODULO_EQUIPO_GENERAR_DISTRIBUCION = new javax.swing.JCheckBox();
         MODULO_EQUIPO_AGREGAR_REGISTRO = new javax.swing.JCheckBox();
+        Panel_Menu_Liquidacion = new javax.swing.JPanel();
+        jLabel79 = new javax.swing.JLabel();
+        jLabel93 = new javax.swing.JLabel();
+        jSeparator18 = new javax.swing.JSeparator();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR = new javax.swing.JCheckBox();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR = new javax.swing.JCheckBox();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR = new javax.swing.JCheckBox();
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR = new javax.swing.JCheckBox();
+        jSeparator20 = new javax.swing.JSeparator();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR = new javax.swing.JCheckBox();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR = new javax.swing.JCheckBox();
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR = new javax.swing.JCheckBox();
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR = new javax.swing.JCheckBox();
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR = new javax.swing.JCheckBox();
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR = new javax.swing.JCheckBox();
+        jLabel94 = new javax.swing.JLabel();
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR = new javax.swing.JCheckBox();
         Panel_Menu_ModuloAgua = new javax.swing.JPanel();
         jLabel51 = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
@@ -344,7 +361,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         });
         add(limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 60, 40));
 
-        jLabel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "INFORMACION DEL USUARIO", 2, 0, new java.awt.Font("Adobe Arabic", 1, 14))); // NOI18N
+        jLabel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "INFORMACION DEL USUARIO", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Adobe Arabic", 1, 14))); // NOI18N
         add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 790, 0));
 
         todos.setBackground(new java.awt.Color(255, 255, 255));
@@ -547,6 +564,81 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         Panel_Menu_ModuloEquipo.add(MODULO_EQUIPO_AGREGAR_REGISTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 340, 30));
 
         jTabbedPane1.addTab("MODULO_EQUIPO", Panel_Menu_ModuloEquipo);
+
+        Panel_Menu_Liquidacion.setBackground(new java.awt.Color(255, 255, 255));
+        Panel_Menu_Liquidacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel79.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel79.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/descargue.png"))); // NOI18N
+        Panel_Menu_Liquidacion.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 40, 30));
+
+        jLabel93.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel93.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel93.setText("PALERO");
+        Panel_Menu_Liquidacion.add(jLabel93, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 310, 30));
+        Panel_Menu_Liquidacion.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, 670, 100));
+
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setText("MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 690, 30));
+
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setText("MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 570, 30));
+
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setText("MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 570, 30));
+
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setText("MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 570, 30));
+        Panel_Menu_Liquidacion.add(jSeparator20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 670, 10));
+
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setText("MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 690, 30));
+
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setText("MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 570, 30));
+
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setText("MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 580, 30));
+
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setText("MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 760, 30));
+
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setText("MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 720, 30));
+
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setText("MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 580, 30));
+
+        jLabel94.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel94.setText("LIQUIDACIÓN");
+        Panel_Menu_Liquidacion.add(jLabel94, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 310, 30));
+
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setBackground(new java.awt.Color(255, 255, 255));
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setText("MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR");
+        Panel_Menu_Liquidacion.add(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 570, 30));
+
+        jTabbedPane1.addTab("MODULO_LIQUIDACIÓN", Panel_Menu_Liquidacion);
 
         Panel_Menu_ModuloAgua.setBackground(new java.awt.Color(255, 255, 255));
         Panel_Menu_ModuloAgua.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1790,6 +1882,41 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
             if(MODULO_EQUIPO_GENERAR_DISTRIBUCION.isSelected()){
                 listadoPermisos.add(new Permisos("", "MODULO_EQUIPO_GENERAR_DISTRIBUCION"));
             }  
+            
+            
+            if(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR"));
+            } 
+            if(MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.isSelected()){
+                listadoPermisos.add(new Permisos("", "MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR"));
+            } 
             //cargamos los permisos al objeto perfil
             perfil.setPermisos(listadoPermisos);
             ControlDB_Perfil controlDB_Perfil = new ControlDB_Perfil(tipoConexion);
@@ -1950,6 +2077,17 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
     private javax.swing.JCheckBox MODULO_EQUIPO_PROCESAR_REGISTROS;
     private javax.swing.JCheckBox MODULO_EQUIPO_PROGRAMAR_PROCESAMIENTO_REGISTROS;
     private javax.swing.JCheckBox MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR;
+    private javax.swing.JCheckBox MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR;
     private javax.swing.JCheckBox MOTIVO_PARADA_ACTUALIZAR;
     private javax.swing.JCheckBox MOTIVO_PARADA_CONSULTAR;
     private javax.swing.JCheckBox MOTIVO_PARADA_REGISTRAR;
@@ -1969,6 +2107,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
     private javax.swing.JPanel Panel_Menu_Auditoria;
     private javax.swing.JPanel Panel_Menu_Catalogo;
     private javax.swing.JPanel Panel_Menu_DescargueCarbón;
+    private javax.swing.JPanel Panel_Menu_Liquidacion;
     private javax.swing.JPanel Panel_Menu_ModuloAgua;
     private javax.swing.JPanel Panel_Menu_ModuloEquipo;
     private javax.swing.JPanel Panel_Menu_ModuloPersonal;
@@ -2053,6 +2192,7 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
@@ -2066,6 +2206,8 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel90;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
+    private javax.swing.JLabel jLabel93;
+    private javax.swing.JLabel jLabel94;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
@@ -2077,8 +2219,10 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
+    private javax.swing.JSeparator jSeparator18;
     private javax.swing.JSeparator jSeparator19;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator20;
     private javax.swing.JSeparator jSeparator21;
     private javax.swing.JSeparator jSeparator34;
     private javax.swing.JSeparator jSeparator35;
@@ -2548,6 +2692,53 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
                     MODULO_EQUIPO_GENERAR_DISTRIBUCION.setSelected(true);
                     break;
                 }
+                
+                
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR":{
+                    MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR":{
+                    MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR":{
+                    MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR":{
+                    MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR":{
+                    MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setSelected(true);
+                    break;
+                }
+                case "MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR":{
+                    MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setSelected(true);
+                    break;
+                }
+                
                 default:{
                     break;
                 }
@@ -2661,6 +2852,18 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         MODULO_EQUIPO_AGREGAR_REGISTRO.setSelected(false);
         MODULO_EQUIPO_GENERAR_DISTRIBUCION.setSelected(false); 
         
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setSelected(false);
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setSelected(false); 
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setSelected(false); 
+        
     }
     public void marcarTodosCheckInterfaz(){
         SOLICITUD_EQUIPOS_REGISTRAR.setSelected(true);
@@ -2768,6 +2971,18 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         MODULO_CARBON_GENERAR_DISTRIBUCION.setSelected(true);
         MODULO_EQUIPO_AGREGAR_REGISTRO.setSelected(true);
         MODULO_EQUIPO_GENERAR_DISTRIBUCION.setSelected(true);
+        
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setSelected(true);
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setSelected(true); 
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setSelected(true); 
         
     }
     public void deshabilitarTodosCheckInterfaz(){
@@ -2877,6 +3092,18 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         MODULO_EQUIPO_AGREGAR_REGISTRO.setEnabled(false);
         MODULO_EQUIPO_GENERAR_DISTRIBUCION.setEnabled(false); 
         
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setEnabled(false);
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setEnabled(false); 
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setEnabled(false); 
+        
     }
     public void habilitarTodosCheckInterfaz(){
         SOLICITUD_EQUIPOS_REGISTRAR.setEnabled(true);
@@ -2985,6 +3212,18 @@ public final class Permiso_Usuario extends javax.swing.JPanel {
         MODULO_CARBON_GENERAR_DISTRIBUCION.setEnabled(true);
         MODULO_EQUIPO_AGREGAR_REGISTRO.setEnabled(true);
         MODULO_EQUIPO_GENERAR_DISTRIBUCION.setEnabled(true); 
+        
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR.setEnabled(true);
+        MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setEnabled(true); 
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setEnabled(true); 
     }
 }    
 

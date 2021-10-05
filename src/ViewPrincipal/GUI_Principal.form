@@ -618,7 +618,7 @@
                         </Property>
                       </Properties>
                       <SubComponents>
-                        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem47">
+                        <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRAR">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/Img/menuPrincipal/menu_registrar.png"/>
@@ -629,10 +629,10 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem47ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_REGISTRARActionPerformed"/>
                           </Events>
                         </MenuItem>
-                        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem48">
+                        <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTAR">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/Img/menuPrincipal/menu_consultar.png"/>
@@ -643,11 +643,11 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="jMenuItem48AncestorAdded"/>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem48ActionPerformed"/>
+                            <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARAncestorAdded"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_CONSULTARActionPerformed"/>
                           </Events>
                         </MenuItem>
-                        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem49">
+                        <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZAR">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/Img/menuPrincipal/menu_actualizar.png"/>
@@ -655,7 +655,7 @@
                             <Property name="text" type="java.lang.String" value="Actualizar"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem49ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_PARAMETROS_EQUIPOLIQUIDACION_ACTUALIZARActionPerformed"/>
                           </Events>
                         </MenuItem>
                       </SubComponents>
@@ -674,7 +674,7 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenu54ActionPerformed"/>
                       </Events>
                       <SubComponents>
-                        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem25">
+                        <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRAR">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/Img/menuPrincipal/menu_registrar.png"/>
@@ -685,10 +685,10 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem25ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_REGISTRARActionPerformed"/>
                           </Events>
                         </MenuItem>
-                        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem45">
+                        <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTAR">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/Img/menuPrincipal/menu_consultar.png"/>
@@ -699,10 +699,10 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem45ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_CONSULTARActionPerformed"/>
                           </Events>
                         </MenuItem>
-                        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem46">
+                        <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZAR">
                           <Properties>
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/Img/menuPrincipal/menu_actualizar.png"/>
@@ -713,7 +713,7 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem46ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZARActionPerformed"/>
                           </Events>
                         </MenuItem>
                       </SubComponents>
@@ -731,7 +731,7 @@
                     </Property>
                   </Properties>
                   <SubComponents>
-                    <MenuItem class="javax.swing.JMenuItem" name="jMenuItem21">
+                    <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRAR">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Img/menuPrincipal/menu_registrar.png"/>
@@ -742,10 +742,10 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem21ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_MARCACION_REGISTRARActionPerformed"/>
                       </Events>
                     </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="jMenuItem22">
+                    <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTAR">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Img/menuPrincipal/menu_consultar.png"/>
@@ -756,10 +756,10 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem22ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_MARCACION_CONSULTARActionPerformed"/>
                       </Events>
                     </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="jMenuItem44">
+                    <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZAR">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Img/menuPrincipal/menu_actualizar.png"/>
@@ -770,7 +770,7 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem44ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_MARCACION_ACTUALIZARActionPerformed"/>
                       </Events>
                     </MenuItem>
                   </SubComponents>
@@ -786,7 +786,7 @@
                     </Property>
                   </Properties>
                   <SubComponents>
-                    <MenuItem class="javax.swing.JMenuItem" name="jMenuItem18">
+                    <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Img/menuPrincipal/menu_registrar.png"/>
@@ -797,10 +797,10 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem18ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERARActionPerformed"/>
                       </Events>
                     </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="jMenuItem19">
+                    <MenuItem class="javax.swing.JMenuItem" name="MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Img/menuPrincipal/menu_consultar.png"/>
