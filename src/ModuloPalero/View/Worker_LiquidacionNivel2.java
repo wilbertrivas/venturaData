@@ -45,6 +45,9 @@ public class Worker_LiquidacionNivel2 extends SwingWorker{
     private ConfiguracionLiquidacion configuracionLiquidacion;
     ArrayList<String> listadoPreliquidacion=null;
     private JLabel Label_level;
+    boolean validar= true;
+        int result=0;
+        ArrayList<MvtoPaleroPreliquidacionTEMP> listado_MvtoPaleroPreliquidacionTEMP= null;
     Worker_LiquidacionNivel2(JLabel Label_level,JProgressBar barra, JButton boton,JTable tabla,ArrayList<MvtoCarbon_ListadoEquipos_LiquidacionPaleros> listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros, ConfiguracionLiquidacion configuracionLiquidacion,Usuario user, String tipoConexion) {
         progreso = barra;
         this.tabla=tabla;
@@ -66,18 +69,17 @@ public class Worker_LiquidacionNivel2 extends SwingWorker{
         boton.setEnabled(false);
         double value= ((double)100/(double)listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros.size());
         double contador=0;
-        boolean validar= true;
-        int result=0;
+        
         //Limpiamos las tablas temporales para proceder con el almanenamiento de los datos
         new ControlDB_LiquidacionPalero(tipoConexion).limpiarRegistroLiquidacion();
         
-        ArrayList<MvtoPaleroPreliquidacionTEMP> listado_MvtoPaleroPreliquidacionTEMP= null;
+        
         if(listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros != null){
             listado_MvtoPaleroPreliquidacionTEMP = new ArrayList<>();
             for (MvtoCarbon_ListadoEquipos_LiquidacionPaleros objeto : listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros) {
                 contador += value;
                 publish((int)contador);
-                 for (int i = 0; i < objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size(); i++) {
+                for (int i = 0; i < objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size(); i++) {
                     MvtoPaleroPreliquidacionTEMP mvtoPaleroPreliquidacionTEMP = new MvtoPaleroPreliquidacionTEMP();
                     mvtoPaleroPreliquidacionTEMP.setMvtoVehiculoPalerosTEMP(new MvtoVehiculoPalerosTEMP(null, objeto, "1"));
                     mvtoPaleroPreliquidacionTEMP.setConfiguracionLiquidacion(configuracionLiquidacion);
@@ -93,9 +95,18 @@ public class Worker_LiquidacionNivel2 extends SwingWorker{
                         validar=false;
                     }
                 }
-            }
-         
+            }   
         }
+        
+        
+        return 100.00;
+    }
+
+    @Override
+    protected void done() {
+        progreso.setValue(100);
+        //progreso.setString("Sincronización Finalizada");
+        
         try {
             //Procedemos a registrar las preliquidaciones en las tablar temporales con el objeto listado_MvtoPaleroPreliquidacionTEMP
             //listado_MvtoPaleroPreliquidacionTEMP
@@ -151,7 +162,7 @@ public class Worker_LiquidacionNivel2 extends SwingWorker{
                     }
                     tabla.setModel(modeloT);
                     //tabla.setDefaultRenderer(Object.class, new Myrender_LiquidacionPalero_Registrar(2));
-                    //resizeColumnWidth(tabla);
+                    resizeColumnWidth(tabla);
                     //level = 3;
                     //Label_level.setText("NIVEL " + level); 
                     boton.setText("GENERAR LIQUIDACIÓN");
@@ -168,13 +179,6 @@ public class Worker_LiquidacionNivel2 extends SwingWorker{
             e.printStackTrace();
         }
         boton.setEnabled(true);
-        return 100.00;
-    }
-
-    @Override
-    protected void done() {
-        progreso.setValue(100);
-        //progreso.setString("Sincronización Finalizada");
         progreso.setBackground(Color.GREEN);
         progreso.show(false);
     }

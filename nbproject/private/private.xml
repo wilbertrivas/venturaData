@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="62">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="63">
         <file>
             <url>src/ModuloEquipo/View/MvtoEquipo_Procesar.java</url>
             <bookmark id="25">
@@ -16,6 +16,19 @@
             <bookmark id="23">
                 <name/>
                 <line>1683</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ModuloEquipo/View2/MvtoEquipo_AutorizarRecobro.java</url>
+            <bookmark id="15">
+                <name/>
+                <line>2366</line>
+                <key/>
+            </bookmark>
+            <bookmark id="14">
+                <name/>
+                <line>2381</line>
                 <key/>
             </bookmark>
         </file>
@@ -41,120 +54,6 @@
             </bookmark>
         </file>
         <file>
-            <url>src/ModuloEquipo/Controladores/ControlDB_Equipo.java</url>
-            <bookmark id="6">
-                <name/>
-                <line>886</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/ModuloEquipo/View/MvtoEquipo_ActivarEquipo.java</url>
-            <bookmark id="27">
-                <name/>
-                <line>40</line>
-                <key/>
-            </bookmark>
-            <bookmark id="26">
-                <name/>
-                <line>1971</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/Catalogo/Controller/ControlDB_CentroCostoMayor.java</url>
-            <bookmark id="48">
-                <name/>
-                <line>167</line>
-                <key/>
-            </bookmark>
-            <bookmark id="47">
-                <name/>
-                <line>338</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/ModuloEquipo/View2/MvtoEquipo_Agregar.java</url>
-            <bookmark id="53">
-                <name/>
-                <line>56</line>
-                <key/>
-            </bookmark>
-            <bookmark id="52">
-                <name/>
-                <line>1059</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/ModuloCarbon/View/MvtoCarbon_ModificarFinal.java</url>
-            <bookmark id="42">
-                <name/>
-                <line>3175</line>
-                <key/>
-            </bookmark>
-            <bookmark id="43">
-                <name/>
-                <line>4098</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/ModuloCarbon/View2/MvtoCarbon_InformeRecaudoLavadoVehiculo.java</url>
-            <bookmark id="54">
-                <name/>
-                <line>451</line>
-                <key/>
-            </bookmark>
-            <bookmark id="55">
-                <name/>
-                <line>735</line>
-                <key/>
-            </bookmark>
-            <bookmark id="56">
-                <name/>
-                <line>1013</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/ModuloEquipo/View/Solicitud_Equipos_Registrar.java</url>
-            <bookmark id="11">
-                <name/>
-                <line>45</line>
-                <key/>
-            </bookmark>
-            <bookmark id="10">
-                <name/>
-                <line>211</line>
-                <key/>
-            </bookmark>
-            <bookmark id="12">
-                <name/>
-                <line>994</line>
-                <key/>
-            </bookmark>
-            <bookmark id="13">
-                <name/>
-                <line>1058</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>src/ModuloEquipo/View2/MvtoEquipo_AutorizarRecobro.java</url>
-            <bookmark id="15">
-                <name/>
-                <line>2366</line>
-                <key/>
-            </bookmark>
-            <bookmark id="14">
-                <name/>
-                <line>2381</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>src/ModuloEquipo/Vistas/Equipo_Actualizar.java</url>
             <bookmark id="7">
                 <name/>
@@ -171,27 +70,35 @@
             <url>src/ModuloCarbon/Controller2/ControlDB_MvtoCarbon.java</url>
             <bookmark id="58">
                 <name/>
-                <line>7727</line>
+                <line>7726</line>
                 <key/>
             </bookmark>
             <bookmark id="60">
                 <name/>
-                <line>7840</line>
+                <line>7839</line>
                 <key/>
             </bookmark>
             <bookmark id="62">
                 <name/>
-                <line>8222</line>
+                <line>8221</line>
                 <key/>
             </bookmark>
             <bookmark id="59">
                 <name/>
-                <line>8930</line>
+                <line>8929</line>
                 <key/>
             </bookmark>
             <bookmark id="61">
                 <name/>
-                <line>9364</line>
+                <line>9363</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ModuloEquipo/Controladores/ControlDB_Equipo.java</url>
+            <bookmark id="6">
+                <name/>
+                <line>886</line>
                 <key/>
             </bookmark>
         </file>
@@ -208,6 +115,14 @@
             <bookmark id="1">
                 <name/>
                 <line>33</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ModuloPalero/View/LiquidacionPalero_Registrar.java</url>
+            <bookmark id="63">
+                <name/>
+                <line>1497</line>
                 <key/>
             </bookmark>
         </file>
@@ -268,6 +183,19 @@
             </bookmark>
         </file>
         <file>
+            <url>src/ModuloEquipo/View/MvtoEquipo_ActivarEquipo.java</url>
+            <bookmark id="27">
+                <name/>
+                <line>40</line>
+                <key/>
+            </bookmark>
+            <bookmark id="26">
+                <name/>
+                <line>1971</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>src/ModuloEquipo/Controller2/ControlDB_AsignacionEquipo.java</url>
             <bookmark id="51">
                 <name/>
@@ -277,6 +205,19 @@
             <bookmark id="50">
                 <name/>
                 <line>811</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/Catalogo/Controller/ControlDB_CentroCostoMayor.java</url>
+            <bookmark id="48">
+                <name/>
+                <line>167</line>
+                <key/>
+            </bookmark>
+            <bookmark id="47">
+                <name/>
+                <line>338</line>
                 <key/>
             </bookmark>
         </file>
@@ -309,10 +250,77 @@
             </bookmark>
         </file>
         <file>
+            <url>src/ModuloEquipo/View2/MvtoEquipo_Agregar.java</url>
+            <bookmark id="53">
+                <name/>
+                <line>56</line>
+                <key/>
+            </bookmark>
+            <bookmark id="52">
+                <name/>
+                <line>1059</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ModuloCarbon/View/MvtoCarbon_ModificarFinal.java</url>
+            <bookmark id="42">
+                <name/>
+                <line>3175</line>
+                <key/>
+            </bookmark>
+            <bookmark id="43">
+                <name/>
+                <line>4098</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>src/ModuloEquipo/Vistas/Equipo_RegistroSincronizado.java</url>
             <bookmark id="3">
                 <name/>
                 <line>1064</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ModuloCarbon/View2/MvtoCarbon_InformeRecaudoLavadoVehiculo.java</url>
+            <bookmark id="54">
+                <name/>
+                <line>451</line>
+                <key/>
+            </bookmark>
+            <bookmark id="55">
+                <name/>
+                <line>735</line>
+                <key/>
+            </bookmark>
+            <bookmark id="56">
+                <name/>
+                <line>1013</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/ModuloEquipo/View/Solicitud_Equipos_Registrar.java</url>
+            <bookmark id="11">
+                <name/>
+                <line>45</line>
+                <key/>
+            </bookmark>
+            <bookmark id="10">
+                <name/>
+                <line>211</line>
+                <key/>
+            </bookmark>
+            <bookmark id="12">
+                <name/>
+                <line>994</line>
+                <key/>
+            </bookmark>
+            <bookmark id="13">
+                <name/>
+                <line>1058</line>
                 <key/>
             </bookmark>
         </file>
@@ -327,11 +335,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/View/LiquidacionPalero_Registrar.java</file>
             <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/Model/PlantillaArchivoLiquidacion.java</file>
-            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/Controller/ControlDB_LiquidacionPalero.java</file>
-            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/Model/Liquidacion.java</file>
-            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ConnectionDB/Conexion_DB_ERP.java</file>
+            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/View/LiquidacionPalero_Registrar.java</file>
+            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ConnectionDB/Conexion_DB_costos_vg.java</file>
+            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloCarbon/Controller2/ControlDB_MvtoCarbon.java</file>
         </group>
     </open-files>
 </project-private>

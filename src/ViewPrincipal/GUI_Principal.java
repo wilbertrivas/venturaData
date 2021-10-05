@@ -105,6 +105,7 @@ import ModuloPalero.View.EquipoLiquidacion_Actualizar;
 import ModuloPalero.View.EquipoLiquidacion_Consultar;
 import ModuloPalero.View.EquipoLiquidacion_Registrar;
 import ModuloPalero.View.LiquidacionPalero_Registrar;
+import ModuloPalero.View.LiquidacionPalero_RegistrarBackup;
 import ModuloPalero.View.Marcacion_Actualizar;
 import ModuloPalero.View.Marcacion_Registrar;
 import ModuloPalero.View.Marcacion_Consultar;
@@ -398,15 +399,15 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu21 = new javax.swing.JMenu();
         jMenu17 = new javax.swing.JMenu();
         Zoom50 = new javax.swing.JMenuItem();
         Zoom70 = new javax.swing.JMenuItem();
         Zoom100 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
-        jMenu10 = new javax.swing.JMenu();
-        jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu29 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -431,7 +432,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu31.setText("Solicitud");
         jMenu31.setPreferredSize(new java.awt.Dimension(350, 30));
 
-        SOLICITUD_EQUIPOS_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        SOLICITUD_EQUIPOS_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         SOLICITUD_EQUIPOS_REGISTRAR.setText("Registrar");
         SOLICITUD_EQUIPOS_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         SOLICITUD_EQUIPOS_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -452,7 +453,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
             }
         });
 
-        ASIGNACION_EQUIPOS_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        ASIGNACION_EQUIPOS_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         ASIGNACION_EQUIPOS_REGISTRAR.setText("Registrar");
         ASIGNACION_EQUIPOS_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         ASIGNACION_EQUIPOS_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -462,7 +463,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu32.add(ASIGNACION_EQUIPOS_REGISTRAR);
 
-        ASIGNACION_EQUIPOS_CONFIRMACION.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        ASIGNACION_EQUIPOS_CONFIRMACION.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_confirmacionAsignacion.png"))); // NOI18N
         ASIGNACION_EQUIPOS_CONFIRMACION.setText("Confirmación");
         ASIGNACION_EQUIPOS_CONFIRMACION.setPreferredSize(new java.awt.Dimension(150, 30));
         ASIGNACION_EQUIPOS_CONFIRMACION.addActionListener(new java.awt.event.ActionListener() {
@@ -472,7 +473,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu32.add(ASIGNACION_EQUIPOS_CONFIRMACION);
 
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem7.setText("Consultar");
         jMenuItem7.setPreferredSize(new java.awt.Dimension(150, 30));
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -540,17 +541,17 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu15.setText("Personal");
         jMenu15.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem15.setText("Registrar");
         jMenuItem15.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenu15.add(jMenuItem15);
 
-        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem16.setText("Consultar");
         jMenuItem16.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenu15.add(jMenuItem16);
 
-        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem17.setText("Actualizar");
         jMenuItem17.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenu15.add(jMenuItem17);
@@ -723,7 +724,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu30.setText("Rendimiento Equipos");
         jMenu30.setPreferredSize(new java.awt.Dimension(350, 30));
 
-        MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_graficaRendimientoEquipo.png"))); // NOI18N
         MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO.setText("Graficar Rendimiento Equipos");
         MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO.addActionListener(new java.awt.event.ActionListener() {
@@ -733,7 +734,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu30.add(MODULO_EQUIPO_GRAFICAR_RENDIMIENTO_EQUIPO);
 
-        MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_reporteRendimientoEquipo.png"))); // NOI18N
         MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO.setText("Informe Rendimiento Equipos");
         MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO.setPreferredSize(new java.awt.Dimension(350, 30));
         MODULO_EQUIPO_REPORTE_RENDIMIENTO_EQUIPO.addActionListener(new java.awt.event.ActionListener() {
@@ -798,11 +799,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu45.setText("Parámetros");
         jMenu45.setPreferredSize(new java.awt.Dimension(250, 30));
 
-        jMenu46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_configuracionLiquidacion.png"))); // NOI18N
         jMenu46.setText("Equipos Liquidación");
         jMenu46.setPreferredSize(new java.awt.Dimension(250, 30));
 
-        jMenuItem47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem47.setText("Registrar");
         jMenuItem47.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem47.addActionListener(new java.awt.event.ActionListener() {
@@ -812,7 +813,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu46.add(jMenuItem47);
 
-        jMenuItem48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem48.setText("Consultar");
         jMenuItem48.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem48.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -831,7 +832,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu46.add(jMenuItem48);
 
-        jMenuItem49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem49.setText("Actualizar");
         jMenuItem49.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -842,7 +843,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu45.add(jMenu46);
 
-        jMenu54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_procesar.png"))); // NOI18N
         jMenu54.setText("Configuración Liquidación");
         jMenu54.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenu54.addActionListener(new java.awt.event.ActionListener() {
@@ -851,7 +852,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem25.setText("Registrar");
         jMenuItem25.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
@@ -861,7 +862,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu54.add(jMenuItem25);
 
-        jMenuItem45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem45.setText("Consultar");
         jMenuItem45.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem45.addActionListener(new java.awt.event.ActionListener() {
@@ -871,7 +872,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu54.add(jMenuItem45);
 
-        jMenuItem46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem46.setText("Actualizar");
         jMenuItem46.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem46.addActionListener(new java.awt.event.ActionListener() {
@@ -885,12 +886,12 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu42.add(jMenu45);
 
-        jMenu44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/marcacion.png"))); // NOI18N
         jMenu44.setText("Marcación");
         jMenu44.setPreferredSize(new java.awt.Dimension(250, 30));
 
-        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
-        jMenuItem21.setText("Cargar");
+        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
+        jMenuItem21.setText("Registrar");
         jMenuItem21.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -899,7 +900,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu44.add(jMenuItem21);
 
-        jMenuItem22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem22.setText("Consultar");
         jMenuItem22.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
@@ -909,7 +910,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu44.add(jMenuItem22);
 
-        jMenuItem44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem44.setText("Actualizar");
         jMenuItem44.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem44.addActionListener(new java.awt.event.ActionListener() {
@@ -921,11 +922,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu42.add(jMenu44);
 
-        jMenu43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_liquidación2.png"))); // NOI18N
         jMenu43.setText("Liquidación");
-        jMenu43.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenu43.setPreferredSize(new java.awt.Dimension(270, 30));
 
-        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem18.setText("Generar");
         jMenuItem18.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
@@ -935,7 +936,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu43.add(jMenuItem18);
 
-        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem19.setText("Consultar");
         jMenuItem19.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenu43.add(jMenuItem19);
@@ -955,9 +956,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu5.setText("PERSONAL");
         jMenu5.setPreferredSize(new java.awt.Dimension(130, 20));
 
+        jMenu48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_tipoContrato.png"))); // NOI18N
         jMenu48.setText("Tipo Contrato");
         jMenu48.setPreferredSize(new java.awt.Dimension(250, 30));
 
+        jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem26.setText("Registrar");
         jMenuItem26.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
@@ -967,6 +970,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu48.add(jMenuItem26);
 
+        jMenuItem27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem27.setText("Consultar");
         jMenuItem27.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem27.addActionListener(new java.awt.event.ActionListener() {
@@ -976,6 +980,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu48.add(jMenuItem27);
 
+        jMenuItem28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem28.setText("Actualizar");
         jMenuItem28.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
@@ -987,9 +992,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu5.add(jMenu48);
 
+        jMenu49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_jornada.png"))); // NOI18N
         jMenu49.setText("Jornada");
         jMenu49.setPreferredSize(new java.awt.Dimension(250, 30));
 
+        jMenuItem29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem29.setText("Registrar");
         jMenuItem29.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
@@ -999,6 +1006,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu49.add(jMenuItem29);
 
+        jMenuItem30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem30.setText("Consultar");
         jMenuItem30.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
@@ -1008,6 +1016,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu49.add(jMenuItem30);
 
+        jMenuItem31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem31.setText("Actualizar");
         jMenuItem31.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
@@ -1019,9 +1028,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu5.add(jMenu49);
 
+        jMenu50.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_situacionMedica.png"))); // NOI18N
         jMenu50.setText("Situacion_Medica");
         jMenu50.setPreferredSize(new java.awt.Dimension(250, 30));
 
+        jMenuItem32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem32.setText("Registrar");
         jMenuItem32.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
@@ -1031,6 +1042,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu50.add(jMenuItem32);
 
+        jMenuItem33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem33.setText("Consultar");
         jMenuItem33.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem33.addActionListener(new java.awt.event.ActionListener() {
@@ -1040,6 +1052,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu50.add(jMenuItem33);
 
+        jMenuItem34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem34.setText("Actualizar");
         jMenuItem34.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem34.addActionListener(new java.awt.event.ActionListener() {
@@ -1051,9 +1064,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu5.add(jMenu50);
 
+        jMenu51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_cargoNomina.png"))); // NOI18N
         jMenu51.setText("Cargo Nomina");
         jMenu51.setPreferredSize(new java.awt.Dimension(250, 30));
 
+        jMenuItem35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem35.setText("Registrar");
         jMenuItem35.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem35.addActionListener(new java.awt.event.ActionListener() {
@@ -1063,6 +1078,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu51.add(jMenuItem35);
 
+        jMenuItem36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem36.setText("Consultar");
         jMenuItem36.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
@@ -1072,6 +1088,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu51.add(jMenuItem36);
 
+        jMenuItem37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem37.setText("Actualizar");
         jMenuItem37.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem37.addActionListener(new java.awt.event.ActionListener() {
@@ -1083,9 +1100,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu5.add(jMenu51);
 
+        jMenu52.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_personal.png"))); // NOI18N
         jMenu52.setText("Personal");
         jMenu52.setPreferredSize(new java.awt.Dimension(250, 30));
 
+        jMenuItem38.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem38.setText("Registrar");
         jMenuItem38.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem38.addActionListener(new java.awt.event.ActionListener() {
@@ -1095,6 +1114,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu52.add(jMenuItem38);
 
+        jMenuItem39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem39.setText("Consultar");
         jMenuItem39.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem39.addActionListener(new java.awt.event.ActionListener() {
@@ -1104,6 +1124,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu52.add(jMenuItem39);
 
+        jMenuItem40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem40.setText("Actualizar");
         jMenuItem40.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem40.addActionListener(new java.awt.event.ActionListener() {
@@ -1115,9 +1136,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu5.add(jMenu52);
 
+        jMenu53.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_tipoDocumento.png"))); // NOI18N
         jMenu53.setText("Tipo Documento");
         jMenu53.setPreferredSize(new java.awt.Dimension(250, 30));
 
+        jMenuItem41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem41.setText("Registrar");
         jMenuItem41.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1126,6 +1149,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu53.add(jMenuItem41);
 
+        jMenuItem42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem42.setText("Consultar");
         jMenuItem42.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1134,6 +1158,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu53.add(jMenuItem42);
 
+        jMenuItem43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem43.setText("Actualizar");
         jMenuItem43.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1150,7 +1175,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu14.setText("AUDITORIA");
         jMenu14.setPreferredSize(new java.awt.Dimension(160, 20));
 
-        AUDITORIA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        AUDITORIA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         AUDITORIA_CONSULTAR.setText("Consultar");
         AUDITORIA_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
         AUDITORIA_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1164,13 +1189,14 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Configuraciones.png"))); // NOI18N
         jMenu13.setText("CATALOGOS");
-        jMenu13.setPreferredSize(new java.awt.Dimension(170, 20));
+        jMenu13.setPreferredSize(new java.awt.Dimension(120, 20));
 
         jMenu16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_perfil1.png"))); // NOI18N
         jMenu16.setText("Perfil");
         jMenu16.setPreferredSize(new java.awt.Dimension(250, 30));
 
-        PERFIL_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        PERFIL_REGISTRAR.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        PERFIL_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         PERFIL_REGISTRAR.setText("Registrar");
         PERFIL_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         PERFIL_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1180,7 +1206,8 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu16.add(PERFIL_REGISTRAR);
 
-        PERFIL_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        PERFIL_CONSULTAR.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        PERFIL_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         PERFIL_CONSULTAR.setText("Consultar");
         PERFIL_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         PERFIL_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1190,7 +1217,8 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu16.add(PERFIL_CONSULTAR);
 
-        PERFIL_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        PERFIL_ACTUALIZAR.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        PERFIL_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         PERFIL_ACTUALIZAR.setText("Actualizar");
         PERFIL_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         PERFIL_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1216,7 +1244,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu18.setText("Usuario");
         jMenu18.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        USUARIO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        USUARIO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         USUARIO_REGISTRAR.setText("Registrar");
         USUARIO_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         USUARIO_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1226,7 +1254,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu18.add(USUARIO_REGISTRAR);
 
-        USUARIO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        USUARIO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         USUARIO_CONSULTAR.setText("Consultar");
         USUARIO_CONSULTAR.setPreferredSize(new java.awt.Dimension(350, 30));
         USUARIO_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1236,7 +1264,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu18.add(USUARIO_CONSULTAR);
 
-        USUARIO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        USUARIO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         USUARIO_ACTUALIZAR.setText("Actualizar");
         USUARIO_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(350, 30));
         USUARIO_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1248,11 +1276,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu18);
 
-        jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_centroOperacion.png"))); // NOI18N
         jMenu8.setText("Centro Operacion");
         jMenu8.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        CENTROOPERACION_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROOPERACION_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         CENTROOPERACION_REGISTRAR.setText("Registrar");
         CENTROOPERACION_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         CENTROOPERACION_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1262,7 +1290,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu8.add(CENTROOPERACION_REGISTRAR);
 
-        CENTROOPERACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROOPERACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         CENTROOPERACION_CONSULTAR.setText("Consultar");
         CENTROOPERACION_CONSULTAR.setPreferredSize(new java.awt.Dimension(350, 30));
         CENTROOPERACION_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1272,7 +1300,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu8.add(CENTROOPERACION_CONSULTAR);
 
-        CENTROOPERACION_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROOPERACION_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         CENTROOPERACION_ACTUALIZAR.setText("Actualizar");
         CENTROOPERACION_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(350, 30));
         CENTROOPERACION_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1284,7 +1312,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu8);
 
-        jMenu20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_centroCosto.png"))); // NOI18N
         jMenu20.setText("Centro Costo");
         jMenu20.setPreferredSize(new java.awt.Dimension(150, 30));
 
@@ -1292,7 +1320,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu2.setText("SubCentro");
         jMenu2.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        SUBCENTROOPERACION_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        SUBCENTROOPERACION_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         SUBCENTROOPERACION_REGISTRAR.setText("Registrar");
         SUBCENTROOPERACION_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         SUBCENTROOPERACION_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1302,7 +1330,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu2.add(SUBCENTROOPERACION_REGISTRAR);
 
-        SUBCENTROOPERACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        SUBCENTROOPERACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         SUBCENTROOPERACION_CONSULTAR.setText("Consultar");
         SUBCENTROOPERACION_CONSULTAR.setPreferredSize(new java.awt.Dimension(350, 30));
         SUBCENTROOPERACION_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1312,7 +1340,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu2.add(SUBCENTROOPERACION_CONSULTAR);
 
-        SUBCENTROOPERACION_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        SUBCENTROOPERACION_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         SUBCENTROOPERACION_ACTUALIZAR.setText("Actualizar");
         SUBCENTROOPERACION_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(350, 30));
         SUBCENTROOPERACION_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1333,7 +1361,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
             }
         });
 
-        CENTROCOSTOAUXILIAR_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROCOSTOAUXILIAR_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         CENTROCOSTOAUXILIAR_REGISTRAR.setText("Registrar");
         CENTROCOSTOAUXILIAR_REGISTRAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CENTROCOSTOAUXILIAR_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1343,7 +1371,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu1.add(CENTROCOSTOAUXILIAR_REGISTRAR);
 
-        CENTROCOSTOAUXILIAR_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROCOSTOAUXILIAR_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         CENTROCOSTOAUXILIAR_CONSULTAR.setText("Consultar");
         CENTROCOSTOAUXILIAR_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         CENTROCOSTOAUXILIAR_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1353,7 +1381,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu1.add(CENTROCOSTOAUXILIAR_CONSULTAR);
 
-        CENTROCOSTOAUXILIAR_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROCOSTOAUXILIAR_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         CENTROCOSTOAUXILIAR_ACTUALIZAR.setText("Actualizar");
         CENTROCOSTOAUXILIAR_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         CENTROCOSTOAUXILIAR_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1369,7 +1397,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu38.setText("CentroCosto");
         jMenu38.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        CENTROCOSTO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROCOSTO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         CENTROCOSTO_REGISTRAR.setText("Registrar");
         CENTROCOSTO_REGISTRAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CENTROCOSTO_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1379,7 +1407,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu38.add(CENTROCOSTO_REGISTRAR);
 
-        CENTROCOSTO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROCOSTO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         CENTROCOSTO_CONSULTAR.setText("Consultar");
         CENTROCOSTO_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CENTROCOSTO_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1389,7 +1417,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu38.add(CENTROCOSTO_CONSULTAR);
 
-        CENTROCOSTO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CENTROCOSTO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         CENTROCOSTO_ACTUALIZAR.setText("Actualizar");
         CENTROCOSTO_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CENTROCOSTO_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1404,6 +1432,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu6.setText("CentroCostoMayor");
         jMenu6.setPreferredSize(new java.awt.Dimension(150, 30));
 
+        CENTROCOSTOMAYOR_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         CENTROCOSTOMAYOR_REGISTRAR.setText("Registrar");
         CENTROCOSTOMAYOR_REGISTRAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CENTROCOSTOMAYOR_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1413,6 +1442,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu6.add(CENTROCOSTOMAYOR_REGISTRAR);
 
+        CENTROCOSTOMAYOR_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         CENTROCOSTOMAYOR_CONSULTAR.setText("Consultar");
         CENTROCOSTOMAYOR_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CENTROCOSTOMAYOR_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1422,6 +1452,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu6.add(CENTROCOSTOMAYOR_CONSULTAR);
 
+        CENTROCOSTOMAYOR_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         CENTROCOSTOMAYOR_ACTUALIZAR.setText("Actualizar");
         CENTROCOSTOMAYOR_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CENTROCOSTOMAYOR_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1439,7 +1470,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu33.setText("Compañia");
         jMenu33.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        COMPANIA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        COMPANIA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         COMPANIA_REGISTRAR.setText("Registrar");
         COMPANIA_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         COMPANIA_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1449,7 +1480,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu33.add(COMPANIA_REGISTRAR);
 
-        COMPANIA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        COMPANIA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         COMPANIA_CONSULTAR.setText("Consultar");
         COMPANIA_CONSULTAR.setPreferredSize(new java.awt.Dimension(350, 30));
         COMPANIA_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1459,7 +1490,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu33.add(COMPANIA_CONSULTAR);
 
-        COMPANIA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        COMPANIA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         COMPANIA_ACTUALIZAR.setText("Actualizar");
         COMPANIA_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(350, 30));
         COMPANIA_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1475,7 +1506,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu36.setText("Labor Realizadas");
         jMenu36.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        LABOR_REALIZADA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        LABOR_REALIZADA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         LABOR_REALIZADA_REGISTRAR.setText("Registrar");
         LABOR_REALIZADA_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         LABOR_REALIZADA_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1485,7 +1516,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu36.add(LABOR_REALIZADA_REGISTRAR);
 
-        LABOR_REALIZADA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        LABOR_REALIZADA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         LABOR_REALIZADA_CONSULTAR.setText("Consultar");
         LABOR_REALIZADA_CONSULTAR.setPreferredSize(new java.awt.Dimension(350, 30));
         LABOR_REALIZADA_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1495,7 +1526,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu36.add(LABOR_REALIZADA_CONSULTAR);
 
-        LABOR_REALIZADA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        LABOR_REALIZADA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         LABOR_REALIZADA_ACTUALIZAR.setText("Actualizar");
         LABOR_REALIZADA_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(350, 30));
         LABOR_REALIZADA_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1507,11 +1538,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu36);
 
-        jMenu37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_motivoParada.png"))); // NOI18N
         jMenu37.setText("Motivo Parada");
         jMenu37.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        MOTIVO_PARADA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MOTIVO_PARADA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         MOTIVO_PARADA_REGISTRAR.setText("Registrar");
         MOTIVO_PARADA_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         MOTIVO_PARADA_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1521,7 +1552,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu37.add(MOTIVO_PARADA_REGISTRAR);
 
-        MOTIVO_PARADA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MOTIVO_PARADA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         MOTIVO_PARADA_CONSULTAR.setText("Consultar");
         MOTIVO_PARADA_CONSULTAR.setPreferredSize(new java.awt.Dimension(350, 30));
         MOTIVO_PARADA_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1531,7 +1562,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu37.add(MOTIVO_PARADA_CONSULTAR);
 
-        MOTIVO_PARADA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MOTIVO_PARADA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         MOTIVO_PARADA_ACTUALIZAR.setText("Actualizar");
         MOTIVO_PARADA_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(350, 30));
         MOTIVO_PARADA_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1543,11 +1574,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu37);
 
-        jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_client.png"))); // NOI18N
         jMenu11.setText("Cliente");
         jMenu11.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        CLIENTE_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CLIENTE_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         CLIENTE_REGISTRAR.setText("Registrar");
         CLIENTE_REGISTRAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CLIENTE_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1557,7 +1588,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu11.add(CLIENTE_REGISTRAR);
 
-        CLIENTE_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CLIENTE_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         CLIENTE_CONSULTAR.setText("Consultar");
         CLIENTE_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
         CLIENTE_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1567,12 +1598,12 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu11.add(CLIENTE_CONSULTAR);
 
-        CLIENTE_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CLIENTE_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         CLIENTE_ACTUALIZAR.setText("Actualizar");
         CLIENTE_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenu11.add(CLIENTE_ACTUALIZAR);
 
-        CLIENTE_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CLIENTE_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_sincronizarControlCarga.png"))); // NOI18N
         CLIENTE_REGISTRO_CCARGA.setText("Clientes Ccarga");
         CLIENTE_REGISTRO_CCARGA.setPreferredSize(new java.awt.Dimension(250, 30));
         CLIENTE_REGISTRO_CCARGA.addActionListener(new java.awt.event.ActionListener() {
@@ -1588,7 +1619,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu26.setText("Motonave");
         jMenu26.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        MOTONAVE_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MOTONAVE_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         MOTONAVE_REGISTRAR.setText("Registrar");
         MOTONAVE_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         MOTONAVE_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1598,7 +1629,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu26.add(MOTONAVE_REGISTRAR);
 
-        MOTONAVE_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MOTONAVE_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         MOTONAVE_CONSULTAR.setText("Consultar");
         MOTONAVE_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         MOTONAVE_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1608,7 +1639,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu26.add(MOTONAVE_CONSULTAR);
 
-        MOTONAVE_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MOTONAVE_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         MOTONAVE_ACTUALIZAR.setText("Actualizar");
         MOTONAVE_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         MOTONAVE_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1618,7 +1649,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu26.add(MOTONAVE_ACTUALIZAR);
 
-        MOTONAVE_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        MOTONAVE_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_sincronizarControlCarga.png"))); // NOI18N
         MOTONAVE_REGISTRO_CCARGA.setText("Motonaves Ccarga GP");
         MOTONAVE_REGISTRO_CCARGA.setPreferredSize(new java.awt.Dimension(150, 30));
         MOTONAVE_REGISTRO_CCARGA.addActionListener(new java.awt.event.ActionListener() {
@@ -1634,7 +1665,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu27.setText("Transportadora");
         jMenu27.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        TRANSPORTADORA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        TRANSPORTADORA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         TRANSPORTADORA_REGISTRAR.setText("Registrar");
         TRANSPORTADORA_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         TRANSPORTADORA_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1644,7 +1675,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu27.add(TRANSPORTADORA_REGISTRAR);
 
-        TRANSPORTADORA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        TRANSPORTADORA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         TRANSPORTADORA_CONSULTAR.setText("Consultar");
         TRANSPORTADORA_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         TRANSPORTADORA_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1654,7 +1685,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu27.add(TRANSPORTADORA_CONSULTAR);
 
-        TRANSPORTADORA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        TRANSPORTADORA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         TRANSPORTADORA_ACTUALIZAR.setText("Actualizar");
         TRANSPORTADORA_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         TRANSPORTADORA_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1664,7 +1695,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu27.add(TRANSPORTADORA_ACTUALIZAR);
 
-        TRANSPORTADORA_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        TRANSPORTADORA_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_sincronizarControlCarga.png"))); // NOI18N
         TRANSPORTADORA_REGISTRO_CCARGA.setText("Transportadoras Ccarga GP");
         TRANSPORTADORA_REGISTRO_CCARGA.setPreferredSize(new java.awt.Dimension(150, 30));
         TRANSPORTADORA_REGISTRO_CCARGA.addActionListener(new java.awt.event.ActionListener() {
@@ -1676,11 +1707,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu27);
 
-        jMenu28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_product.png"))); // NOI18N
         jMenu28.setText("Articulo");
         jMenu28.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        ARTICULO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        ARTICULO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         ARTICULO_REGISTRAR.setText("Registrar");
         ARTICULO_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         ARTICULO_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1690,7 +1721,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu28.add(ARTICULO_REGISTRAR);
 
-        ARTICULO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        ARTICULO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         ARTICULO_CONSULTAR.setText("Consultar");
         ARTICULO_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         ARTICULO_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1700,7 +1731,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu28.add(ARTICULO_CONSULTAR);
 
-        ARTICULO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        ARTICULO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         ARTICULO_ACTUALIZAR.setText("Actualizar");
         ARTICULO_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         ARTICULO_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1710,7 +1741,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu28.add(ARTICULO_ACTUALIZAR);
 
-        ARTICULO_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        ARTICULO_REGISTRO_CCARGA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_sincronizarControlCarga.png"))); // NOI18N
         ARTICULO_REGISTRO_CCARGA.setText("Articulos Ccarga GP");
         ARTICULO_REGISTRO_CCARGA.setPreferredSize(new java.awt.Dimension(150, 30));
         ARTICULO_REGISTRO_CCARGA.addActionListener(new java.awt.event.ActionListener() {
@@ -1722,11 +1753,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu28);
 
-        jMenu22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_cuadrilla.png"))); // NOI18N
         jMenu22.setText("Cuadrillas");
         jMenu22.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        CUADRILLA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CUADRILLA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         CUADRILLA_REGISTRAR.setText("Registrar");
         CUADRILLA_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         CUADRILLA_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1736,7 +1767,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu22.add(CUADRILLA_REGISTRAR);
 
-        CUADRILLA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CUADRILLA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         CUADRILLA_CONSULTAR.setText("Consultar");
         CUADRILLA_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         CUADRILLA_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1746,18 +1777,18 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu22.add(CUADRILLA_CONSULTAR);
 
-        CUADRILLA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CUADRILLA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         CUADRILLA_ACTUALIZAR.setText("Actualizar");
         CUADRILLA_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         jMenu22.add(CUADRILLA_ACTUALIZAR);
 
         jMenu13.add(jMenu22);
 
-        jMenu19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_equipoMovil.png"))); // NOI18N
         jMenu19.setText("Equipo");
         jMenu19.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        EQUIPO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         EQUIPO_REGISTRAR.setText("Registrar");
         EQUIPO_REGISTRAR.setPreferredSize(new java.awt.Dimension(240, 30));
         EQUIPO_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1767,7 +1798,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu19.add(EQUIPO_REGISTRAR);
 
-        EQUIPO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         EQUIPO_CONSULTAR.setText("Consultar");
         EQUIPO_CONSULTAR.setPreferredSize(new java.awt.Dimension(240, 30));
         EQUIPO_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1777,7 +1808,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu19.add(EQUIPO_CONSULTAR);
 
-        EQUIPO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         EQUIPO_ACTUALIZAR.setText("Actualizar");
         EQUIPO_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(240, 30));
         EQUIPO_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1791,7 +1822,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu23.setText("Pertenencia Equipos");
         jMenu23.setPreferredSize(new java.awt.Dimension(240, 30));
 
-        EQUIPO_PERTENENCIA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_PERTENENCIA_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         EQUIPO_PERTENENCIA_REGISTRAR.setText("Registrar");
         EQUIPO_PERTENENCIA_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         EQUIPO_PERTENENCIA_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1801,7 +1832,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu23.add(EQUIPO_PERTENENCIA_REGISTRAR);
 
-        EQUIPO_PERTENENCIA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_PERTENENCIA_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         EQUIPO_PERTENENCIA_CONSULTAR.setText("Consultar");
         EQUIPO_PERTENENCIA_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         EQUIPO_PERTENENCIA_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1811,7 +1842,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu23.add(EQUIPO_PERTENENCIA_CONSULTAR);
 
-        EQUIPO_PERTENENCIA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_PERTENENCIA_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         EQUIPO_PERTENENCIA_ACTUALIZAR.setText("Actualizar");
         EQUIPO_PERTENENCIA_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         EQUIPO_PERTENENCIA_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1827,7 +1858,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu24.setText("Proveedor");
         jMenu24.setPreferredSize(new java.awt.Dimension(240, 30));
 
-        EQUIPO_PROVEEDOR_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_PROVEEDOR_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         EQUIPO_PROVEEDOR_REGISTRAR.setText("Registrar");
         EQUIPO_PROVEEDOR_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         EQUIPO_PROVEEDOR_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1837,7 +1868,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu24.add(EQUIPO_PROVEEDOR_REGISTRAR);
 
-        EQUIPO_PROVEEDOR_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_PROVEEDOR_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         EQUIPO_PROVEEDOR_CONSULTAR.setText("Consultar");
         EQUIPO_PROVEEDOR_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         EQUIPO_PROVEEDOR_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1847,7 +1878,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu24.add(EQUIPO_PROVEEDOR_CONSULTAR);
 
-        EQUIPO_PROVEEDOR_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_PROVEEDOR_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         EQUIPO_PROVEEDOR_ACTUALIZAR.setText("Actualizar");
         EQUIPO_PROVEEDOR_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         EQUIPO_PROVEEDOR_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1863,7 +1894,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu25.setText("Tipo");
         jMenu25.setPreferredSize(new java.awt.Dimension(240, 30));
 
-        EQUIPO_TIPO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_TIPO_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         EQUIPO_TIPO_REGISTRAR.setText("Registrar");
         EQUIPO_TIPO_REGISTRAR.setPreferredSize(new java.awt.Dimension(350, 30));
         EQUIPO_TIPO_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1873,7 +1904,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu25.add(EQUIPO_TIPO_REGISTRAR);
 
-        EQUIPO_TIPO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_TIPO_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         EQUIPO_TIPO_CONSULTAR.setText("Consultar");
         EQUIPO_TIPO_CONSULTAR.setPreferredSize(new java.awt.Dimension(150, 30));
         EQUIPO_TIPO_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1883,7 +1914,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu25.add(EQUIPO_TIPO_CONSULTAR);
 
-        EQUIPO_TIPO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_TIPO_ACTUALIZAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         EQUIPO_TIPO_ACTUALIZAR.setText("Actualizar");
         EQUIPO_TIPO_ACTUALIZAR.setPreferredSize(new java.awt.Dimension(150, 30));
         EQUIPO_TIPO_ACTUALIZAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1909,7 +1940,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu40.setText("Tarifas en Equipos");
         jMenu40.setPreferredSize(new java.awt.Dimension(240, 30));
 
-        EQUIPO_TARIFAS_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        EQUIPO_TARIFAS_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         EQUIPO_TARIFAS_REGISTRAR.setText("Registrar");
         EQUIPO_TARIFAS_REGISTRAR.setPreferredSize(new java.awt.Dimension(240, 30));
         EQUIPO_TARIFAS_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1923,11 +1954,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu19);
 
-        jMenu35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_causalInactividad.png"))); // NOI18N
         jMenu35.setText("Causa Inactividad");
         jMenu35.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        CAUSA_INACTIVIDAD_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CAUSA_INACTIVIDAD_REGISTRAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         CAUSA_INACTIVIDAD_REGISTRAR.setText("Registrar");
         CAUSA_INACTIVIDAD_REGISTRAR.setPreferredSize(new java.awt.Dimension(240, 30));
         CAUSA_INACTIVIDAD_REGISTRAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1937,7 +1968,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu35.add(CAUSA_INACTIVIDAD_REGISTRAR);
 
-        CAUSA_INACTIVIDAD_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        CAUSA_INACTIVIDAD_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         CAUSA_INACTIVIDAD_CONSULTAR.setText("Consultar");
         CAUSA_INACTIVIDAD_CONSULTAR.setPreferredSize(new java.awt.Dimension(240, 30));
         CAUSA_INACTIVIDAD_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
@@ -1959,11 +1990,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu35);
 
-        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_motiveNoLavado.png"))); // NOI18N
         jMenu7.setText("Motivos_NoLavadoVehículo");
         jMenu7.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem4.setText("Registrar");
         jMenuItem4.setPreferredSize(new java.awt.Dimension(240, 30));
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -1973,7 +2004,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu7.add(jMenuItem4);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem5.setText("Consultar");
         jMenuItem5.setPreferredSize(new java.awt.Dimension(150, 30));
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -1983,7 +2014,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu7.add(jMenuItem5);
 
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem6.setText("Actualizar");
         jMenuItem6.setPreferredSize(new java.awt.Dimension(150, 30));
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -1995,11 +2026,11 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu13.add(jMenu7);
 
-        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_zonaTrabajo2.png"))); // NOI18N
         jMenu9.setText("Zona_Trabajo");
         jMenu9.setPreferredSize(new java.awt.Dimension(150, 30));
 
-        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
         jMenuItem8.setText("Registrar");
         jMenuItem8.setPreferredSize(new java.awt.Dimension(250, 30));
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -2009,7 +2040,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu9.add(jMenuItem8);
 
-        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         jMenuItem9.setText("Consultar");
         jMenuItem9.setPreferredSize(new java.awt.Dimension(150, 30));
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
@@ -2019,7 +2050,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu9.add(jMenuItem9);
 
-        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_actualizar.png"))); // NOI18N
         jMenuItem11.setText("Actualizar");
         jMenuItem11.setPreferredSize(new java.awt.Dimension(150, 30));
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
@@ -2052,6 +2083,21 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu13.add(jMenu9);
 
         jMenuBar1.add(jMenu13);
+
+        jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_rendimiento3.png"))); // NOI18N
+        jMenu10.setText("REPORTES");
+
+        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_panelControl.png"))); // NOI18N
+        jMenuItem14.setText("GRAFICAS");
+        jMenuItem14.setPreferredSize(new java.awt.Dimension(250, 30));
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem14);
+
+        jMenuBar1.add(jMenu10);
 
         jMenu21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_sistema.png"))); // NOI18N
         jMenu21.setText("SISTEMA");
@@ -2093,17 +2139,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
 
         jMenu21.add(jMenu17);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
-        jMenuItem1.setText("Cerrar Sesión");
-        jMenuItem1.setPreferredSize(new java.awt.Dimension(230, 30));
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu21.add(jMenuItem1);
-
-        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_Submenu.png"))); // NOI18N
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_cambiarContrasena.png"))); // NOI18N
         jMenuItem10.setText("Cambiar Contraseña");
         jMenuItem10.setPreferredSize(new java.awt.Dimension(230, 30));
         jMenuItem10.addItemListener(new java.awt.event.ItemListener() {
@@ -2118,24 +2154,19 @@ public final class GUI_Principal extends javax.swing.JFrame {
         });
         jMenu21.add(jMenuItem10);
 
-        jMenuBar1.add(jMenu21);
-
-        jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Menu_rendimiento3.png"))); // NOI18N
-        jMenu10.setText("PANEL DE CONTROL");
-
-        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reporte_2.png"))); // NOI18N
-        jMenuItem14.setText("CARGAR");
-        jMenuItem14.setPreferredSize(new java.awt.Dimension(250, 30));
-        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/salirGUI.png"))); // NOI18N
+        jMenuItem1.setText("Cerrar Sesión");
+        jMenuItem1.setPreferredSize(new java.awt.Dimension(230, 30));
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem14ActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu10.add(jMenuItem14);
+        jMenu21.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu10);
+        jMenuBar1.add(jMenu21);
 
-        jMenu29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/salirGUI.png"))); // NOI18N
+        jMenu29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_exit.png"))); // NOI18N
         jMenu29.setText("SALIR");
         jMenu29.setPreferredSize(new java.awt.Dimension(91, 32));
         jMenu29.addMouseListener(new java.awt.event.MouseAdapter() {

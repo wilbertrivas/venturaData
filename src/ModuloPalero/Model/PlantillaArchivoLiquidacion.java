@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ModuloPalero.Model;
 
-/**
- *
- * @author wrivas
- */
 public class PlantillaArchivoLiquidacion {
     private String fechaInicio;
     private String fechaFin;
@@ -74,8 +65,6 @@ public class PlantillaArchivoLiquidacion {
         this.cantidadAcumuladasKilos = cantidadAcumuladasKilos;
     }
 
-   
-
     public String getCantidadDias() {
         return cantidadDias;
     }
@@ -122,7 +111,5 @@ public class PlantillaArchivoLiquidacion {
 
     public void setTotalComision(String totalComision) {
         this.totalComision = totalComision;
-    }
-    
-    
+    } 
 }

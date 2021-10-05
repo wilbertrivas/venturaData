@@ -43,7 +43,6 @@ import ModuloCarbon.Model.PlantillaInformeNoLavadoVehiculos;
 import ModuloCarbon.Model.PlantillaInformeRecaudoLavadoVehiculo_PorEquipo;
 import ModuloCarbon.Model.PlantillaInformeRecaudoPorLavadoVehiculo;
 import ModuloCarbon.Model.PlantillaInformeRecaudoPorUsuario;
-import ModuloEquipo.Model.PlantillaConectorMvtoEquipo;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Perfil;
 import Sistema.Model.Usuario;
@@ -67,10 +66,10 @@ public class ControlDB_MvtoCarbon {
     private Connection conexion2=null;
     private final String tipoConexion;
     
-    public                                          ControlDB_MvtoCarbon(String tipoConexion) { 
+    public                                                          ControlDB_MvtoCarbon(String tipoConexion) { 
         this.tipoConexion= tipoConexion;
     }  
-    public int                                      modificarMvtoCarbon(MvtoCarbon mvtocarbon,  ArrayList<MvtoCarbon_ListadoEquipos> mvtoCarbon_ListadoEquipos, Usuario us, String scriptDB_MvtoCarbon, String scriptDB_MvtoEquipo,String scriptAuditoria_mtvoCarbon, String scriptAuditoria_mtvoEquipo,String razonModificacion) throws FileNotFoundException, UnknownHostException, SocketException{
+    public int                                                      modificarMvtoCarbon(MvtoCarbon mvtocarbon,  ArrayList<MvtoCarbon_ListadoEquipos> mvtoCarbon_ListadoEquipos, Usuario us, String scriptDB_MvtoCarbon, String scriptDB_MvtoEquipo,String scriptAuditoria_mtvoCarbon, String scriptAuditoria_mtvoEquipo,String razonModificacion) throws FileNotFoundException, UnknownHostException, SocketException{
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
         int result=0;
@@ -175,7 +174,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return result;
     } 
-    public int                                      modificarEquipoLavado_MvtoCarbon(MvtoCarbon mvtocarbon ,Usuario us, String scriptDB_MvtoCarbon,String scriptAuditoria_mtvoCarbon, String razonModificacion) throws FileNotFoundException, UnknownHostException, SocketException{
+    public int                                                      modificarEquipoLavado_MvtoCarbon(MvtoCarbon mvtocarbon ,Usuario us, String scriptDB_MvtoCarbon,String scriptAuditoria_mtvoCarbon, String razonModificacion) throws FileNotFoundException, UnknownHostException, SocketException{
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
         int result=0;
@@ -232,7 +231,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return result;
     } 
-    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbon(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>                     buscarMvtoCarbon(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -778,7 +777,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbonProgramado(String modalidad, String rango) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>                     buscarMvtoCarbonProgramado(String modalidad, String rango) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -1323,7 +1322,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbonParticular(MvtoCarbon mvtoCarbonI) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>                     buscarMvtoCarbonParticular(MvtoCarbon mvtoCarbonI) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -1866,7 +1865,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbonUnicos_Inactivos(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>                     buscarMvtoCarbonUnicos_Inactivos(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -2410,7 +2409,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<MvtoCarbon_ListadoEquipos>     buscarMvtoCarbon_GenerarMatriz(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<MvtoCarbon_ListadoEquipos>                     buscarMvtoCarbon_GenerarMatriz(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -3124,7 +3123,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public ArrayList<PlantillaConectorMvtoCarbon>   conectorMvtoCarbon(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<PlantillaConectorMvtoCarbon>                   conectorMvtoCarbon(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<PlantillaConectorMvtoCarbon> listadoObjetos = null;
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -3193,7 +3192,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     } 
-    public ArrayList<PlantillaInformeRecaudoPorLavadoVehiculo>   informeRecaudoPorLavadoVehiculo(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<PlantillaInformeRecaudoPorLavadoVehiculo>      informeRecaudoPorLavadoVehiculo(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<PlantillaInformeRecaudoPorLavadoVehiculo> listadoObjetos = null;
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -3420,7 +3419,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     } 
-    public ArrayList<PlantillaInformeRecaudoPorUsuario>   informeRecaudoPorLavadoVehiculo_porUsuario(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<PlantillaInformeRecaudoPorUsuario>                 informeRecaudoPorLavadoVehiculo_porUsuario(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<PlantillaInformeRecaudoPorUsuario> listadoObjetos = null;
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -3472,7 +3471,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     } 
-    public ArrayList<PlantillaInformeNoLavadoVehiculos>   informeCantidadVehiculosPorConceptoNOLavado(String DatetimeInicio, String DatetimeFin) throws SQLException{
+    public ArrayList<PlantillaInformeNoLavadoVehiculos>                 informeCantidadVehiculosPorConceptoNOLavado(String DatetimeInicio, String DatetimeFin) throws SQLException{
         ArrayList<PlantillaInformeNoLavadoVehiculos> listadoObjetos = null;
         Conexion_DB_costos_vg control=null;  
         control = new Conexion_DB_costos_vg(tipoConexion);
@@ -3579,7 +3578,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     } 
-    public String                               getMes(String mes){
+    public String                                                       getMes(String mes){
         switch(mes){
             case "January":{
                 mes="Enero";
@@ -3632,7 +3631,7 @@ public class ControlDB_MvtoCarbon {
         }
         return mes;
     }
-    public MvtoCarbon_ListadoEquipos            buscarMvtoCarbonParticularPorCódigoMvtoEquipo(String CodigoMvtoEquipo) throws SQLException{
+    public MvtoCarbon_ListadoEquipos                                    buscarMvtoCarbonParticularPorCódigoMvtoEquipo(String CodigoMvtoEquipo) throws SQLException{
         Conexion_DB_costos_vg control=null;  
         MvtoCarbon_ListadoEquipos mvto_listEquipo =null;
         control = new Conexion_DB_costos_vg(tipoConexion);

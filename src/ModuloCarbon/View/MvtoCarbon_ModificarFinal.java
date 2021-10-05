@@ -6593,6 +6593,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                         paginationPanel.removeAll();
                         validarSeleccionCampos();
                         generarListadoMvtoCarbon();
+                        resizeColumnWidth(tabla);
                         InternaFrame_VisualizarMvtoCarbon.show(false);     
                     }else{
                         JOptionPane.showMessageDialog(null, "No se puedo registrar la modificación del registro, valide datos", "Error al registrar",JOptionPane.ERROR_MESSAGE);
@@ -7088,6 +7089,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                         paginationPanel.removeAll();
                         validarSeleccionCampos();
                         generarListadoMvtoCarbon();
+                        resizeColumnWidth(tabla);
                         InternaFrame_VisualizarMvtoCarbon.show(false);    
                     }else{
                         JOptionPane.showMessageDialog(null, "No se puedo registrar la modificación del registro, valide datos", "Error al registrar",JOptionPane.ERROR_MESSAGE);

@@ -664,7 +664,7 @@ public class LiquidacionPalero_RegistrarBackup extends javax.swing.JPanel implem
                 //###########################
                 jProgressBar1.show(true);
                 if(listado!=null){
-                    worker = new Worker_PaleroMarcacionPersonas (jProgressBar1,buttonNext,tablaListadoVehiculosPorEquipoLiquidacion,listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros, user,tipoConexion);
+                    worker = new Worker_PaleroMarcacionPersonas (Label_level,jProgressBar1,buttonNext,tablaListadoVehiculosPorEquipoLiquidacion,listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros, user,tipoConexion);
                     worker.execute();
                     level = 2;
                     Label_level.setText("NIVEL " + level);
@@ -724,19 +724,31 @@ public class LiquidacionPalero_RegistrarBackup extends javax.swing.JPanel implem
 
                     ArrayList<MvtoPaleroPreliquidacionTEMP> listado_MvtoPaleroPreliquidacionTEMP= null;
                     if(listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros != null){
+                        buttonNext.show(false);
+                        this.repaint();
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(LiquidacionPalero_RegistrarBackup.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         listado_MvtoPaleroPreliquidacionTEMP = new ArrayList<>();
+                        DecimalFormat formato3 = new DecimalFormat("0.00"); 
+                        //double value= ((double)100/(double)listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros.size());
+                        //double contador=0;
                         for (MvtoCarbon_ListadoEquipos_LiquidacionPaleros objeto : listadoMvtoCarbon_ListadoEquipos_LiquidacionPaleros) {
-                             for (int i = 0; i < objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size(); i++) {
-                                MvtoPaleroPreliquidacionTEMP mvtoPaleroPreliquidacionTEMP = new MvtoPaleroPreliquidacionTEMP();
-                                mvtoPaleroPreliquidacionTEMP.setMvtoVehiculoPalerosTEMP(new MvtoVehiculoPalerosTEMP(null, objeto, "1"));
-                                mvtoPaleroPreliquidacionTEMP.setConfiguracionLiquidacion(configuracionLiquidacion);
-                                mvtoPaleroPreliquidacionTEMP.setFecha(objeto.getMvtoCarbon().getFechaRegistro());
-                                mvtoPaleroPreliquidacionTEMP.setPersona(objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().get(i));
-                                mvtoPaleroPreliquidacionTEMP.setEquipoLiquidacion(new EquipoLiquidacion(null, objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo(), "1"));
-                                DecimalFormat formato3 = new DecimalFormat("0.00"); 
-                                mvtoPaleroPreliquidacionTEMP.setPesoAsignado(""+formato3.format((Double.parseDouble(objeto.getMvtoCarbon().getPesoNeto()) / objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size())));
-                                mvtoPaleroPreliquidacionTEMP.setEstado("1");
-                                listado_MvtoPaleroPreliquidacionTEMP.add(mvtoPaleroPreliquidacionTEMP);
+                            //contador += value;
+                            //porcentaje.setText(""+formato3.format(contador)+"%");
+                            for (int i = 0; i < objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size(); i++) {
+                               MvtoPaleroPreliquidacionTEMP mvtoPaleroPreliquidacionTEMP = new MvtoPaleroPreliquidacionTEMP();
+                               mvtoPaleroPreliquidacionTEMP.setMvtoVehiculoPalerosTEMP(new MvtoVehiculoPalerosTEMP(null, objeto, "1"));
+                               mvtoPaleroPreliquidacionTEMP.setConfiguracionLiquidacion(configuracionLiquidacion);
+                               mvtoPaleroPreliquidacionTEMP.setFecha(objeto.getMvtoCarbon().getFechaRegistro());
+                               mvtoPaleroPreliquidacionTEMP.setPersona(objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().get(i));
+                               mvtoPaleroPreliquidacionTEMP.setEquipoLiquidacion(new EquipoLiquidacion(null, objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo(), "1"));
+                               
+                               mvtoPaleroPreliquidacionTEMP.setPesoAsignado(""+formato3.format((Double.parseDouble(objeto.getMvtoCarbon().getPesoNeto()) / objeto.getMvtoEquipo().getAsignacionEquipo().getEquipo().getListadoPersonas().size())));
+                               mvtoPaleroPreliquidacionTEMP.setEstado("1");
+                               listado_MvtoPaleroPreliquidacionTEMP.add(mvtoPaleroPreliquidacionTEMP);
                             }
                         }
                         try {
@@ -779,6 +791,8 @@ public class LiquidacionPalero_RegistrarBackup extends javax.swing.JPanel implem
                                     buttonNext.setText("GENERAR LIQUIDACIÓN");
                                     senMailLabel.show(false);
                                     sendMailIcon.show(false);
+                                    buttonNext.show(true);
+                                    
                                 }
 
 
