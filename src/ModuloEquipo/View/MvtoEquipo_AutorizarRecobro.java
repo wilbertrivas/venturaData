@@ -90,6 +90,10 @@ public final class MvtoEquipo_AutorizarRecobro extends javax.swing.JPanel implem
                 minutoFin.addItem(""+i);
             }
         }
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         
         //Cargamos en la interfaz los estados de Solicitudes de Equipos
         listadoAutorizacionRecobro=new ControlDB_Equipo(tipoConexion).buscarAutorizacionRecobro();
@@ -1290,7 +1294,7 @@ public final class MvtoEquipo_AutorizarRecobro extends javax.swing.JPanel implem
 
         InternalFrameSelectorCampos.setBackground(new java.awt.Color(255, 255, 255));
         InternalFrameSelectorCampos.setClosable(true);
-        InternalFrameSelectorCampos.setVisible(true);
+        InternalFrameSelectorCampos.setVisible(false);
         InternalFrameSelectorCampos.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jSeparator21.setOrientation(javax.swing.SwingConstants.VERTICAL);

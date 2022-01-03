@@ -97,6 +97,10 @@ public final class MvtoCarbon_GenerarMatriz extends javax.swing.JPanel implement
         selectorCampoPorDefecto();
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -1391,6 +1395,11 @@ public final class MvtoCarbon_GenerarMatriz extends javax.swing.JPanel implement
         paginationPanel.setBackground(new java.awt.Color(255, 255, 255));
         add(paginationPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 710, 1300, 80));
 
+        pageJComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pageJComboBoxActionPerformed(evt);
+            }
+        });
         add(pageJComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 10, 60, 40));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1409,10 +1418,19 @@ public final class MvtoCarbon_GenerarMatriz extends javax.swing.JPanel implement
     }// </editor-fold>//GEN-END:initComponents
 
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
+        int  valuePaginador=0;
+        try{
+            valuePaginador=Integer.parseInt(pageJComboBox.getSelectedItem().toString());
+        }catch(Exception e){
+        }
+        
         paginationPanel.removeAll();
         validarSeleccionCampos();
         generarListadoMvtoCarbon();
         resizeColumnWidth(tabla);
+        if(valuePaginador != 0){
+            pageJComboBox.setSelectedItem(valuePaginador);
+        }
     }//GEN-LAST:event_consultarActionPerformed
 
     private void fechaInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicioMouseClicked
@@ -2705,6 +2723,10 @@ public final class MvtoCarbon_GenerarMatriz extends javax.swing.JPanel implement
             }
         }
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void pageJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pageJComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pageJComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton Costo_Lavado_Vehículo;

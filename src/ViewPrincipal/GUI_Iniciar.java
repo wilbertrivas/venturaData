@@ -24,7 +24,7 @@ public class GUI_Iniciar extends javax.swing.JFrame {
         this.getContentPane().setBackground(Color.WHITE);
         
         usuario.setText ("1111786243");
-        password.setText("Wr1v4s1992$");
+        password.setText("Wr1v4s1992$ll");
         
         semaforoVerde.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/semaforo/login/semaforo.png")));
         semaforoAmarillo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/semaforo/login/semaforo.png")));

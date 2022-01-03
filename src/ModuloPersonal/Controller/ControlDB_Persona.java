@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ModuloPersonal.Controller;
 
-import Catalogo.Model.BaseDatos;
 import Catalogo.Model.Compañia;
 import Catalogo.Model.Equipo;
 import Catalogo.Model.TipoEquipo;
-import Catalogo.Model.Transportadora;
-import ConnectionDB.Conexion_DB_ccargaGP;
-import ConnectionDB.Conexion_DB_ccargaOPP;
 import ConnectionDB.Conexion_DB_costos_vg;
 import ModuloPersonal.Model.CargoNomina;
 import ModuloPersonal.Model.Persona;
@@ -29,10 +20,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author sistemas
- */
 public class ControlDB_Persona {
     private Connection conexion=null;
     private  Conexion_DB_costos_vg control=null;  
@@ -525,7 +512,7 @@ public class ControlDB_Persona {
         return listadoObjetos;
     } 
      
-    
+   
 
     
 }

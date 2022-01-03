@@ -349,4 +349,206 @@ public class ControlDB_ConfiguracionLiquidacion {
         control.cerrarConexionBaseDatos();
         return result;
     } 
+    public ArrayList<ConfiguracionLiquidacion>     buscarConfiguracionesLiquidacionesSinLiquidar (String DatetimeInicio, String DatetimeFin) throws SQLException{
+        ArrayList<ConfiguracionLiquidacion> listadoObjetos = null;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        try{
+            PreparedStatement query= conexion.prepareStatement("SELECT   [cl_cdgo] --1 \n" +
+                                                        "        ,[cl_cargo_nomina_cdgo]--2 \n" +
+                                                        "            ,[cn_cdgo]--3 \n" +
+                                                        "            ,[cn_desc]--4 \n" +
+                                                        "            ,[cn_estad]--5 \n" +
+                                                        "        ,[cl_fecha_inicio]--6 \n" +
+                                                        "        ,[cl_fecha_fin]--7 \n" +
+                                                        "        ,[cl_cant_dias]--8 \n" +
+                                                        "        ,[cl_ano]--9 \n" +
+                                                        "        ,[cl_desc]--10 \n" +
+                                                        "        ,[cl_valor_tonelada]--11 \n" +
+                                                        "        ,[cl_cant_tonelada_salario]--12 \n" +
+                                                        "        ,[cl_usuario_registra_cdgo]--13 \n" +
+                                                        "            ,[us_cdgo]--14 \n" +
+                                                        "            ,[us_nombres]--15 \n" +
+                                                        "            ,[us_apellidos]--16 \n" +
+                                                        "            ,[us_correo]--17 \n" +
+                                                        "    ,CASE WHEN (cl_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS cl_estad --18 \n" +
+                                                        "    FROM ["+DB+"].[dbo].[config_liquidacion] \n" +
+                                                        "    INNER JOIN ["+DB+"].[dbo].[cargo_nomina] ON [cl_cargo_nomina_cdgo]=[cn_cdgo] \n" +
+                                                        "    INNER JOIN ["+DB+"].[dbo].[usuario] ON [cl_usuario_registra_cdgo]=[us_cdgo]\n" +
+                                                        "	INNER JOIN (SELECT DISTINCT [cl_cdgo] as temp_cl_cdgo\n" +
+                                                        "					FROM ["+DB+"].[dbo].[config_liquidacion]\n" +
+                                                        "				INNER JOIN ["+DB+"].[dbo].[preliquidacion] ON [pliq_config_liquidacion_cdgo]=[cl_cdgo]\n" +
+                                                        "	) as temp ON  temp.temp_cl_cdgo=[cl_cdgo]\n" +
+                                                        "    WHERE [cl_estad]= 1 AND (\n" +
+                                                        "	([cl_fecha_inicio] BETWEEN ? AND ?) OR \n" +
+                                                        "	(? BETWEEN [cl_fecha_inicio] AND [cl_fecha_fin]) OR  \n" +
+                                                        "	(? BETWEEN [cl_fecha_inicio] AND [cl_fecha_fin]))ORDER BY [cl_cdgo] DESC");
+            query.setString(1, DatetimeInicio);
+            query.setString(2, DatetimeFin);
+            query.setString(3, DatetimeInicio);
+            query.setString(4, DatetimeFin);
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            boolean validar= true;
+            while(resultSet.next()){ 
+                try{
+                    if(validar){
+                        listadoObjetos= new ArrayList<>();
+                        validar= false;
+                    }
+                    ConfiguracionLiquidacion configuracionLiquidacion = new ConfiguracionLiquidacion();
+                    configuracionLiquidacion.setCodigo(resultSet.getString(1));
+                    configuracionLiquidacion.setCargoNomina(new CargoNomina(resultSet.getString(3), resultSet.getString(4), resultSet.getString(5)));
+                    configuracionLiquidacion.setFechaInicio(resultSet.getString(6));
+                    configuracionLiquidacion.setFechaFinalizacion(resultSet.getString(7));
+                    configuracionLiquidacion.setCantidadDias(Integer.parseInt(resultSet.getString(8)));
+                    configuracionLiquidacion.setCantidadDias(Integer.parseInt(resultSet.getString(8)));
+                    configuracionLiquidacion.setAno(resultSet.getString(9));
+                    configuracionLiquidacion.setDescripcion(resultSet.getString(10));
+                    configuracionLiquidacion.setValorTonelada(Integer.parseInt(resultSet.getString(11)));
+                    configuracionLiquidacion.setCantidadToneladaSalario(Integer.parseInt(resultSet.getString(12)));
+                        Usuario usuario = new Usuario();
+                            usuario.setCodigo(resultSet.getString(14));
+                            usuario.setNombres(resultSet.getString(15));
+                            usuario.setApellidos(resultSet.getString(16));
+                            usuario.setCorreo(resultSet.getString(17));
+                    configuracionLiquidacion.setUsuario(usuario);
+                    configuracionLiquidacion.setEstado(resultSet.getString(18));           
+                    listadoObjetos.add(configuracionLiquidacion);    
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }catch (SQLException sqlException) {
+            JOptionPane.showMessageDialog(null, "Error al tratar al consultar las configuraciones de liquidación");
+            sqlException.printStackTrace();
+        } 
+        control.cerrarConexionBaseDatos();
+        return listadoObjetos;
+    }
+    public ArrayList<ConfiguracionLiquidacion>     buscarConfiguracionesLiquidacionesLiquidadas (String DatetimeInicio, String DatetimeFin) throws SQLException{
+        ArrayList<ConfiguracionLiquidacion> listadoObjetos = null;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        try{
+            PreparedStatement query= conexion.prepareStatement("SELECT   [cl_cdgo] --1 \n" +
+                                                        "        ,[cl_cargo_nomina_cdgo]--2 \n" +
+                                                        "            ,[cn_cdgo]--3 \n" +
+                                                        "            ,[cn_desc]--4 \n" +
+                                                        "            ,[cn_estad]--5 \n" +
+                                                        "        ,[cl_fecha_inicio]--6 \n" +
+                                                        "        ,[cl_fecha_fin]--7 \n" +
+                                                        "        ,[cl_cant_dias]--8 \n" +
+                                                        "        ,[cl_ano]--9 \n" +
+                                                        "        ,[cl_desc]--10 \n" +
+                                                        "        ,[cl_valor_tonelada]--11 \n" +
+                                                        "        ,[cl_cant_tonelada_salario]--12 \n" +
+                                                        "        ,[cl_usuario_registra_cdgo]--13 \n" +
+                                                        "            ,[us_cdgo]--14 \n" +
+                                                        "            ,[us_nombres]--15 \n" +
+                                                        "            ,[us_apellidos]--16 \n" +
+                                                        "            ,[us_correo]--17 \n" +
+                                                        "    ,CASE WHEN (cl_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS cl_estad --18 \n" +
+                                                        "    FROM ["+DB+"].[dbo].[config_liquidacion] \n" +
+                                                        "    INNER JOIN ["+DB+"].[dbo].[cargo_nomina] ON [cl_cargo_nomina_cdgo]=[cn_cdgo] \n" +
+                                                        "    INNER JOIN ["+DB+"].[dbo].[usuario] ON [cl_usuario_registra_cdgo]=[us_cdgo]\n" +
+                                                        "	INNER JOIN (SELECT DISTINCT [cl_cdgo] as temp_cl_cdgo\n" +
+                                                        "					FROM ["+DB+"].[dbo].[config_liquidacion]\n" +
+                                                        "				INNER JOIN ["+DB+"].[dbo].[liquidacion] ON [liq_config_liquidacion_cdgo]=[cl_cdgo]\n" +
+                                                        "	) as temp ON  temp.temp_cl_cdgo=[cl_cdgo]\n" +
+                                                        "    WHERE [cl_estad]= 0 AND (\n" +
+                                                        "	([cl_fecha_inicio] BETWEEN ? AND ?) OR \n" +
+                                                        "	(? BETWEEN [cl_fecha_inicio] AND [cl_fecha_fin]) OR  \n" +
+                                                        "	(? BETWEEN [cl_fecha_inicio] AND [cl_fecha_fin]))ORDER BY [cl_cdgo] DESC");
+            query.setString(1, DatetimeInicio);
+            query.setString(2, DatetimeFin);
+            query.setString(3, DatetimeInicio);
+            query.setString(4, DatetimeFin);
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            boolean validar= true;
+            while(resultSet.next()){ 
+                try{
+                    if(validar){
+                        listadoObjetos= new ArrayList<>();
+                        validar= false;
+                    }
+                    ConfiguracionLiquidacion configuracionLiquidacion = new ConfiguracionLiquidacion();
+                    configuracionLiquidacion.setCodigo(resultSet.getString(1));
+                    configuracionLiquidacion.setCargoNomina(new CargoNomina(resultSet.getString(3), resultSet.getString(4), resultSet.getString(5)));
+                    configuracionLiquidacion.setFechaInicio(resultSet.getString(6));
+                    configuracionLiquidacion.setFechaFinalizacion(resultSet.getString(7));
+                    configuracionLiquidacion.setCantidadDias(Integer.parseInt(resultSet.getString(8)));
+                    configuracionLiquidacion.setCantidadDias(Integer.parseInt(resultSet.getString(8)));
+                    configuracionLiquidacion.setAno(resultSet.getString(9));
+                    configuracionLiquidacion.setDescripcion(resultSet.getString(10));
+                    configuracionLiquidacion.setValorTonelada(Integer.parseInt(resultSet.getString(11)));
+                    configuracionLiquidacion.setCantidadToneladaSalario(Integer.parseInt(resultSet.getString(12)));
+                        Usuario usuario = new Usuario();
+                            usuario.setCodigo(resultSet.getString(14));
+                            usuario.setNombres(resultSet.getString(15));
+                            usuario.setApellidos(resultSet.getString(16));
+                            usuario.setCorreo(resultSet.getString(17));
+                    configuracionLiquidacion.setUsuario(usuario);
+                    configuracionLiquidacion.setEstado(resultSet.getString(18));           
+                    listadoObjetos.add(configuracionLiquidacion);    
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }catch (SQLException sqlException) {
+            JOptionPane.showMessageDialog(null, "Error al tratar al consultar las configuraciones de liquidación");
+            sqlException.printStackTrace();
+        } 
+        control.cerrarConexionBaseDatos();
+        return listadoObjetos;
+    }
+    public boolean validarConfiguracionLiquidacionPresentaLiquidacion (ConfiguracionLiquidacion configuracionLiquidacion) throws SQLException{
+        boolean validar = false;
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        try{
+            PreparedStatement query= conexion.prepareStatement("SELECT   [cl_cdgo] --1 \n" +
+                                                            "        ,[cl_cargo_nomina_cdgo]--2 \n" +
+                                                            "            ,[cn_cdgo]--3 \n" +
+                                                            "            ,[cn_desc]--4 \n" +
+                                                            "            ,[cn_estad]--5 \n" +
+                                                            "        ,[cl_fecha_inicio]--6 \n" +
+                                                            "        ,[cl_fecha_fin]--7 \n" +
+                                                            "        ,[cl_cant_dias]--8 \n" +
+                                                            "        ,[cl_ano]--9 \n" +
+                                                            "        ,[cl_desc]--10 \n" +
+                                                            "        ,[cl_valor_tonelada]--11 \n" +
+                                                            "        ,[cl_cant_tonelada_salario]--12 \n" +
+                                                            "        ,[cl_usuario_registra_cdgo]--13 \n" +
+                                                            "            ,[us_cdgo]--14 \n" +
+                                                            "            ,[us_nombres]--15 \n" +
+                                                            "            ,[us_apellidos]--16 \n" +
+                                                            "            ,[us_correo]--17 \n" +
+                                                            "    ,CASE WHEN (cl_estad=1) THEN 'ACTIVO' ELSE 'INACTIVO' END AS cl_estad --18 \n" +
+                                                            "    FROM ["+DB+"].[dbo].[config_liquidacion] \n" +
+                                                            "    INNER JOIN ["+DB+"].[dbo].[cargo_nomina] ON [cl_cargo_nomina_cdgo]=[cn_cdgo] \n" +
+                                                            "    INNER JOIN ["+DB+"].[dbo].[usuario] ON [cl_usuario_registra_cdgo]=[us_cdgo]\n" +
+                                                            "	INNER JOIN (SELECT DISTINCT [cl_cdgo] as temp_cl_cdgo\n" +
+                                                            "					FROM ["+DB+"].[dbo].[config_liquidacion]\n" +
+                                                            "				INNER JOIN ["+DB+"].[dbo].[liquidacion] ON [liq_config_liquidacion_cdgo]=[cl_cdgo]\n" +
+                                                            "	) as temp ON  temp.temp_cl_cdgo=[cl_cdgo]\n" +
+                                                            "    WHERE [cl_cdgo]=?");
+            query.setString(1, configuracionLiquidacion.getCodigo());
+
+            ResultSet resultSet; resultSet= query.executeQuery();    
+            while(resultSet.next()){ 
+                validar= true;
+            }
+        }catch (SQLException sqlException) {
+            JOptionPane.showMessageDialog(null, "Error al tratar al consultar si la cofiguración presenta movimiento de liquidación");
+            sqlException.printStackTrace();
+        } 
+        control.cerrarConexionBaseDatos();
+        return validar;
+    }
 }

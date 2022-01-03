@@ -10,6 +10,7 @@ import Catalogo.Model.Pertenencia;
 import Catalogo.Model.ProveedorEquipo;
 import Catalogo.Model.TarifaEquipo;
 import Catalogo.Model.TipoEquipo;
+import ModuloPersonal.Model.Persona;
 import Sistema.Controller.ControlDB_Config;
 import Sistema.Model.Usuario;
 import java.io.FileNotFoundException;
@@ -1511,6 +1512,8 @@ public class ControlDB_Equipo {
         control.cerrarConexionBaseDatos();
         return Objeto;
     }
+    
+    
     /*public ArrayList<Equipo> buscarEquiposEnAplicacionInterna(String sql, String busquedaEspecifica) throws SQLException{
         ArrayList<Equipo> listadoObjeto = new ArrayList();
         Conexion_DB_costos_vg control= new Conexion_DB_costos_vg();  
@@ -2398,5 +2401,69 @@ public class ControlDB_Equipo {
         }  
         control.cerrarConexionBaseDatos();
         return result;
+    }
+    
+    
+    public Equipo retornoEquipoTrabajo(Persona persona){
+        Equipo equipo = null;
+        Conexion_DB_costos_vg control= new Conexion_DB_costos_vg(tipoConexion);  
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        Equipo Objeto =null;
+        try{
+            ResultSet resultSetBuscar;
+            PreparedStatement queryBuscar= conexion.prepareStatement(" SELECT \n" +
+                                                                        "[eq_cdgo]\n" +
+                                                                        "      ,[eq_modelo]\n" +
+                                                                        "      ,[eq_desc]\n" +
+                                                                        "  FROM ["+DB+"].[dbo].[persona]\n" +
+                                                                        "  INNER JOIN ["+DB+"].[dbo].[equipo] ON [eq_cdgo]=[ps_equipo_cdgo]\n" +
+                                                                        "  WHERE [ps_cdgo] LIKE '"+persona.getCodigo()+"' AND [ps_tipo_documento_cdgo]=?");
+            //queryBuscar.setString(1, "'"+persona.getCodigo()+"'");
+            queryBuscar.setString(1, persona.getTipoDocumento().getCodigo());
+            resultSetBuscar= queryBuscar.executeQuery();
+            boolean validar=true;
+            while(resultSetBuscar.next()){ 
+                if(validar){
+                    Objeto = new Equipo(); 
+                    validar=false;
+                } 
+                Objeto.setCodigo(resultSetBuscar.getString(1));             
+                Objeto.setModelo(resultSetBuscar.getString(2));
+                Objeto.setDescripcion(resultSetBuscar.getString(3));
+            }
+        }catch (SQLException sqlException) {
+            JOptionPane.showMessageDialog(null, "Error al tratar de consultar los equipos");
+            sqlException.printStackTrace();
+        } 
+        control.cerrarConexionBaseDatos();
+        return Objeto;
+    }
+    public ArrayList<String> retornoPersonalEquiposEquipos(){
+        Conexion_DB_costos_vg control= new Conexion_DB_costos_vg(tipoConexion);  
+        conexion= control.ConectarBaseDatos();
+        ArrayList<String> listado=null;
+        String DB=control.getBaseDeDatos();
+        try{
+            ResultSet resultSetBuscar;
+            PreparedStatement queryBuscar= conexion.prepareStatement(" SELECT \n" +
+                                                                "	CONCAT([ps_cdgo],'-',[ps_tipo_documento_cdgo],'@@',[eq_cdgo]) as documento\n" +
+                                                                " FROM ["+DB+"].[dbo].[persona]\n" +
+                                                                " INNER JOIN ["+DB+"].[dbo].[equipo] ON [eq_cdgo]=[ps_equipo_cdgo]");
+            resultSetBuscar= queryBuscar.executeQuery();
+            boolean validar=true;
+            while(resultSetBuscar.next()){ 
+                if(validar){
+                    listado = new ArrayList<>(); 
+                    validar=false;
+                } 
+                listado.add(resultSetBuscar.getString(1));
+            }
+        }catch (SQLException sqlException) {
+            JOptionPane.showMessageDialog(null, "Error al tratar de consultar los equipos");
+            sqlException.printStackTrace();
+        } 
+        control.cerrarConexionBaseDatos();
+        return listado;
     }
 }

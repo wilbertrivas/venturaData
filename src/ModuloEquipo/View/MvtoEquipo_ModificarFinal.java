@@ -157,7 +157,10 @@ public final class MvtoEquipo_ModificarFinal extends javax.swing.JPanel implemen
                 select_MvtoEquipo_MinutosFinal.addItem(""+i);
             }
         }
-        
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         
         selectorCampoPorDefecto();
         encabezadoTabla= new ArrayList<String>();

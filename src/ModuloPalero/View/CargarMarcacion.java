@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ModuloPalero.View;
 import java.awt.HeadlessException;
 import java.awt.datatransfer.DataFlavor;
@@ -26,19 +22,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- * @see https://www.jc-mouse.net/
- * @author mouse
- */
 public class CargarMarcacion implements DropTargetListener {
     
     private JTable jtable;
     private DefaultTableModel tableModel;
     protected DropTarget dropTarget;
     
-    /**
-     * Constructor de clase
-     */
     public CargarMarcacion() {
     }
 

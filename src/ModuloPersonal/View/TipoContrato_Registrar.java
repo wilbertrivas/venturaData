@@ -64,6 +64,7 @@ public class TipoContrato_Registrar extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         cancelar = new javax.swing.JButton();
         registrar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -92,26 +93,31 @@ public class TipoContrato_Registrar extends javax.swing.JPanel {
         tabla1.setName("tabla"); // NOI18N
         jScrollPane2.setViewportView(tabla1);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 670, 560));
-        jPanel1.add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 300, 40));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 880, 410));
+        jPanel1.add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 300, 30));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Estado:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, 30));
 
         estado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ACTIVO", "INACTIVO", " " }));
-        jPanel1.add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 300, 40));
+        jPanel1.add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 300, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Nombre:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 80, 30));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 80, 30));
 
         cancelar.setBackground(new java.awt.Color(255, 255, 255));
         cancelar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancelar.png"))); // NOI18N
         cancelar.setText("CANCELAR");
-        jPanel1.add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 290, 160, 40));
+        cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, 160, 40));
 
         registrar.setBackground(new java.awt.Color(255, 255, 255));
         registrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -122,12 +128,17 @@ public class TipoContrato_Registrar extends javax.swing.JPanel {
                 registrarActionPerformed(evt);
             }
         });
-        jPanel1.add(registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
+        jPanel1.add(registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("REGISTRAR TIPO DE CONTRATO");
+        jLabel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 450, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("REGISTRAR TIPO DE CONTRATO");
         jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 450, 410));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
@@ -173,10 +184,13 @@ public class TipoContrato_Registrar extends javax.swing.JPanel {
             } catch (SocketException ex) {
                 Logger.getLogger(TipoContrato_Registrar.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-
-        
+        }    
     }//GEN-LAST:event_registrarActionPerformed
+
+    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
+        descripcion.setText("");
+        estado.setSelectedIndex(0);
+    }//GEN-LAST:event_cancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -186,6 +200,7 @@ public class TipoContrato_Registrar extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton registrar;

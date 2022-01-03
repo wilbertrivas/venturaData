@@ -84,6 +84,10 @@ public final class MvtoCarbon_MatrizDistribucion extends javax.swing.JPanel impl
         Dimension dim=super.getToolkit().getScreenSize();      
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

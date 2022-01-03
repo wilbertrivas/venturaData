@@ -78,6 +78,10 @@ public final class MvtoCarbon_Procesar extends javax.swing.JPanel implements Act
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);
         jProgressBar1.show(false);
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -1148,7 +1152,7 @@ public final class MvtoCarbon_Procesar extends javax.swing.JPanel implements Act
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 65)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
         jLabel9.setText("|");
-        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 40, 70));
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 30, 70));
 
         fechaFin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2449,23 +2453,36 @@ public final class MvtoCarbon_Procesar extends javax.swing.JPanel implements Act
                        return listado1.getMvtoCarbon().getArticulo().getDescripcion();
                     }
                     case "Artículo_Tipo":{
-                        if(listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion() != null){
-                            return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion();
-                        }else{
+                        try {
+                            if (listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion() != null) {
+                                return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getDescripcion();
+                            } else {
+                                return "";
+                            }
+                        } catch (Exception e) {
                             return "";
                         }
+                        
                     }
-                    case "Artículo_Código_ERP":{
-                        if(listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP() != null){
-                            return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP();
-                        }else{
-                            return "";
-                        } 
-                    }
+                   case "Artículo_Código_ERP": {
+                       try {
+                           if (listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP() != null) {
+                               return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getCodigoERP();
+                           } else {
+                               return "";
+                           }
+                       } catch (Exception e) {
+                           return "";
+                       }
+                   }
                     case "Artículo_Unidad_Negocio":{
-                        if(listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio() != null){
-                            return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio();
-                        }else{
+                        try {
+                            if (listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio() != null) {
+                                return listado1.getMvtoCarbon().getArticulo().getTipoArticulo().getUnidadNegocio();
+                            } else {
+                                return "";
+                            }
+                        } catch (Exception e) {
                             return "";
                         }
                     }

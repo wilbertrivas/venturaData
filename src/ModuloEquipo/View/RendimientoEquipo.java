@@ -72,6 +72,10 @@ public class RendimientoEquipo extends javax.swing.JPanel {
                 minutoFinAsignacion.addItem(""+i);
             }
         }
+        horaInicioAsignacion.setSelectedIndex(0);
+        minutoInicioAsignacion.setSelectedIndex(0);
+        horaFinAsignacion.setSelectedIndex(23);
+        minutoFinAsignacion.setSelectedIndex(59);
         //Cargamos en la interfaz los tipos de equipos
         try {
             listadoTiposEquipo=new ControlDB_Equipo(tipoConexion).buscarTipoEquiposEnAplicacionInterna();

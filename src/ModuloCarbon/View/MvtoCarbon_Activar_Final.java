@@ -102,6 +102,10 @@ public final class MvtoCarbon_Activar_Final extends javax.swing.JPanel implement
         selectorCampoPorDefecto();
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         
     }
     @SuppressWarnings("unchecked")
@@ -1725,8 +1729,9 @@ public final class MvtoCarbon_Activar_Final extends javax.swing.JPanel implement
         add(InternalFrameSelectorCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 740));
 
         titulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        titulo.setText("PROCESAR DESCARGUE DE VEHICULOS DE CARBÓN");
-        add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 470, 30));
+        titulo.setForeground(new java.awt.Color(0, 102, 102));
+        titulo.setText("LISTADO DE MOVIMIENTOS EN EL MODULO DE CARBÓN INACTIVOS");
+        add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 650, 30));
 
         tabla = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
@@ -2728,6 +2733,7 @@ public final class MvtoCarbon_Activar_Final extends javax.swing.JPanel implement
                 observacion_autorizacionMvtoCarbon.setText("");
                 generarListadoMvtoCarbon();
                 InternaFrame_VisualizarMvtoCarbon.show(false);
+                resizeColumnWidth(tabla);
             }else{
                 JOptionPane.showMessageDialog(null, "No se puedo registrar la activación, valide datos", "Error al registrar",JOptionPane.ERROR_MESSAGE);
             }

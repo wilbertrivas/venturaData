@@ -65,9 +65,6 @@ public final class ConfiguracionLiquidacion_Actualizar extends javax.swing.JPane
         } 
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);
-        
-        
-        
         codigoConfiguracion.setEditable(false);
         descripcion.setEditable(false);
         select_cargoNomina.setEnabled(false);
@@ -389,8 +386,7 @@ public final class ConfiguracionLiquidacion_Actualizar extends javax.swing.JPane
                         Logger.getLogger(Marcacion_Actualizar.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            }
-        
+            }  
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -491,31 +487,37 @@ public final class ConfiguracionLiquidacion_Actualizar extends javax.swing.JPane
                     //Procedemos a cargar la información según selección
                     configuracionLiquidacion = listado.get(fila1);
                     if(configuracionLiquidacion != null){
-                        codigoConfiguracion.setText(configuracionLiquidacion.getCodigo());
-                        
-                        //Cargamos el cargo de nomina según la configuración de liquidación seleccionada
-                        int contador =0;
-                        for(CargoNomina objeto : listadoCargoNomina){
-                            if(objeto.getCodigo().equals(configuracionLiquidacion.getCargoNomina().getCodigo())){
-                                select_cargoNomina.setSelectedIndex(contador);
+                        //validamos si la configuracionLiquidacion presenta movimiento,
+                        boolean validarConfiguracionLiquidacionPresentaMovimiento= new ControlDB_ConfiguracionLiquidacion(tipoConexion).validarConfiguracionLiquidacionPresentaLiquidacion(configuracionLiquidacion);
+                        if(validarConfiguracionLiquidacionPresentaMovimiento){//La configuración de liquidación presenta movimiento no se puede modificar
+                            JOptionPane.showMessageDialog(null, "La configuración de Liquidación seleccionada ya tiene asociada una liquidación por tal motivo no se puede actualizar","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+                        }else{//Al no presentar movimiento de liquidación podemos actualizar los campos.
+                            codigoConfiguracion.setText(configuracionLiquidacion.getCodigo());
 
+                            //Cargamos el cargo de nomina según la configuración de liquidación seleccionada
+                            int contador =0;
+                            for(CargoNomina objeto : listadoCargoNomina){
+                                if(objeto.getCodigo().equals(configuracionLiquidacion.getCargoNomina().getCodigo())){
+                                    select_cargoNomina.setSelectedIndex(contador);
+
+                                }
+                                contador++;
                             }
-                            contador++;
-                        }
-                        //Cargamos las fechas
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date fechaInicio=dateFormat.parse(configuracionLiquidacion.getFechaInicio());
-                        fechaInicio_Regsitro.setDate(fechaInicio);
-                        
-                        Date fechaFin=dateFormat.parse(configuracionLiquidacion.getFechaFinalizacion());
-                        fechaFin_Registro.setDate(fechaFin);
-                        valorTonelada.setText(""+configuracionLiquidacion.getValorTonelada());
-                        descripcion.setText(""+configuracionLiquidacion.getDescripcion());
-                        cantidadToneladaQuincena.setText(""+configuracionLiquidacion.getCantidadToneladaSalario());
-                        if(configuracionLiquidacion.getEstado().equals("ACTIVO")){
-                            estado.setSelectedIndex(0);
-                        }else{
-                            estado.setSelectedIndex(1);
+                            //Cargamos las fechas
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            Date fechaInicio=dateFormat.parse(configuracionLiquidacion.getFechaInicio());
+                            fechaInicio_Regsitro.setDate(fechaInicio);
+
+                            Date fechaFin=dateFormat.parse(configuracionLiquidacion.getFechaFinalizacion());
+                            fechaFin_Registro.setDate(fechaFin);
+                            valorTonelada.setText(""+configuracionLiquidacion.getValorTonelada());
+                            descripcion.setText(""+configuracionLiquidacion.getDescripcion());
+                            cantidadToneladaQuincena.setText(""+configuracionLiquidacion.getCantidadToneladaSalario());
+                            if(configuracionLiquidacion.getEstado().equals("ACTIVO")){
+                                estado.setSelectedIndex(0);
+                            }else{
+                                estado.setSelectedIndex(1);
+                            }
                         }
                     }
                 }  
@@ -539,6 +541,7 @@ public final class ConfiguracionLiquidacion_Actualizar extends javax.swing.JPane
                     }
                     if (listado != null) {
                         configuracionLiquidacion = null;
+                        
                         //Borramos los textos de los campos
                         codigoConfiguracion.setText("");
                         select_cargoNomina.setSelectedIndex(0);
@@ -551,32 +554,38 @@ public final class ConfiguracionLiquidacion_Actualizar extends javax.swing.JPane
 
                         //Procedemos a cargar la información según selección
                         configuracionLiquidacion = listado.get(fila1);
-                        if (configuracionLiquidacion != null) {
-                            codigoConfiguracion.setText(configuracionLiquidacion.getCodigo());
+                        //validamos si la configuracionLiquidacion presenta movimiento,
+                        boolean validarConfiguracionLiquidacionPresentaMovimiento= new ControlDB_ConfiguracionLiquidacion(tipoConexion).validarConfiguracionLiquidacionPresentaLiquidacion(configuracionLiquidacion);
+                        if(validarConfiguracionLiquidacionPresentaMovimiento){//La configuración de liquidación presenta movimiento no se puede modificar
+                            JOptionPane.showMessageDialog(null, "La configuración de Liquidación seleccionada ya tiene asociada una liquidación por tal motivo no se puede actualizar","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+                        }else{//Al no presentar movimiento de liquidación podemos actualizar los campos.  
+                            if (configuracionLiquidacion != null) {
+                                codigoConfiguracion.setText(configuracionLiquidacion.getCodigo());
 
-                            //Cargamos el cargo de nomina según la configuración de liquidación seleccionada
-                            int contador = 0;
-                            for (CargoNomina objeto : listadoCargoNomina) {
-                                if (objeto.getCodigo().equals(configuracionLiquidacion.getCargoNomina().getCodigo())) {
-                                    select_cargoNomina.setSelectedIndex(contador);
+                                //Cargamos el cargo de nomina según la configuración de liquidación seleccionada
+                                int contador = 0;
+                                for (CargoNomina objeto : listadoCargoNomina) {
+                                    if (objeto.getCodigo().equals(configuracionLiquidacion.getCargoNomina().getCodigo())) {
+                                        select_cargoNomina.setSelectedIndex(contador);
 
+                                    }
+                                    contador++;
                                 }
-                                contador++;
-                            }
-                            //Cargamos las fechas
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            Date fechaInicio = dateFormat.parse(configuracionLiquidacion.getFechaInicio());
-                            fechaInicio_Regsitro.setDate(fechaInicio);
+                                //Cargamos las fechas
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                Date fechaInicio = dateFormat.parse(configuracionLiquidacion.getFechaInicio());
+                                fechaInicio_Regsitro.setDate(fechaInicio);
 
-                            Date fechaFin = dateFormat.parse(configuracionLiquidacion.getFechaFinalizacion());
-                            fechaFin_Registro.setDate(fechaFin);
-                            valorTonelada.setText("" + configuracionLiquidacion.getValorTonelada());
-                            descripcion.setText("" + configuracionLiquidacion.getDescripcion());
-                            cantidadToneladaQuincena.setText("" + configuracionLiquidacion.getCantidadToneladaSalario());
-                            if (configuracionLiquidacion.getEstado().equals("ACTIVO")) {
-                                estado.setSelectedIndex(0);
-                            } else {
-                                estado.setSelectedIndex(1);
+                                Date fechaFin = dateFormat.parse(configuracionLiquidacion.getFechaFinalizacion());
+                                fechaFin_Registro.setDate(fechaFin);
+                                valorTonelada.setText("" + configuracionLiquidacion.getValorTonelada());
+                                descripcion.setText("" + configuracionLiquidacion.getDescripcion());
+                                cantidadToneladaQuincena.setText("" + configuracionLiquidacion.getCantidadToneladaSalario());
+                                if (configuracionLiquidacion.getEstado().equals("ACTIVO")) {
+                                    estado.setSelectedIndex(0);
+                                } else {
+                                    estado.setSelectedIndex(1);
+                                }
                             }
                         }
                     }

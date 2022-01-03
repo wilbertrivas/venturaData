@@ -2,6 +2,7 @@ package ModuloCarbon.View;
   
 import Catalogo.Controller.ControlDB_CentroCostoSubCentro;
 import Catalogo.Controller.ControlDB_CentroOperacion;
+import Catalogo.Controller.ControlDB_Cliente;
 import Catalogo.Controller.ControlDB_Equipo;
 import Catalogo.Controller.ControlDB_LaborRealizada;
 import Catalogo.Controller.ControlDB_MotivoNoLavado;
@@ -9,6 +10,7 @@ import Catalogo.Controller.ControlDB_MotivoParada;
 import Catalogo.Model.CentroCostoAuxiliar;
 import Catalogo.Model.CentroCostoSubCentro;
 import Catalogo.Model.CentroOperacion;
+import Catalogo.Model.Cliente;
 import Catalogo.Model.LaborRealizada;
 import Catalogo.Model.MotivoNoLavado;
 import Catalogo.Model.MotivoParada;
@@ -50,6 +52,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -73,6 +76,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     ProveedorDeDatosDePaginacion<MvtoCarbon_ListadoEquipos> proveedorDeDatos;
     ArrayList<String> encabezadoTabla=null;
     MvtoCarbon mvtoCarbon;
+    MvtoCarbon mvtoCarbon_Actualizar;
     MvtoEquipo mvtoEquipo=null;
     ArrayList<MvtoCarbon_ListadoEquipos> listadoMvtoCarbon_ListadoEquipos=null;
     MvtoCarbon_ListadoEquipos mvtoCarbon_ListadoEquipos= null;
@@ -94,7 +98,12 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private ArrayList<AsignacionEquipo> listadoEquipos_mvtoEquipo = null;
     private ArrayList<MotivoParada> listadoMotivoParada_mvtoEquipo = null;
      
-     
+    private Cliente cliente = null;
+    private Usuario usuario = null;
+    private ArrayList<Cliente> listadoCliente=null;
+    private ArrayList<Usuario> listadoUsuario=null;
+    
+    private ArrayList<MvtoCarbon> listadoMvtoCarbon = null;
      
     public MvtoCarbon_ModificarFinal(Usuario user, String tipoConexion) {
         initComponents();
@@ -124,6 +133,30 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         InternalFrameSelectorCampos.getContentPane().setBackground(Color.WHITE);
         InternalFrameSelectorCampos.show(false);
         
+        
+        InternaFrame_buscarCliente.getContentPane().setBackground(Color.WHITE);
+        InternaFrame_buscarCliente.show(false);
+        
+        
+        InternaFrame_buscarUsuario.getContentPane().setBackground(Color.WHITE);
+        InternaFrame_buscarUsuario.show(false);
+        
+        
+        VentanaInterna_PesoCero.getContentPane().setBackground(Color.WHITE);
+        VentanaInterna_PesoCero.show(false);
+        
+        
+        //Ocultamos cierto componentes de  la interfaz
+        label_placa.show(false);
+        icon_buscarCliente.show(false);
+        label_cliente.show(false);
+        icon_buscarUsuarioQuienRegistra.show(false);
+        label_usuarioQuienRegistra.show(false);    
+        
+        limpiar_placa.show(false);
+        limpiar_cliente.show(false);
+        limpiar_usuario.show(false);
+        
         for(int i = 0; i<= 23; i++){
             if(i<=9){
                 horaInicio.addItem("0"+i);
@@ -134,6 +167,9 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 
                 select_MvtoEquipo_HoraInicial.addItem("0"+i);
                 select_MvtoEquipo_HoraFinal.addItem("0"+i);
+                
+                horaInicio_destareVehiculo.addItem("0"+i);
+                horaFin_destareVehiculo.addItem("0"+i);
             }else{
                 horaInicio.addItem(""+i);
                 horaFin.addItem(""+i);
@@ -142,6 +178,9 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 select_MvtoCarbon_HoraFinal.addItem(""+i);       
                 select_MvtoEquipo_HoraInicial.addItem(""+i);
                 select_MvtoEquipo_HoraFinal.addItem(""+i);
+                
+                horaInicio_destareVehiculo.addItem(""+i);  
+                horaFin_destareVehiculo.addItem(""+i);  
             }
         }
         for(int i = 0; i<= 59; i++){
@@ -152,6 +191,9 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 select_MvtoCarbon_MinutosFinal.addItem("0"+i);
                 select_MvtoEquipo_MinutosInicial.addItem("0"+i);
                 select_MvtoEquipo_MinutosFinal.addItem("0"+i);
+                
+                minutoInicio_destareVehiculo.addItem("0"+i);
+                minutoFin_destareVehiculo.addItem("0"+i);
             }else{
                 minutoInicio.addItem(""+i);
                 minutoFin.addItem(""+i);
@@ -159,6 +201,9 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 select_MvtoCarbon_MinutosFinal.addItem(""+i);
                 select_MvtoEquipo_MinutosInicial.addItem(""+i); 
                 select_MvtoEquipo_MinutosFinal.addItem(""+i);
+                
+                minutoInicio_destareVehiculo.addItem(""+i);
+                minutoFin_destareVehiculo.addItem(""+i);
             }
         }
          
@@ -167,6 +212,14 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         selectorCampoPorDefecto();
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);
+        horaInicio.setSelectedIndex(0);
+        horaInicio_destareVehiculo.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        minutoInicio_destareVehiculo.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        horaFin_destareVehiculo.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
+        minutoFin_destareVehiculo.setSelectedIndex(59);
         
         //Cargamos en la interfaz los centros de Operaciones
         try {
@@ -433,128 +486,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
 
         Inactivar = new javax.swing.JPopupMenu();
         Enable = new javax.swing.JMenuItem();
-        InternalFrameSelectorCampos = new javax.swing.JInternalFrame();
-        jButton2 = new javax.swing.JButton();
-        selectAll = new javax.swing.JRadioButton();
-        selectDescargue_codigo = new javax.swing.JRadioButton();
-        selectDescargue_fechaRegistro = new javax.swing.JRadioButton();
-        selectDescargue_deposito = new javax.swing.JRadioButton();
-        selectDescargue_consecutivo = new javax.swing.JRadioButton();
-        selectDescargue_placa = new javax.swing.JRadioButton();
-        selectDescargue_pesoVacio = new javax.swing.JRadioButton();
-        selectDescargue_pesoLleno = new javax.swing.JRadioButton();
-        selectDescargue_pesoNeto = new javax.swing.JRadioButton();
-        selectDescargue_numOrden = new javax.swing.JRadioButton();
-        selectDescargue_fechaEntradaVehiculo = new javax.swing.JRadioButton();
-        selectDescargue_registroManual = new javax.swing.JRadioButton();
-        selectDescargue_clienteCodigo = new javax.swing.JRadioButton();
-        selectDescargue_transportadoraNit = new javax.swing.JRadioButton();
-        selectDescargue_transportadoraCodigo = new javax.swing.JRadioButton();
-        selectDescargue_usuarioRegistroManualCodigo = new javax.swing.JRadioButton();
-        selectDescargue_usuarioRegistroManualNombre = new javax.swing.JRadioButton();
-        selectDescargue_fechaSalidaVehiculo = new javax.swing.JRadioButton();
-        selectDescargue_fechaInicioDescargue = new javax.swing.JRadioButton();
-        selectDescargue_cantidadMinutosDescargue = new javax.swing.JRadioButton();
-        titulo2 = new javax.swing.JLabel();
-        titulo13 = new javax.swing.JLabel();
-        jSeparator21 = new javax.swing.JSeparator();
-        jButton3 = new javax.swing.JButton();
-        selectDescargue_mes = new javax.swing.JRadioButton();
-        selectDescargue_clienteNombre = new javax.swing.JRadioButton();
-        selectDescargue_articuloCodigo = new javax.swing.JRadioButton();
-        selectDescargue_centroOperacion = new javax.swing.JRadioButton();
-        selectDescargue_centroCostoMayor = new javax.swing.JRadioButton();
-        selectDescargue_observación = new javax.swing.JRadioButton();
-        selectDescargue_estado = new javax.swing.JRadioButton();
-        selectDescargue_conexionPesoCcarga = new javax.swing.JRadioButton();
-        selectDescargue_fechaFinDescargue = new javax.swing.JRadioButton();
-        selectDescargue_centroCostoAuxiliarOrigen = new javax.swing.JRadioButton();
-        selectDescargue_centroCosto = new javax.swing.JRadioButton();
-        selectDescargue_articuloUnidadNegocio = new javax.swing.JRadioButton();
-        selectDescargue_laborRealizada = new javax.swing.JRadioButton();
-        selectDescargue_articuloNombre = new javax.swing.JRadioButton();
-        selectDescargue_articuloCodigoERP = new javax.swing.JRadioButton();
-        selectDescargue_articuloTipo = new javax.swing.JRadioButton();
-        selectDescargue_transportadoraNombre = new javax.swing.JRadioButton();
-        selectDescargue_usuarioQuienRegistraVehiculoCodigo = new javax.swing.JRadioButton();
-        selectDescargue_usuarioQuienRegistraVehiculoNombre = new javax.swing.JRadioButton();
-        selectDescargue_usuarioRegistroManualCorreo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_clienteCodigo = new javax.swing.JRadioButton();
-        selectAsignacion_equipoCodigo = new javax.swing.JRadioButton();
-        selectAsignacion_equipoMarca = new javax.swing.JRadioButton();
-        selectAsignacion_equipoModelo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_fechaRegistro = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioRegistraMvto_nombre = new javax.swing.JRadioButton();
-        selectMvtoEquipo_cantidadMinutosDescargue = new javax.swing.JRadioButton();
-        selectMvtoEquipo_numeroOrden = new javax.swing.JRadioButton();
-        selectAsignacion_equipoTipo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_clienteNombre = new javax.swing.JRadioButton();
-        selectMvtoEquipo_motonaveDescripción = new javax.swing.JRadioButton();
-        selectMvtoEquipo_centroOperacion = new javax.swing.JRadioButton();
-        selectMvtoEquipo_subcentroCosto = new javax.swing.JRadioButton();
-        selectAsignacion_fechaInicio = new javax.swing.JRadioButton();
-        selectAsignacion_fechaFinalizacion = new javax.swing.JRadioButton();
-        selectAsignacion_cantidadMinutos_Programados = new javax.swing.JRadioButton();
-        selectAsignacion_equipoPertenencia = new javax.swing.JRadioButton();
-        selectMvtoEquipo_proveedorEquipoNit = new javax.swing.JRadioButton();
-        selectMvtoEquipo_proveedorEquipoNombre = new javax.swing.JRadioButton();
-        selectMvtoEquipo_laborRealizada = new javax.swing.JRadioButton();
-        selectMvtoEquipo_fechaInicioDescargue = new javax.swing.JRadioButton();
-        selectMvtoEquipo_fechaFinDescargue = new javax.swing.JRadioButton();
-        selectMvtoEquipo_ValorHoraEquipo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_costoTotal = new javax.swing.JRadioButton();
-        selectMvtoEquipo_Recobro = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioRegistraMvto_codigo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_CausalInactividad = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre = new javax.swing.JRadioButton();
-        selectMvtoEquipo_autorizacionRecobro = new javax.swing.JRadioButton();
-        selectMvtoEquipo_MotivoParada = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion = new javax.swing.JRadioButton();
-        selectMvtoEquipo_Inactividad = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioInactividad_codigo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_DesdeCarbon = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioInactividad_nombre = new javax.swing.JRadioButton();
-        selectMvtoEquipo_centroCostoMayor = new javax.swing.JRadioButton();
-        selectMvtoEquipo_observacion = new javax.swing.JRadioButton();
-        selectMvtoEquipo_estado = new javax.swing.JRadioButton();
-        selectAsignacion_equipoDescripcion = new javax.swing.JRadioButton();
-        selectAsignacion_codigo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_centroCosto = new javax.swing.JRadioButton();
-        selectAsignacion_fechaRegistro = new javax.swing.JRadioButton();
-        selectMvtoEquipo_articuloCodigo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_articuloDescripcion = new javax.swing.JRadioButton();
-        selectMvtoEquipo_motonaveCodigo = new javax.swing.JRadioButton();
-        selectMvtoEquipo_centroCostoAxiliarOrigen = new javax.swing.JRadioButton();
-        selectMvtoEquipo_centroCostoAuxiliarDestino = new javax.swing.JRadioButton();
-        selectMvtoEquipo_mes = new javax.swing.JRadioButton();
-        selectMvtoEquipo_codigo = new javax.swing.JRadioButton();
-        selectDescargue_usuarioQuienRegistraVehiculoCorreo = new javax.swing.JRadioButton();
-        selectDescargue_centroCostoAuxiliarDestino = new javax.swing.JRadioButton();
-        selectDescargue_subcentroCosto = new javax.swing.JRadioButton();
-        selectDescargue_lavadoVehiculoObservacion = new javax.swing.JRadioButton();
-        selectDescargue_lavadoVehiculo = new javax.swing.JRadioButton();
-        Motivo_No_LavadoVehículo = new javax.swing.JRadioButton();
-        Valor_Recaudo_Equipo_LavadoVehículos = new javax.swing.JRadioButton();
-        Valor_Recaudo_Empresa_LavadoVehículos = new javax.swing.JRadioButton();
-        Equipo_Quien_Realiza_LavadoVehículo_Código = new javax.swing.JRadioButton();
-        Costo_Lavado_Vehículo = new javax.swing.JRadioButton();
-        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo = new javax.swing.JRadioButton();
-        Equipo_Quien_Realiza_LavadoVehículo_Descripción = new javax.swing.JRadioButton();
-        selectDescargue_dia = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioCierraMvto_nombre = new javax.swing.JRadioButton();
-        selectMvtoEquipo_UsuarioCierraMvto_codigo = new javax.swing.JRadioButton();
-        selectDescargue_usuarioQuienCierraVehiculoNombre = new javax.swing.JRadioButton();
-        selectDescargue_usuarioQuienCierraVehiculoCodigo = new javax.swing.JRadioButton();
-        titulo12 = new javax.swing.JLabel();
-        titulo21 = new javax.swing.JLabel();
-        titulo17 = new javax.swing.JLabel();
-        titulo20 = new javax.swing.JLabel();
-        titulo23 = new javax.swing.JLabel();
-        titulo19 = new javax.swing.JLabel();
-        titulo24 = new javax.swing.JLabel();
-        titulo26 = new javax.swing.JLabel();
-        titulo27 = new javax.swing.JLabel();
+        PesoCero1 = new javax.swing.JMenuItem();
         InternaFrame_VisualizarMvtoCarbon = new javax.swing.JInternalFrame();
         jLabel55 = new javax.swing.JLabel();
         jLabel56 = new javax.swing.JLabel();
@@ -753,6 +685,222 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel22 = new javax.swing.JLabel();
+        VentanaInterna_PesoCero = new javax.swing.JInternalFrame();
+        jLabel19 = new javax.swing.JLabel();
+        buscadorPlaca = new javax.swing.JTextField();
+        btnConsultar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tabla1 = new javax.swing.JTable();
+        PesoCero_placa = new javax.swing.JLabel();
+        fechaInicio_destareVehiculo = new com.toedter.calendar.JDateChooser();
+        jLabel26 = new javax.swing.JLabel();
+        horaInicio_destareVehiculo = new javax.swing.JComboBox<>();
+        jLabel27 = new javax.swing.JLabel();
+        minutoInicio_destareVehiculo = new javax.swing.JComboBox<>();
+        horarioTiempoInicio_destareVehiculo = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        fechaFin_destareVehiculo = new com.toedter.calendar.JDateChooser();
+        jLabel29 = new javax.swing.JLabel();
+        horaFin_destareVehiculo = new javax.swing.JComboBox<>();
+        jLabel30 = new javax.swing.JLabel();
+        minutoFin_destareVehiculo = new javax.swing.JComboBox<>();
+        horarioTiempoIFinal_destareVehiculo = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        PesoCero_cliente = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        PesoCero_pesoVacio = new javax.swing.JLabel();
+        PesoCero_articulo = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
+        PesoCero_deposito = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        PesoCero_pesoLleno = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        PesoCero_pesoNeto = new javax.swing.JLabel();
+        PesoCero_fechaEntrada = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        PesoCero_fechaSalida = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        PesoCero_consecutivo = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        PesoCero_transportadora = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        PesoCero_placa_nuevo = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        PesoCero_cliente_nuevo = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
+        PesoCero_pesoVacio_nuevo = new javax.swing.JLabel();
+        PesoCero_articulo_nuevo = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel50 = new javax.swing.JLabel();
+        PesoCero_deposito_nuevo = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        PesoCero_pesoLleno_nuevo = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        PesoCero_pesoNeto_nuevo = new javax.swing.JLabel();
+        PesoCero_fechaEntrada_nuevo = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        PesoCero_fechaSalida_nuevo = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
+        jLabel62 = new javax.swing.JLabel();
+        PesoCero_consecutivo_nuevo = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        PesoCero_transportadora_nuevo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        jSeparator11 = new javax.swing.JSeparator();
+        jSeparator12 = new javax.swing.JSeparator();
+        jSeparator13 = new javax.swing.JSeparator();
+        jLabel4 = new javax.swing.JLabel();
+        InternaFrame_buscarUsuario = new javax.swing.JInternalFrame();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaUsuario = new javax.swing.JTable();
+        valorBusquedaUsuario = new javax.swing.JTextField();
+        btnConsultarUsuariosQuienRegistra = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        btnCancelarUsuariosQuienRegistra = new javax.swing.JButton();
+        btnLimpiarUsuariosQuienRegistra = new javax.swing.JButton();
+        InternaFrame_buscarCliente = new javax.swing.JInternalFrame();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaCliente = new javax.swing.JTable();
+        valorBusquedaCliente = new javax.swing.JTextField();
+        btnConsultarCliente = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        btnCancelarCliente = new javax.swing.JButton();
+        btnLimpiarCliente = new javax.swing.JButton();
+        InternalFrameSelectorCampos = new javax.swing.JInternalFrame();
+        jButton2 = new javax.swing.JButton();
+        selectAll = new javax.swing.JRadioButton();
+        selectDescargue_codigo = new javax.swing.JRadioButton();
+        selectDescargue_fechaRegistro = new javax.swing.JRadioButton();
+        selectDescargue_deposito = new javax.swing.JRadioButton();
+        selectDescargue_consecutivo = new javax.swing.JRadioButton();
+        selectDescargue_placa = new javax.swing.JRadioButton();
+        selectDescargue_pesoVacio = new javax.swing.JRadioButton();
+        selectDescargue_pesoLleno = new javax.swing.JRadioButton();
+        selectDescargue_pesoNeto = new javax.swing.JRadioButton();
+        selectDescargue_numOrden = new javax.swing.JRadioButton();
+        selectDescargue_fechaEntradaVehiculo = new javax.swing.JRadioButton();
+        selectDescargue_registroManual = new javax.swing.JRadioButton();
+        selectDescargue_clienteCodigo = new javax.swing.JRadioButton();
+        selectDescargue_transportadoraNit = new javax.swing.JRadioButton();
+        selectDescargue_transportadoraCodigo = new javax.swing.JRadioButton();
+        selectDescargue_usuarioRegistroManualCodigo = new javax.swing.JRadioButton();
+        selectDescargue_usuarioRegistroManualNombre = new javax.swing.JRadioButton();
+        selectDescargue_fechaSalidaVehiculo = new javax.swing.JRadioButton();
+        selectDescargue_fechaInicioDescargue = new javax.swing.JRadioButton();
+        selectDescargue_cantidadMinutosDescargue = new javax.swing.JRadioButton();
+        titulo2 = new javax.swing.JLabel();
+        titulo13 = new javax.swing.JLabel();
+        jSeparator21 = new javax.swing.JSeparator();
+        jButton3 = new javax.swing.JButton();
+        selectDescargue_mes = new javax.swing.JRadioButton();
+        selectDescargue_clienteNombre = new javax.swing.JRadioButton();
+        selectDescargue_articuloCodigo = new javax.swing.JRadioButton();
+        selectDescargue_centroOperacion = new javax.swing.JRadioButton();
+        selectDescargue_centroCostoMayor = new javax.swing.JRadioButton();
+        selectDescargue_observación = new javax.swing.JRadioButton();
+        selectDescargue_estado = new javax.swing.JRadioButton();
+        selectDescargue_conexionPesoCcarga = new javax.swing.JRadioButton();
+        selectDescargue_fechaFinDescargue = new javax.swing.JRadioButton();
+        selectDescargue_centroCostoAuxiliarOrigen = new javax.swing.JRadioButton();
+        selectDescargue_centroCosto = new javax.swing.JRadioButton();
+        selectDescargue_articuloUnidadNegocio = new javax.swing.JRadioButton();
+        selectDescargue_laborRealizada = new javax.swing.JRadioButton();
+        selectDescargue_articuloNombre = new javax.swing.JRadioButton();
+        selectDescargue_articuloCodigoERP = new javax.swing.JRadioButton();
+        selectDescargue_articuloTipo = new javax.swing.JRadioButton();
+        selectDescargue_transportadoraNombre = new javax.swing.JRadioButton();
+        selectDescargue_usuarioQuienRegistraVehiculoCodigo = new javax.swing.JRadioButton();
+        selectDescargue_usuarioQuienRegistraVehiculoNombre = new javax.swing.JRadioButton();
+        selectDescargue_usuarioRegistroManualCorreo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_clienteCodigo = new javax.swing.JRadioButton();
+        selectAsignacion_equipoCodigo = new javax.swing.JRadioButton();
+        selectAsignacion_equipoMarca = new javax.swing.JRadioButton();
+        selectAsignacion_equipoModelo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_fechaRegistro = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioRegistraMvto_nombre = new javax.swing.JRadioButton();
+        selectMvtoEquipo_cantidadMinutosDescargue = new javax.swing.JRadioButton();
+        selectMvtoEquipo_numeroOrden = new javax.swing.JRadioButton();
+        selectAsignacion_equipoTipo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_clienteNombre = new javax.swing.JRadioButton();
+        selectMvtoEquipo_motonaveDescripción = new javax.swing.JRadioButton();
+        selectMvtoEquipo_centroOperacion = new javax.swing.JRadioButton();
+        selectMvtoEquipo_subcentroCosto = new javax.swing.JRadioButton();
+        selectAsignacion_fechaInicio = new javax.swing.JRadioButton();
+        selectAsignacion_fechaFinalizacion = new javax.swing.JRadioButton();
+        selectAsignacion_cantidadMinutos_Programados = new javax.swing.JRadioButton();
+        selectAsignacion_equipoPertenencia = new javax.swing.JRadioButton();
+        selectMvtoEquipo_proveedorEquipoNit = new javax.swing.JRadioButton();
+        selectMvtoEquipo_proveedorEquipoNombre = new javax.swing.JRadioButton();
+        selectMvtoEquipo_laborRealizada = new javax.swing.JRadioButton();
+        selectMvtoEquipo_fechaInicioDescargue = new javax.swing.JRadioButton();
+        selectMvtoEquipo_fechaFinDescargue = new javax.swing.JRadioButton();
+        selectMvtoEquipo_ValorHoraEquipo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_costoTotal = new javax.swing.JRadioButton();
+        selectMvtoEquipo_Recobro = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioRegistraMvto_codigo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_CausalInactividad = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre = new javax.swing.JRadioButton();
+        selectMvtoEquipo_autorizacionRecobro = new javax.swing.JRadioButton();
+        selectMvtoEquipo_MotivoParada = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion = new javax.swing.JRadioButton();
+        selectMvtoEquipo_Inactividad = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioInactividad_codigo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_DesdeCarbon = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioInactividad_nombre = new javax.swing.JRadioButton();
+        selectMvtoEquipo_centroCostoMayor = new javax.swing.JRadioButton();
+        selectMvtoEquipo_observacion = new javax.swing.JRadioButton();
+        selectMvtoEquipo_estado = new javax.swing.JRadioButton();
+        selectAsignacion_equipoDescripcion = new javax.swing.JRadioButton();
+        selectAsignacion_codigo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_centroCosto = new javax.swing.JRadioButton();
+        selectAsignacion_fechaRegistro = new javax.swing.JRadioButton();
+        selectMvtoEquipo_articuloCodigo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_articuloDescripcion = new javax.swing.JRadioButton();
+        selectMvtoEquipo_motonaveCodigo = new javax.swing.JRadioButton();
+        selectMvtoEquipo_centroCostoAxiliarOrigen = new javax.swing.JRadioButton();
+        selectMvtoEquipo_centroCostoAuxiliarDestino = new javax.swing.JRadioButton();
+        selectMvtoEquipo_mes = new javax.swing.JRadioButton();
+        selectMvtoEquipo_codigo = new javax.swing.JRadioButton();
+        selectDescargue_usuarioQuienRegistraVehiculoCorreo = new javax.swing.JRadioButton();
+        selectDescargue_centroCostoAuxiliarDestino = new javax.swing.JRadioButton();
+        selectDescargue_subcentroCosto = new javax.swing.JRadioButton();
+        selectDescargue_lavadoVehiculoObservacion = new javax.swing.JRadioButton();
+        selectDescargue_lavadoVehiculo = new javax.swing.JRadioButton();
+        Motivo_No_LavadoVehículo = new javax.swing.JRadioButton();
+        Valor_Recaudo_Equipo_LavadoVehículos = new javax.swing.JRadioButton();
+        Valor_Recaudo_Empresa_LavadoVehículos = new javax.swing.JRadioButton();
+        Equipo_Quien_Realiza_LavadoVehículo_Código = new javax.swing.JRadioButton();
+        Costo_Lavado_Vehículo = new javax.swing.JRadioButton();
+        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo = new javax.swing.JRadioButton();
+        Equipo_Quien_Realiza_LavadoVehículo_Descripción = new javax.swing.JRadioButton();
+        selectDescargue_dia = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioCierraMvto_nombre = new javax.swing.JRadioButton();
+        selectMvtoEquipo_UsuarioCierraMvto_codigo = new javax.swing.JRadioButton();
+        selectDescargue_usuarioQuienCierraVehiculoNombre = new javax.swing.JRadioButton();
+        selectDescargue_usuarioQuienCierraVehiculoCodigo = new javax.swing.JRadioButton();
+        titulo12 = new javax.swing.JLabel();
+        titulo21 = new javax.swing.JLabel();
+        titulo17 = new javax.swing.JLabel();
+        titulo20 = new javax.swing.JLabel();
+        titulo23 = new javax.swing.JLabel();
+        titulo19 = new javax.swing.JLabel();
+        titulo24 = new javax.swing.JLabel();
+        titulo26 = new javax.swing.JLabel();
+        titulo27 = new javax.swing.JLabel();
         titulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -760,6 +908,9 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         fechaInicio = new com.toedter.calendar.JDateChooser();
         minutoInicio = new javax.swing.JComboBox<>();
         horaInicio = new javax.swing.JComboBox<>();
+        limpiar_usuario = new javax.swing.JLabel();
+        limpiar_placa = new javax.swing.JLabel();
+        limpiar_cliente = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -781,6 +932,18 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         horarioTiempoInicioMvtoCarbon_Procesar = new javax.swing.JLabel();
         paginationPanel = new javax.swing.JPanel();
         pageJComboBox = new javax.swing.JComboBox<>();
+        checkPesoCero = new javax.swing.JRadioButton();
+        checkUsuarioQuienRegistra = new javax.swing.JRadioButton();
+        icon_buscarUsuarioQuienRegistra = new javax.swing.JLabel();
+        label_usuarioQuienRegistra = new javax.swing.JLabel();
+        checkPlaca = new javax.swing.JRadioButton();
+        icon_buscarCliente = new javax.swing.JLabel();
+        label_cliente = new javax.swing.JLabel();
+        checkCliente = new javax.swing.JRadioButton();
+        label_placa = new javax.swing.JTextField();
+        jSeparator6 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
 
         Enable.setText("Seleccionar");
         Enable.addActionListener(new java.awt.event.ActionListener() {
@@ -790,953 +953,16 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         });
         Inactivar.add(Enable);
 
+        PesoCero1.setText("Peso Cero");
+        PesoCero1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PesoCero1ActionPerformed(evt);
+            }
+        });
+        Inactivar.add(PesoCero1);
+
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        InternalFrameSelectorCampos.setBackground(new java.awt.Color(255, 255, 255));
-        InternalFrameSelectorCampos.setClosable(true);
-        InternalFrameSelectorCampos.setVisible(false);
-        InternalFrameSelectorCampos.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/Img/selectorCamposAplicarConfig.png"))); // NOI18N
-        jButton2.setText("Aplicar Configuración");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 610, 230, 40));
-
-        selectAll.setBackground(new java.awt.Color(255, 255, 255));
-        selectAll.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        selectAll.setText("Todos");
-        selectAll.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectAll.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                selectAllItemStateChanged(evt);
-            }
-        });
-        selectAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectAllActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 20, 110, 20));
-
-        selectDescargue_codigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_codigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_codigo.setText("Código");
-        selectDescargue_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectDescargue_codigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectDescargue_codigoActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 190, -1));
-
-        selectDescargue_fechaRegistro.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_fechaRegistro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_fechaRegistro.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_fechaRegistro.setText("Fecha_Registro");
-        selectDescargue_fechaRegistro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 480, 190, -1));
-
-        selectDescargue_deposito.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_deposito.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_deposito.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_deposito.setText("Deposito");
-        selectDescargue_deposito.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_deposito, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 200, 190, -1));
-
-        selectDescargue_consecutivo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_consecutivo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_consecutivo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_consecutivo.setText("Consecutivo");
-        selectDescargue_consecutivo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_consecutivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 190, -1));
-
-        selectDescargue_placa.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_placa.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_placa.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_placa.setText("Placa");
-        selectDescargue_placa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_placa, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 190, -1));
-
-        selectDescargue_pesoVacio.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_pesoVacio.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_pesoVacio.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_pesoVacio.setText("Peso_Vacio");
-        selectDescargue_pesoVacio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectDescargue_pesoVacio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectDescargue_pesoVacioActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_pesoVacio, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 190, -1));
-
-        selectDescargue_pesoLleno.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_pesoLleno.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_pesoLleno.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_pesoLleno.setText("Peso_Lleno");
-        selectDescargue_pesoLleno.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_pesoLleno, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, 190, -1));
-
-        selectDescargue_pesoNeto.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_pesoNeto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_pesoNeto.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_pesoNeto.setText("Peso_Neto");
-        selectDescargue_pesoNeto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_pesoNeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 300, 190, -1));
-
-        selectDescargue_numOrden.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_numOrden.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_numOrden.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_numOrden.setText("Número Orden");
-        selectDescargue_numOrden.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_numOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 540, 190, -1));
-
-        selectDescargue_fechaEntradaVehiculo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_fechaEntradaVehiculo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_fechaEntradaVehiculo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_fechaEntradaVehiculo.setText("Fecha_Entrada_Vehiculo");
-        selectDescargue_fechaEntradaVehiculo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaEntradaVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, 190, -1));
-
-        selectDescargue_registroManual.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_registroManual.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_registroManual.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_registroManual.setText("RegistroManual");
-        selectDescargue_registroManual.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_registroManual, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 540, 190, -1));
-
-        selectDescargue_clienteCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_clienteCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_clienteCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_clienteCodigo.setText("Cliente_Código");
-        selectDescargue_clienteCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_clienteCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 190, -1));
-
-        selectDescargue_transportadoraNit.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_transportadoraNit.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_transportadoraNit.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_transportadoraNit.setText("Transportadora_NIT");
-        selectDescargue_transportadoraNit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_transportadoraNit, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 190, -1));
-
-        selectDescargue_transportadoraCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_transportadoraCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_transportadoraCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_transportadoraCodigo.setText("Transportadora_Código");
-        selectDescargue_transportadoraCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_transportadoraCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 190, -1));
-
-        selectDescargue_usuarioRegistroManualCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_usuarioRegistroManualCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_usuarioRegistroManualCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_usuarioRegistroManualCodigo.setText("UsuarioRegistróManual_Código");
-        selectDescargue_usuarioRegistroManualCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioRegistroManualCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 560, 190, -1));
-
-        selectDescargue_usuarioRegistroManualNombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_usuarioRegistroManualNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_usuarioRegistroManualNombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_usuarioRegistroManualNombre.setText("UsuarioRegistróManual_Nombre");
-        selectDescargue_usuarioRegistroManualNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioRegistroManualNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 580, 190, -1));
-
-        selectDescargue_fechaSalidaVehiculo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_fechaSalidaVehiculo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_fechaSalidaVehiculo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_fechaSalidaVehiculo.setText("Fecha_Salida_Vehiculo");
-        selectDescargue_fechaSalidaVehiculo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaSalidaVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 340, 190, -1));
-
-        selectDescargue_fechaInicioDescargue.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_fechaInicioDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_fechaInicioDescargue.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_fechaInicioDescargue.setText("Fecha_Inicio_Descargue");
-        selectDescargue_fechaInicioDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaInicioDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 190, -1));
-
-        selectDescargue_cantidadMinutosDescargue.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_cantidadMinutosDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_cantidadMinutosDescargue.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_cantidadMinutosDescargue.setText("Cantidad_Minutos_Descargue");
-        selectDescargue_cantidadMinutosDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_cantidadMinutosDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 400, 190, -1));
-
-        titulo2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        titulo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titulo2.setText("SELECTOR DE CAMPOS");
-        titulo2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1320, 40));
-
-        titulo13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titulo13.setText("DESCARGUE DE CARBON");
-        titulo13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 600, 20));
-
-        jSeparator21.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        InternalFrameSelectorCampos.getContentPane().add(jSeparator21, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 0, 430));
-
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/Img/selectorCamposDefauls.png"))); // NOI18N
-        jButton3.setText("Campos Predeterminados");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 610, 230, 40));
-
-        selectDescargue_mes.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_mes.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_mes.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_mes.setText("Mes");
-        selectDescargue_mes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 190, -1));
-
-        selectDescargue_clienteNombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_clienteNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_clienteNombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_clienteNombre.setText("Cliente_Nombre");
-        selectDescargue_clienteNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_clienteNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 190, -1));
-
-        selectDescargue_articuloCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_articuloCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_articuloCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_articuloCodigo.setText("Articulo_Código");
-        selectDescargue_articuloCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectDescargue_articuloCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectDescargue_articuloCodigoActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 190, -1));
-
-        selectDescargue_centroOperacion.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_centroOperacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_centroOperacion.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_centroOperacion.setText("Centro Operación");
-        selectDescargue_centroOperacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroOperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 190, -1));
-
-        selectDescargue_centroCostoMayor.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_centroCostoMayor.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_centroCostoMayor.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_centroCostoMayor.setText("CentroCosto_Mayor");
-        selectDescargue_centroCostoMayor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectDescargue_centroCostoMayor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectDescargue_centroCostoMayorActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroCostoMayor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 190, -1));
-
-        selectDescargue_observación.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_observación.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_observación.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_observación.setText("Observación");
-        selectDescargue_observación.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_observación, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 480, 190, -1));
-
-        selectDescargue_estado.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_estado.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_estado.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_estado.setText("Estado");
-        selectDescargue_estado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 500, 190, -1));
-
-        selectDescargue_conexionPesoCcarga.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_conexionPesoCcarga.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_conexionPesoCcarga.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_conexionPesoCcarga.setText("Conexion_Peso_Ccarga");
-        selectDescargue_conexionPesoCcarga.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_conexionPesoCcarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 520, 190, -1));
-
-        selectDescargue_fechaFinDescargue.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_fechaFinDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_fechaFinDescargue.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_fechaFinDescargue.setText("Fecha_Final_Descargue");
-        selectDescargue_fechaFinDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaFinDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, 190, -1));
-
-        selectDescargue_centroCostoAuxiliarOrigen.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_centroCostoAuxiliarOrigen.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_centroCostoAuxiliarOrigen.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_centroCostoAuxiliarOrigen.setText("Centro Costo Auxiliar_Origen");
-        selectDescargue_centroCostoAuxiliarOrigen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroCostoAuxiliarOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 190, -1));
-
-        selectDescargue_centroCosto.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_centroCosto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_centroCosto.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_centroCosto.setText("Centro Costo");
-        selectDescargue_centroCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 190, -1));
-
-        selectDescargue_articuloUnidadNegocio.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_articuloUnidadNegocio.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_articuloUnidadNegocio.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_articuloUnidadNegocio.setText("Artículo_Unidad_Negocio");
-        selectDescargue_articuloUnidadNegocio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloUnidadNegocio, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 190, -1));
-
-        selectDescargue_laborRealizada.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_laborRealizada.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_laborRealizada.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_laborRealizada.setText("Labor Realizada");
-        selectDescargue_laborRealizada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectDescargue_laborRealizada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectDescargue_laborRealizadaActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_laborRealizada, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 190, -1));
-
-        selectDescargue_articuloNombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_articuloNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_articuloNombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_articuloNombre.setText("Artículo_Nombre");
-        selectDescargue_articuloNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 190, -1));
-
-        selectDescargue_articuloCodigoERP.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_articuloCodigoERP.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_articuloCodigoERP.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_articuloCodigoERP.setText("Artículo_Código_ERP");
-        selectDescargue_articuloCodigoERP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloCodigoERP, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 190, -1));
-
-        selectDescargue_articuloTipo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_articuloTipo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_articuloTipo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_articuloTipo.setText("Artículo_Tipo");
-        selectDescargue_articuloTipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 190, -1));
-
-        selectDescargue_transportadoraNombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_transportadoraNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_transportadoraNombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_transportadoraNombre.setText("Transportadora_Nombre");
-        selectDescargue_transportadoraNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_transportadoraNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 190, -1));
-
-        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setText("UsuarioQuienRegistróVehículo_Código");
-        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienRegistraVehiculoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 420, 210, -1));
-
-        selectDescargue_usuarioQuienRegistraVehiculoNombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_usuarioQuienRegistraVehiculoNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_usuarioQuienRegistraVehiculoNombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_usuarioQuienRegistraVehiculoNombre.setText("UsuarioQuienRegistróVehículo_Nombre");
-        selectDescargue_usuarioQuienRegistraVehiculoNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienRegistraVehiculoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 440, 220, -1));
-
-        selectDescargue_usuarioRegistroManualCorreo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_usuarioRegistroManualCorreo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_usuarioRegistroManualCorreo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_usuarioRegistroManualCorreo.setText("UsuarioRegistróManual_Correo");
-        selectDescargue_usuarioRegistroManualCorreo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectDescargue_usuarioRegistroManualCorreo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectDescargue_usuarioRegistroManualCorreoActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioRegistroManualCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 150, 190, -1));
-
-        selectMvtoEquipo_clienteCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_clienteCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_clienteCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_clienteCodigo.setText("Cliente Código");
-        selectMvtoEquipo_clienteCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_clienteCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 90, 200, -1));
-
-        selectAsignacion_equipoCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_equipoCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_equipoCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_equipoCodigo.setText("Equipo Código");
-        selectAsignacion_equipoCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 170, 190, -1));
-
-        selectAsignacion_equipoMarca.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_equipoMarca.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_equipoMarca.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_equipoMarca.setText("Equipo Marca");
-        selectAsignacion_equipoMarca.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 210, 190, -1));
-
-        selectAsignacion_equipoModelo.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_equipoModelo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_equipoModelo.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_equipoModelo.setText("Equipo Modelo");
-        selectAsignacion_equipoModelo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 230, 190, -1));
-
-        selectMvtoEquipo_fechaRegistro.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_fechaRegistro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_fechaRegistro.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_fechaRegistro.setText("Fecha_Registro");
-        selectMvtoEquipo_fechaRegistro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 360, 190, -1));
-
-        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setText("Nombre_Usuario_Registra_MvtoEquipo");
-        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioRegistraMvto_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 350, 220, -1));
-
-        selectMvtoEquipo_cantidadMinutosDescargue.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_cantidadMinutosDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_cantidadMinutosDescargue.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_cantidadMinutosDescargue.setText("Cantidad_Minutos_Descargue");
-        selectMvtoEquipo_cantidadMinutosDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_cantidadMinutosDescargue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_cantidadMinutosDescargueActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_cantidadMinutosDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 250, 190, -1));
-
-        selectMvtoEquipo_numeroOrden.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_numeroOrden.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_numeroOrden.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_numeroOrden.setText("Número Orden");
-        selectMvtoEquipo_numeroOrden.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_numeroOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, 190, -1));
-
-        selectAsignacion_equipoTipo.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_equipoTipo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_equipoTipo.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_equipoTipo.setText("Equipo Tipo");
-        selectAsignacion_equipoTipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectAsignacion_equipoTipo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectAsignacion_equipoTipoActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 190, 190, -1));
-
-        selectMvtoEquipo_clienteNombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_clienteNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_clienteNombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_clienteNombre.setText("Cliente Nombre");
-        selectMvtoEquipo_clienteNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_clienteNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 110, 200, -1));
-
-        selectMvtoEquipo_motonaveDescripción.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_motonaveDescripción.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_motonaveDescripción.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_motonaveDescripción.setText("Motonave Descripción");
-        selectMvtoEquipo_motonaveDescripción.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_motonaveDescripción.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_motonaveDescripciónActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_motonaveDescripción, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 190, 200, -1));
-
-        selectMvtoEquipo_centroOperacion.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_centroOperacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_centroOperacion.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_centroOperacion.setText("Centro Operación");
-        selectMvtoEquipo_centroOperacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroOperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 440, 200, -1));
-
-        selectMvtoEquipo_subcentroCosto.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_subcentroCosto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_subcentroCosto.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_subcentroCosto.setText("Subcentro Costo");
-        selectMvtoEquipo_subcentroCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_subcentroCosto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_subcentroCostoActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_subcentroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 460, 200, -1));
-
-        selectAsignacion_fechaInicio.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_fechaInicio.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_fechaInicio.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_fechaInicio.setText("Fecha_inicio");
-        selectAsignacion_fechaInicio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectAsignacion_fechaInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectAsignacion_fechaInicioActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_fechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 270, 190, -1));
-
-        selectAsignacion_fechaFinalizacion.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_fechaFinalizacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_fechaFinalizacion.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_fechaFinalizacion.setText("Fecha_Finalización");
-        selectAsignacion_fechaFinalizacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_fechaFinalizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 290, 190, -1));
-
-        selectAsignacion_cantidadMinutos_Programados.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_cantidadMinutos_Programados.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_cantidadMinutos_Programados.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_cantidadMinutos_Programados.setText("Cantidad_Minutos_Programadas");
-        selectAsignacion_cantidadMinutos_Programados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectAsignacion_cantidadMinutos_Programados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectAsignacion_cantidadMinutos_ProgramadosActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_cantidadMinutos_Programados, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 310, 190, -1));
-
-        selectAsignacion_equipoPertenencia.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_equipoPertenencia.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_equipoPertenencia.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_equipoPertenencia.setText("Equipo Pertenencia");
-        selectAsignacion_equipoPertenencia.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoPertenencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 270, 190, -1));
-
-        selectMvtoEquipo_proveedorEquipoNit.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_proveedorEquipoNit.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_proveedorEquipoNit.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_proveedorEquipoNit.setText("Proveedor Equipo NIT");
-        selectMvtoEquipo_proveedorEquipoNit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_proveedorEquipoNit, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 380, 190, -1));
-
-        selectMvtoEquipo_proveedorEquipoNombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_proveedorEquipoNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_proveedorEquipoNombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_proveedorEquipoNombre.setText("Proveedor Equipo Nombre");
-        selectMvtoEquipo_proveedorEquipoNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_proveedorEquipoNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_proveedorEquipoNombreActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_proveedorEquipoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 400, 190, -1));
-
-        selectMvtoEquipo_laborRealizada.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_laborRealizada.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_laborRealizada.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_laborRealizada.setText("Labor Realizada");
-        selectMvtoEquipo_laborRealizada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_laborRealizada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_laborRealizadaActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_laborRealizada, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 70, 190, -1));
-
-        selectMvtoEquipo_fechaInicioDescargue.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_fechaInicioDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_fechaInicioDescargue.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_fechaInicioDescargue.setText("Fecha Inicio_Actividad");
-        selectMvtoEquipo_fechaInicioDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_fechaInicioDescargue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_fechaInicioDescargueActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_fechaInicioDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 210, 190, -1));
-
-        selectMvtoEquipo_fechaFinDescargue.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_fechaFinDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_fechaFinDescargue.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_fechaFinDescargue.setText("Fecha Final_Actividad");
-        selectMvtoEquipo_fechaFinDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_fechaFinDescargue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_fechaFinDescargueActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_fechaFinDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 230, 190, -1));
-
-        selectMvtoEquipo_ValorHoraEquipo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_ValorHoraEquipo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_ValorHoraEquipo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_ValorHoraEquipo.setText("Valor_Hora_Equipo");
-        selectMvtoEquipo_ValorHoraEquipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_ValorHoraEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 270, 190, -1));
-
-        selectMvtoEquipo_costoTotal.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_costoTotal.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_costoTotal.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_costoTotal.setText("Costo_Total");
-        selectMvtoEquipo_costoTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_costoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 290, 190, -1));
-
-        selectMvtoEquipo_Recobro.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_Recobro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_Recobro.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_Recobro.setText("Recobro");
-        selectMvtoEquipo_Recobro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_Recobro, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 310, 190, -1));
-
-        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setText("Código_Usuario_Registra_MvtoEquipo");
-        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioRegistraMvto_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 330, 210, -1));
-
-        selectMvtoEquipo_CausalInactividad.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_CausalInactividad.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_CausalInactividad.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_CausalInactividad.setText("Causal_Inactividad");
-        selectMvtoEquipo_CausalInactividad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_CausalInactividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 60, 200, -1));
-
-        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setText("Código_Usuario_Autoriza_Recobro");
-        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioAutorizaRecobro_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 370, 210, -1));
-
-        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setText("Nombre_Usuario_Autoriza_Recobro");
-        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioAutorizaRecobro_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 390, 220, -1));
-
-        selectMvtoEquipo_autorizacionRecobro.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_autorizacionRecobro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_autorizacionRecobro.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_autorizacionRecobro.setText("Autorización_Recobro");
-        selectMvtoEquipo_autorizacionRecobro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_autorizacionRecobro, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 450, 220, -1));
-
-        selectMvtoEquipo_MotivoParada.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_MotivoParada.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_MotivoParada.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_MotivoParada.setText("Motivo_Parada");
-        selectMvtoEquipo_MotivoParada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_MotivoParada, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 120, 200, -1));
-
-        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setText("Observación_Autorización_Recobro");
-        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioAutorizaRecobro_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 470, 220, -1));
-
-        selectMvtoEquipo_Inactividad.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_Inactividad.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_Inactividad.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_Inactividad.setText("Inactividad");
-        selectMvtoEquipo_Inactividad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_Inactividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 490, 220, -1));
-
-        selectMvtoEquipo_UsuarioInactividad_codigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioInactividad_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioInactividad_codigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioInactividad_codigo.setText("Código_Usuario_Inactividad");
-        selectMvtoEquipo_UsuarioInactividad_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_UsuarioInactividad_codigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_UsuarioInactividad_codigoActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioInactividad_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 80, 190, -1));
-
-        selectMvtoEquipo_DesdeCarbon.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_DesdeCarbon.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_DesdeCarbon.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_DesdeCarbon.setText("Desde_Carbón");
-        selectMvtoEquipo_DesdeCarbon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_DesdeCarbon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 180, 200, -1));
-
-        selectMvtoEquipo_UsuarioInactividad_nombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioInactividad_nombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioInactividad_nombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioInactividad_nombre.setText("Nombre_Usuario_Inactividad");
-        selectMvtoEquipo_UsuarioInactividad_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioInactividad_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 100, 200, -1));
-
-        selectMvtoEquipo_centroCostoMayor.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_centroCostoMayor.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_centroCostoMayor.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_centroCostoMayor.setText("CentroCosto Mayor");
-        selectMvtoEquipo_centroCostoMayor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroCostoMayor, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 540, 200, -1));
-
-        selectMvtoEquipo_observacion.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_observacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_observacion.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_observacion.setText("Observación");
-        selectMvtoEquipo_observacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 140, 200, -1));
-
-        selectMvtoEquipo_estado.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_estado.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_estado.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_estado.setText("Estado");
-        selectMvtoEquipo_estado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 160, 200, -1));
-
-        selectAsignacion_equipoDescripcion.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_equipoDescripcion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_equipoDescripcion.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_equipoDescripcion.setText("Equipo Descripción");
-        selectAsignacion_equipoDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectAsignacion_equipoDescripcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectAsignacion_equipoDescripcionActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 250, 190, -1));
-
-        selectAsignacion_codigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_codigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_codigo.setText("Código");
-        selectAsignacion_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 230, 190, -1));
-
-        selectMvtoEquipo_centroCosto.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_centroCosto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_centroCosto.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_centroCosto.setText("Centro Costo");
-        selectMvtoEquipo_centroCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 520, 190, -1));
-
-        selectAsignacion_fechaRegistro.setBackground(new java.awt.Color(255, 255, 255));
-        selectAsignacion_fechaRegistro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectAsignacion_fechaRegistro.setForeground(new java.awt.Color(51, 51, 51));
-        selectAsignacion_fechaRegistro.setText("Fecha_Registro");
-        selectAsignacion_fechaRegistro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 250, 190, -1));
-
-        selectMvtoEquipo_articuloCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_articuloCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_articuloCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_articuloCodigo.setText("Articulo código");
-        selectMvtoEquipo_articuloCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_articuloCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_articuloCodigoActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_articuloCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 130, 200, -1));
-
-        selectMvtoEquipo_articuloDescripcion.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_articuloDescripcion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_articuloDescripcion.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_articuloDescripcion.setText("Articulo Descripción");
-        selectMvtoEquipo_articuloDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_articuloDescripcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_articuloDescripcionActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_articuloDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 150, 200, -1));
-
-        selectMvtoEquipo_motonaveCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_motonaveCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_motonaveCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_motonaveCodigo.setText("Motonave Código");
-        selectMvtoEquipo_motonaveCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        selectMvtoEquipo_motonaveCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectMvtoEquipo_motonaveCodigoActionPerformed(evt);
-            }
-        });
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_motonaveCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 170, 200, -1));
-
-        selectMvtoEquipo_centroCostoAxiliarOrigen.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_centroCostoAxiliarOrigen.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_centroCostoAxiliarOrigen.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_centroCostoAxiliarOrigen.setText("Auxiliar Centro Costo Origen");
-        selectMvtoEquipo_centroCostoAxiliarOrigen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroCostoAxiliarOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 480, 200, -1));
-
-        selectMvtoEquipo_centroCostoAuxiliarDestino.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_centroCostoAuxiliarDestino.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_centroCostoAuxiliarDestino.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_centroCostoAuxiliarDestino.setText("Auxiliar Centro Costo Destino");
-        selectMvtoEquipo_centroCostoAuxiliarDestino.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroCostoAuxiliarDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 500, 200, -1));
-
-        selectMvtoEquipo_mes.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_mes.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_mes.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_mes.setText("Mes_Registro");
-        selectMvtoEquipo_mes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 340, 190, -1));
-
-        selectMvtoEquipo_codigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_codigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_codigo.setText("Código");
-        selectMvtoEquipo_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 320, 190, -1));
-
-        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setText("UsuarioQuienRegistróVehículo_Correo");
-        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienRegistraVehiculoCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 460, 220, -1));
-
-        selectDescargue_centroCostoAuxiliarDestino.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_centroCostoAuxiliarDestino.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_centroCostoAuxiliarDestino.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_centroCostoAuxiliarDestino.setText("Centro Costo Auxiliar_Destino");
-        selectDescargue_centroCostoAuxiliarDestino.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroCostoAuxiliarDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 190, -1));
-
-        selectDescargue_subcentroCosto.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_subcentroCosto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_subcentroCosto.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_subcentroCosto.setText("Subcentro Costo");
-        selectDescargue_subcentroCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_subcentroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 190, -1));
-
-        selectDescargue_lavadoVehiculoObservacion.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_lavadoVehiculoObservacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_lavadoVehiculoObservacion.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_lavadoVehiculoObservacion.setText("Lavado Vehículo Observación");
-        selectDescargue_lavadoVehiculoObservacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_lavadoVehiculoObservacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 190, -1));
-
-        selectDescargue_lavadoVehiculo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_lavadoVehiculo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_lavadoVehiculo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_lavadoVehiculo.setText("Lavado Vehículo");
-        selectDescargue_lavadoVehiculo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_lavadoVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 500, 190, -1));
-
-        Motivo_No_LavadoVehículo.setBackground(new java.awt.Color(255, 255, 255));
-        Motivo_No_LavadoVehículo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        Motivo_No_LavadoVehículo.setForeground(new java.awt.Color(51, 51, 51));
-        Motivo_No_LavadoVehículo.setText("Motivo_No_LavadoVehículo");
-        Motivo_No_LavadoVehículo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(Motivo_No_LavadoVehículo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 560, 190, -1));
-
-        Valor_Recaudo_Equipo_LavadoVehículos.setBackground(new java.awt.Color(255, 255, 255));
-        Valor_Recaudo_Equipo_LavadoVehículos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        Valor_Recaudo_Equipo_LavadoVehículos.setForeground(new java.awt.Color(51, 51, 51));
-        Valor_Recaudo_Equipo_LavadoVehículos.setText("Valor_Recaudo_Equipo_LavadoVehículos");
-        Valor_Recaudo_Equipo_LavadoVehículos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(Valor_Recaudo_Equipo_LavadoVehículos, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 260, -1));
-
-        Valor_Recaudo_Empresa_LavadoVehículos.setBackground(new java.awt.Color(255, 255, 255));
-        Valor_Recaudo_Empresa_LavadoVehículos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        Valor_Recaudo_Empresa_LavadoVehículos.setForeground(new java.awt.Color(51, 51, 51));
-        Valor_Recaudo_Empresa_LavadoVehículos.setText("Valor_Recaudo_Empresa_LavadoVehículos");
-        Valor_Recaudo_Empresa_LavadoVehículos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(Valor_Recaudo_Empresa_LavadoVehículos, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 160, 260, -1));
-
-        Equipo_Quien_Realiza_LavadoVehículo_Código.setBackground(new java.awt.Color(255, 255, 255));
-        Equipo_Quien_Realiza_LavadoVehículo_Código.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        Equipo_Quien_Realiza_LavadoVehículo_Código.setForeground(new java.awt.Color(51, 51, 51));
-        Equipo_Quien_Realiza_LavadoVehículo_Código.setText("Equipo_Quien_Realiza_LavadoVehículo_Código");
-        Equipo_Quien_Realiza_LavadoVehículo_Código.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(Equipo_Quien_Realiza_LavadoVehículo_Código, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 260, -1));
-
-        Costo_Lavado_Vehículo.setBackground(new java.awt.Color(255, 255, 255));
-        Costo_Lavado_Vehículo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        Costo_Lavado_Vehículo.setForeground(new java.awt.Color(51, 51, 51));
-        Costo_Lavado_Vehículo.setText("Costo_Lavado_Vehículo");
-        Costo_Lavado_Vehículo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(Costo_Lavado_Vehículo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 260, -1));
-
-        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setBackground(new java.awt.Color(255, 255, 255));
-        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setForeground(new java.awt.Color(51, 51, 51));
-        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setText("Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo");
-        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 280, -1));
-
-        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setBackground(new java.awt.Color(255, 255, 255));
-        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setForeground(new java.awt.Color(51, 51, 51));
-        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setText("Equipo_Quien_Realiza_LavadoVehículo_Descripción");
-        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(Equipo_Quien_Realiza_LavadoVehículo_Descripción, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 120, 280, -1));
-
-        selectDescargue_dia.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_dia.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_dia.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_dia.setText("Día");
-        selectDescargue_dia.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, 190, -1));
-
-        selectMvtoEquipo_UsuarioCierraMvto_nombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioCierraMvto_nombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioCierraMvto_nombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioCierraMvto_nombre.setText("Nombre_Usuario_Cierra_MvtoEquipo");
-        selectMvtoEquipo_UsuarioCierraMvto_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioCierraMvto_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 430, 220, -1));
-
-        selectMvtoEquipo_UsuarioCierraMvto_codigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectMvtoEquipo_UsuarioCierraMvto_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectMvtoEquipo_UsuarioCierraMvto_codigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectMvtoEquipo_UsuarioCierraMvto_codigo.setText("Código_Usuario_Cierra_MvtoEquipo");
-        selectMvtoEquipo_UsuarioCierraMvto_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioCierraMvto_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 410, 210, -1));
-
-        selectDescargue_usuarioQuienCierraVehiculoNombre.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_usuarioQuienCierraVehiculoNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_usuarioQuienCierraVehiculoNombre.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_usuarioQuienCierraVehiculoNombre.setText("UsuarioQuienCierraVehículo_Nombre");
-        selectDescargue_usuarioQuienCierraVehiculoNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienCierraVehiculoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 220, -1));
-
-        selectDescargue_usuarioQuienCierraVehiculoCodigo.setBackground(new java.awt.Color(255, 255, 255));
-        selectDescargue_usuarioQuienCierraVehiculoCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        selectDescargue_usuarioQuienCierraVehiculoCodigo.setForeground(new java.awt.Color(51, 51, 51));
-        selectDescargue_usuarioQuienCierraVehiculoCodigo.setText("UsuarioQuienCierraVehículo_Código");
-        selectDescargue_usuarioQuienCierraVehiculoCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienCierraVehiculoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 70, 210, -1));
-
-        titulo12.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        titulo12.setText("PROGRAMACIÓN (ASIGNACIÓN)");
-        titulo12.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo12, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 200, 240, 20));
-
-        titulo21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titulo21.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo21, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 50, 240, 550));
-
-        titulo17.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        titulo17.setText("DATOS DEL EQUIPO");
-        titulo17.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 130, 240, 20));
-
-        titulo20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titulo20.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 70, 240, 0));
-
-        titulo23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titulo23.setText("Mvto Equipo");
-        titulo23.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 300, 240, 20));
-
-        titulo19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titulo19.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 240, 550));
-
-        titulo24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titulo24.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 50, 240, 550));
-
-        titulo26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titulo26.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo26, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 290, 530));
-
-        titulo27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titulo27.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        InternalFrameSelectorCampos.getContentPane().add(titulo27, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, 310, 530));
-
-        add(InternalFrameSelectorCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 760));
 
         InternaFrame_VisualizarMvtoCarbon.setBackground(new java.awt.Color(255, 255, 255));
         InternaFrame_VisualizarMvtoCarbon.setClosable(true);
@@ -2966,9 +2192,1529 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
 
         add(InternaFrame_VisualizarMvtoCarbon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1660, 1240));
 
+        VentanaInterna_PesoCero.setClosable(true);
+        VentanaInterna_PesoCero.setVisible(false);
+        VentanaInterna_PesoCero.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 153, 51));
+        jLabel19.setText("INFORMACIÓN DEL VEHÍCULO NUEVO:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 850, 30));
+
+        buscadorPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscadorPlacaActionPerformed(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(buscadorPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, 360, 40));
+
+        btnConsultar.setBackground(new java.awt.Color(255, 255, 255));
+        btnConsultar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        btnConsultar.setToolTipText("CONSULTAR MOTONAVES");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, 60, 40));
+
+        btnLimpiar.setBackground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/clean.png"))); // NOI18N
+        btnLimpiar.setToolTipText("BORRAR RESULTADOS");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, 60, 40));
+
+        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancelar.png"))); // NOI18N
+        btnCancelar.setToolTipText("CANCELAR BUSQUEDA");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, 60, 40));
+
+        tabla1 = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tabla1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tabla1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla1MouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tabla1);
+
+        VentanaInterna_PesoCero.getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 1260, 160));
+
+        PesoCero_placa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_placa.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_placa.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_placa, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, 230, 20));
+
+        fechaInicio_destareVehiculo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fechaInicio_destareVehiculoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                fechaInicio_destareVehiculoMouseEntered(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(fechaInicio_destareVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 170, 30));
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel26.setText("Hora");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, -1, 30));
+
+        horaInicio_destareVehiculo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                horaInicio_destareVehiculoItemStateChanged(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(horaInicio_destareVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, 50, 30));
+
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel27.setText(":");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 20, 30));
+
+        minutoInicio_destareVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minutoInicio_destareVehiculoActionPerformed(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(minutoInicio_destareVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 50, 30));
+
+        horarioTiempoInicio_destareVehiculo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        horarioTiempoInicio_destareVehiculo.setForeground(new java.awt.Color(102, 102, 102));
+        horarioTiempoInicio_destareVehiculo.setText("AM");
+        VentanaInterna_PesoCero.getContentPane().add(horarioTiempoInicio_destareVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, 40, 30));
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel28.setText("FINALIZACIÓN:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, 90, 30));
+
+        fechaFin_destareVehiculo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fechaFin_destareVehiculoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                fechaFin_destareVehiculoMouseEntered(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(fechaFin_destareVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 70, 170, 30));
+
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel29.setText("Hora");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 70, -1, 30));
+
+        horaFin_destareVehiculo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                horaFin_destareVehiculoItemStateChanged(evt);
+            }
+        });
+        horaFin_destareVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                horaFin_destareVehiculoActionPerformed(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(horaFin_destareVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 70, 50, 30));
+
+        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel30.setText(":");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 70, 20, 30));
+
+        minutoFin_destareVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minutoFin_destareVehiculoActionPerformed(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(minutoFin_destareVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 70, 50, 30));
+
+        horarioTiempoIFinal_destareVehiculo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        horarioTiempoIFinal_destareVehiculo.setForeground(new java.awt.Color(102, 102, 102));
+        horarioTiempoIFinal_destareVehiculo.setText("AM");
+        VentanaInterna_PesoCero.getContentPane().add(horarioTiempoIFinal_destareVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 70, 50, 30));
+
+        jLabel31.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel31.setText("CONSULTAR VEHÍCULOS:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 190, 30));
+
+        jLabel32.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel32.setText("Seleccione la fecha del destare del vehículo:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 410, 20));
+        VentanaInterna_PesoCero.getContentPane().add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 1260, 10));
+
+        jLabel33.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel33.setText("Seleccione la placa:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 140, 40));
+
+        jLabel34.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel34.setText("INICIO:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 60, 30));
+
+        jLabel35.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel35.setText("Placa:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 100, 20));
+
+        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel36.setText("Fecha Entrada:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 100, 20));
+
+        PesoCero_cliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_cliente.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_cliente.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 440, 230, 20));
+
+        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel40.setText("Peso Vacio:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 100, 20));
+
+        PesoCero_pesoVacio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_pesoVacio.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_pesoVacio.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_pesoVacio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 230, 20));
+
+        PesoCero_articulo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_articulo.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_articulo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_articulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, 230, 20));
+
+        jLabel43.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel43.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel43.setText("Artículo:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 440, 110, 20));
+
+        jLabel46.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel46.setText("Deposito:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 380, 110, 20));
+
+        PesoCero_deposito.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_deposito.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_deposito.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_deposito, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 230, 20));
+
+        jLabel48.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel48.setText("Peso Lleno:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 400, 110, 20));
+
+        PesoCero_pesoLleno.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_pesoLleno.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_pesoLleno.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_pesoLleno, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 400, 230, 20));
+
+        jLabel53.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel53.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel53.setText("Peso Neto:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 400, 110, 20));
+
+        PesoCero_pesoNeto.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_pesoNeto.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_pesoNeto.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_pesoNeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 400, 230, 20));
+
+        PesoCero_fechaEntrada.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_fechaEntrada.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_fechaEntrada.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_fechaEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 420, 230, 20));
+
+        jLabel37.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel37.setText("Cliente:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 100, 20));
+
+        PesoCero_fechaSalida.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_fechaSalida.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_fechaSalida.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_fechaSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 420, 230, 20));
+
+        jLabel38.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel38.setText("Fecha Salida:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 420, 110, 20));
+
+        jLabel39.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel39.setText("Consecutivo:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 380, 110, 20));
+
+        PesoCero_consecutivo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_consecutivo.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_consecutivo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_consecutivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 380, 230, 20));
+
+        jLabel42.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel42.setText("Transportadora:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 420, 110, 20));
+
+        PesoCero_transportadora.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_transportadora.setForeground(new java.awt.Color(153, 0, 51));
+        PesoCero_transportadora.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_transportadora, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 420, 230, 20));
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(153, 0, 51));
+        jLabel23.setText("INFORMACIÓN DEL VEHÍCULO ANTERIOR:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 840, 30));
+
+        PesoCero_placa_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_placa_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_placa_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_placa_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 530, 230, 20));
+
+        jLabel44.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel44.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel44.setText("Placa:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 530, 100, 20));
+
+        jLabel45.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel45.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel45.setText("Fecha Entrada:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 100, 20));
+
+        PesoCero_cliente_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_cliente_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_cliente_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_cliente_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 590, 230, 20));
+
+        jLabel47.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel47.setText("Peso Vacio:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 550, 100, 20));
+
+        PesoCero_pesoVacio_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_pesoVacio_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_pesoVacio_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_pesoVacio_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 550, 230, 20));
+
+        PesoCero_articulo_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_articulo_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_articulo_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_articulo_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 590, 230, 20));
+
+        jLabel49.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel49.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel49.setText("Artículo:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 590, 110, 20));
+
+        jLabel50.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel50.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel50.setText("Deposito:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 530, 110, 20));
+
+        PesoCero_deposito_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_deposito_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_deposito_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_deposito_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 530, 230, 20));
+
+        jLabel51.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel51.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel51.setText("Peso Lleno:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 550, 110, 20));
+
+        PesoCero_pesoLleno_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_pesoLleno_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_pesoLleno_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_pesoLleno_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 550, 230, 20));
+
+        jLabel54.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel54.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel54.setText("Peso Neto:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 550, 110, 20));
+
+        PesoCero_pesoNeto_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_pesoNeto_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_pesoNeto_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_pesoNeto_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 550, 230, 20));
+
+        PesoCero_fechaEntrada_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_fechaEntrada_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_fechaEntrada_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_fechaEntrada_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 570, 230, 20));
+
+        jLabel52.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel52.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel52.setText("Cliente:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 590, 100, 20));
+
+        PesoCero_fechaSalida_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_fechaSalida_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_fechaSalida_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_fechaSalida_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 570, 230, 20));
+
+        jLabel59.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel59.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel59.setText("Fecha Salida:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 570, 110, 20));
+
+        jLabel62.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel62.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel62.setText("Consecutivo:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 530, 110, 20));
+
+        PesoCero_consecutivo_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_consecutivo_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_consecutivo_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_consecutivo_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 530, 230, 20));
+
+        jLabel67.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel67.setForeground(new java.awt.Color(0, 51, 51));
+        jLabel67.setText("Transportadora:");
+        VentanaInterna_PesoCero.getContentPane().add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 570, 110, 20));
+
+        PesoCero_transportadora_nuevo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        PesoCero_transportadora_nuevo.setForeground(new java.awt.Color(0, 153, 51));
+        PesoCero_transportadora_nuevo.setText("...........................................");
+        VentanaInterna_PesoCero.getContentPane().add(PesoCero_transportadora_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 570, 230, 20));
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Ingresar.png"))); // NOI18N
+        jButton1.setText("ACTUALIZAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        VentanaInterna_PesoCero.getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 630, 220, 40));
+
+        jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VentanaInterna_PesoCero.getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 1020, 290));
+        VentanaInterna_PesoCero.getContentPane().add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 1020, 10));
+        VentanaInterna_PesoCero.getContentPane().add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 1020, 10));
+        VentanaInterna_PesoCero.getContentPane().add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, 1020, 10));
+        VentanaInterna_PesoCero.getContentPane().add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 1020, 10));
+
+        jLabel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        VentanaInterna_PesoCero.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1260, 110));
+
+        add(VentanaInterna_PesoCero, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1430, 800));
+
+        InternaFrame_buscarUsuario.setClosable(true);
+        InternaFrame_buscarUsuario.setPreferredSize(new java.awt.Dimension(1106, 714));
+        InternaFrame_buscarUsuario.setVisible(false);
+        InternaFrame_buscarUsuario.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablaUsuario = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tablaUsuario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaUsuarioMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tablaUsuario);
+
+        InternaFrame_buscarUsuario.getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 1120, 510));
+        InternaFrame_buscarUsuario.getContentPane().add(valorBusquedaUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 290, 40));
+
+        btnConsultarUsuariosQuienRegistra.setBackground(new java.awt.Color(255, 255, 255));
+        btnConsultarUsuariosQuienRegistra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnConsultarUsuariosQuienRegistra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        btnConsultarUsuariosQuienRegistra.setToolTipText("CONSULTAR MOTONAVES");
+        btnConsultarUsuariosQuienRegistra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarUsuariosQuienRegistraActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarUsuario.getContentPane().add(btnConsultarUsuariosQuienRegistra, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 10, 60, 40));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel10.setText("CONSULTAR USUARIOS QUIEN REGISTRA INFORMACIÓN:");
+        InternaFrame_buscarUsuario.getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 430, 40));
+
+        btnCancelarUsuariosQuienRegistra.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelarUsuariosQuienRegistra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnCancelarUsuariosQuienRegistra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancelar.png"))); // NOI18N
+        btnCancelarUsuariosQuienRegistra.setToolTipText("CANCELAR BUSQUEDA");
+        btnCancelarUsuariosQuienRegistra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarUsuariosQuienRegistraActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarUsuario.getContentPane().add(btnCancelarUsuariosQuienRegistra, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 60, 40));
+
+        btnLimpiarUsuariosQuienRegistra.setBackground(new java.awt.Color(255, 255, 255));
+        btnLimpiarUsuariosQuienRegistra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLimpiarUsuariosQuienRegistra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/clean.png"))); // NOI18N
+        btnLimpiarUsuariosQuienRegistra.setToolTipText("BORRAR RESULTADOS");
+        btnLimpiarUsuariosQuienRegistra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarUsuariosQuienRegistraActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarUsuario.getContentPane().add(btnLimpiarUsuariosQuienRegistra, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 10, 60, 40));
+
+        add(InternaFrame_buscarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1340, 740));
+
+        InternaFrame_buscarCliente.setClosable(true);
+        InternaFrame_buscarCliente.setVisible(false);
+        InternaFrame_buscarCliente.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablaCliente = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        tablaCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablaCliente);
+
+        InternaFrame_buscarCliente.getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 1070, 620));
+        InternaFrame_buscarCliente.getContentPane().add(valorBusquedaCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 310, 40));
+
+        btnConsultarCliente.setBackground(new java.awt.Color(255, 255, 255));
+        btnConsultarCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnConsultarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        btnConsultarCliente.setToolTipText("CONSULTAR MOTONAVES");
+        btnConsultarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarClienteActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarCliente.getContentPane().add(btnConsultarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 60, 40));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel6.setText("CONSULTAR CLIENTE:");
+        InternaFrame_buscarCliente.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 170, 40));
+
+        btnCancelarCliente.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelarCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnCancelarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancelar.png"))); // NOI18N
+        btnCancelarCliente.setToolTipText("CANCELAR BUSQUEDA");
+        btnCancelarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarClienteActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarCliente.getContentPane().add(btnCancelarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 10, 60, 40));
+
+        btnLimpiarCliente.setBackground(new java.awt.Color(255, 255, 255));
+        btnLimpiarCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLimpiarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/clean.png"))); // NOI18N
+        btnLimpiarCliente.setToolTipText("BORRAR RESULTADOS");
+        btnLimpiarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarClienteActionPerformed(evt);
+            }
+        });
+        InternaFrame_buscarCliente.getContentPane().add(btnLimpiarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 60, 40));
+
+        add(InternaFrame_buscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1340, 740));
+
+        InternalFrameSelectorCampos.setBackground(new java.awt.Color(255, 255, 255));
+        InternalFrameSelectorCampos.setClosable(true);
+        InternalFrameSelectorCampos.setVisible(false);
+        InternalFrameSelectorCampos.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/Img/selectorCamposAplicarConfig.png"))); // NOI18N
+        jButton2.setText("Aplicar Configuración");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 610, 230, 40));
+
+        selectAll.setBackground(new java.awt.Color(255, 255, 255));
+        selectAll.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        selectAll.setText("Todos");
+        selectAll.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectAll.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                selectAllItemStateChanged(evt);
+            }
+        });
+        selectAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectAllActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 20, 110, 20));
+
+        selectDescargue_codigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_codigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_codigo.setText("Código");
+        selectDescargue_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectDescargue_codigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectDescargue_codigoActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 190, -1));
+
+        selectDescargue_fechaRegistro.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_fechaRegistro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_fechaRegistro.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_fechaRegistro.setText("Fecha_Registro");
+        selectDescargue_fechaRegistro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 480, 190, -1));
+
+        selectDescargue_deposito.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_deposito.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_deposito.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_deposito.setText("Deposito");
+        selectDescargue_deposito.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_deposito, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 200, 190, -1));
+
+        selectDescargue_consecutivo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_consecutivo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_consecutivo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_consecutivo.setText("Consecutivo");
+        selectDescargue_consecutivo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_consecutivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 190, -1));
+
+        selectDescargue_placa.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_placa.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_placa.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_placa.setText("Placa");
+        selectDescargue_placa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_placa, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 190, -1));
+
+        selectDescargue_pesoVacio.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_pesoVacio.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_pesoVacio.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_pesoVacio.setText("Peso_Vacio");
+        selectDescargue_pesoVacio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectDescargue_pesoVacio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectDescargue_pesoVacioActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_pesoVacio, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 260, 190, -1));
+
+        selectDescargue_pesoLleno.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_pesoLleno.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_pesoLleno.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_pesoLleno.setText("Peso_Lleno");
+        selectDescargue_pesoLleno.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_pesoLleno, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, 190, -1));
+
+        selectDescargue_pesoNeto.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_pesoNeto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_pesoNeto.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_pesoNeto.setText("Peso_Neto");
+        selectDescargue_pesoNeto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_pesoNeto, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 300, 190, -1));
+
+        selectDescargue_numOrden.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_numOrden.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_numOrden.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_numOrden.setText("Número Orden");
+        selectDescargue_numOrden.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_numOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 540, 190, -1));
+
+        selectDescargue_fechaEntradaVehiculo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_fechaEntradaVehiculo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_fechaEntradaVehiculo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_fechaEntradaVehiculo.setText("Fecha_Entrada_Vehiculo");
+        selectDescargue_fechaEntradaVehiculo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaEntradaVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, 190, -1));
+
+        selectDescargue_registroManual.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_registroManual.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_registroManual.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_registroManual.setText("RegistroManual");
+        selectDescargue_registroManual.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_registroManual, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 540, 190, -1));
+
+        selectDescargue_clienteCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_clienteCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_clienteCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_clienteCodigo.setText("Cliente_Código");
+        selectDescargue_clienteCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_clienteCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 190, -1));
+
+        selectDescargue_transportadoraNit.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_transportadoraNit.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_transportadoraNit.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_transportadoraNit.setText("Transportadora_NIT");
+        selectDescargue_transportadoraNit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_transportadoraNit, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 190, -1));
+
+        selectDescargue_transportadoraCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_transportadoraCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_transportadoraCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_transportadoraCodigo.setText("Transportadora_Código");
+        selectDescargue_transportadoraCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_transportadoraCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 190, -1));
+
+        selectDescargue_usuarioRegistroManualCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_usuarioRegistroManualCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_usuarioRegistroManualCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_usuarioRegistroManualCodigo.setText("UsuarioRegistróManual_Código");
+        selectDescargue_usuarioRegistroManualCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioRegistroManualCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 560, 190, -1));
+
+        selectDescargue_usuarioRegistroManualNombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_usuarioRegistroManualNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_usuarioRegistroManualNombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_usuarioRegistroManualNombre.setText("UsuarioRegistróManual_Nombre");
+        selectDescargue_usuarioRegistroManualNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioRegistroManualNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 580, 190, -1));
+
+        selectDescargue_fechaSalidaVehiculo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_fechaSalidaVehiculo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_fechaSalidaVehiculo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_fechaSalidaVehiculo.setText("Fecha_Salida_Vehiculo");
+        selectDescargue_fechaSalidaVehiculo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaSalidaVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 340, 190, -1));
+
+        selectDescargue_fechaInicioDescargue.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_fechaInicioDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_fechaInicioDescargue.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_fechaInicioDescargue.setText("Fecha_Inicio_Descargue");
+        selectDescargue_fechaInicioDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaInicioDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 190, -1));
+
+        selectDescargue_cantidadMinutosDescargue.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_cantidadMinutosDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_cantidadMinutosDescargue.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_cantidadMinutosDescargue.setText("Cantidad_Minutos_Descargue");
+        selectDescargue_cantidadMinutosDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_cantidadMinutosDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 400, 190, -1));
+
+        titulo2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        titulo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titulo2.setText("SELECTOR DE CAMPOS");
+        titulo2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1320, 40));
+
+        titulo13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo13.setText("DESCARGUE DE CARBON");
+        titulo13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 600, 20));
+
+        jSeparator21.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        InternalFrameSelectorCampos.getContentPane().add(jSeparator21, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 0, 430));
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/Img/selectorCamposDefauls.png"))); // NOI18N
+        jButton3.setText("Campos Predeterminados");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 610, 230, 40));
+
+        selectDescargue_mes.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_mes.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_mes.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_mes.setText("Mes");
+        selectDescargue_mes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 190, -1));
+
+        selectDescargue_clienteNombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_clienteNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_clienteNombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_clienteNombre.setText("Cliente_Nombre");
+        selectDescargue_clienteNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_clienteNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 190, -1));
+
+        selectDescargue_articuloCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_articuloCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_articuloCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_articuloCodigo.setText("Articulo_Código");
+        selectDescargue_articuloCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectDescargue_articuloCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectDescargue_articuloCodigoActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 190, -1));
+
+        selectDescargue_centroOperacion.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_centroOperacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_centroOperacion.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_centroOperacion.setText("Centro Operación");
+        selectDescargue_centroOperacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroOperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 190, -1));
+
+        selectDescargue_centroCostoMayor.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_centroCostoMayor.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_centroCostoMayor.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_centroCostoMayor.setText("CentroCosto_Mayor");
+        selectDescargue_centroCostoMayor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectDescargue_centroCostoMayor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectDescargue_centroCostoMayorActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroCostoMayor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 190, -1));
+
+        selectDescargue_observación.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_observación.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_observación.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_observación.setText("Observación");
+        selectDescargue_observación.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_observación, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 480, 190, -1));
+
+        selectDescargue_estado.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_estado.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_estado.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_estado.setText("Estado");
+        selectDescargue_estado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 500, 190, -1));
+
+        selectDescargue_conexionPesoCcarga.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_conexionPesoCcarga.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_conexionPesoCcarga.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_conexionPesoCcarga.setText("Conexion_Peso_Ccarga");
+        selectDescargue_conexionPesoCcarga.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_conexionPesoCcarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 520, 190, -1));
+
+        selectDescargue_fechaFinDescargue.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_fechaFinDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_fechaFinDescargue.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_fechaFinDescargue.setText("Fecha_Final_Descargue");
+        selectDescargue_fechaFinDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_fechaFinDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, 190, -1));
+
+        selectDescargue_centroCostoAuxiliarOrigen.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_centroCostoAuxiliarOrigen.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_centroCostoAuxiliarOrigen.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_centroCostoAuxiliarOrigen.setText("Centro Costo Auxiliar_Origen");
+        selectDescargue_centroCostoAuxiliarOrigen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroCostoAuxiliarOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 190, -1));
+
+        selectDescargue_centroCosto.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_centroCosto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_centroCosto.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_centroCosto.setText("Centro Costo");
+        selectDescargue_centroCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 190, -1));
+
+        selectDescargue_articuloUnidadNegocio.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_articuloUnidadNegocio.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_articuloUnidadNegocio.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_articuloUnidadNegocio.setText("Artículo_Unidad_Negocio");
+        selectDescargue_articuloUnidadNegocio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloUnidadNegocio, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 190, -1));
+
+        selectDescargue_laborRealizada.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_laborRealizada.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_laborRealizada.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_laborRealizada.setText("Labor Realizada");
+        selectDescargue_laborRealizada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectDescargue_laborRealizada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectDescargue_laborRealizadaActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_laborRealizada, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 190, -1));
+
+        selectDescargue_articuloNombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_articuloNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_articuloNombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_articuloNombre.setText("Artículo_Nombre");
+        selectDescargue_articuloNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 190, -1));
+
+        selectDescargue_articuloCodigoERP.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_articuloCodigoERP.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_articuloCodigoERP.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_articuloCodigoERP.setText("Artículo_Código_ERP");
+        selectDescargue_articuloCodigoERP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloCodigoERP, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 190, -1));
+
+        selectDescargue_articuloTipo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_articuloTipo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_articuloTipo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_articuloTipo.setText("Artículo_Tipo");
+        selectDescargue_articuloTipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_articuloTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 190, -1));
+
+        selectDescargue_transportadoraNombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_transportadoraNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_transportadoraNombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_transportadoraNombre.setText("Transportadora_Nombre");
+        selectDescargue_transportadoraNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_transportadoraNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 190, -1));
+
+        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setText("UsuarioQuienRegistróVehículo_Código");
+        selectDescargue_usuarioQuienRegistraVehiculoCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienRegistraVehiculoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 420, 210, -1));
+
+        selectDescargue_usuarioQuienRegistraVehiculoNombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_usuarioQuienRegistraVehiculoNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_usuarioQuienRegistraVehiculoNombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_usuarioQuienRegistraVehiculoNombre.setText("UsuarioQuienRegistróVehículo_Nombre");
+        selectDescargue_usuarioQuienRegistraVehiculoNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienRegistraVehiculoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 440, 220, -1));
+
+        selectDescargue_usuarioRegistroManualCorreo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_usuarioRegistroManualCorreo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_usuarioRegistroManualCorreo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_usuarioRegistroManualCorreo.setText("UsuarioRegistróManual_Correo");
+        selectDescargue_usuarioRegistroManualCorreo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectDescargue_usuarioRegistroManualCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectDescargue_usuarioRegistroManualCorreoActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioRegistroManualCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 150, 190, -1));
+
+        selectMvtoEquipo_clienteCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_clienteCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_clienteCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_clienteCodigo.setText("Cliente Código");
+        selectMvtoEquipo_clienteCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_clienteCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 90, 200, -1));
+
+        selectAsignacion_equipoCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_equipoCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_equipoCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_equipoCodigo.setText("Equipo Código");
+        selectAsignacion_equipoCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 170, 190, -1));
+
+        selectAsignacion_equipoMarca.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_equipoMarca.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_equipoMarca.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_equipoMarca.setText("Equipo Marca");
+        selectAsignacion_equipoMarca.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 210, 190, -1));
+
+        selectAsignacion_equipoModelo.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_equipoModelo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_equipoModelo.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_equipoModelo.setText("Equipo Modelo");
+        selectAsignacion_equipoModelo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 230, 190, -1));
+
+        selectMvtoEquipo_fechaRegistro.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_fechaRegistro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_fechaRegistro.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_fechaRegistro.setText("Fecha_Registro");
+        selectMvtoEquipo_fechaRegistro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 360, 190, -1));
+
+        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setText("Nombre_Usuario_Registra_MvtoEquipo");
+        selectMvtoEquipo_UsuarioRegistraMvto_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioRegistraMvto_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 350, 220, -1));
+
+        selectMvtoEquipo_cantidadMinutosDescargue.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_cantidadMinutosDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_cantidadMinutosDescargue.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_cantidadMinutosDescargue.setText("Cantidad_Minutos_Descargue");
+        selectMvtoEquipo_cantidadMinutosDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_cantidadMinutosDescargue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_cantidadMinutosDescargueActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_cantidadMinutosDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 250, 190, -1));
+
+        selectMvtoEquipo_numeroOrden.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_numeroOrden.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_numeroOrden.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_numeroOrden.setText("Número Orden");
+        selectMvtoEquipo_numeroOrden.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_numeroOrden, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, 190, -1));
+
+        selectAsignacion_equipoTipo.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_equipoTipo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_equipoTipo.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_equipoTipo.setText("Equipo Tipo");
+        selectAsignacion_equipoTipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectAsignacion_equipoTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectAsignacion_equipoTipoActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 190, 190, -1));
+
+        selectMvtoEquipo_clienteNombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_clienteNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_clienteNombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_clienteNombre.setText("Cliente Nombre");
+        selectMvtoEquipo_clienteNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_clienteNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 110, 200, -1));
+
+        selectMvtoEquipo_motonaveDescripción.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_motonaveDescripción.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_motonaveDescripción.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_motonaveDescripción.setText("Motonave Descripción");
+        selectMvtoEquipo_motonaveDescripción.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_motonaveDescripción.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_motonaveDescripciónActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_motonaveDescripción, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 190, 200, -1));
+
+        selectMvtoEquipo_centroOperacion.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_centroOperacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_centroOperacion.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_centroOperacion.setText("Centro Operación");
+        selectMvtoEquipo_centroOperacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroOperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 440, 200, -1));
+
+        selectMvtoEquipo_subcentroCosto.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_subcentroCosto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_subcentroCosto.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_subcentroCosto.setText("Subcentro Costo");
+        selectMvtoEquipo_subcentroCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_subcentroCosto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_subcentroCostoActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_subcentroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 460, 200, -1));
+
+        selectAsignacion_fechaInicio.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_fechaInicio.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_fechaInicio.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_fechaInicio.setText("Fecha_inicio");
+        selectAsignacion_fechaInicio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectAsignacion_fechaInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectAsignacion_fechaInicioActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_fechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 270, 190, -1));
+
+        selectAsignacion_fechaFinalizacion.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_fechaFinalizacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_fechaFinalizacion.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_fechaFinalizacion.setText("Fecha_Finalización");
+        selectAsignacion_fechaFinalizacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_fechaFinalizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 290, 190, -1));
+
+        selectAsignacion_cantidadMinutos_Programados.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_cantidadMinutos_Programados.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_cantidadMinutos_Programados.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_cantidadMinutos_Programados.setText("Cantidad_Minutos_Programadas");
+        selectAsignacion_cantidadMinutos_Programados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectAsignacion_cantidadMinutos_Programados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectAsignacion_cantidadMinutos_ProgramadosActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_cantidadMinutos_Programados, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 310, 190, -1));
+
+        selectAsignacion_equipoPertenencia.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_equipoPertenencia.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_equipoPertenencia.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_equipoPertenencia.setText("Equipo Pertenencia");
+        selectAsignacion_equipoPertenencia.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoPertenencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 270, 190, -1));
+
+        selectMvtoEquipo_proveedorEquipoNit.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_proveedorEquipoNit.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_proveedorEquipoNit.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_proveedorEquipoNit.setText("Proveedor Equipo NIT");
+        selectMvtoEquipo_proveedorEquipoNit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_proveedorEquipoNit, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 380, 190, -1));
+
+        selectMvtoEquipo_proveedorEquipoNombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_proveedorEquipoNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_proveedorEquipoNombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_proveedorEquipoNombre.setText("Proveedor Equipo Nombre");
+        selectMvtoEquipo_proveedorEquipoNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_proveedorEquipoNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_proveedorEquipoNombreActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_proveedorEquipoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 400, 190, -1));
+
+        selectMvtoEquipo_laborRealizada.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_laborRealizada.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_laborRealizada.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_laborRealizada.setText("Labor Realizada");
+        selectMvtoEquipo_laborRealizada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_laborRealizada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_laborRealizadaActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_laborRealizada, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 70, 190, -1));
+
+        selectMvtoEquipo_fechaInicioDescargue.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_fechaInicioDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_fechaInicioDescargue.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_fechaInicioDescargue.setText("Fecha Inicio_Actividad");
+        selectMvtoEquipo_fechaInicioDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_fechaInicioDescargue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_fechaInicioDescargueActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_fechaInicioDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 210, 190, -1));
+
+        selectMvtoEquipo_fechaFinDescargue.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_fechaFinDescargue.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_fechaFinDescargue.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_fechaFinDescargue.setText("Fecha Final_Actividad");
+        selectMvtoEquipo_fechaFinDescargue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_fechaFinDescargue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_fechaFinDescargueActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_fechaFinDescargue, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 230, 190, -1));
+
+        selectMvtoEquipo_ValorHoraEquipo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_ValorHoraEquipo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_ValorHoraEquipo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_ValorHoraEquipo.setText("Valor_Hora_Equipo");
+        selectMvtoEquipo_ValorHoraEquipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_ValorHoraEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 270, 190, -1));
+
+        selectMvtoEquipo_costoTotal.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_costoTotal.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_costoTotal.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_costoTotal.setText("Costo_Total");
+        selectMvtoEquipo_costoTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_costoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 290, 190, -1));
+
+        selectMvtoEquipo_Recobro.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_Recobro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_Recobro.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_Recobro.setText("Recobro");
+        selectMvtoEquipo_Recobro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_Recobro, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 310, 190, -1));
+
+        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setText("Código_Usuario_Registra_MvtoEquipo");
+        selectMvtoEquipo_UsuarioRegistraMvto_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioRegistraMvto_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 330, 210, -1));
+
+        selectMvtoEquipo_CausalInactividad.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_CausalInactividad.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_CausalInactividad.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_CausalInactividad.setText("Causal_Inactividad");
+        selectMvtoEquipo_CausalInactividad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_CausalInactividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 60, 200, -1));
+
+        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setText("Código_Usuario_Autoriza_Recobro");
+        selectMvtoEquipo_UsuarioAutorizaRecobro_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioAutorizaRecobro_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 370, 210, -1));
+
+        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setText("Nombre_Usuario_Autoriza_Recobro");
+        selectMvtoEquipo_UsuarioAutorizaRecobro_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioAutorizaRecobro_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 390, 220, -1));
+
+        selectMvtoEquipo_autorizacionRecobro.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_autorizacionRecobro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_autorizacionRecobro.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_autorizacionRecobro.setText("Autorización_Recobro");
+        selectMvtoEquipo_autorizacionRecobro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_autorizacionRecobro, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 450, 220, -1));
+
+        selectMvtoEquipo_MotivoParada.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_MotivoParada.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_MotivoParada.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_MotivoParada.setText("Motivo_Parada");
+        selectMvtoEquipo_MotivoParada.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_MotivoParada, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 120, 200, -1));
+
+        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setText("Observación_Autorización_Recobro");
+        selectMvtoEquipo_UsuarioAutorizaRecobro_observacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioAutorizaRecobro_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 470, 220, -1));
+
+        selectMvtoEquipo_Inactividad.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_Inactividad.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_Inactividad.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_Inactividad.setText("Inactividad");
+        selectMvtoEquipo_Inactividad.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_Inactividad, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 490, 220, -1));
+
+        selectMvtoEquipo_UsuarioInactividad_codigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioInactividad_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioInactividad_codigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioInactividad_codigo.setText("Código_Usuario_Inactividad");
+        selectMvtoEquipo_UsuarioInactividad_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_UsuarioInactividad_codigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_UsuarioInactividad_codigoActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioInactividad_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 80, 190, -1));
+
+        selectMvtoEquipo_DesdeCarbon.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_DesdeCarbon.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_DesdeCarbon.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_DesdeCarbon.setText("Desde_Carbón");
+        selectMvtoEquipo_DesdeCarbon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_DesdeCarbon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 180, 200, -1));
+
+        selectMvtoEquipo_UsuarioInactividad_nombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioInactividad_nombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioInactividad_nombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioInactividad_nombre.setText("Nombre_Usuario_Inactividad");
+        selectMvtoEquipo_UsuarioInactividad_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioInactividad_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 100, 200, -1));
+
+        selectMvtoEquipo_centroCostoMayor.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_centroCostoMayor.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_centroCostoMayor.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_centroCostoMayor.setText("CentroCosto Mayor");
+        selectMvtoEquipo_centroCostoMayor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroCostoMayor, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 540, 200, -1));
+
+        selectMvtoEquipo_observacion.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_observacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_observacion.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_observacion.setText("Observación");
+        selectMvtoEquipo_observacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 140, 200, -1));
+
+        selectMvtoEquipo_estado.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_estado.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_estado.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_estado.setText("Estado");
+        selectMvtoEquipo_estado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 160, 200, -1));
+
+        selectAsignacion_equipoDescripcion.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_equipoDescripcion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_equipoDescripcion.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_equipoDescripcion.setText("Equipo Descripción");
+        selectAsignacion_equipoDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectAsignacion_equipoDescripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectAsignacion_equipoDescripcionActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_equipoDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 250, 190, -1));
+
+        selectAsignacion_codigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_codigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_codigo.setText("Código");
+        selectAsignacion_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 230, 190, -1));
+
+        selectMvtoEquipo_centroCosto.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_centroCosto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_centroCosto.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_centroCosto.setText("Centro Costo");
+        selectMvtoEquipo_centroCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 520, 190, -1));
+
+        selectAsignacion_fechaRegistro.setBackground(new java.awt.Color(255, 255, 255));
+        selectAsignacion_fechaRegistro.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectAsignacion_fechaRegistro.setForeground(new java.awt.Color(51, 51, 51));
+        selectAsignacion_fechaRegistro.setText("Fecha_Registro");
+        selectAsignacion_fechaRegistro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectAsignacion_fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 250, 190, -1));
+
+        selectMvtoEquipo_articuloCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_articuloCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_articuloCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_articuloCodigo.setText("Articulo código");
+        selectMvtoEquipo_articuloCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_articuloCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_articuloCodigoActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_articuloCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 130, 200, -1));
+
+        selectMvtoEquipo_articuloDescripcion.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_articuloDescripcion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_articuloDescripcion.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_articuloDescripcion.setText("Articulo Descripción");
+        selectMvtoEquipo_articuloDescripcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_articuloDescripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_articuloDescripcionActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_articuloDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 150, 200, -1));
+
+        selectMvtoEquipo_motonaveCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_motonaveCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_motonaveCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_motonaveCodigo.setText("Motonave Código");
+        selectMvtoEquipo_motonaveCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        selectMvtoEquipo_motonaveCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectMvtoEquipo_motonaveCodigoActionPerformed(evt);
+            }
+        });
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_motonaveCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 170, 200, -1));
+
+        selectMvtoEquipo_centroCostoAxiliarOrigen.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_centroCostoAxiliarOrigen.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_centroCostoAxiliarOrigen.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_centroCostoAxiliarOrigen.setText("Auxiliar Centro Costo Origen");
+        selectMvtoEquipo_centroCostoAxiliarOrigen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroCostoAxiliarOrigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 480, 200, -1));
+
+        selectMvtoEquipo_centroCostoAuxiliarDestino.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_centroCostoAuxiliarDestino.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_centroCostoAuxiliarDestino.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_centroCostoAuxiliarDestino.setText("Auxiliar Centro Costo Destino");
+        selectMvtoEquipo_centroCostoAuxiliarDestino.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_centroCostoAuxiliarDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 500, 200, -1));
+
+        selectMvtoEquipo_mes.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_mes.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_mes.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_mes.setText("Mes_Registro");
+        selectMvtoEquipo_mes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_mes, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 340, 190, -1));
+
+        selectMvtoEquipo_codigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_codigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_codigo.setText("Código");
+        selectMvtoEquipo_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 320, 190, -1));
+
+        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setText("UsuarioQuienRegistróVehículo_Correo");
+        selectDescargue_usuarioQuienRegistraVehiculoCorreo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienRegistraVehiculoCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 460, 220, -1));
+
+        selectDescargue_centroCostoAuxiliarDestino.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_centroCostoAuxiliarDestino.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_centroCostoAuxiliarDestino.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_centroCostoAuxiliarDestino.setText("Centro Costo Auxiliar_Destino");
+        selectDescargue_centroCostoAuxiliarDestino.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_centroCostoAuxiliarDestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 190, -1));
+
+        selectDescargue_subcentroCosto.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_subcentroCosto.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_subcentroCosto.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_subcentroCosto.setText("Subcentro Costo");
+        selectDescargue_subcentroCosto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_subcentroCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 190, -1));
+
+        selectDescargue_lavadoVehiculoObservacion.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_lavadoVehiculoObservacion.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_lavadoVehiculoObservacion.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_lavadoVehiculoObservacion.setText("Lavado Vehículo Observación");
+        selectDescargue_lavadoVehiculoObservacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_lavadoVehiculoObservacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 190, -1));
+
+        selectDescargue_lavadoVehiculo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_lavadoVehiculo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_lavadoVehiculo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_lavadoVehiculo.setText("Lavado Vehículo");
+        selectDescargue_lavadoVehiculo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_lavadoVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 500, 190, -1));
+
+        Motivo_No_LavadoVehículo.setBackground(new java.awt.Color(255, 255, 255));
+        Motivo_No_LavadoVehículo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Motivo_No_LavadoVehículo.setForeground(new java.awt.Color(51, 51, 51));
+        Motivo_No_LavadoVehículo.setText("Motivo_No_LavadoVehículo");
+        Motivo_No_LavadoVehículo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(Motivo_No_LavadoVehículo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 560, 190, -1));
+
+        Valor_Recaudo_Equipo_LavadoVehículos.setBackground(new java.awt.Color(255, 255, 255));
+        Valor_Recaudo_Equipo_LavadoVehículos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Valor_Recaudo_Equipo_LavadoVehículos.setForeground(new java.awt.Color(51, 51, 51));
+        Valor_Recaudo_Equipo_LavadoVehículos.setText("Valor_Recaudo_Equipo_LavadoVehículos");
+        Valor_Recaudo_Equipo_LavadoVehículos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(Valor_Recaudo_Equipo_LavadoVehículos, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 260, -1));
+
+        Valor_Recaudo_Empresa_LavadoVehículos.setBackground(new java.awt.Color(255, 255, 255));
+        Valor_Recaudo_Empresa_LavadoVehículos.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Valor_Recaudo_Empresa_LavadoVehículos.setForeground(new java.awt.Color(51, 51, 51));
+        Valor_Recaudo_Empresa_LavadoVehículos.setText("Valor_Recaudo_Empresa_LavadoVehículos");
+        Valor_Recaudo_Empresa_LavadoVehículos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(Valor_Recaudo_Empresa_LavadoVehículos, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 160, 260, -1));
+
+        Equipo_Quien_Realiza_LavadoVehículo_Código.setBackground(new java.awt.Color(255, 255, 255));
+        Equipo_Quien_Realiza_LavadoVehículo_Código.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Equipo_Quien_Realiza_LavadoVehículo_Código.setForeground(new java.awt.Color(51, 51, 51));
+        Equipo_Quien_Realiza_LavadoVehículo_Código.setText("Equipo_Quien_Realiza_LavadoVehículo_Código");
+        Equipo_Quien_Realiza_LavadoVehículo_Código.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(Equipo_Quien_Realiza_LavadoVehículo_Código, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 260, -1));
+
+        Costo_Lavado_Vehículo.setBackground(new java.awt.Color(255, 255, 255));
+        Costo_Lavado_Vehículo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Costo_Lavado_Vehículo.setForeground(new java.awt.Color(51, 51, 51));
+        Costo_Lavado_Vehículo.setText("Costo_Lavado_Vehículo");
+        Costo_Lavado_Vehículo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(Costo_Lavado_Vehículo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 260, -1));
+
+        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setBackground(new java.awt.Color(255, 255, 255));
+        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setForeground(new java.awt.Color(51, 51, 51));
+        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setText("Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo");
+        Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 280, -1));
+
+        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setBackground(new java.awt.Color(255, 255, 255));
+        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setForeground(new java.awt.Color(51, 51, 51));
+        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setText("Equipo_Quien_Realiza_LavadoVehículo_Descripción");
+        Equipo_Quien_Realiza_LavadoVehículo_Descripción.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(Equipo_Quien_Realiza_LavadoVehículo_Descripción, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 120, 280, -1));
+
+        selectDescargue_dia.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_dia.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_dia.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_dia.setText("Día");
+        selectDescargue_dia.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_dia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, 190, -1));
+
+        selectMvtoEquipo_UsuarioCierraMvto_nombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioCierraMvto_nombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioCierraMvto_nombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioCierraMvto_nombre.setText("Nombre_Usuario_Cierra_MvtoEquipo");
+        selectMvtoEquipo_UsuarioCierraMvto_nombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioCierraMvto_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 430, 220, -1));
+
+        selectMvtoEquipo_UsuarioCierraMvto_codigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectMvtoEquipo_UsuarioCierraMvto_codigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectMvtoEquipo_UsuarioCierraMvto_codigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectMvtoEquipo_UsuarioCierraMvto_codigo.setText("Código_Usuario_Cierra_MvtoEquipo");
+        selectMvtoEquipo_UsuarioCierraMvto_codigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectMvtoEquipo_UsuarioCierraMvto_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 410, 210, -1));
+
+        selectDescargue_usuarioQuienCierraVehiculoNombre.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_usuarioQuienCierraVehiculoNombre.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_usuarioQuienCierraVehiculoNombre.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_usuarioQuienCierraVehiculoNombre.setText("UsuarioQuienCierraVehículo_Nombre");
+        selectDescargue_usuarioQuienCierraVehiculoNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienCierraVehiculoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 220, -1));
+
+        selectDescargue_usuarioQuienCierraVehiculoCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        selectDescargue_usuarioQuienCierraVehiculoCodigo.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        selectDescargue_usuarioQuienCierraVehiculoCodigo.setForeground(new java.awt.Color(51, 51, 51));
+        selectDescargue_usuarioQuienCierraVehiculoCodigo.setText("UsuarioQuienCierraVehículo_Código");
+        selectDescargue_usuarioQuienCierraVehiculoCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        InternalFrameSelectorCampos.getContentPane().add(selectDescargue_usuarioQuienCierraVehiculoCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 70, 210, -1));
+
+        titulo12.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        titulo12.setText("PROGRAMACIÓN (ASIGNACIÓN)");
+        titulo12.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo12, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 200, 240, 20));
+
+        titulo21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo21.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo21, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 50, 240, 550));
+
+        titulo17.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        titulo17.setText("DATOS DEL EQUIPO");
+        titulo17.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 130, 240, 20));
+
+        titulo20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo20.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 70, 240, 0));
+
+        titulo23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo23.setText("Mvto Equipo");
+        titulo23.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 300, 240, 20));
+
+        titulo19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo19.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 240, 550));
+
+        titulo24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo24.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 50, 240, 550));
+
+        titulo26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo26.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo26, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 290, 530));
+
+        titulo27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titulo27.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        InternalFrameSelectorCampos.getContentPane().add(titulo27, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, 310, 530));
+
+        add(InternalFrameSelectorCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 760));
+
         titulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titulo.setForeground(new java.awt.Color(0, 102, 102));
         titulo.setText("MODIFICACIÓN DE REGISTROS DEL MODULO DE CARBÓN");
-        add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 610, 30));
+        add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 610, 30));
 
         tabla = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
@@ -2997,7 +3743,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         });
         jScrollPane1.setViewportView(tabla);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 1300, 590));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 1300, 520));
 
         consultar.setBackground(new java.awt.Color(255, 255, 255));
         consultar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -3013,7 +3759,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 consultarActionPerformed(evt);
             }
         });
-        add(consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 60, 210, 35));
+        add(consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 70, 210, 35));
 
         fechaInicio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -3023,34 +3769,58 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 fechaInicioMouseEntered(evt);
             }
         });
-        add(fechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 170, 30));
+        add(fechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 170, 30));
 
         minutoInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 minutoInicioActionPerformed(evt);
             }
         });
-        add(minutoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 50, 30));
+        add(minutoInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 50, 30));
 
         horaInicio.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 horaInicioItemStateChanged(evt);
             }
         });
-        add(horaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 50, 30));
+        add(horaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 50, 30));
+
+        limpiar_usuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/clean.png"))); // NOI18N
+        limpiar_usuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                limpiar_usuarioMouseClicked(evt);
+            }
+        });
+        add(limpiar_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 120, 40, 30));
+
+        limpiar_placa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/clean.png"))); // NOI18N
+        limpiar_placa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                limpiar_placaMouseClicked(evt);
+            }
+        });
+        add(limpiar_placa, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, 40, 30));
+
+        limpiar_cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/clean.png"))); // NOI18N
+        limpiar_cliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                limpiar_clienteMouseClicked(evt);
+            }
+        });
+        add(limpiar_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, 40, 30));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("Hora");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, -1, 30));
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, -1, 30));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setText("FECHA/HORA FIN");
-        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, -1, 30));
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 40, -1, 30));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 65)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
         jLabel9.setText("|");
-        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 40, 70));
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 30, 60));
 
         fechaFin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -3060,14 +3830,14 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 fechaFinMouseEntered(evt);
             }
         });
-        add(fechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 70, 170, 30));
+        add(fechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 70, 170, 30));
 
         minutoFin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 minutoFinActionPerformed(evt);
             }
         });
-        add(minutoFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 70, 50, 30));
+        add(minutoFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 70, 50, 30));
 
         horaFin.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -3079,15 +3849,15 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 horaFinActionPerformed(evt);
             }
         });
-        add(horaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 70, 50, 30));
+        add(horaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 70, 50, 30));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("Hora");
-        add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 70, -1, 30));
+        add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 70, -1, 30));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setText("FECHA/HORA INICIO");
-        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 30));
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 30));
 
         alerta_fechaFinal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         alerta_fechaFinal.setForeground(new java.awt.Color(255, 0, 51));
@@ -3096,7 +3866,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         alerta_fechaInicio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         alerta_fechaInicio.setForeground(new java.awt.Color(255, 0, 51));
         add(alerta_fechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 430, 20));
-        add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 1270, 10));
+        add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1300, 10));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/Img/selectorCampo.png"))); // NOI18N
@@ -3105,12 +3875,12 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 jLabel3MouseClicked(evt);
             }
         });
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 60, 50, 40));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 70, 50, 40));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(51, 51, 51));
         jLabel11.setText("Campos");
-        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 40, 40, 30));
+        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 50, 40, 30));
 
         icon_exportar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         icon_exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/Img/ExportarExcel.png"))); // NOI18N
@@ -3119,42 +3889,188 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                 icon_exportarMouseClicked(evt);
             }
         });
-        add(icon_exportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 60, 50, 40));
+        add(icon_exportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 70, 50, 40));
 
         label_exportar.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         label_exportar.setForeground(new java.awt.Color(51, 51, 51));
         label_exportar.setText("Exportar");
-        add(label_exportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 40, 50, 30));
+        add(label_exportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 50, 50, 30));
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel24.setText(":");
-        add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 70, 20, 30));
+        add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 70, 20, 30));
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel25.setText(":");
-        add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 20, 30));
+        add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 20, 30));
 
         horarioTiempoIFinalMvtoCarbon_Procesar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         horarioTiempoIFinalMvtoCarbon_Procesar.setForeground(new java.awt.Color(102, 102, 102));
         horarioTiempoIFinalMvtoCarbon_Procesar.setText("AM");
-        add(horarioTiempoIFinalMvtoCarbon_Procesar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 70, 50, 30));
+        add(horarioTiempoIFinalMvtoCarbon_Procesar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, 50, 30));
 
         horarioTiempoInicioMvtoCarbon_Procesar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         horarioTiempoInicioMvtoCarbon_Procesar.setForeground(new java.awt.Color(102, 102, 102));
         horarioTiempoInicioMvtoCarbon_Procesar.setText("AM");
-        add(horarioTiempoInicioMvtoCarbon_Procesar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, 50, 30));
+        add(horarioTiempoInicioMvtoCarbon_Procesar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, 50, 30));
 
         paginationPanel.setBackground(new java.awt.Color(255, 255, 255));
         add(paginationPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 740, 1300, 80));
 
-        add(pageJComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 10, 60, 40));
+        add(pageJComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 10, 60, 40));
+
+        checkPesoCero.setBackground(new java.awt.Color(255, 255, 255));
+        checkPesoCero.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkPesoCero.setForeground(new java.awt.Color(51, 51, 51));
+        checkPesoCero.setText("PESO NETO CERO");
+        checkPesoCero.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkPesoCero.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkPesoCeroItemStateChanged(evt);
+            }
+        });
+        checkPesoCero.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                checkPesoCeroCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        checkPesoCero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPesoCeroActionPerformed(evt);
+            }
+        });
+        add(checkPesoCero, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 160, 200, 30));
+
+        checkUsuarioQuienRegistra.setBackground(new java.awt.Color(255, 255, 255));
+        checkUsuarioQuienRegistra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkUsuarioQuienRegistra.setForeground(new java.awt.Color(51, 51, 51));
+        checkUsuarioQuienRegistra.setText("USUARIO QUIEN REGISTRA:");
+        checkUsuarioQuienRegistra.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkUsuarioQuienRegistra.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkUsuarioQuienRegistraItemStateChanged(evt);
+            }
+        });
+        checkUsuarioQuienRegistra.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                checkUsuarioQuienRegistraCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        checkUsuarioQuienRegistra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkUsuarioQuienRegistraActionPerformed(evt);
+            }
+        });
+        add(checkUsuarioQuienRegistra, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 120, 200, 30));
+
+        icon_buscarUsuarioQuienRegistra.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        icon_buscarUsuarioQuienRegistra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        icon_buscarUsuarioQuienRegistra.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarUsuarioQuienRegistraMouseClicked(evt);
+            }
+        });
+        add(icon_buscarUsuarioQuienRegistra, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 120, 30, 30));
+
+        label_usuarioQuienRegistra.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        label_usuarioQuienRegistra.setForeground(new java.awt.Color(51, 51, 51));
+        label_usuarioQuienRegistra.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(label_usuarioQuienRegistra, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 120, 320, 30));
+
+        checkPlaca.setBackground(new java.awt.Color(255, 255, 255));
+        checkPlaca.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkPlaca.setForeground(new java.awt.Color(51, 51, 51));
+        checkPlaca.setText("PLACA:");
+        checkPlaca.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkPlaca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkPlacaItemStateChanged(evt);
+            }
+        });
+        checkPlaca.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                checkPlacaCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        checkPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPlacaActionPerformed(evt);
+            }
+        });
+        add(checkPlaca, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 70, 30));
+
+        icon_buscarCliente.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        icon_buscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/consultar.png"))); // NOI18N
+        icon_buscarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icon_buscarClienteMouseClicked(evt);
+            }
+        });
+        add(icon_buscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 30, 30));
+
+        label_cliente.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        label_cliente.setForeground(new java.awt.Color(51, 51, 51));
+        label_cliente.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(label_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 300, 30));
+
+        checkCliente.setBackground(new java.awt.Color(255, 255, 255));
+        checkCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        checkCliente.setForeground(new java.awt.Color(51, 51, 51));
+        checkCliente.setText("CLIENTE");
+        checkCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        checkCliente.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkClienteItemStateChanged(evt);
+            }
+        });
+        checkCliente.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                checkClienteCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        checkCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkClienteActionPerformed(evt);
+            }
+        });
+        add(checkCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 80, 30));
+
+        label_placa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                label_placaActionPerformed(evt);
+            }
+        });
+        add(label_placa, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 300, 30));
+        add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 1300, 10));
+
+        jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1300, 160));
+        add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 1300, 10));
     }// </editor-fold>//GEN-END:initComponents
 
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
-        paginationPanel.removeAll();
-        validarSeleccionCampos();
-        generarListadoMvtoCarbon();
-        resizeColumnWidth(tabla);
+        if(checkCliente.isSelected() && cliente==null){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente para consultar", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            if(checkUsuarioQuienRegistra.isSelected() && usuario== null){
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para consultar", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                paginationPanel.removeAll();
+                validarSeleccionCampos();
+                generarListadoMvtoCarbon();
+                resizeColumnWidth(tabla);
+            }
+        }
+        
+        
     }//GEN-LAST:event_consultarActionPerformed
 
     private void fechaInicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicioMouseClicked
@@ -6593,6 +7509,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                         paginationPanel.removeAll();
                         validarSeleccionCampos();
                         generarListadoMvtoCarbon();
+                        resizeColumnWidth(tabla);
                         InternaFrame_VisualizarMvtoCarbon.show(false);     
                     }else{
                         JOptionPane.showMessageDialog(null, "No se puedo registrar la modificación del registro, valide datos", "Error al registrar",JOptionPane.ERROR_MESSAGE);
@@ -6819,7 +7736,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                                 scriptDB_MvtoCarbon +=",[mc_cntro_oper_cdgo]="+listadoCentroOperacion_mvtoCarbon.get(select_MvtoCarbon_CO.getSelectedIndex()).getCodigo()+"\n";
                                 scriptAuditoria_mtvoCarbon +=",[mc_cntro_oper_cdgo]="+listadoCentroOperacion_mvtoCarbon.get(select_MvtoCarbon_CO.getSelectedIndex()).getCodigo()+"-"+listadoCentroOperacion_mvtoCarbon.get(select_MvtoCarbon_CO.getSelectedIndex()).getDescripcion()+"\n";
                             }
-                           if(scriptDB_MvtoEquipo.equals("")){
+                            if(scriptDB_MvtoEquipo.equals("")){
                                 scriptDB_MvtoEquipo +="[me_cntro_oper_cdgo]="+listadoCentroOperacion_mvtoCarbon.get(select_MvtoCarbon_CO.getSelectedIndex()).getCodigo()+"\n";
                                 scriptAuditoria_mtvoEquipo +="[me_cntro_oper_cdgo]="+listadoCentroOperacion_mvtoCarbon.get(select_MvtoCarbon_CO.getSelectedIndex()).getCodigo()+"-"+listadoCentroOperacion_mvtoCarbon.get(select_MvtoCarbon_CO.getSelectedIndex()).getDescripcion()+"\n";
                             }else{
@@ -6989,13 +7906,54 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                             }*/
                         }
                     }else{
-                        if(scriptDB_MvtoCarbon.equals("")){
+                        /*if(scriptDB_MvtoCarbon.equals("")){
                             scriptDB_MvtoCarbon +="[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+" \n";
                             scriptAuditoria_mtvoCarbon +="[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+" \n";
                          }else{
                             scriptDB_MvtoCarbon +=",[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+"\n";
                             scriptAuditoria_mtvoCarbon +=",[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+" \n";
-                        } 
+                        } */
+                        if(select_MvtoCarbon_lavadoVehículo.getSelectedIndex() ==0){//Seleccionó que no se realizó lavado de vehículos
+                            if(scriptDB_MvtoCarbon.equals("")){
+                                scriptDB_MvtoCarbon +="[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+"\n";
+                                scriptAuditoria_mtvoCarbon +="[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+" \n";
+
+                                scriptDB_MvtoCarbon +=",[mc_motivo_nolavado_vehiculo_cdgo]="+ listadoMotivoNolavadoVehiculo.get(select_MvtoCarbon_motivoNoLavadoVehiculo.getSelectedIndex()).getCodigo()+"\n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_motivo_nolavado_vehiculo_cdgo]="+ listadoMotivoNolavadoVehiculo.get(select_MvtoCarbon_motivoNoLavadoVehiculo.getSelectedIndex()).getCodigo()+"\n";
+
+                                scriptDB_MvtoCarbon +=",[mc_equipo_lavado_cdgo]=NULL ,[mc_costoLavadoVehiculo]=NULL ,[mc_valorRecaudoEmpresa_lavadoVehiculo]=NULL,[mc_valorRecaudoEquipo_lavadoVehiculo]=NULL \n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_equipo_lavado_cdgo]=NULL ,[mc_costoLavadoVehiculo]=NULL ,[mc_valorRecaudoEmpresa_lavadoVehiculo]=NULL,[mc_valorRecaudoEquipo_lavadoVehiculo]=NULL \n";   
+                            }else{
+                                scriptDB_MvtoCarbon +=",[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+"\n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+" \n";
+
+                                scriptDB_MvtoCarbon +=",[mc_motivo_nolavado_vehiculo_cdgo]="+ listadoMotivoNolavadoVehiculo.get(select_MvtoCarbon_motivoNoLavadoVehiculo.getSelectedIndex()).getCodigo()+"\n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_motivo_nolavado_vehiculo_cdgo]="+ listadoMotivoNolavadoVehiculo.get(select_MvtoCarbon_motivoNoLavadoVehiculo.getSelectedIndex()).getCodigo()+"\n";
+
+                                scriptDB_MvtoCarbon +=",[mc_equipo_lavado_cdgo]=NULL ,[mc_costoLavadoVehiculo]=NULL ,[mc_valorRecaudoEmpresa_lavadoVehiculo]=NULL,[mc_valorRecaudoEquipo_lavadoVehiculo]=NULL \n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_equipo_lavado_cdgo]=NULL ,[mc_costoLavadoVehiculo]=NULL ,[mc_valorRecaudoEmpresa_lavadoVehiculo]=NULL,[mc_valorRecaudoEquipo_lavadoVehiculo]=NULL \n"; 
+                           }
+                        }else{//El usuario seleccionó que si se realizó lavado de vehículo por tal motivo validamos que equipo realizá el lavado de vehículo
+                            if(scriptDB_MvtoCarbon.equals("")){
+                                scriptDB_MvtoCarbon +="[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+"\n";
+                                scriptAuditoria_mtvoCarbon +="[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+" \n";
+
+                                scriptDB_MvtoCarbon +=",[mc_equipo_lavado_cdgo]="+ listadoMvtoCarbon_ListadoEquipos.get(select_MvtoCarbon_EquipoQuienRealizaLavadoVehículo.getSelectedIndex()).getAsignacionEquipo().getEquipo().getCodigo()+"\n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_equipo_lavado_cdgo]="+ listadoMvtoCarbon_ListadoEquipos.get(select_MvtoCarbon_EquipoQuienRealizaLavadoVehículo.getSelectedIndex()).getAsignacionEquipo().getEquipo().getCodigo()+"\n";
+
+                                scriptDB_MvtoCarbon +=",[mc_motivo_nolavado_vehiculo_cdgo]=NULL ,[mc_costoLavadoVehiculo]=NULL ,[mc_valorRecaudoEmpresa_lavadoVehiculo]=NULL,[mc_valorRecaudoEquipo_lavadoVehiculo]=NULL \n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_motivo_nolavado_vehiculo_cdgo]=NULL ,[mc_costoLavadoVehiculo]=NULL ,[mc_valorRecaudoEmpresa_lavadoVehiculo]=NULL,[mc_valorRecaudoEquipo_lavadoVehiculo]=NULL \n";
+                            }else{
+                                scriptDB_MvtoCarbon +=",[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+"\n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_lavado_vehiculo]="+select_MvtoCarbon_lavadoVehículo.getSelectedIndex()+" \n";
+
+                                scriptDB_MvtoCarbon +=",[mc_equipo_lavado_cdgo]="+ listadoMvtoCarbon_ListadoEquipos.get(select_MvtoCarbon_EquipoQuienRealizaLavadoVehículo.getSelectedIndex()).getAsignacionEquipo().getEquipo().getCodigo()+"\n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_equipo_lavado_cdgo]="+ listadoMvtoCarbon_ListadoEquipos.get(select_MvtoCarbon_EquipoQuienRealizaLavadoVehículo.getSelectedIndex()).getAsignacionEquipo().getEquipo().getCodigo()+"\n";
+
+                                scriptDB_MvtoCarbon +=",[mc_motivo_nolavado_vehiculo_cdgo]=NULL ,[mc_costoLavadoVehiculo]=NULL ,[mc_valorRecaudoEmpresa_lavadoVehiculo]=NULL,[mc_valorRecaudoEquipo_lavadoVehiculo]=NULL \n";
+                                scriptAuditoria_mtvoCarbon +=",[mc_motivo_nolavado_vehiculo_cdgo]=NULL ,[mc_costoLavadoVehiculo]=NULL ,[mc_valorRecaudoEmpresa_lavadoVehiculo]=NULL,[mc_valorRecaudoEquipo_lavadoVehiculo]=NULL \n";
+                            }   
+                        }  
                     }
                 }
                 if(validarCampos){
@@ -7088,6 +8046,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                         paginationPanel.removeAll();
                         validarSeleccionCampos();
                         generarListadoMvtoCarbon();
+                        resizeColumnWidth(tabla);
                         InternaFrame_VisualizarMvtoCarbon.show(false);    
                     }else{
                         JOptionPane.showMessageDialog(null, "No se puedo registrar la modificación del registro, valide datos", "Error al registrar",JOptionPane.ERROR_MESSAGE);
@@ -7354,6 +8313,563 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
                         }*/
     }//GEN-LAST:event_select_MvtoCarbon_lavadoVehículoItemStateChanged
 
+    private void checkUsuarioQuienRegistraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkUsuarioQuienRegistraItemStateChanged
+        if(checkUsuarioQuienRegistra.isSelected()){
+            icon_buscarUsuarioQuienRegistra.show(true);
+            label_usuarioQuienRegistra.show(true);
+            limpiar_usuario.show(true);
+        }else{
+            icon_buscarUsuarioQuienRegistra.show(false);
+            label_usuarioQuienRegistra.show(false);
+            limpiar_usuario.show(false);
+        }
+    }//GEN-LAST:event_checkUsuarioQuienRegistraItemStateChanged
+
+    private void checkUsuarioQuienRegistraCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_checkUsuarioQuienRegistraCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkUsuarioQuienRegistraCaretPositionChanged
+
+    private void checkUsuarioQuienRegistraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkUsuarioQuienRegistraActionPerformed
+        
+    }//GEN-LAST:event_checkUsuarioQuienRegistraActionPerformed
+
+    private void icon_buscarUsuarioQuienRegistraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarUsuarioQuienRegistraMouseClicked
+        InternaFrame_buscarUsuario.show(true);
+    }//GEN-LAST:event_icon_buscarUsuarioQuienRegistraMouseClicked
+
+    private void checkPlacaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkPlacaItemStateChanged
+        if(checkPlaca.isSelected()){
+            label_placa.show(true);
+            limpiar_placa.show(true);
+        }else{
+            label_placa.show(false);
+            limpiar_placa.show(false);
+        }
+    }//GEN-LAST:event_checkPlacaItemStateChanged
+
+    private void checkPlacaCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_checkPlacaCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkPlacaCaretPositionChanged
+
+    private void checkPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPlacaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkPlacaActionPerformed
+
+    private void icon_buscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_buscarClienteMouseClicked
+        InternaFrame_buscarCliente.show(true);
+    }//GEN-LAST:event_icon_buscarClienteMouseClicked
+
+    private void checkClienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkClienteItemStateChanged
+        if(checkCliente.isSelected()){
+            icon_buscarCliente.show(true);
+            label_cliente.show(true);
+            limpiar_cliente.show(true);
+        }else{
+            icon_buscarCliente.show(false);
+            label_cliente.show(false);
+            limpiar_cliente.show(false);
+        }
+    }//GEN-LAST:event_checkClienteItemStateChanged
+
+    private void checkClienteCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_checkClienteCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkClienteCaretPositionChanged
+
+    private void checkClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkClienteActionPerformed
+        
+    }//GEN-LAST:event_checkClienteActionPerformed
+
+    private void label_placaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_label_placaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_label_placaActionPerformed
+
+    private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
+        if (evt.getClickCount() == 2) {
+            int fila1;
+            try{
+                fila1=tablaCliente.getSelectedRow();
+                if(fila1==-1){
+                    JOptionPane.showMessageDialog(null,"no se ha seleccionando ninguna fila");
+                }
+                else{
+                    cliente= listadoCliente.get(fila1);
+                    label_cliente.setText(cliente.getDescripcion());
+                    InternaFrame_buscarCliente.show(false);
+                }
+            }catch(Exception e){
+            }
+        }
+    }//GEN-LAST:event_tablaClienteMouseClicked
+
+    private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarClienteActionPerformed
+        try {
+            DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código", "Nombre","Estado","BaseDatos"});
+            listadoCliente=new ControlDB_Cliente(tipoConexion).buscarCliente_EstadoActivo(valorBusquedaCliente.getText());
+            for(Cliente listadoObjetos1:listadoCliente){
+                String []registro = new String[4];
+                registro[0]=""+listadoObjetos1.getCodigo();
+                registro[1]=""+listadoObjetos1.getDescripcion();
+                registro[2]=""+listadoObjetos1.getEstado();
+                registro[3]=""+listadoObjetos1.getBaseDatos().getDescripcion();
+                modelo.addRow(registro);
+            }
+            tablaCliente.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(MvtoEquipo_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnConsultarClienteActionPerformed
+
+    private void btnCancelarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarClienteActionPerformed
+        InternaFrame_buscarCliente.show(false);
+    }//GEN-LAST:event_btnCancelarClienteActionPerformed
+
+    private void btnLimpiarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarClienteActionPerformed
+        valorBusquedaCliente.setText("");
+    }//GEN-LAST:event_btnLimpiarClienteActionPerformed
+
+    private void tablaUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuarioMouseClicked
+        if (evt.getClickCount() == 2) {
+            int fila1;
+            try{
+                fila1=tablaUsuario.getSelectedRow();
+                if(fila1==-1){
+                    JOptionPane.showMessageDialog(null,"no se ha seleccionando ninguna fila");
+                }
+                else{
+                    usuario= listadoUsuario.get(fila1);
+                    label_usuarioQuienRegistra.setText(usuario.getNombres()+ " "+ usuario.getApellidos());
+                    InternaFrame_buscarUsuario.show(false);
+                }
+            }catch(Exception e){
+            }
+        }
+    }//GEN-LAST:event_tablaUsuarioMouseClicked
+
+    private void btnConsultarUsuariosQuienRegistraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarUsuariosQuienRegistraActionPerformed
+        try {
+            DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código", "Nombre","Estado"});
+            listadoUsuario=new ControlDB_Usuario(tipoConexion).buscar(valorBusquedaUsuario.getText());
+            for(Usuario listadoObjetos1:listadoUsuario){
+                String []registro = new String[3];
+                registro[0]=""+listadoObjetos1.getCodigo();
+                registro[1]=""+listadoObjetos1.getNombres()+" "+listadoObjetos1.getApellidos();
+                registro[2]=""+listadoObjetos1.getEstado();
+                modelo.addRow(registro);
+            }
+            tablaUsuario.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(MvtoEquipo_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnConsultarUsuariosQuienRegistraActionPerformed
+
+    private void btnCancelarUsuariosQuienRegistraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarUsuariosQuienRegistraActionPerformed
+        InternaFrame_buscarUsuario.show(false);
+    }//GEN-LAST:event_btnCancelarUsuariosQuienRegistraActionPerformed
+
+    private void btnLimpiarUsuariosQuienRegistraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarUsuariosQuienRegistraActionPerformed
+        valorBusquedaUsuario.setText("");
+    }//GEN-LAST:event_btnLimpiarUsuariosQuienRegistraActionPerformed
+
+    private void limpiar_placaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limpiar_placaMouseClicked
+        label_placa.setText("");
+    }//GEN-LAST:event_limpiar_placaMouseClicked
+
+    private void limpiar_clienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limpiar_clienteMouseClicked
+        label_cliente.setText("");
+        cliente= null;
+    }//GEN-LAST:event_limpiar_clienteMouseClicked
+
+    private void limpiar_usuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limpiar_usuarioMouseClicked
+        label_usuarioQuienRegistra.setText("");
+        usuario=null;
+    }//GEN-LAST:event_limpiar_usuarioMouseClicked
+
+    private void buscadorPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscadorPlacaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscadorPlacaActionPerformed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        //Eliminar todos los elementos de una tabla Asignación temporal
+        DefaultTableModel modeloEliminar =(DefaultTableModel)tabla1.getModel();
+        int CantEliminar= tabla1.getRowCount() -1;
+        for(int i =CantEliminar; i>=0; i--){
+            modeloEliminar.removeRow(i);
+        }
+
+        String fechaInicio_consultaVehiculosDestarados="";
+        try{
+            Calendar fechaI = fechaInicio_destareVehiculo.getCalendar();
+            String anoI = ""+fechaI.get(Calendar.YEAR);
+            String mesI = "";
+            if((fechaI.get(Calendar.MONTH) +1) <=9){
+                mesI = "0"+(fechaI.get(Calendar.MONTH) + 1);
+            }else{
+                mesI = ""+(fechaI.get(Calendar.MONTH) + 1);
+            }
+            String diaI = "";
+            if(fechaI.get(Calendar.DAY_OF_MONTH) <=9){
+                diaI = "0"+fechaI.get(Calendar.DAY_OF_MONTH);
+            }else{
+                diaI = ""+fechaI.get(Calendar.DAY_OF_MONTH);
+            }
+            //try{
+                //  int valorFechaI=Integer.parseInt(new ControlDB_Equipo(tipoConexion).comparadorFechaActual(anoI, mesI, diaI, horaInicio_destareVehiculo.getSelectedItem().toString(), minutoInicio_destareVehiculo.getSelectedItem().toString()));
+                //if(valorFechaI<0){
+                    fechaInicio_consultaVehiculosDestarados=anoI+"-"+mesI+"-"+diaI+" "+horaInicio_destareVehiculo.getSelectedItem().toString()+":"+minutoInicio_destareVehiculo.getSelectedItem().toString()+":00.0";
+                    //Cargamos la fecha de inicio de movimientos de la solicitud
+                    String fechaFin_consultaVehiculosDestarado="";
+                    try{
+                        Calendar fechaF = fechaFin_destareVehiculo.getCalendar();
+                        String anoF = ""+fechaF.get(Calendar.YEAR);
+                        String mesF = "";
+                        if((fechaF.get(Calendar.MONTH) +1) <=9){
+                            mesF = "0"+(fechaF.get(Calendar.MONTH) + 1);
+                        }else{
+                            mesF = ""+(fechaF.get(Calendar.MONTH) + 1);
+                        }
+                        String diaF = "";
+                        if(fechaF.get(Calendar.DAY_OF_MONTH) <=9){
+                            diaF = "0"+fechaF.get(Calendar.DAY_OF_MONTH);
+                        }else{
+                            diaF = ""+fechaF.get(Calendar.DAY_OF_MONTH);
+                        }
+                        try{
+                            //int valorFechaF=Integer.parseInt(new ControlDB_Equipo(tipoConexion).comparadorFechaActual(anoF, mesF, diaF, horaFin_destareVehiculo.getSelectedItem().toString(), minutoFin_destareVehiculo.getSelectedItem().toString()));
+                            //if(valorFechaF<0){
+                                fechaFin_consultaVehiculosDestarado=anoF+"-"+mesF+"-"+diaF+" "+horaFin_destareVehiculo.getSelectedItem().toString()+":"+minutoFin_destareVehiculo.getSelectedItem().toString()+":00.0";
+                                int resultDosFechas=Integer.parseInt(new ControlDB_Equipo(tipoConexion).comparadorEntreDosFechas(anoI, mesI, diaI, horaInicio_destareVehiculo.getSelectedItem().toString(), minutoInicio_destareVehiculo.getSelectedItem().toString(), anoF, mesF, diaF, horaFin_destareVehiculo.getSelectedItem().toString(), minutoFin_destareVehiculo.getSelectedItem().toString()));
+                                if(resultDosFechas < 0){
+                                    JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser mayor a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
+                                }else{
+                                    if(resultDosFechas ==0){
+                                        JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser Igual a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
+                                    }else{
+                                        //Validamos que cargue una placa
+                                        //if(buscadorPlaca.getText().equals("")){
+                                            // JOptionPane.showMessageDialog(null, "Error!!.. Digite una placa, no puede ir un campo vacio","Advertencia", JOptionPane.ERROR_MESSAGE );
+                                            //}else{
+                                            // DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"Código", "Nombre","Estado","BaseDeDatos"});
+                                            DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"PLACA", "FECHA_TARA","FECHA_DESTARE","PESO VACIO","PESO LLENO","PESO NETO","DEPOSITO","ARTICULO","CLIENTE","TRANSPORTADORA","MOTONAVE"});
+                                            listadoMvtoCarbon=new ControlDB_MvtoCarbon(tipoConexion).buscarVehiculosAnadirVehiculos(buscadorPlaca.getText(), fechaInicio_consultaVehiculosDestarados, fechaFin_consultaVehiculosDestarado);
+                                            if(listadoMvtoCarbon != null){
+                                                for(MvtoCarbon  Objeto:listadoMvtoCarbon){
+                                                    String []registro = new String[11];
+                                                    registro[0]=""+Objeto.getPlaca();
+                                                    registro[1]=""+Objeto.getFechaEntradaVehiculo();
+                                                    registro[2]=""+Objeto.getFecha_SalidaVehiculo();
+                                                    registro[3]=""+Objeto.getPesoVacio();
+                                                    registro[4]=""+Objeto.getPesoLleno();
+                                                    registro[5]=""+Objeto.getPesoNeto();
+                                                    registro[6]=""+Objeto.getDeposito();
+                                                    registro[7]=""+Objeto.getArticulo().getDescripcion();
+                                                    registro[8]=""+Objeto.getCliente().getDescripcion();
+                                                    registro[9]=""+Objeto.getTransportadora().getDescripcion();
+                                                    registro[10]=""+Objeto.getMotonave().getDescripcion();
+                                                    modelo.addRow(registro);
+                                                }
+                                                tabla1.setModel(modelo);
+                                            }
+
+                                            //}
+                                    }
+                                }
+                                //}else{
+                                //  JOptionPane.showMessageDialog(null,"Error!!.. No puede cargar una fecha en el pasado, la fecha de Finalización de la Operación debe ser futura, verifique fecha","Advertencia",JOptionPane.ERROR_MESSAGE);
+                                //}
+                        }catch(Exception e){
+                            JOptionPane.showMessageDialog(null,"Error!!.. Al trata de validar fecha actual del registro con fecha del sistema","Advertencia",JOptionPane.ERROR_MESSAGE);
+                        }
+                    }catch(Exception e){
+                        JOptionPane.showMessageDialog(null,"Error!!.. Debe verificar la Fecha de Finalización","Advertencia",JOptionPane.ERROR_MESSAGE);
+                    }
+                    //}else{
+                    //  JOptionPane.showMessageDialog(null,"Error!!.. No puede cargar una fecha en el pasado, la fecha de Inicio de Operación debe ser futura, verifique fecha","Advertencia",JOptionPane.ERROR_MESSAGE);
+                    //}
+                //}catch(Exception e){
+                //  JOptionPane.showMessageDialog(null,"Error!!.. Al trata de validar fecha actual del registro con fecha del sistema","Advertencia",JOptionPane.ERROR_MESSAGE);
+                //}
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Error!!.. Debe verificar la Fecha de Inicio","Advertencia",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        buscadorPlaca.setText("");
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        VentanaInterna_PesoCero.show(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void tabla1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla1MouseClicked
+        if (evt.getClickCount() == 2) {
+            int opcion  =JOptionPane.showConfirmDialog(null,"Está seguro que desea carga el registro seleccionado?.");
+            if(opcion==0){
+                int fila1;
+                try{
+                    fila1=tabla1.getSelectedRow();
+                    if(fila1==-1){
+                        JOptionPane.showMessageDialog(null,"no se ha seleccionando ninguna fila");
+                    }
+                    else{
+                        if(listadoMvtoCarbon != null){
+                            mvtoCarbon_Actualizar=null;
+                            mvtoCarbon_Actualizar=listadoMvtoCarbon.get(fila1);
+                            PesoCero_placa_nuevo.setText(mvtoCarbon_Actualizar.getPlaca());
+                            PesoCero_deposito_nuevo.setText(mvtoCarbon_Actualizar.getDeposito());       
+                            PesoCero_consecutivo_nuevo.setText(mvtoCarbon_Actualizar.getConsecutivo());       
+                            PesoCero_pesoVacio_nuevo.setText(mvtoCarbon_Actualizar.getPesoVacio());
+                            PesoCero_pesoLleno_nuevo.setText(mvtoCarbon_Actualizar.getPesoLleno());
+                            PesoCero_pesoNeto_nuevo.setText(mvtoCarbon_Actualizar.getPesoNeto());
+                            PesoCero_fechaEntrada_nuevo.setText(mvtoCarbon_Actualizar.getFechaEntradaVehiculo());       
+                            PesoCero_fechaSalida_nuevo.setText(mvtoCarbon_Actualizar.getFecha_SalidaVehiculo());       
+                            PesoCero_transportadora_nuevo.setText(mvtoCarbon_Actualizar.getTransportadora().getDescripcion());       
+                            PesoCero_cliente_nuevo.setText(mvtoCarbon_Actualizar.getCliente().getDescripcion());
+                            PesoCero_articulo_nuevo.setText(mvtoCarbon_Actualizar.getArticulo().getDescripcion());
+                            
+                            
+                            
+                            
+                            
+                        }
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }//GEN-LAST:event_tabla1MouseClicked
+
+    private void fechaInicio_destareVehiculoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicio_destareVehiculoMouseClicked
+        //  alerta_fechaInicio.setText("");
+    }//GEN-LAST:event_fechaInicio_destareVehiculoMouseClicked
+
+    private void fechaInicio_destareVehiculoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaInicio_destareVehiculoMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaInicio_destareVehiculoMouseEntered
+
+    private void horaInicio_destareVehiculoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_horaInicio_destareVehiculoItemStateChanged
+        if(horaInicio_destareVehiculo.getSelectedIndex()<= 11){
+            horarioTiempoInicio_destareVehiculo.setText("AM");
+        }else{
+            horarioTiempoInicio_destareVehiculo.setText("PM");
+        }
+    }//GEN-LAST:event_horaInicio_destareVehiculoItemStateChanged
+
+    private void minutoInicio_destareVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minutoInicio_destareVehiculoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_minutoInicio_destareVehiculoActionPerformed
+
+    private void fechaFin_destareVehiculoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaFin_destareVehiculoMouseClicked
+        //alerta_fechaFinal.setText("");
+    }//GEN-LAST:event_fechaFin_destareVehiculoMouseClicked
+
+    private void fechaFin_destareVehiculoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fechaFin_destareVehiculoMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaFin_destareVehiculoMouseEntered
+
+    private void horaFin_destareVehiculoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_horaFin_destareVehiculoItemStateChanged
+        if(horaFin_destareVehiculo.getSelectedIndex()<= 11){
+            horarioTiempoIFinal_destareVehiculo.setText("AM");
+        }else{
+            horarioTiempoIFinal_destareVehiculo.setText("PM");
+        }
+    }//GEN-LAST:event_horaFin_destareVehiculoItemStateChanged
+
+    private void horaFin_destareVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_horaFin_destareVehiculoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_horaFin_destareVehiculoActionPerformed
+
+    private void minutoFin_destareVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minutoFin_destareVehiculoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_minutoFin_destareVehiculoActionPerformed
+
+    private void PesoCero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PesoCero1ActionPerformed
+        int fila1;
+        try{
+            fila1=tabla.getSelectedRow();
+            if(fila1==-1){
+                JOptionPane.showMessageDialog(null,"no se ha seleccionando ningun Vehiculo");
+            }
+            else{
+                
+                int posicion = paginadorDeTabla.getPosicionador();
+                if(posicion != -1){
+                    fila1 = fila1 +posicion;
+                }
+                mvtoCarbon= listado.get(fila1).getMvtoCarbon();
+                if(mvtoCarbon.getPesoNeto().equals("0")){  
+                    PesoCero_placa.setText(mvtoCarbon.getPlaca());
+                    PesoCero_deposito.setText(mvtoCarbon.getDeposito());       
+                    PesoCero_consecutivo.setText(mvtoCarbon.getConsecutivo());       
+                    PesoCero_pesoVacio.setText(mvtoCarbon.getPesoVacio());
+                    PesoCero_pesoLleno.setText(mvtoCarbon.getPesoLleno());
+                    PesoCero_pesoNeto.setText(mvtoCarbon.getPesoNeto());
+                    PesoCero_fechaEntrada.setText(mvtoCarbon.getFechaEntradaVehiculo());       
+                    PesoCero_fechaSalida.setText(mvtoCarbon.getFecha_SalidaVehiculo());       
+                    PesoCero_transportadora.setText(mvtoCarbon.getTransportadora().getDescripcion());       
+                    PesoCero_cliente.setText(mvtoCarbon.getCliente().getDescripcion());
+                    PesoCero_articulo.setText(mvtoCarbon.getArticulo().getDescripcion());     
+
+                    try{
+                        String[] fechaA=mvtoCarbon.getFechaRegistro().split(" ");
+                        //String[] horaB= fechaA[1].split(":");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date fechaM=dateFormat.parse(fechaA[0]);
+                        fechaInicio_destareVehiculo.setDate(fechaM);
+                        fechaFin_destareVehiculo.setDate(fechaM);
+                        //select_MvtoCarbon_HoraInicial.setSelectedItem(horaB[0]);
+                        //select_MvtoCarbon_MinutosInicial.setSelectedItem(horaB[1]);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "No se pudo carga la fecha de Inicio del descargue","Error!!.", JOptionPane.ERROR_MESSAGE);
+                    }            
+                    horaInicio_destareVehiculo.setSelectedIndex(0);
+                    minutoInicio_destareVehiculo.setSelectedIndex(0);
+                    horaFin_destareVehiculo.setSelectedIndex(23);
+                    minutoFin_destareVehiculo.setSelectedIndex(59);
+
+                    buscadorPlaca.setText("");
+                    //Eliminar los registros
+                    DefaultTableModel modeloEliminar =(DefaultTableModel)tabla1.getModel();
+                    int CantEliminar= tabla1.getRowCount() -1;
+                    for(int i =CantEliminar; i>=0; i--){
+                        modeloEliminar.removeRow(i);
+                    }
+                    listadoMvtoCarbon=null;
+                    VentanaInterna_PesoCero.show(true);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar un registro que contenga Peso Neto en Cero","Advertencia!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_PesoCero1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(mvtoCarbon_Actualizar != null){
+            /*if (new ControlDB_MvtoCarbon(tipoConexion).validarExistenciaMvtoCarbon(mvtoCarbon_Actualizar)) {
+                JOptionPane.showMessageDialog(null,"Ya se registro este vehículo en el sistema.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            }else{*/
+                /*int fila3;
+                try{
+                    fila3=tabla.getSelectedRow();
+                    if(fila3==-1){
+                        JOptionPane.showMessageDialog(null,"no se ha seleccionando ningun Vehiculo");
+                    }
+                    else{*/
+                        /*int posicion = paginadorDeTabla.getPosicionador();
+                        if(posicion != -1){
+                            fila3 = fila3 +posicion;
+                        }
+                        mvtoCarbon= listado.get(fila3).getMvtoCarbon();*/
+                        if(mvtoCarbon != null){
+                            int validator = 0;   
+                            try {
+                                validator = new ControlDB_MvtoCarbon(tipoConexion).actualizarVehículosPesoCero(mvtoCarbon, mvtoCarbon_Actualizar, user);
+                            } catch (FileNotFoundException ex) {
+                                Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (UnknownHostException ex) {
+                                Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (SocketException ex) {
+                                Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            if(validator==1){
+                                ArrayList<MvtoCarbon_ListadoEquipos> listadoMvtoCarbon_ListadoEquipos = null;
+                                try {
+                                    listadoMvtoCarbon_ListadoEquipos = new ControlDB_MvtoCarbon(tipoConexion).buscarMvtoCarbonParticular(mvtoCarbon);
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                int contadorT=0;
+                                if(listadoMvtoCarbon_ListadoEquipos != null){
+                                    System.out.println(""+listadoMvtoCarbon_ListadoEquipos.get(contadorT).getMvtoCarbon().getPlaca());
+                                    contadorT++;
+                                    for(MvtoCarbon_ListadoEquipos objeto : listadoMvtoCarbon_ListadoEquipos){
+                                        try {
+                                            new ControlDB_MvtoCarbon(tipoConexion).ProcesarEnCcargaGP(objeto,user);
+                                        } catch (UnknownHostException ex) {
+                                            Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (SocketException ex) {
+                                            Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(MvtoCarbon_ModificarFinal.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }
+                                
+                                JOptionPane.showMessageDialog(null, "Se actualizó la placa "+mvtoCarbon_Actualizar.getPlaca()+" de forma exitosa", "Registro Exitoso",JOptionPane.INFORMATION_MESSAGE);
+                                mvtoCarbon_Actualizar=null;
+                                mvtoCarbon=null;
+                                
+                                //Limpiamos los campos
+                                PesoCero_placa.setText("...........................................");
+                                PesoCero_deposito.setText("...........................................");
+                                PesoCero_consecutivo.setText("...........................................");
+                                PesoCero_pesoVacio.setText("...........................................");
+                                PesoCero_pesoLleno.setText("...........................................");
+                                PesoCero_pesoNeto.setText("...........................................");
+                                PesoCero_fechaEntrada.setText("...........................................");    
+                                PesoCero_fechaSalida.setText("...........................................");  
+                                PesoCero_transportadora.setText("...........................................");   
+                                PesoCero_cliente.setText("...........................................");
+                                PesoCero_articulo.setText("..........................................."); 
+                                
+                                
+                                PesoCero_placa_nuevo.setText("...........................................");
+                                PesoCero_deposito_nuevo.setText("...........................................");
+                                PesoCero_consecutivo_nuevo.setText("...........................................");
+                                PesoCero_pesoVacio_nuevo.setText("...........................................");
+                                PesoCero_pesoLleno_nuevo.setText("...........................................");
+                                PesoCero_pesoNeto_nuevo.setText("...........................................");
+                                PesoCero_fechaEntrada_nuevo.setText("...........................................");    
+                                PesoCero_fechaSalida_nuevo.setText("...........................................");  
+                                PesoCero_transportadora_nuevo.setText("...........................................");   
+                                PesoCero_cliente_nuevo.setText("...........................................");
+                                PesoCero_articulo_nuevo.setText("..........................................."); 
+                                
+                                VentanaInterna_PesoCero.show(false);
+                                
+                                buscadorPlaca.setText("");
+                                //Eliminar los registros
+                                DefaultTableModel modeloEliminar =(DefaultTableModel)tabla1.getModel();
+                                int CantEliminar= tabla1.getRowCount() -1;
+                                for(int i =CantEliminar; i>=0; i--){
+                                    modeloEliminar.removeRow(i);
+                                }
+                                listadoMvtoCarbon=null;
+        
+        
+                                validarSeleccionCampos();
+                                generarListadoMvtoCarbon();
+                                resizeColumnWidth(tabla);
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Error al actualizar registro", "Error!!",JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    //}
+                /*}catch(Exception e){
+                    e.printStackTrace();
+                } */  
+            //}
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe cargar un vehículo para ser reemplazado por el registró actual", "Advertencia",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void checkPesoCeroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkPesoCeroItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkPesoCeroItemStateChanged
+
+    private void checkPesoCeroCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_checkPesoCeroCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkPesoCeroCaretPositionChanged
+
+    private void checkPesoCeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPesoCeroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkPesoCeroActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton Costo_Lavado_Vehículo;
     private javax.swing.JMenuItem Enable;
@@ -7362,6 +8878,8 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private javax.swing.JRadioButton Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo;
     private javax.swing.JPopupMenu Inactivar;
     private javax.swing.JInternalFrame InternaFrame_VisualizarMvtoCarbon;
+    private javax.swing.JInternalFrame InternaFrame_buscarCliente;
+    private javax.swing.JInternalFrame InternaFrame_buscarUsuario;
     private javax.swing.JInternalFrame InternalFrameSelectorCampos;
     private javax.swing.JRadioButton Motivo_No_LavadoVehículo;
     private javax.swing.JLabel MvtCarbon_FechaRegistro;
@@ -7400,10 +8918,48 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private javax.swing.JLabel MvtEquipo_tipo;
     private javax.swing.JLabel MvtEquipo_usuarioQuienCierra;
     private javax.swing.JLabel MvtEquipo_usuarioQuienInicia;
+    private javax.swing.JMenuItem PesoCero1;
+    private javax.swing.JLabel PesoCero_articulo;
+    private javax.swing.JLabel PesoCero_articulo_nuevo;
+    private javax.swing.JLabel PesoCero_cliente;
+    private javax.swing.JLabel PesoCero_cliente_nuevo;
+    private javax.swing.JLabel PesoCero_consecutivo;
+    private javax.swing.JLabel PesoCero_consecutivo_nuevo;
+    private javax.swing.JLabel PesoCero_deposito;
+    private javax.swing.JLabel PesoCero_deposito_nuevo;
+    private javax.swing.JLabel PesoCero_fechaEntrada;
+    private javax.swing.JLabel PesoCero_fechaEntrada_nuevo;
+    private javax.swing.JLabel PesoCero_fechaSalida;
+    private javax.swing.JLabel PesoCero_fechaSalida_nuevo;
+    private javax.swing.JLabel PesoCero_pesoLleno;
+    private javax.swing.JLabel PesoCero_pesoLleno_nuevo;
+    private javax.swing.JLabel PesoCero_pesoNeto;
+    private javax.swing.JLabel PesoCero_pesoNeto_nuevo;
+    private javax.swing.JLabel PesoCero_pesoVacio;
+    private javax.swing.JLabel PesoCero_pesoVacio_nuevo;
+    private javax.swing.JLabel PesoCero_placa;
+    private javax.swing.JLabel PesoCero_placa_nuevo;
+    private javax.swing.JLabel PesoCero_transportadora;
+    private javax.swing.JLabel PesoCero_transportadora_nuevo;
     private javax.swing.JRadioButton Valor_Recaudo_Empresa_LavadoVehículos;
     private javax.swing.JRadioButton Valor_Recaudo_Equipo_LavadoVehículos;
+    private javax.swing.JInternalFrame VentanaInterna_PesoCero;
     private javax.swing.JLabel alerta_fechaFinal;
     private javax.swing.JLabel alerta_fechaInicio;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCancelarCliente;
+    private javax.swing.JButton btnCancelarUsuariosQuienRegistra;
+    private javax.swing.JButton btnConsultar;
+    private javax.swing.JButton btnConsultarCliente;
+    private javax.swing.JButton btnConsultarUsuariosQuienRegistra;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnLimpiarCliente;
+    private javax.swing.JButton btnLimpiarUsuariosQuienRegistra;
+    private javax.swing.JTextField buscadorPlaca;
+    private javax.swing.JRadioButton checkCliente;
+    private javax.swing.JRadioButton checkPesoCero;
+    private javax.swing.JRadioButton checkPlaca;
+    private javax.swing.JRadioButton checkUsuarioQuienRegistra;
     private javax.swing.JRadioButton check_MvtoCarbon_FinalizacionActividad;
     private javax.swing.JRadioButton check_MvtoCarbon_InicioActividad;
     private javax.swing.JRadioButton check_MvtoCarbon_UsuarioCierraActividad;
@@ -7416,16 +8972,27 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private com.toedter.calendar.JDateChooser fechaFin;
     private com.toedter.calendar.JDateChooser fechaFinActividad_MvtoCarbon;
     private com.toedter.calendar.JDateChooser fechaFinActividad_MvtoEquipo;
+    private com.toedter.calendar.JDateChooser fechaFin_destareVehiculo;
     private com.toedter.calendar.JDateChooser fechaInicialActividad_MvtoCarbon;
     private com.toedter.calendar.JDateChooser fechaInicialActividad_MvtoEquipo;
     private com.toedter.calendar.JDateChooser fechaInicio;
+    private com.toedter.calendar.JDateChooser fechaInicio_destareVehiculo;
     private javax.swing.JComboBox<String> horaFin;
+    private javax.swing.JComboBox<String> horaFin_destareVehiculo;
     private javax.swing.JComboBox<String> horaInicio;
+    private javax.swing.JComboBox<String> horaInicio_destareVehiculo;
     private javax.swing.JLabel horarioTiempoIFinalMvtoCarbon_Procesar;
+    private javax.swing.JLabel horarioTiempoIFinal_destareVehiculo;
     private javax.swing.JLabel horarioTiempoInicioMvtoCarbon_Procesar;
+    private javax.swing.JLabel horarioTiempoInicio_destareVehiculo;
+    private javax.swing.JLabel icon_buscarCliente;
+    private javax.swing.JLabel icon_buscarUsuarioQuienRegistra;
     private javax.swing.JLabel icon_exportar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel102;
@@ -7452,21 +9019,57 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
@@ -7499,15 +9102,25 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private javax.swing.JLabel jLabel99;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator21;
     private javax.swing.JSeparator jSeparator26;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
     private javax.swing.JLabel label_MvtoCarbon_HoraFinal;
     private javax.swing.JLabel label_MvtoCarbon_HoraInicial;
     private javax.swing.JLabel label_MvtoCarbon_ZonaHorariaFinal;
@@ -7521,12 +9134,20 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private javax.swing.JLabel label_MvtoEquipo_separadorFinal;
     private javax.swing.JLabel label_MvtoEquipo_separadorInicial;
     private javax.swing.JLabel label_QuienRealizaLavadoVehículo;
+    private javax.swing.JLabel label_cliente;
     private javax.swing.JLabel label_exportar;
     private javax.swing.JLabel label_motivoNoLavado;
+    private javax.swing.JTextField label_placa;
+    private javax.swing.JLabel label_usuarioQuienRegistra;
+    private javax.swing.JLabel limpiar_cliente;
+    private javax.swing.JLabel limpiar_placa;
+    private javax.swing.JLabel limpiar_usuario;
     private javax.swing.JComboBox<String> listadoEquiposDescargue;
     private javax.swing.JComboBox<String> listadoEquiposDescargue1;
     private javax.swing.JComboBox<String> minutoFin;
+    private javax.swing.JComboBox<String> minutoFin_destareVehiculo;
     private javax.swing.JComboBox<String> minutoInicio;
+    private javax.swing.JComboBox<String> minutoInicio_destareVehiculo;
     private javax.swing.JLabel mvtEquipo_ActividadFinalizada;
     private javax.swing.JLabel mvtEquipo_CantidadHoras;
     private javax.swing.JLabel mvtEquipo_Equipo_descripción;
@@ -7673,6 +9294,9 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private javax.swing.JComboBox<String> select_MvtoEquipo_recobro;
     private javax.swing.JComboBox<String> select_MvtoEquipo_tipoEquipo;
     private javax.swing.JTable tabla;
+    private javax.swing.JTable tabla1;
+    private javax.swing.JTable tablaCliente;
+    private javax.swing.JTable tablaUsuario;
     private javax.swing.JTextArea textArea_MvtoCarbon_razonModificacion;
     private javax.swing.JTextArea textArea_MvtoEquipo_razonModificacion;
     private javax.swing.JLabel titulo;
@@ -7705,6 +9329,8 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     private javax.swing.JLabel titulo62;
     private javax.swing.JLabel titulo63;
     private javax.swing.JLabel titulo64;
+    private javax.swing.JTextField valorBusquedaCliente;
+    private javax.swing.JTextField valorBusquedaUsuario;
     // End of variables declaration//GEN-END:variables
     public void cambioEstado (String data){
         switch(data){
@@ -7894,7 +9520,27 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
     }
     public void tabla_Listar(String data1, String data2) throws SQLException{
         tabla.setModel(crearModeloDeTabla());
-        listado=new ControlDB_MvtoCarbon(tipoConexion).buscarMvtoCarbon_GenerarMatriz(data1, data2);
+        String script = " ";
+        //validamos los select
+        script += "[mc_fecha] BETWEEN '"+data1+"' AND '"+data2+"' ";
+        if(checkPlaca.isSelected()){
+            script += " AND [mc_placa_vehiculo] LIKE '%"+label_placa.getText()+"%' ";
+        }
+        if(checkCliente.isSelected()){
+            script += " AND [mc_cliente_cdgo] LIKE '"+cliente.getCodigo()+"' AND [mc_cliente_base_datos_cdgo]="+cliente.getBaseDatos().getCodigo()+" ";
+        }
+        if(checkUsuarioQuienRegistra.isSelected()){
+            script += " AND [mc_usuario_cdgo] LIKE '"+usuario.getCodigo()+"' ";
+        }
+        if(checkPesoCero.isSelected()){
+            script += " AND [mc_peso_neto] = 0 ";
+        }
+        script += " AND [me_inactividad]=0 AND [mc_estad_mvto_carbon_cdgo]=1 "; 
+        
+        
+        
+        
+        listado=new ControlDB_MvtoCarbon(tipoConexion).buscarMvtoCarbon_GenerarMatriz_Modificar(script);
         proveedorDeDatos = crearProveedorDeDatos(listado); 
         paginadorDeTabla = new PaginadorDeTabla(tabla, proveedorDeDatos, new int[]{5, 10, 20, 50, 75, 100}, 10);
         paginadorDeTabla.crearListadoDeFilasPermitidas(this.paginationPanel);
@@ -7962,13 +9608,13 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         }   
     }
     public void selectorCampoPorDefecto(){
-        selectDescargue_codigo.setSelected(false);
+        selectDescargue_codigo.setSelected(true);
         selectDescargue_centroOperacion.setSelected(true);
         selectDescargue_subcentroCosto.setSelected(true);
         selectDescargue_centroCostoAuxiliarOrigen.setSelected(true);
         selectDescargue_centroCostoAuxiliarDestino.setSelected(true);
-        selectDescargue_centroCosto.setSelected(true);
-        selectDescargue_centroCostoMayor.setSelected(true);
+        selectDescargue_centroCosto.setSelected(false);
+        selectDescargue_centroCostoMayor.setSelected(false);
         selectDescargue_laborRealizada.setSelected(true);
         selectDescargue_articuloCodigo.setSelected(false);
         selectDescargue_articuloNombre.setSelected(true);
@@ -7981,7 +9627,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         selectDescargue_transportadoraNit.setSelected(false);
         selectDescargue_transportadoraNombre.setSelected(true);
         selectDescargue_mes.setSelected(true);
-        selectDescargue_dia.setSelected(true);
+        selectDescargue_dia.setSelected(false);
         selectDescargue_fechaRegistro.setSelected(true);
         selectDescargue_lavadoVehiculo.setSelected(true);
         selectDescargue_lavadoVehiculoObservacion.setSelected(false); 
@@ -8684,6 +10330,22 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         if(selectDescargue_laborRealizada.isSelected()){
             encabezadoTabla.add("Labor_Realizada");
         }
+        if(selectDescargue_deposito.isSelected()){
+            encabezadoTabla.add("Deposito");
+        }
+        if(selectDescargue_placa.isSelected()){
+            encabezadoTabla.add("Placa");
+        }
+        if(selectAsignacion_equipoDescripcion.isSelected()){
+            encabezadoTabla.add("MvtoEquipo_Equipo_Descripción");
+        }
+        if(selectDescargue_lavadoVehiculo.isSelected()){
+            encabezadoTabla.add("Lavado_Vehículo");
+        }
+        if(Equipo_Quien_Realiza_LavadoVehículo_Descripción.isSelected()){
+            encabezadoTabla.add("Equipo_Quien_Realiza_LavadoVehículo_Descripción");
+        }
+        
         if(selectDescargue_articuloCodigo.isSelected()){
             encabezadoTabla.add("Artículo_Código");
         }
@@ -8708,9 +10370,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         if(selectDescargue_transportadoraNombre.isSelected()){
             encabezadoTabla.add("Transportadora_Nombre");
         }
-        if(selectDescargue_lavadoVehiculo.isSelected()){
-            encabezadoTabla.add("Lavado_Vehículo");
-        }
+        
         if(selectDescargue_lavadoVehiculoObservacion.isSelected()){
             encabezadoTabla.add("Lavado_Vehículo_Observación");
         }     
@@ -8723,9 +10383,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         if(Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo.isSelected()){
             encabezadoTabla.add("Equipo_Quien_Realiza_LavadoVehículo_TipoEquipo");
         }
-        if(Equipo_Quien_Realiza_LavadoVehículo_Descripción.isSelected()){
-            encabezadoTabla.add("Equipo_Quien_Realiza_LavadoVehículo_Descripción");
-        }
+        
         if(Costo_Lavado_Vehículo.isSelected()){
             encabezadoTabla.add("Costo_Lavado_Vehículo");
         }
@@ -8738,15 +10396,11 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         if(selectDescargue_numOrden.isSelected()){
             encabezadoTabla.add("Número_Orden");
         }
-        if(selectDescargue_deposito.isSelected()){
-            encabezadoTabla.add("Deposito");
-        }
+        
         if(selectDescargue_consecutivo.isSelected()){
             encabezadoTabla.add("Consecutivo");
         }
-        if(selectDescargue_placa.isSelected()){
-            encabezadoTabla.add("Placa");
-        }
+        
         if(selectAsignacion_equipoCodigo.isSelected()){
             encabezadoTabla.add("MvtoEquipo_Equipo_Código");
         }
@@ -8759,9 +10413,7 @@ public final class MvtoCarbon_ModificarFinal extends javax.swing.JPanel implemen
         if(selectAsignacion_equipoModelo.isSelected()){
             encabezadoTabla.add("MvtoEquipo_Equipo_Modelo");
         }
-        if(selectAsignacion_equipoDescripcion.isSelected()){
-            encabezadoTabla.add("MvtoEquipo_Equipo_Descripción");
-        }
+        
         if(selectDescargue_pesoVacio.isSelected()){
             encabezadoTabla.add("PesoVacio");
         }

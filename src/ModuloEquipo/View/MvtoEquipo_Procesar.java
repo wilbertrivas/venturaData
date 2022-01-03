@@ -69,6 +69,10 @@ public final class MvtoEquipo_Procesar extends javax.swing.JPanel implements Act
                 minutoFin.addItem(""+i);
             }
         }
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         selectorCampoPorDefecto();
         
         encabezadoTabla= new ArrayList<String>();

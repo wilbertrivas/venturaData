@@ -85,6 +85,10 @@ public final class MvtoEquipo_MatrizDistribucion extends javax.swing.JPanel impl
                 minutoFin.addItem(""+i);
             }
         }
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         Dimension dim=super.getToolkit().getScreenSize();      
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);

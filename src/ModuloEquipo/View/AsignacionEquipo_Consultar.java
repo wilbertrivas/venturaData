@@ -77,6 +77,10 @@ public class AsignacionEquipo_Consultar extends javax.swing.JPanel {
                 minutoFin.addItem(""+i);
             }
         }
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         selectorCampoPorDefecto();
         //Ocultamos la ventana de consulta de solicitudes
         InternalFrame_SolicitudesEquipos.show(false);
