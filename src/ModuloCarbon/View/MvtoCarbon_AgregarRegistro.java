@@ -560,7 +560,7 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        VentanaInterna_buscarVehiculo.setVisible(false);
+        VentanaInterna_buscarVehiculo.setVisible(true);
         VentanaInterna_buscarVehiculo.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -2277,9 +2277,9 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                         //Comentamos temporalmente                if(resultDosFechas ==0){
                                         //   JOptionPane.showMessageDialog(null, "Error!!.. La fecha de Inicio no puede ser Igual a la fecha de Finalización","Advertencia", JOptionPane.ERROR_MESSAGE );
                                         //}else{
-                                            if(!new ControlDB_MvtoCarbon(tipoConexion).validar2FechasEnRango(fechaInicioDescargue, fechaFinDescargue, mvtoCarbon.getFechaEntradaVehiculo(), mvtoCarbon.getFecha_SalidaVehiculo())){
-                                                JOptionPane.showMessageDialog(null, "Error!!.. La fecha de inicio de operación y la fecha de finalización de operación deben estar en el rango de fecha de Tara y Destare del vehículo","Advertencia", JOptionPane.ERROR_MESSAGE );
-                                            }else{
+                                            //if(!new ControlDB_MvtoCarbon(tipoConexion).validar2FechasEnRango(fechaInicioDescargue, fechaFinDescargue, mvtoCarbon.getFechaEntradaVehiculo(), mvtoCarbon.getFecha_SalidaVehiculo())){
+                                                //JOptionPane.showMessageDialog(null, "Error!!.. La fecha de inicio de operación y la fecha de finalización de operación deben estar en el rango de fecha de Tara y Destare del vehículo","Advertencia", JOptionPane.ERROR_MESSAGE );
+                                            //}else{
                                                 if(listadoCentroOperacion_mvtoCarbon !=null){
                                                         if(listadoCentroCostoSubCentro_mvtoCarbon !=null){
                                                             if(listadoCentroCostoAuxiliar_mvtoCarbon !=null){
@@ -2441,7 +2441,7 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                                                 }else{
                                                     JOptionPane.showMessageDialog(null, "Debe seleccionar un centro de operación", "Advertencia",JOptionPane.INFORMATION_MESSAGE);
                                                 }            
-                                            }
+                                            //}
                                         //}
                                     }
                                 //}else{
@@ -2594,7 +2594,8 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                         mvtoCarbon=listadoMvtoCarbon.get(fila1);  
                         if(mvtoCarbon != null){
                             if (new ControlDB_MvtoCarbon(tipoConexion).validarExistenciaMvtoCarbon(mvtoCarbon)) {
-                                int opcion  =JOptionPane.showConfirmDialog(null,"Ya se registro este vehículo desea registrarlo nuevamente?.");
+                                JOptionPane.showMessageDialog(null,"Ya se registro este vehículo en el sistema.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                                /*int opcion  =JOptionPane.showConfirmDialog(null,"Ya se registro este vehículo desea registrarlo nuevamente?.");
                                 if(opcion==0){//Confirmo que si desea realiza el nuevo registro
                                     //Limpiamos los campos de la interfaz
                                     MvtCarbon_placa.setText("");
@@ -2629,7 +2630,7 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                                     showInterfaceSeleccionarVehiculo();
                                     //Ocultamos la venta interna de busqueda de vehículos.
                                     VentanaInterna_buscarVehiculo.show(false);
-                                }
+                                }*/
                             }else{
                                 MvtCarbon_placa.setText("");
                                 MvtCarbon_fechaEntradaVehiculo.setText("");
@@ -2734,7 +2735,8 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                     mvtoCarbon=listadoMvtoCarbon.get(fila1);  
                     if(mvtoCarbon != null){
                         if (new ControlDB_MvtoCarbon(tipoConexion).validarExistenciaMvtoCarbon(mvtoCarbon)) {
-                            int opcion  =JOptionPane.showConfirmDialog(null,"Ya se registro este vehículo desea registrarlo nuevamente?.");
+                            JOptionPane.showMessageDialog(null,"Ya se registro este vehículo en el sistema.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                            /*int opcion  =JOptionPane.showConfirmDialog(null,"Ya se registro este vehículo desea registrarlo nuevamente?.");
                             if(opcion==0){//Confirmo que si desea realiza el nuevo registro
                                 //Limpiamos los campos de la interfaz
                                 MvtCarbon_placa.setText("");
@@ -2769,7 +2771,7 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
                                 showInterfaceSeleccionarVehiculo();
                                 //Ocultamos la venta interna de busqueda de vehículos.
                                 VentanaInterna_buscarVehiculo.show(false);
-                            }
+                            }*/
                         }else{
                             MvtCarbon_placa.setText("");
                             MvtCarbon_fechaEntradaVehiculo.setText("");
@@ -2930,99 +2932,103 @@ public class MvtoCarbon_AgregarRegistro extends javax.swing.JPanel {
         }
         int retorno =0;
         try {
-            retorno= new ControlDB_MvtoCarbon(tipoConexion).registrarMvtoCarbonCompleto_functionAdd(mvtoCarbon, listadoMvtoCarbon_ListadoEquipos, user);
-            if(retorno==1){
-                JOptionPane.showMessageDialog(null, "Registro exitoso","Registrado", JOptionPane.INFORMATION_MESSAGE);
-                listadoMvtoCarbon_ListadoEquipos = null;
-        
-                //Eliminar todos los elementos
-                DefaultTableModel md =(DefaultTableModel)tabla_ListadoMvtoCarbonListadoEquipo.getModel();
-                int CantEliminar= tabla_ListadoMvtoCarbonListadoEquipo.getRowCount() -1;
-                for(int i =CantEliminar; i>=0; i--){
+            if (new ControlDB_MvtoCarbon(tipoConexion).validarExistenciaMvtoCarbon(mvtoCarbon)) {
+                JOptionPane.showMessageDialog(null, "Ya se encuentra registrado esté vehículo en el sistema, valide información.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                retorno = new ControlDB_MvtoCarbon(tipoConexion).registrarMvtoCarbonCompleto_functionAdd(mvtoCarbon, listadoMvtoCarbon_ListadoEquipos, user);
+                if (retorno == 1) {
+                    JOptionPane.showMessageDialog(null, "Registro exitoso", "Registrado", JOptionPane.INFORMATION_MESSAGE);
+                    listadoMvtoCarbon_ListadoEquipos = null;
+
+                    //Eliminar todos los elementos
+                    DefaultTableModel md = (DefaultTableModel) tabla_ListadoMvtoCarbonListadoEquipo.getModel();
+                    int CantEliminar = tabla_ListadoMvtoCarbonListadoEquipo.getRowCount() - 1;
+                    for (int i = CantEliminar; i >= 0; i--) {
                         md.removeRow(i);
+                    }
+                    //habilitamos los campos de MvtoCarbon
+                    fechaInicialActividad_MvtoCarbon.setEnabled(false);
+                    select_MvtoCarbon_HoraInicial.setEnabled(false);
+                    select_MvtoCarbon_MinutosInicial.setEnabled(false);
+                    select_MvtoCarbon_CO.setEnabled(false);
+                    select_MvtoCarbon_CCAuxiliar.setEnabled(false);
+                    select_MvtoCarbon_laborRealizada.setEnabled(false);
+                    select_MvtoCarbon_UsuarioCierraRegistro.setEnabled(false);
+
+                    fechaFinActividad_MvtoCarbon.setEnabled(false);
+                    select_MvtoCarbon_HoraFinal.setEnabled(false);
+                    select_MvtoCarbon_MinutosFinal.setEnabled(false);
+                    select_MvtoCarbon_SubcentroCosto.setEnabled(false);
+                    select_MvtoCarbon_CCAuxiliarDestino.setEnabled(false);
+                    select_MvtoCarbon_UsuarioIniciaRegistro.setEnabled(false);
+                    jButton3.setEnabled(false);
+
+                    //Ocultamos datos del MvtoEquipo
+                    seleccionadorPlaca.show(false);
+                    seleccionadorPlaca1.show(false);
+                    titulo67.show(false);
+                    fechaInicialActividad_MvtoEquipo.show(false);
+                    label_MvtoEquipo_HoraInicial.show(false);
+                    select_MvtoEquipo_HoraInicial.show(false);
+                    label_MvtoEquipo_separadorInicial.show(false);
+                    select_MvtoEquipo_MinutosInicial.show(false);
+                    label_MvtoEquipo_ZonaHorariaInicial.show(false);
+                    titulo64.show(false);
+                    fechaFinActividad_MvtoEquipo.show(false);
+                    label_MvtoEquipo_HoraFinal.show(false);
+                    select_MvtoEquipo_HoraFinal.show(false);
+                    label_MvtoEquipo_separadorFinal.show(false);
+                    select_MvtoEquipo_MinutosFinal.show(false);
+                    label_MvtoEquipo_ZonaHorariaFinal.show(false);
+                    titulo65.show(false);
+                    select_MvtoEquipo_tipoEquipo.show(false);
+                    titulo61.show(false);
+                    select_MvtoEquipo_marcaEquipo.show(false);
+                    titulo62.show(false);
+                    titulo63.show(false);
+                    select_MvtoEquipo_Equipo.show(false);
+                    titulo48.show(false);
+                    select_MvtoEquipo_recobro.show(false);
+                    titulo66.show(false);
+                    select_MvtoEquipo_UsuarioIniciaRegistro.show(false);
+                    titulo62.show(false);
+                    select_MvtoEquipo_UsuarioCierraRegistro.show(false);
+                    titulo30.show(false);
+                    mvtoEquipo_selectRazonFinalzación.show(false);
+                    titulo47.show(false);
+                    select_MvtoEquipo_lavadoVehículo.show(false);
+                    titulo52.show(false);
+                    select_MvtoCarbon_motivoNoLavadoVehiculo.show(false);
+
+                    jButton1.show(false);
+                    btnRegistrar.show(false);
+
+                    titulo62.show(false);
+                    select_MvtoEquipo_UsuarioQuienAutorizaRecobro.show(false);
+                    titulo68.show(false);
+                    titulo69.show(false);
+                    titulo70.show(false);
+                    tabla_ListadoMvtoCarbonListadoEquipo.show(false);
+                    //removeAll();
+                    //revalidate();
+                    //repaint();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar", "Error!!", JOptionPane.ERROR_MESSAGE);
                 }
-                //habilitamos los campos de MvtoCarbon
-                fechaInicialActividad_MvtoCarbon.setEnabled(false);
-                select_MvtoCarbon_HoraInicial.setEnabled(false);
-                select_MvtoCarbon_MinutosInicial.setEnabled(false);
-                select_MvtoCarbon_CO.setEnabled(false);
-                select_MvtoCarbon_CCAuxiliar.setEnabled(false);
-                select_MvtoCarbon_laborRealizada.setEnabled(false);
-                select_MvtoCarbon_UsuarioCierraRegistro.setEnabled(false);
-
-                fechaFinActividad_MvtoCarbon.setEnabled(false);
-                select_MvtoCarbon_HoraFinal.setEnabled(false);
-                select_MvtoCarbon_MinutosFinal.setEnabled(false);
-                select_MvtoCarbon_SubcentroCosto.setEnabled(false);
-                select_MvtoCarbon_CCAuxiliarDestino.setEnabled(false);
-                select_MvtoCarbon_UsuarioIniciaRegistro.setEnabled(false);
-                jButton3.setEnabled(false);
-        
-        
-                //Ocultamos datos del MvtoEquipo
-                seleccionadorPlaca.show(false);
-                seleccionadorPlaca1.show(false);
-                titulo67.show(false);
-                fechaInicialActividad_MvtoEquipo.show(false);
-                label_MvtoEquipo_HoraInicial.show(false);
-                select_MvtoEquipo_HoraInicial.show(false);
-                label_MvtoEquipo_separadorInicial.show(false);
-                select_MvtoEquipo_MinutosInicial.show(false);
-                label_MvtoEquipo_ZonaHorariaInicial.show(false);
-                titulo64.show(false);
-                fechaFinActividad_MvtoEquipo.show(false);
-                label_MvtoEquipo_HoraFinal.show(false);
-                select_MvtoEquipo_HoraFinal.show(false);
-                label_MvtoEquipo_separadorFinal.show(false);
-                select_MvtoEquipo_MinutosFinal.show(false);
-                label_MvtoEquipo_ZonaHorariaFinal.show(false);
-                titulo65.show(false);
-                select_MvtoEquipo_tipoEquipo.show(false);
-                titulo61.show(false);
-                select_MvtoEquipo_marcaEquipo.show(false);
-                titulo62.show(false);
-                titulo63.show(false);
-                select_MvtoEquipo_Equipo.show(false);
-                titulo48.show(false);
-                select_MvtoEquipo_recobro.show(false);
-                titulo66.show(false);
-                select_MvtoEquipo_UsuarioIniciaRegistro.show(false);
-                titulo62.show(false);
-                select_MvtoEquipo_UsuarioCierraRegistro.show(false);
-                titulo30.show(false);
-                mvtoEquipo_selectRazonFinalzación.show(false);
-                titulo47.show(false);
-                select_MvtoEquipo_lavadoVehículo.show(false);
-                titulo52.show(false);
-                select_MvtoCarbon_motivoNoLavadoVehiculo.show(false);
-
-                jButton1.show(false);
-                btnRegistrar.show(false);
-
-                titulo62.show(false);
-                select_MvtoEquipo_UsuarioQuienAutorizaRecobro.show(false);
-                titulo68.show(false);
-                titulo69.show(false);
-                titulo70.show(false);
-                tabla_ListadoMvtoCarbonListadoEquipo.show(false);
-                //removeAll();
-                //revalidate();
-                //repaint();
-            }else{
-                JOptionPane.showMessageDialog(null, "Error al registrar","Error!!", JOptionPane.ERROR_MESSAGE);
+                /**
+                 * MvtoCarbon_ListadoEquipos mvtoCarbon_ListadoEquipos = new
+                 * MvtoCarbon_ListadoEquipos();
+                 * mvtoCarbon_ListadoEquipos.setAsignacionEquipo(mvtoEquipoAgregar.getAsignacionEquipo());
+                 * mvtoCarbon_ListadoEquipos.setMvtoCarbon(mvtoCarbon);
+                 * mvtoCarbon_ListadoEquipos.setMvtoEquipoAgregar(mvtoEquipoAgregar);
+                 * mvtoCarbon_ListadoEquipos.setEstado("1");
+                 * listadoMvtoCarbon_ListadoEquipos.add(mvtoCarbon_ListadoEquipos);
+                 *
+                 *
+                 *
+                 *
+                 */
             }
-            /**
-             * MvtoCarbon_ListadoEquipos mvtoCarbon_ListadoEquipos = new MvtoCarbon_ListadoEquipos();
-             * mvtoCarbon_ListadoEquipos.setAsignacionEquipo(mvtoEquipoAgregar.getAsignacionEquipo());
-             * mvtoCarbon_ListadoEquipos.setMvtoCarbon(mvtoCarbon);
-             * mvtoCarbon_ListadoEquipos.setMvtoEquipoAgregar(mvtoEquipoAgregar);
-             * mvtoCarbon_ListadoEquipos.setEstado("1");
-             * listadoMvtoCarbon_ListadoEquipos.add(mvtoCarbon_ListadoEquipos);
-             * 
-             * 
-             * 
-             * 
-             */
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MvtoCarbon_AgregarRegistro.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownHostException ex) {

@@ -1,17 +1,20 @@
 package ModuloPalero.Model;
 
 import ModuloPersonal.Model.Persona;
+import java.util.ArrayList;
 
 public class Liquidacion {
-   private String codigo;
-   private ConfiguracionLiquidacion configuracionLiquidacion;
-   private String fecha;
-   private Persona persona;
-   private String cantidadToneladaAcumulada;
-   private String cantidadToneladaSalario;
-   private String cantidadToneladaAPagar;
-   private String totalValorAPagar;
-   private String estado;
+    private String codigo;
+    private ConfiguracionLiquidacion configuracionLiquidacion;
+    private String fecha;
+    private Persona persona;
+    private String cantidadToneladaAcumulada;
+    private String cantidadToneladaSalario;
+    private String cantidadToneladaAPagar;
+    private String totalValorAPagar;
+    private String estado;
+    private String cantidadDiasLaborados;
+    private ArrayList<ConsolidadoLiquidacion> listadoConsolidadoLiquidacion;
 
     public Liquidacion() {
     }
@@ -27,7 +30,7 @@ public class Liquidacion {
         this.totalValorAPagar = totalValorAPagar;
         this.estado = estado;
     }
-
+    
     public String getCodigo() {
         return codigo;
     }
@@ -99,6 +102,24 @@ public class Liquidacion {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public String getCantidadDiasLaborados() {
+        return cantidadDiasLaborados;
+    }
+
+    public void setCantidadDiasLaborados(String cantidadDiasLaborados) {
+        this.cantidadDiasLaborados = cantidadDiasLaborados;
+    }
+
+    public ArrayList<ConsolidadoLiquidacion> getListadoConsolidadoLiquidacion() {
+        return listadoConsolidadoLiquidacion;
+    }
+
+    public void setListadoConsolidadoLiquidacion(ArrayList<ConsolidadoLiquidacion> listadoConsolidadoLiquidacion) {
+        this.listadoConsolidadoLiquidacion = listadoConsolidadoLiquidacion;
+    }
+    
+    
    
    
 }

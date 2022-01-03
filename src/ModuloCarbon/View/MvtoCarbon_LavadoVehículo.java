@@ -93,6 +93,10 @@ public final class MvtoCarbon_LavadoVehículo extends javax.swing.JPanel impleme
         selectorCampoPorDefecto();
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         
     }
     @SuppressWarnings("unchecked")

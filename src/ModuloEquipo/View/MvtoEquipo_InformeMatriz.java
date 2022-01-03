@@ -80,6 +80,10 @@ public final class MvtoEquipo_InformeMatriz extends javax.swing.JPanel implement
                 minutoFin.addItem(""+i);
             }
         }
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         selectorCampoPorDefecto();
         
         encabezadoTabla= new ArrayList<String>();

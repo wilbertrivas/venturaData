@@ -145,7 +145,7 @@ public class Worker_LiquidacionNivel2 extends SwingWorker{
                     //Cargamos la nueva información
                     for(int a=0; a < listadoPreliquidacion.size(); a++){
                         System.out.println("validar=========================>"+listadoPreliquidacion.get(a)); 
-                   }
+                    }
                     for(String data : listadoPreliquidacion){
                         DecimalFormat formato2 = new DecimalFormat("0.00");
                         String[] informacion = data.split("@@");
@@ -165,7 +165,7 @@ public class Worker_LiquidacionNivel2 extends SwingWorker{
                     resizeColumnWidth(tabla);
                     //level = 3;
                     //Label_level.setText("NIVEL " + level); 
-                    boton.setText("GENERAR LIQUIDACIÓN");
+                    boton.setText("GENERAR PRELIQUIDACION");
                     //senMailLabel.show(false);
                     //sendMailIcon.show(false);
                     Label_level.setText("NIVEL " + 3);

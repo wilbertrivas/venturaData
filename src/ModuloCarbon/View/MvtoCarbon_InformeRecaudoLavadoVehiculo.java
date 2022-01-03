@@ -82,7 +82,11 @@ public final class MvtoCarbon_InformeRecaudoLavadoVehiculo extends javax.swing.J
                 minutoFin.addItem(""+i);
             }
         }
-        Dimension dim=super.getToolkit().getScreenSize();      
+        Dimension dim=super.getToolkit().getScreenSize();     
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -211,7 +211,7 @@ public class ControlDB_AsignacionEquipo {
             "		INNER JOIN ["+DB+"].[dbo].[proveedor_equipo] ON [eq_proveedor_equipo_cdgo]=[pe_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo_pertenencia] eq_pertenencia ON [eq_equipo_pertenencia_cdgo]=eq_pertenencia.[ep_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo_pertenencia] ae_pertenencia ON [ae_equipo_pertenencia_cdgo]=ae_pertenencia.[ep_cdgo]\n" +
-            "		 WHERE  [ae_equipo_cdgo]=? AND\n" +
+            "		 WHERE  [ae_equipo_cdgo]=? AND [ae_estad]= 1 AND\n" +
                                                                     "  ( '"+fechaInicio+"' BETWEEN [ae_fecha_hora_inicio] AND [ae_fecha_hora_fin] " +
                                                                     "   OR '"+fechaFinal+"' BETWEEN [ae_fecha_hora_inicio] AND [ae_fecha_hora_fin] "+
                                                                     "   OR [ae_fecha_hora_inicio] BETWEEN '"+fechaInicio+"' AND '"+fechaFinal+"' "+
@@ -403,7 +403,7 @@ public class ControlDB_AsignacionEquipo {
             "		INNER JOIN ["+DB+"].[dbo].[proveedor_equipo] ON [eq_proveedor_equipo_cdgo]=[pe_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo_pertenencia] eq_pertenencia ON [eq_equipo_pertenencia_cdgo]=eq_pertenencia.[ep_cdgo]\n" +
             "		INNER JOIN ["+DB+"].[dbo].[equipo_pertenencia] ae_pertenencia ON [ae_equipo_pertenencia_cdgo]=ae_pertenencia.[ep_cdgo]\n" +
-            "		 WHERE  [ae_equipo_cdgo]=? AND\n" +
+            "		 WHERE  [ae_equipo_cdgo]=? AND [ae_estad]=1 AND \n" +
                                                                     "  ( '"+AsignacionEquipo1.getFechaHoraInicio()+"' BETWEEN [ae_fecha_hora_inicio] AND [ae_fecha_hora_fin] " +
                                                                     "   OR '"+AsignacionEquipo1.getFechaHoraFin()+"' BETWEEN [ae_fecha_hora_inicio] AND [ae_fecha_hora_fin] "+
                                                                     "   OR [ae_fecha_hora_inicio] BETWEEN '"+AsignacionEquipo1.getFechaHoraInicio()+"' AND '"+AsignacionEquipo1.getFechaHoraFin()+"' "+

@@ -204,8 +204,7 @@ public class Solicitud_Equipos_Registrar extends javax.swing.JPanel {
             }
         }
         //Cargamos en la interfaz los subcentro de costos activos
-        try {
-          
+        try {  
             listadoCentroCostoSubCentro=new ControlDB_CentroCostoSubCentro(tipoConexion).buscarActivos(listadoCentroOperacion.get(centroOperacion.getSelectedIndex()));
             if(listadoCentroCostoSubCentro != null){
                 String datosObjeto[]= new String[listadoCentroCostoSubCentro.size()];

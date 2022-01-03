@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="64">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="66">
         <file>
             <url>src/ModuloEquipo/View/MvtoEquipo_Procesar.java</url>
             <bookmark id="25">
@@ -50,9 +50,14 @@
         </file>
         <file>
             <url>src/ModuloPalero/View/LiquidacionPalero_Registrar.java</url>
+            <bookmark id="66">
+                <name/>
+                <line>1021</line>
+                <key/>
+            </bookmark>
             <bookmark id="63">
                 <name/>
-                <line>1497</line>
+                <line>1257</line>
                 <key/>
             </bookmark>
         </file>
@@ -99,17 +104,17 @@
             <url>src/ModuloCarbon/View/MvtoCarbon_ModificarFinal.java</url>
             <bookmark id="42">
                 <name/>
-                <line>3175</line>
+                <line>4056</line>
                 <key/>
             </bookmark>
             <bookmark id="43">
                 <name/>
-                <line>4098</line>
+                <line>4787</line>
                 <key/>
             </bookmark>
             <bookmark id="64">
                 <name/>
-                <line>7090</line>
+                <line>7779</line>
                 <key/>
             </bookmark>
         </file>
@@ -184,27 +189,32 @@
             <url>src/ModuloCarbon/Controller2/ControlDB_MvtoCarbon.java</url>
             <bookmark id="58">
                 <name/>
-                <line>7726</line>
+                <line>8441</line>
                 <key/>
             </bookmark>
             <bookmark id="60">
                 <name/>
-                <line>7839</line>
+                <line>8554</line>
                 <key/>
             </bookmark>
             <bookmark id="62">
                 <name/>
-                <line>8221</line>
+                <line>9213</line>
                 <key/>
             </bookmark>
             <bookmark id="59">
                 <name/>
-                <line>8929</line>
+                <line>9921</line>
                 <key/>
             </bookmark>
             <bookmark id="61">
                 <name/>
-                <line>9363</line>
+                <line>10355</line>
+                <key/>
+            </bookmark>
+            <bookmark id="65">
+                <name/>
+                <line>10926</line>
                 <key/>
             </bookmark>
         </file>
@@ -340,13 +350,13 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/Model/PlantillaArchivoLiquidacion.java</file>
             <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/View/LiquidacionPalero_Registrar.java</file>
-            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ViewPrincipal/GUI_Iniciar.java</file>
+            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/Controller/ControlDB_ConfiguracionLiquidacion.java</file>
+            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/View/LiquidacionPalero_Consultar.java</file>
             <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ConnectionDB/Conexion_DB_costos_vg.java</file>
-            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloCarbon/View/MvtoCarbon_ModificarFinal.java</file>
-            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloCarbon/Controller2/ControlDB_MvtoCarbon.java</file>
+            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/Controller/ControlDB_LiquidacionPalero.java</file>
             <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ViewPrincipal/GUI_Principal.java</file>
+            <file>file:/C:/Users/wrivas/Documents/NetBeansProjects/ControlCostos_VenturaGroup/ControlCostos_VenturaGroup/src/ModuloPalero/View/LiquidacionPalero_ConsultarConsolidadoPorPeriodo.java</file>
         </group>
     </open-files>
 </project-private>

@@ -65,7 +65,6 @@ public class ControlDB_MvtoCarbon {
     private Connection conexion=null;
     private Connection conexion2=null;
     private final String tipoConexion;
-    
     public                                                          ControlDB_MvtoCarbon(String tipoConexion) { 
         this.tipoConexion= tipoConexion;
     }  
@@ -751,15 +750,15 @@ public class ControlDB_MvtoCarbon {
                                     mvto_listEquipo.getMvtoEquipo().setCostoTotal(formato2.format((totalHoras * valorHora )));
                                     //mvto_listEquipo.getMvtoEquipo().setCostoTotalRecobroCliente(formato2.format((totalHoras * valorHora )));
                                     mvto_listEquipo.getMvtoEquipo().setCostoTotalRecobroCliente("0");
-                                    mvto_listEquipo.getMvtoCarbon().setCostoLavadoVehiculo(tarifa.getCostoLavadoVehiculo());
-                                    mvto_listEquipo.getMvtoCarbon().setValorRecaudoEmpresa_lavadoVehiculo(tarifa.getValorRecaudoEmpresa());
-                                    mvto_listEquipo.getMvtoCarbon().setValorRecaudoEquipo_lavadoVehiculo(tarifa.getValorRecaudoEquipo());
+                                    
                                 }catch(Exception e){
                                     //mvto_listEquipo.getMvtoEquipo().setCostoTotal("NO PUDE");
                                 }
                             }
-                        }
-                        
+                            mvto_listEquipo.getMvtoCarbon().setCostoLavadoVehiculo(tarifa.getCostoLavadoVehiculo());
+                            mvto_listEquipo.getMvtoCarbon().setValorRecaudoEmpresa_lavadoVehiculo(tarifa.getValorRecaudoEmpresa());
+                            mvto_listEquipo.getMvtoCarbon().setValorRecaudoEquipo_lavadoVehiculo(tarifa.getValorRecaudoEquipo());
+                        }  
                     }catch(Exception e){
                        System.out.println("Error al procesar tarifa");
                     }
@@ -1847,6 +1846,9 @@ public class ControlDB_MvtoCarbon {
                                     //mvto_listEquipo.getMvtoEquipo().setCostoTotal("NO PUDE");
                                 }
                             }
+                            mvto_listEquipo.getMvtoCarbon().setCostoLavadoVehiculo(tarifa.getCostoLavadoVehiculo());
+                            mvto_listEquipo.getMvtoCarbon().setValorRecaudoEmpresa_lavadoVehiculo(tarifa.getValorRecaudoEmpresa());
+                            mvto_listEquipo.getMvtoCarbon().setValorRecaudoEquipo_lavadoVehiculo(tarifa.getValorRecaudoEquipo());
                         }
                     }catch(Exception e){
                        System.out.println("Error al procesar tarifa");
@@ -2701,6 +2703,720 @@ public class ControlDB_MvtoCarbon {
                                                                 "               LEFT JOIN ["+DB+"].[dbo].[tipo_equipo] tipo_equipo_lavado ON equipo_lavado.[eq_tipo_equipo_cdgo]=tipo_equipo_lavado.[te_cdgo]"+
                                                                 "               LEFT JOIN ["+DB+"].[dbo].[usuario] me_usuario_cierre ON [me_usuario_cierre_cdgo]=me_usuario_cierre.[us_cdgo]\n"+
                                                                 "               WHERE [mc_fecha] BETWEEN '"+DatetimeInicio+"' AND '"+DatetimeFin+"' AND [me_inactividad]=0 AND [mc_estad_mvto_carbon_cdgo]=1 "+
+                                                                "	 ORDER BY [mcle_mvto_carbon_cdgo] DESC");
+            //query.setString(1, DatetimeInicio);
+            //query.setString(2, DatetimeFin);
+            //ResultSet resultSet; resultSet= query.executeQuery();    
+            while(resultSet.next()){ 
+                try{
+                    MvtoCarbon_ListadoEquipos mvto_listEquipo = new MvtoCarbon_ListadoEquipos();
+                    mvto_listEquipo.setCodigo(resultSet.getString(1));
+                        MvtoCarbon mvtoCarbon = new MvtoCarbon();
+                        mvtoCarbon.setCodigo(resultSet.getString(3));
+                        mvtoCarbon.setCentroOperacion(new CentroOperacion(Integer.parseInt(resultSet.getString(5)),resultSet.getString(6),""));
+                        mvtoCarbon.setCentroCostoAuxiliar(new CentroCostoAuxiliar(Integer.parseInt(resultSet.getString(8)),new CentroCostoSubCentro(Integer.parseInt(resultSet.getString(10)),resultSet.getString(11),""),resultSet.getString(13),""));
+
+                            CentroCosto mc_CentroCosto = new CentroCosto();
+                                mc_CentroCosto.setCodigo(resultSet.getString(15));
+                                mc_CentroCosto.setDescripción(resultSet.getString(16));
+                                 mc_CentroCosto.setClienteBaseDatos(resultSet.getString(212));
+                        mvtoCarbon.setCentroCosto(mc_CentroCosto);
+                            LaborRealizada mc_LaborRealizada = new LaborRealizada();
+                                mc_LaborRealizada.setCodigo(resultSet.getString(18));
+                                mc_LaborRealizada.setDescripcion(resultSet.getString(19));
+                        mvtoCarbon.setLaborRealizada(mc_LaborRealizada);
+                            Articulo mc_Articulo = new Articulo();
+                                mc_Articulo.setCodigo(resultSet.getString(21));
+                                    TipoArticulo mc_TipoArticulo = new TipoArticulo();
+                                    mc_TipoArticulo.setCodigo(resultSet.getString(23));
+                                    mc_TipoArticulo.setDescripcion(resultSet.getString(24));
+                                    mc_TipoArticulo.setCodigoERP(resultSet.getString(25));
+                                    mc_TipoArticulo.setUnidadNegocio(resultSet.getString(26));
+                                mc_Articulo.setTipoArticulo(mc_TipoArticulo);
+                                mc_Articulo.setDescripcion(resultSet.getString(27));
+                                mc_Articulo.setBaseDatos(new BaseDatos(resultSet.getString(213)));
+                        mvtoCarbon.setArticulo(mc_Articulo);
+                        
+                        Cliente mc_cliente = new Cliente();
+                            mc_cliente.setCodigo(resultSet.getString(29));
+                            mc_cliente.setDescripcion(resultSet.getString(30));
+                            mc_cliente.setBaseDatos(new BaseDatos(resultSet.getString(214)));
+                        
+                        mvtoCarbon.setCliente(mc_cliente);
+                        
+                        
+                        //mvtoCarbon.setCliente(new Cliente(resultSet.getString(29),resultSet.getString(30),""));
+                            Transportadora mc_trTransportadora = new Transportadora();
+                            mc_trTransportadora.setCodigo(resultSet.getString(32));
+                            mc_trTransportadora.setNit(resultSet.getString(33));
+                            mc_trTransportadora.setDescripcion(resultSet.getString(34));
+                            mc_trTransportadora.setBaseDatos(new BaseDatos(resultSet.getString(215)));
+                        mvtoCarbon.setTransportadora(mc_trTransportadora);
+                        mvtoCarbon.setMes(resultSet.getString(35));
+                        mvtoCarbon.setDia(resultSet.getString(203));
+                        mvtoCarbon.setFechaRegistro(resultSet.getString(36));
+                        mvtoCarbon.setNumero_orden(resultSet.getString(37));
+                        mvtoCarbon.setDeposito(resultSet.getString(38));
+                        mvtoCarbon.setConsecutivo(resultSet.getString(39));
+                        mvtoCarbon.setPlaca(resultSet.getString(40));
+                        mvtoCarbon.setPesoVacio(resultSet.getString(41));
+                        mvtoCarbon.setPesoLleno(resultSet.getString(42));
+                        mvtoCarbon.setPesoNeto(resultSet.getString(43));
+                        mvtoCarbon.setFechaEntradaVehiculo(resultSet.getString(44));
+                        mvtoCarbon.setFecha_SalidaVehiculo(resultSet.getString(45));    
+                        mvtoCarbon.setFechaInicioDescargue(resultSet.getString(46));    
+                        mvtoCarbon.setFechaFinDescargue(resultSet.getString(47));      
+                            Usuario mc_usuarioQuienRegistra = new Usuario();           
+                            mc_usuarioQuienRegistra.setCodigo(resultSet.getString(49));
+                            mc_usuarioQuienRegistra.setNombres(resultSet.getString(50));
+                            mc_usuarioQuienRegistra.setApellidos(resultSet.getString(51));
+                            mc_usuarioQuienRegistra.setCorreo(resultSet.getString(52));
+                        mvtoCarbon.setUsuarioRegistroMovil(mc_usuarioQuienRegistra);
+                        mvtoCarbon.setObservacion(resultSet.getString(53));
+                            EstadoMvtoCarbon estadMvtoCarbon = new EstadoMvtoCarbon();
+                            estadMvtoCarbon.setCodigo(resultSet.getString(55));
+                            estadMvtoCarbon.setDescripcion(resultSet.getString(56));
+                        mvtoCarbon.setEstadoMvtoCarbon(estadMvtoCarbon);
+                        mvtoCarbon.setConexionPesoCcarga(resultSet.getString(57));
+                        mvtoCarbon.setRegistroManual(resultSet.getString(58));
+                            Usuario mc_usuarioRegManual = new Usuario();           
+                            mc_usuarioRegManual.setCodigo(resultSet.getString(60));
+                            mc_usuarioRegManual.setNombres(resultSet.getString(61));
+                            mc_usuarioRegManual.setApellidos(resultSet.getString(62));
+                            mc_usuarioRegManual.setCorreo(resultSet.getString(63));
+                        mvtoCarbon.setUsuarioRegistraManual(mc_usuarioRegManual);
+                        CentroCostoAuxiliar mc_CentroCostosAuxilarDestino = new CentroCostoAuxiliar();
+                        if(resultSet.getString(65) != null){
+                            mc_CentroCostosAuxilarDestino.setCodigo(Integer.parseInt(resultSet.getString(65)));
+                            mc_CentroCostosAuxilarDestino.setDescripcion(resultSet.getString(66));
+                        
+                        }else{                         
+                            mc_CentroCostosAuxilarDestino.setCodigo(-1);
+                            mc_CentroCostosAuxilarDestino.setDescripcion(null);
+                        }
+                        mvtoCarbon.setCentroCostoAuxiliarDestino(mc_CentroCostosAuxilarDestino); 
+                        mvtoCarbon.setCantidadHorasDescargue(resultSet.getString(186));
+                            CentroCostoMayor mc_CentroCostoMayor = new CentroCostoMayor();
+                            mc_CentroCostoMayor.setCodigo(resultSet.getString(68));
+                            mc_CentroCostoMayor.setDescripcion(resultSet.getString(69));    
+                            mc_CentroCostoMayor.setClienteBaseDatos(resultSet.getString(216));
+                        mvtoCarbon.setCentroCostoMayor(mc_CentroCostoMayor);
+                        mvtoCarbon.setLavadoVehiculo(resultSet.getString(189));
+                        mvtoCarbon.setLavadoVehiculo_Observacion(resultSet.getString(190));
+                            MotivoNoLavado motivoNoLavado = new MotivoNoLavado();
+                            motivoNoLavado.setDescripcion(resultSet.getString(193));
+                        mvtoCarbon.setMotivoNoLavado(motivoNoLavado);
+                            Equipo equipoLavado= new Equipo();
+                            equipoLavado.setCodigo(resultSet.getString(195));
+                                TipoEquipo tipoEquipo_lavado = new TipoEquipo();
+                                tipoEquipo_lavado.setCodigo(resultSet.getString(197));
+                                tipoEquipo_lavado.setDescripcion(resultSet.getString(198));
+                            equipoLavado.setTipoEquipo(tipoEquipo_lavado);
+                            equipoLavado.setMarca(resultSet.getString(199));
+                            equipoLavado.setModelo(resultSet.getString(200));
+                            equipoLavado.setDescripcion(resultSet.getString(201));
+                        mvtoCarbon.setEquipoLavadoVehiculo(equipoLavado);
+                        mvtoCarbon.setCostoLavadoVehiculo(resultSet.getString(202));
+                        mvtoCarbon.setValorRecaudoEmpresa_lavadoVehiculo(resultSet.getString(204));
+                        mvtoCarbon.setValorRecaudoEquipo_lavadoVehiculo(resultSet.getString(205));
+                        
+                        
+                        mvtoCarbon.setUsuarioRegistroMovil(mc_usuarioQuienRegistra);
+                        
+                        Usuario mc_usuarioCierre = new Usuario(); 
+                        
+                        if(resultSet.getString(206) != null){//Usuario de Cierrre diferente de nulo         
+                            mc_usuarioCierre.setCodigo(resultSet.getString(206));
+                            mc_usuarioCierre.setNombres(resultSet.getString(207));
+                            mc_usuarioCierre.setApellidos(resultSet.getString(208));  
+                        }else{       
+                            mc_usuarioCierre.setCodigo(null);
+                            mc_usuarioCierre.setNombres(null);
+                            mc_usuarioCierre.setApellidos(null);  
+                        }
+                        mvtoCarbon.setUsuarioCierraRegistro(mc_usuarioCierre);
+                    mvto_listEquipo.setMvtoCarbon(mvtoCarbon);
+                        AsignacionEquipo asignacionEquipo = new AsignacionEquipo();
+                        asignacionEquipo.setCodigo(resultSet.getString(74));
+                        asignacionEquipo.setFechaRegistro(resultSet.getString(83));
+                        asignacionEquipo.setFechaHoraInicio(resultSet.getString(84));
+                        asignacionEquipo.setFechaHoraFin(resultSet.getString(85));
+                        asignacionEquipo.setCantidadMinutosProgramados(resultSet.getString(86));
+                            Equipo equipo = new Equipo(); 
+                            equipo.setCodigo(resultSet.getString(76));
+                            equipo.setTipoEquipo(new TipoEquipo(resultSet.getString(78),resultSet.getString(79),""));
+                            equipo.setMarca(resultSet.getString(80));
+                            equipo.setModelo(resultSet.getString(81));
+                            equipo.setDescripcion(resultSet.getString(82)+ " "+ resultSet.getString(81));
+                            equipo.setPertenenciaEquipo(new Pertenencia(resultSet.getString(88),resultSet.getString(89),resultSet.getString(90)));
+                        asignacionEquipo.setEquipo(equipo);
+                        asignacionEquipo.setPertenencia(new Pertenencia(resultSet.getString(88),resultSet.getString(89),resultSet.getString(90)));
+                    mvto_listEquipo.setAsignacionEquipo(asignacionEquipo);
+                        MvtoEquipo mvtoEquipo = new MvtoEquipo();
+                        mvtoEquipo.setCodigo(resultSet.getString(72));
+                        mvtoEquipo.setAsignacionEquipo(asignacionEquipo);
+                        mvtoEquipo.setMes(getMes(resultSet.getString(91)));
+                        mvtoEquipo.setFechaRegistro(resultSet.getString(92));
+                        mvtoEquipo.setProveedorEquipo(new ProveedorEquipo(resultSet.getString(94),resultSet.getString(95),resultSet.getString(96),""));
+                        mvtoEquipo.setNumeroOrden(resultSet.getString(97));
+                            CentroOperacion me_co= new CentroOperacion();
+                            me_co.setCodigo(Integer.parseInt(resultSet.getString(99)));
+                            me_co.setDescripcion(resultSet.getString(100));
+                        mvtoEquipo.setCentroOperacion(me_co);
+                            CentroCostoSubCentro centroCostoSubCentro_mvtoEquipo = new CentroCostoSubCentro();
+                            centroCostoSubCentro_mvtoEquipo.setCodigo(resultSet.getInt(104));
+                            centroCostoSubCentro_mvtoEquipo.setDescripcion(resultSet.getString(105));
+                            centroCostoSubCentro_mvtoEquipo.setCentroCostoRequiereLaborRealizada(resultSet.getString(107));
+                            CentroCostoAuxiliar centroCostoAuxiliar_mvtoEquipo = new CentroCostoAuxiliar();
+                            centroCostoAuxiliar_mvtoEquipo.setCodigo(resultSet.getInt(102));
+                            centroCostoAuxiliar_mvtoEquipo.setDescripcion(resultSet.getString(108));
+                            centroCostoAuxiliar_mvtoEquipo.setCentroCostoSubCentro(centroCostoSubCentro_mvtoEquipo);
+                        mvtoEquipo.setCentroCostoAuxiliar(centroCostoAuxiliar_mvtoEquipo);
+                            CentroCosto centroCosto = new CentroCosto();
+                            centroCosto.setCodigo(resultSet.getString(110));
+                            centroCosto.setDescripción(resultSet.getString(111));
+                            centroCosto.setClienteBaseDatos(resultSet.getString(217));
+                        mvtoEquipo.setCentroCosto(centroCosto);
+                            LaborRealizada laborRealizadaT = new LaborRealizada();
+                            laborRealizadaT.setCodigo(resultSet.getString(113));
+                            laborRealizadaT.setDescripcion(resultSet.getString(114));
+                            laborRealizadaT.setEs_operativa(resultSet.getString(115));
+                            laborRealizadaT.setEs_parada(resultSet.getString(116));
+                        mvtoEquipo.setLaborRealizada(laborRealizadaT);
+                        
+                        Cliente me_cliente = new Cliente();
+                        me_cliente.setCodigo(resultSet.getString(118));
+                        me_cliente.setDescripcion(resultSet.getString(119));
+                        me_cliente.setBaseDatos(new BaseDatos( resultSet.getString(218)));
+                        mvtoEquipo.setCliente(me_cliente);
+                        //mvtoEquipo.setCliente(new Cliente(resultSet.getString(118),resultSet.getString(119),""));
+                            TipoArticulo tipoArticulo = new TipoArticulo();
+                                    tipoArticulo.setCodigo(resultSet.getString(123));
+                                    tipoArticulo.setDescripcion(resultSet.getString(124));
+                                    tipoArticulo.setCodigoERP(resultSet.getString(125));
+                                    tipoArticulo.setUnidadNegocio(resultSet.getString(126));
+                            Articulo articulo = new Articulo();
+                            articulo.setCodigo(resultSet.getString(121));
+                            articulo.setDescripcion(resultSet.getString(127));
+                            articulo.setTipoArticulo(tipoArticulo);
+                            articulo.setBaseDatos(new BaseDatos( resultSet.getString(219)));
+                        mvtoEquipo.setArticulo(articulo);
+                        Motonave motonave = new Motonave();
+                        motonave.setCodigo(resultSet.getString(129));
+                        motonave.setDescripcion(resultSet.getString(130));
+                        motonave.setBaseDatos(new BaseDatos( resultSet.getString(220)));
+                    mvtoEquipo.setMotonave(motonave);
+                    mvtoEquipo.setFechaHoraInicio(resultSet.getString(131));
+                    mvtoEquipo.setFechaHoraFin(resultSet.getString(132));
+                    mvtoEquipo.setTotalMinutos(resultSet.getString(133));
+                    mvtoEquipo.setValorHora(resultSet.getString(134));
+                    mvtoEquipo.setCostoTotal(resultSet.getString(135));
+                            Recobro recobro = new Recobro();
+                            recobro.setCodigo(resultSet.getString(137));
+                            recobro.setDescripcion(resultSet.getString(138));
+                    mvtoEquipo.setRecobro(recobro);
+                            Usuario usuario_me_registra = new Usuario();
+                            usuario_me_registra.setCodigo(resultSet.getString(143));
+                            usuario_me_registra.setNombres(resultSet.getString(144));
+                            usuario_me_registra.setApellidos(resultSet.getString(145));
+                            usuario_me_registra.setCorreo(resultSet.getString(146));
+                        mvtoEquipo.setUsuarioQuieRegistra(usuario_me_registra);
+                            Usuario usuario_me_autoriza = new Usuario();
+                            usuario_me_autoriza.setCodigo(resultSet.getString(148));
+                            usuario_me_autoriza.setNombres(resultSet.getString(149));
+                            usuario_me_autoriza.setApellidos(resultSet.getString(150));
+                            usuario_me_autoriza.setCorreo(resultSet.getString(151));
+                        mvtoEquipo.setUsuarioAutorizaRecobro(usuario_me_autoriza);
+                            AutorizacionRecobro autorizacionRecobro = new AutorizacionRecobro();
+                            autorizacionRecobro.setCodigo(resultSet.getString(153));
+                            autorizacionRecobro.setDescripcion(resultSet.getString(154));
+                            autorizacionRecobro.setEstado(resultSet.getString(155));
+                        mvtoEquipo.setAutorizacionRecobro(autorizacionRecobro);
+                        mvtoEquipo.setObservacionAutorizacion(resultSet.getString(156));
+                        mvtoEquipo.setInactividad(resultSet.getString(157));
+                            CausaInactividad causaInactividad = new CausaInactividad();
+                            causaInactividad.setCodigo(resultSet.getString(159));
+                            causaInactividad.setDescripcion(resultSet.getString(160));
+                            causaInactividad.setEstado(resultSet.getString(161));
+                        mvtoEquipo.setCausaInactividad(causaInactividad);
+                            Usuario usuario_me_us_inactividad = new Usuario();
+                            usuario_me_us_inactividad.setCodigo(resultSet.getString(163));
+                            usuario_me_us_inactividad.setNombres(resultSet.getString(164));
+                            usuario_me_us_inactividad.setApellidos(resultSet.getString(165));
+                            usuario_me_us_inactividad.setCorreo(resultSet.getString(166));
+                        mvtoEquipo.setUsuarioInactividad(usuario_me_us_inactividad);
+                            MotivoParada motivoParada= new MotivoParada();
+                            motivoParada.setCodigo(resultSet.getString(169));
+                            motivoParada.setDescripcion(resultSet.getString(170));
+                        mvtoEquipo.setMotivoParada(motivoParada);
+                        mvtoEquipo.setObservacionMvtoEquipo(resultSet.getString(171));
+                        mvtoEquipo.setEstado(resultSet.getString(172));
+                        mvtoEquipo.setDesdeCarbon(resultSet.getString(173));
+                        mvtoEquipo.setCentroCostoDescripción(resultSet.getString(174));
+                        CentroCostoSubCentro centroCostoSubCentro_mvtoEquipoDestino = new CentroCostoSubCentro();
+                            centroCostoSubCentro_mvtoEquipoDestino.setCodigo(resultSet.getInt(178));
+                            centroCostoSubCentro_mvtoEquipoDestino.setDescripcion(resultSet.getString(179));
+                            centroCostoSubCentro_mvtoEquipoDestino.setCentroCostoRequiereLaborRealizada(resultSet.getString(181));
+                            CentroCostoAuxiliar centroCostoAuxiliar_mvtoEquipoDestino = new CentroCostoAuxiliar();
+                            centroCostoAuxiliar_mvtoEquipoDestino.setCodigo(resultSet.getInt(176));
+                            centroCostoAuxiliar_mvtoEquipoDestino.setDescripcion(resultSet.getString(182));
+                            centroCostoAuxiliar_mvtoEquipoDestino.setCentroCostoSubCentro(centroCostoSubCentro_mvtoEquipoDestino);
+                        mvtoEquipo.setCentroCostoAuxiliarDestino(centroCostoAuxiliar_mvtoEquipoDestino);
+                            CentroCostoMayor centroCostoMayor = new CentroCostoMayor();
+                            centroCostoMayor.setCodigo(resultSet.getString(184));
+                            centroCostoMayor.setDescripcion(resultSet.getString(185));
+                            centroCostoMayor.setClienteBaseDatos(resultSet.getString(221));
+                        mvtoEquipo.setCentroCostoMayor(centroCostoMayor);    
+                            Usuario me_usuarioCierre = new Usuario();    
+                            if(resultSet.getString(209) != null){
+                                me_usuarioCierre.setCodigo(resultSet.getString(209));
+                                me_usuarioCierre.setNombres(resultSet.getString(210));
+                                me_usuarioCierre.setApellidos(resultSet.getString(211));  
+                            }else{
+                                me_usuarioCierre.setCodigo(null);
+                                me_usuarioCierre.setNombres(null);
+                                me_usuarioCierre.setApellidos(null);  
+                            }
+                        mvtoEquipo.setUsuarioQuienCierra(me_usuarioCierre);
+                        //mvtoEquipo.setTotalMinutos(resultSet.getString(187)); 
+                    mvto_listEquipo.setMvtoEquipo(mvtoEquipo);  
+                    mvto_listEquipo.setEstado(resultSet.getString(188));
+                    
+                resultSet.next();
+                try{
+                    while(mvtoCarbon.getCodigo().equals(resultSet.getString(3))){
+                        mvto_listEquipo.getAsignacionEquipo().setCodigo(mvto_listEquipo.getAsignacionEquipo().getCodigo()+"\n"+resultSet.getString(74));
+                        mvto_listEquipo.getAsignacionEquipo().setFechaRegistro(mvto_listEquipo.getAsignacionEquipo().getFechaRegistro()+"\n"+resultSet.getString(83));
+                        mvto_listEquipo.getAsignacionEquipo().setFechaHoraInicio(mvto_listEquipo.getAsignacionEquipo().getFechaHoraInicio()+"\n"+resultSet.getString(84));
+                        mvto_listEquipo.getAsignacionEquipo().setFechaHoraFin(mvto_listEquipo.getAsignacionEquipo().getFechaHoraFin()+"\n"+resultSet.getString(85));
+                        mvto_listEquipo.getAsignacionEquipo().setCantidadMinutosProgramados(mvto_listEquipo.getAsignacionEquipo().getCantidadMinutosProgramados()+"\n"+resultSet.getString(86));
+                        
+                        
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().setCodigo(mvto_listEquipo.getAsignacionEquipo().getEquipo().getCodigo()+"\n"+resultSet.getString(76));
+                        System.out.println("Fue------>"+mvto_listEquipo.getAsignacionEquipo().getEquipo().getCodigo()+" "+resultSet.getString(76));
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().getTipoEquipo().setCodigo(mvto_listEquipo.getAsignacionEquipo().getEquipo().getTipoEquipo().getCodigo()+"\n"+resultSet.getString(78));
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().getTipoEquipo().setDescripcion(mvto_listEquipo.getAsignacionEquipo().getEquipo().getTipoEquipo().getDescripcion()+"\n"+resultSet.getString(79));
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().setMarca(mvto_listEquipo.getAsignacionEquipo().getEquipo().getMarca()+"\n"+resultSet.getString(80));
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().setModelo(mvto_listEquipo.getAsignacionEquipo().getEquipo().getModelo()+"\n"+resultSet.getString(81));
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().setDescripcion(mvto_listEquipo.getAsignacionEquipo().getEquipo().getDescripcion()+"\n"+resultSet.getString(82)+ " "+resultSet.getString(81));
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().getPertenenciaEquipo().setCodigo(mvto_listEquipo.getAsignacionEquipo().getEquipo().getPertenenciaEquipo().getCodigo()+"\n"+resultSet.getString(88));
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().getPertenenciaEquipo().setDescripcion(mvto_listEquipo.getAsignacionEquipo().getEquipo().getPertenenciaEquipo().getDescripcion()+"\n"+resultSet.getString(89));
+                        mvto_listEquipo.getAsignacionEquipo().getEquipo().getPertenenciaEquipo().setEstado(mvto_listEquipo.getAsignacionEquipo().getEquipo().getPertenenciaEquipo().getEstado()+"\n"+resultSet.getString(90));
+                        
+                        /*mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().setCodigo(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getCodigo()+"\n"+resultSet.getString(76));
+                        mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getTipoEquipo().setCodigo(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getTipoEquipo().getCodigo()+"\n"+resultSet.getString(78));
+                        mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getTipoEquipo().setDescripcion(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getTipoEquipo().getDescripcion()+"\n"+resultSet.getString(79));
+                        mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().setMarca(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getMarca()+"\n"+resultSet.getString(80));
+                        mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().setModelo(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getModelo()+"\n"+resultSet.getString(81));
+                        mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().setDescripcion(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getDescripcion()+"\n"+resultSet.getString(82)+" "+resultSet.getString(81));
+                        mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getPertenenciaEquipo().setCodigo(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getPertenenciaEquipo().getCodigo()+"\n"+resultSet.getString(88));
+                        mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getPertenenciaEquipo().setDescripcion(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getPertenenciaEquipo().getDescripcion()+"\n"+resultSet.getString(89));
+                        mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getPertenenciaEquipo().setEstado(mvto_listEquipo.getMvtoEquipo().getAsignacionEquipo().getEquipo().getPertenenciaEquipo().getEstado()+"\n"+resultSet.getString(90));
+                        */
+                        
+                        
+                        mvto_listEquipo.getMvtoEquipo().setCodigo(mvto_listEquipo.getMvtoEquipo().getCodigo()+"\n"+resultSet.getString(72));
+                        mvto_listEquipo.getMvtoEquipo().setMes(mvto_listEquipo.getMvtoEquipo().getMes()+"\n"+getMes(resultSet.getString(91)));
+                        mvto_listEquipo.getMvtoEquipo().setFechaRegistro(mvto_listEquipo.getMvtoEquipo().getFechaRegistro()+"\n"+resultSet.getString(92));
+                        mvto_listEquipo.getMvtoEquipo().getProveedorEquipo().setCodigo(mvto_listEquipo.getMvtoEquipo().getProveedorEquipo().getCodigo()+"\n"+resultSet.getString(94));
+                        mvto_listEquipo.getMvtoEquipo().getProveedorEquipo().setNit(mvto_listEquipo.getMvtoEquipo().getProveedorEquipo().getNit()+"\n"+resultSet.getString(95));
+                        mvto_listEquipo.getMvtoEquipo().getProveedorEquipo().setDescripcion(mvto_listEquipo.getMvtoEquipo().getProveedorEquipo().getDescripcion()+"\n"+resultSet.getString(96));
+                        mvto_listEquipo.getMvtoEquipo().setNumeroOrden(mvto_listEquipo.getMvtoEquipo().getNumeroOrden()+"\n"+resultSet.getString(97));
+                        
+                        //mvto_listEquipo.getMvtoEquipo().getCentroOperacion().setCodigo(mvto_listEquipo.getMvtoEquipo().getCentroOperacion().getCodigo()+"\n"+resultSet.getString(94));
+                        mvto_listEquipo.getMvtoEquipo().getCentroOperacion().setDescripcion(mvto_listEquipo.getMvtoEquipo().getCentroOperacion().getDescripcion()+"\n"+resultSet.getString(100));
+                        
+                        mvto_listEquipo.getMvtoEquipo().getCentroCostoAuxiliar().getCentroCostoSubCentro().setDescripcion(mvto_listEquipo.getMvtoEquipo().getCentroCostoAuxiliar().getCentroCostoSubCentro().getDescripcion()+"\n"+resultSet.getString(105));
+                        mvto_listEquipo.getMvtoEquipo().getCentroCostoAuxiliar().setDescripcion(mvto_listEquipo.getMvtoEquipo().getCentroCostoAuxiliar().getDescripcion()+"\n"+resultSet.getString(108));
+                        mvto_listEquipo.getMvtoEquipo().getCentroCosto().setCodigo(mvto_listEquipo.getMvtoEquipo().getCentroCosto().getCodigo()+"\n"+resultSet.getString(110));
+                        mvto_listEquipo.getMvtoEquipo().getCentroCosto().setDescripción(mvto_listEquipo.getMvtoEquipo().getCentroCosto().getDescripción()+"\n"+resultSet.getString(111));
+                        
+                        mvto_listEquipo.getMvtoEquipo().getLaborRealizada().setCodigo(mvto_listEquipo.getMvtoEquipo().getLaborRealizada().getCodigo()+"\n"+resultSet.getString(113));
+                        mvto_listEquipo.getMvtoEquipo().getLaborRealizada().setDescripcion(mvto_listEquipo.getMvtoEquipo().getLaborRealizada().getDescripcion()+"\n"+resultSet.getString(114));
+                        mvto_listEquipo.getMvtoEquipo().getLaborRealizada().setEs_operativa(mvto_listEquipo.getMvtoEquipo().getLaborRealizada().getEs_operativa()+"\n"+resultSet.getString(115));
+                        mvto_listEquipo.getMvtoEquipo().getLaborRealizada().setEs_parada(mvto_listEquipo.getMvtoEquipo().getLaborRealizada().getEs_parada()+"\n"+resultSet.getString(116));
+                        
+                        mvto_listEquipo.getMvtoEquipo().getCliente().setCodigo(mvto_listEquipo.getMvtoEquipo().getCliente().getCodigo()+"\n"+resultSet.getString(118));
+                        mvto_listEquipo.getMvtoEquipo().getCliente().setDescripcion(mvto_listEquipo.getMvtoEquipo().getCliente().getDescripcion()+"\n"+resultSet.getString(119));
+                         
+                         
+                        mvto_listEquipo.getMvtoEquipo().getArticulo().getTipoArticulo().setCodigo(mvto_listEquipo.getMvtoEquipo().getArticulo().getTipoArticulo().getCodigo()+"\n"+resultSet.getString(123));
+                        mvto_listEquipo.getMvtoEquipo().getArticulo().getTipoArticulo().setDescripcion(mvto_listEquipo.getMvtoEquipo().getArticulo().getTipoArticulo().getDescripcion()+"\n"+resultSet.getString(124));
+                        mvto_listEquipo.getMvtoEquipo().getArticulo().getTipoArticulo().setCodigoERP(mvto_listEquipo.getMvtoEquipo().getArticulo().getTipoArticulo().getCodigoERP()+"\n"+resultSet.getString(125));
+                        mvto_listEquipo.getMvtoEquipo().getArticulo().getTipoArticulo().setUnidadNegocio(mvto_listEquipo.getMvtoEquipo().getArticulo().getTipoArticulo().getUnidadNegocio()+"\n"+resultSet.getString(126));
+                        
+                        mvto_listEquipo.getMvtoEquipo().getArticulo().setCodigo(mvto_listEquipo.getMvtoEquipo().getArticulo().getCodigo()+"\n"+resultSet.getString(121));
+                        mvto_listEquipo.getMvtoEquipo().getArticulo().setDescripcion(mvto_listEquipo.getMvtoEquipo().getArticulo().getDescripcion()+"\n"+resultSet.getString(127));
+                        
+                        mvto_listEquipo.getMvtoEquipo().getMotonave().setCodigo(mvto_listEquipo.getMvtoEquipo().getMotonave().getCodigo()+"\n"+resultSet.getString(129));
+                        mvto_listEquipo.getMvtoEquipo().getMotonave().setDescripcion(mvto_listEquipo.getMvtoEquipo().getMotonave().getDescripcion()+"\n"+resultSet.getString(130));
+                        
+                        mvto_listEquipo.getMvtoEquipo().setFechaHoraInicio(mvto_listEquipo.getMvtoEquipo().getFechaHoraInicio()+"\n"+resultSet.getString(131));
+                        mvto_listEquipo.getMvtoEquipo().setFechaHoraFin(mvto_listEquipo.getMvtoEquipo().getFechaHoraFin()+"\n"+resultSet.getString(132));
+                        mvto_listEquipo.getMvtoEquipo().setTotalMinutos(mvto_listEquipo.getMvtoEquipo().getTotalMinutos()+"\n"+resultSet.getString(133));
+                        mvto_listEquipo.getMvtoEquipo().setValorHora(mvto_listEquipo.getMvtoEquipo().getValorHora()+"\n"+resultSet.getString(134));
+                        mvto_listEquipo.getMvtoEquipo().setCostoTotal(mvto_listEquipo.getMvtoEquipo().getCostoTotal()+"\n"+resultSet.getString(135));
+                        
+                        mvto_listEquipo.getMvtoEquipo().getRecobro().setCodigo(mvto_listEquipo.getMvtoEquipo().getRecobro().getCodigo()+"\n"+resultSet.getString(137));
+                        mvto_listEquipo.getMvtoEquipo().getRecobro().setDescripcion(mvto_listEquipo.getMvtoEquipo().getRecobro().getDescripcion()+"\n"+resultSet.getString(138));
+                        
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioQuieRegistra().setCodigo(mvto_listEquipo.getMvtoEquipo().getUsuarioQuieRegistra().getCodigo()+"\n"+resultSet.getString(143));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioQuieRegistra().setNombres(mvto_listEquipo.getMvtoEquipo().getUsuarioQuieRegistra().getNombres()+"\n"+resultSet.getString(144)+" "+resultSet.getString(145));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioQuieRegistra().setApellidos(mvto_listEquipo.getMvtoEquipo().getUsuarioQuieRegistra().getApellidos()+"\n"+resultSet.getString(145));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioQuieRegistra().setCorreo(mvto_listEquipo.getMvtoEquipo().getUsuarioQuieRegistra().getCorreo()+"\n"+resultSet.getString(146));
+
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioAutorizaRecobro().setCodigo(mvto_listEquipo.getMvtoEquipo().getUsuarioAutorizaRecobro().getCodigo()+"\n"+resultSet.getString(148));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioAutorizaRecobro().setNombres(mvto_listEquipo.getMvtoEquipo().getUsuarioAutorizaRecobro().getNombres()+"\n"+resultSet.getString(149)+" "+resultSet.getString(150));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioAutorizaRecobro().setApellidos(mvto_listEquipo.getMvtoEquipo().getUsuarioAutorizaRecobro().getApellidos()+"\n"+resultSet.getString(150));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioAutorizaRecobro().setCorreo(mvto_listEquipo.getMvtoEquipo().getUsuarioAutorizaRecobro().getCorreo()+"\n"+resultSet.getString(151));
+                         
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioQuienCierra().setCodigo(mvto_listEquipo.getMvtoEquipo().getUsuarioQuienCierra().getCodigo()+"\n"+resultSet.getString(209));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioQuienCierra().setNombres(mvto_listEquipo.getMvtoEquipo().getUsuarioQuienCierra().getNombres()+"\n"+resultSet.getString(210)+" "+resultSet.getString(211));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioQuienCierra().setApellidos(mvto_listEquipo.getMvtoEquipo().getUsuarioQuienCierra().getApellidos()+"\n"+resultSet.getString(211));
+                        
+                        
+                        mvto_listEquipo.getMvtoEquipo().getAutorizacionRecobro().setCodigo(mvto_listEquipo.getMvtoEquipo().getAutorizacionRecobro().getCodigo()+"\n"+resultSet.getString(153));
+                        mvto_listEquipo.getMvtoEquipo().getAutorizacionRecobro().setDescripcion(mvto_listEquipo.getMvtoEquipo().getAutorizacionRecobro().getDescripcion()+"\n"+resultSet.getString(154));
+                        
+                        mvto_listEquipo.getMvtoEquipo().setObservacionAutorizacion(mvto_listEquipo.getMvtoEquipo().getObservacionAutorizacion()+"\n"+resultSet.getString(156));
+                        mvto_listEquipo.getMvtoEquipo().setInactividad(mvto_listEquipo.getMvtoEquipo().getInactividad()+"\n"+resultSet.getString(157));
+                        
+                        
+                        mvto_listEquipo.getMvtoEquipo().getCausaInactividad().setCodigo(mvto_listEquipo.getMvtoEquipo().getCausaInactividad().getCodigo()+"\n"+resultSet.getString(159));
+                        mvto_listEquipo.getMvtoEquipo().getCausaInactividad().setDescripcion(mvto_listEquipo.getMvtoEquipo().getCausaInactividad().getDescripcion()+"\n"+resultSet.getString(160));
+                        mvto_listEquipo.getMvtoEquipo().getCausaInactividad().setEstado(mvto_listEquipo.getMvtoEquipo().getCausaInactividad().getEstado()+"\n"+resultSet.getString(161));
+                        
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioInactividad().setCodigo(mvto_listEquipo.getMvtoEquipo().getUsuarioInactividad().getCodigo()+"\n"+resultSet.getString(163));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioInactividad().setNombres(mvto_listEquipo.getMvtoEquipo().getUsuarioInactividad().getNombres()+"\n"+resultSet.getString(164)+" "+resultSet.getString(165));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioInactividad().setApellidos(mvto_listEquipo.getMvtoEquipo().getUsuarioInactividad().getApellidos()+"\n"+resultSet.getString(165));
+                        mvto_listEquipo.getMvtoEquipo().getUsuarioInactividad().setCorreo(mvto_listEquipo.getMvtoEquipo().getUsuarioInactividad().getCorreo()+"\n"+resultSet.getString(166));
+                         
+                        mvto_listEquipo.getMvtoEquipo().getMotivoParada().setCodigo(mvto_listEquipo.getMvtoEquipo().getMotivoParada().getCodigo()+"\n"+resultSet.getString(169));
+                        mvto_listEquipo.getMvtoEquipo().getMotivoParada().setDescripcion(mvto_listEquipo.getMvtoEquipo().getMotivoParada().getDescripcion()+"\n"+resultSet.getString(170));
+
+                        
+                        mvto_listEquipo.getMvtoEquipo().setObservacionMvtoEquipo(mvto_listEquipo.getMvtoEquipo().getObservacionMvtoEquipo()+"\n"+resultSet.getString(171));         
+                        mvto_listEquipo.getMvtoEquipo().setEstado(mvto_listEquipo.getMvtoEquipo().getEstado()+"\n"+resultSet.getString(172));
+                        mvto_listEquipo.getMvtoEquipo().setDesdeCarbon(mvto_listEquipo.getMvtoEquipo().getDesdeCarbon()+"\n"+resultSet.getString(173));
+                        mvto_listEquipo.getMvtoEquipo().setCentroCostoDescripción(mvto_listEquipo.getMvtoEquipo().getCentroCostoDescripción()+"\n"+resultSet.getString(174));
+                          
+                        mvto_listEquipo.getMvtoEquipo().getCentroCostoAuxiliarDestino().getCentroCostoSubCentro().setDescripcion(mvto_listEquipo.getMvtoEquipo().getCentroCostoAuxiliarDestino().getCentroCostoSubCentro().getDescripcion()+"\n"+resultSet.getString(179));
+                        mvto_listEquipo.getMvtoEquipo().getCentroCostoAuxiliarDestino().setDescripcion(mvto_listEquipo.getMvtoEquipo().getCentroCostoAuxiliarDestino().getDescripcion()+"\n"+resultSet.getString(182));
+                        mvto_listEquipo.getMvtoEquipo().getCentroCostoMayor().setCodigo(mvto_listEquipo.getMvtoEquipo().getCentroCostoMayor().getCodigo()+"\n"+resultSet.getString(184));
+                        mvto_listEquipo.getMvtoEquipo().getCentroCostoMayor().setDescripcion(mvto_listEquipo.getMvtoEquipo().getCentroCostoMayor().getDescripcion()+"\n"+resultSet.getString(185));
+                        resultSet.next();
+                    }
+                    resultSet.previous();
+                }catch(Exception e){
+                    //e.printStackTrace();
+                }
+                //
+
+                    listadoObjetos.add(mvto_listEquipo);    
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                
+            }
+        }catch (SQLException sqlException) {
+            JOptionPane.showMessageDialog(null, "Error al tratar al consultar los Movimientos de Carbon");
+            sqlException.printStackTrace();
+        } 
+        control.cerrarConexionBaseDatos();
+        return listadoObjetos;
+    }
+    public ArrayList<MvtoCarbon_ListadoEquipos>                     buscarMvtoCarbon_GenerarMatriz_Modificar(String Script) throws SQLException{
+        ArrayList<MvtoCarbon_ListadoEquipos> listadoObjetos = new ArrayList();
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        try{
+            Statement stmt = conexion.createStatement(
+                                      ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                   
+            ResultSet.CONCUR_READ_ONLY);
+            ResultSet resultSet = stmt.executeQuery("SELECT [mcle_cdgo]--1\n" +
+                                                                "      ,[mcle_mvto_carbon_cdgo]--2\n" +
+                                                                "			,[mc_cdgo]--3\n" +
+                                                                "			,[mc_cntro_oper_cdgo]--4\n" +
+                                                                "				,mc_cntro_oper.[co_cdgo]--5\n" +
+                                                                "				,mc_cntro_oper.[co_desc]--6\n" +
+                                                                "			,[mc_cntro_cost_auxiliar_cdgo]--7\n" +
+                                                                "				,mc_cntro_cost_auxiliar.[cca_cdgo]--8\n" +
+                                                                "				,mc_cntro_cost_auxiliar.[cca_cntro_cost_subcentro_cdgo]--9\n" +
+                                                                "					,mc_cntro_cost_subcentro.[ccs_cdgo]--10\n" +
+                                                                "					,mc_cntro_cost_subcentro.[ccs_desc]--11\n" +
+                                                                "					,mc_cntro_cost_subcentro.[ccs_cntro_cost_rquiere_labor_realizda]--12\n" +
+                                                                "				,mc_cntro_cost_auxiliar.[cca_desc]--13\n" +
+                                                                "			,[mc_cntro_cost_cdgo]--14\n" +
+                                                                "					,mc_cntro_cost.[cc_cdgo]--15\n" +
+                                                                "					,mc_cntro_cost.[cc_descripcion]--16\n" +
+                                                                "			,[mc_labor_realizada_cdgo]--17\n" +
+                                                                "					,mc_labor_realizada.[lr_cdgo]--18\n" +
+                                                                "					,mc_labor_realizada.[lr_desc]	--19\n" +
+                                                                "			,[mc_articulo_cdgo]--20\n" +
+                                                                "					,mc_articulo.[ar_cdgo]--21\n" +
+                                                                "					,mc_articulo.[ar_tipo_articulo_cdgo]--22\n" +
+                                                                "						,mc_tipo_articulo.[tar_cdgo]--23\n" +
+                                                                "						,mc_tipo_articulo.[tar_desc]--24\n" +
+                                                                "						,mc_tipo_articulo.[tar_cdgo_erp]--25\n" +
+                                                                "						,mc_tipo_articulo.[tar_undad_ngcio]--26\n" +
+                                                                "					,mc_articulo.[ar_desc]--27\n" +
+                                                                "			,[mc_cliente_cdgo]--28\n" +
+                                                                "				,mc_cliente.[cl_cdgo]--29\n" +
+                                                                "				,mc_cliente.[cl_desc]--30\n" +
+                                                                "			,[mc_transprtdora_cdgo]--31\n" +
+                                                                "				,[tr_cdgo]--32\n" +
+                                                                "				,[tr_nit]--33\n" +
+                                                                "				,[tr_desc]--34\n" +
+                                                                "			,datename (MONTH ,[mc_fecha])--35\n" +
+                                                                "			,[mc_fecha]--36\n" +
+                                                                "			,[mc_num_orden]--37\n" +
+                                                                "			,[mc_deposito]--38\n" +
+                                                                "			,[mc_consecutivo_tqute]--39\n" +
+                                                                "			,[mc_placa_vehiculo]--40\n" +
+                                                                "			,[mc_peso_vacio]--41\n" +
+                                                                "			,[mc_peso_lleno]--42\n" +
+                                                                "			,[mc_peso_neto]--43\n" +
+                                                                "			,[mc_fecha_entrad]--44\n" +
+                                                                "			,[mc_fecha_salid]--45\n" +
+                                                                "			,[mc_fecha_inicio_descargue]--46\n" +
+                                                                "			,[mc_fecha_fin_descargue]--47\n" +
+                                                                "			,[mc_usuario_cdgo]--48\n" +
+                                                                "				,mc_usuarioQuienRegistra.[us_cdgo]--49\n" +
+                                                                "				,mc_usuarioQuienRegistra.[us_nombres]--50\n" +
+                                                                "				,mc_usuarioQuienRegistra.[us_apellidos]--51\n" +
+                                                                "				,mc_usuarioQuienRegistra.[us_correo]--52\n" +
+                                                                "			,[mc_observ]--53\n" +
+                                                                "			,[mc_estad_mvto_carbon_cdgo]--54\n" +
+                                                                "				,[emc_cdgo]--55\n" +
+                                                                "				,[emc_desc]--56\n" +
+                                                                "			,[mc_conexion_peso_ccarga]--57\n" +
+                                                                "			,[mc_registro_manual]--58\n" +
+                                                                "			,[mc_usuario_registro_manual_cdgo]--59\n" +
+                                                                "				,mc_usuario_registro_manual.[us_cdgo]--60\n" +
+                                                                "				,mc_usuario_registro_manual.[us_nombres]--61\n" +
+                                                                "				,mc_usuario_registro_manual.[us_apellidos]--62\n" +
+                                                                "				,mc_usuario_registro_manual.[us_correo]--63\n" +
+                                                                "			,[mc_cntro_cost_auxiliarDestino_cdgo]--64\n" +
+                                                                "				,mc_cntro_cost_auxiliarDestino.[cca_cdgo]--65\n" +
+                                                                "				,mc_cntro_cost_auxiliarDestino.[cca_desc]--66\n" +
+                                                                "			,[mc_cntro_cost_mayor_cdgo]--67\n" +
+                                                                "				,mc_cntro_cost_mayor.[ccm_cdgo]--68\n" +
+                                                                "				,mc_cntro_cost_mayor.[ccm_desc]--69\n" +
+                                                                "      ,[mcle_asignacion_equipo_cdgo]--70\n" +
+                                                                "      ,[mcle_mvto_equipo_cdgo]--71\n" +
+                                                                "			,[me_cdgo] --72\n" +
+                                                                "			,[me_asignacion_equipo_cdgo] --73\n" +
+                                                                "				,[ae_cdgo] --74\n" +
+                                                                "				,[ae_equipo_cdgo] --75\n" +
+                                                                "					,equipo_ae.[eq_cdgo] --76\n" +
+                                                                "					,equipo_ae.[eq_tipo_equipo_cdgo] --77\n" +
+                                                                "						,tipo_equipo_ae.[te_cdgo]  --78\n" +
+                                                                "						,tipo_equipo_ae.[te_desc] --79\n" +
+                                                                "					,equipo_ae.[eq_marca] --80\n" +
+                                                                "					,equipo_ae.[eq_modelo] --81\n" +
+                                                                "					,equipo_ae.[eq_desc]	 	--82\n" +
+                                                                "				,[ae_fecha_registro] --83\n" +
+                                                                "				,[ae_fecha_hora_inicio] --84\n" +
+                                                                "				,[ae_fecha_hora_fin] --85\n" +
+                                                                "				,[ae_cant_minutos] --86\n" +
+                                                                "				,[ae_equipo_pertenencia_cdgo] --87\n" +
+                                                                "					,[ep_cdgo] --88\n" +
+                                                                "					,[ep_desc] --89\n" +
+                                                                "					,[ep_estad] --90\n" +
+                                                                "			,datename (MONTH ,[me_fecha])  -- 91\n" +
+                                                                "			,[me_fecha] --92\n" +
+                                                                "			,[me_proveedor_equipo_cdgo] --93\n" +
+                                                                "				,[pe_cdgo] --94\n" +
+                                                                "				,[pe_nit] --95\n" +
+                                                                "				,[pe_desc] --96\n" +
+                                                                "			,[me_num_orden] --97\n" +
+                                                                "			,[me_cntro_oper_cdgo] --98\n" +
+                                                                "				,me_cntro_oper.[co_cdgo] --99\n" +
+                                                                "				,me_cntro_oper.[co_desc] --100\n" +
+                                                                "			,[me_cntro_cost_auxiliar_cdgo] --101\n" +
+                                                                "				,cca_origen.[cca_cdgo] --102\n" +
+                                                                "				,cca_origen.[cca_cntro_cost_subcentro_cdgo] --103\n" +
+                                                                "					,ccs_origen.[ccs_cdgo] --104\n" +
+                                                                "					,ccs_origen.[ccs_desc] --105\n" +
+                                                                "					,ccs_origen.[ccs_cntro_oper_cdgo] --106\n" +
+                                                                "					,ccs_origen.[ccs_cntro_cost_rquiere_labor_realizda] --107\n" +
+                                                                "				,cca_origen.[cca_desc] --108\n" +
+                                                                "			,[me_cntro_cost_cdgo] --109\n" +
+                                                                "				,me_cntro_cost.[cc_cdgo] --110\n" +
+                                                                "				,me_cntro_cost.[cc_descripcion] --111\n" +
+                                                                "			,[me_labor_realizada_cdgo] --112\n" +
+                                                                "				,me_labor_realizada.[lr_cdgo] --113\n" +
+                                                                "				,me_labor_realizada.[lr_desc] --114\n" +
+                                                                "				,me_labor_realizada.[lr_operativa] --115\n" +
+                                                                "				,me_labor_realizada.[lr_parada] --116\n" +
+                                                                "			,[me_cliente_cdgo] --117\n" +
+                                                                "				,me_cliente.[cl_cdgo] --118\n" +
+                                                                "				,me_cliente.[cl_desc] --119\n" +
+                                                                "			,[me_articulo_cdgo] --120\n" +
+                                                                "				,me_articulo.[ar_cdgo] --121\n" +
+                                                                "				,me_articulo.[ar_tipo_articulo_cdgo]--122\n" +
+                                                                "					,me_tipo_articulo.[tar_cdgo] --123\n" +
+                                                                "					,me_tipo_articulo.[tar_desc] --124\n" +
+                                                                "					,me_tipo_articulo.[tar_cdgo_erp] --125\n" +
+                                                                "					,me_tipo_articulo.[tar_undad_ngcio] --126\n" +
+                                                                "				,me_articulo.[ar_desc] --127\n" +
+                                                                "			,[me_motonave_cdgo] --128\n" +
+                                                                "				,[mn_cdgo] --129\n" +
+                                                                "				,[mn_desc] --130\n" +
+                                                                "			,[me_fecha_hora_inicio] --131\n" +
+                                                                "			,[me_fecha_hora_fin] --132\n" +
+                                                                "			,[me_total_minutos] --133\n" +
+                                                                "			,[me_valor_hora] --134\n" +
+                                                                "			,[me_costo_total] --135\n" +
+                                                                "			,[me_recobro_cdgo] --136\n" +
+                                                                "				,[rc_cdgo] --137\n" +
+                                                                "				,[rc_desc] --138\n" +
+                                                                "				,[rc_estad] --139\n" +
+                                                                "			,[me_cliente_recobro_cdgo] --140\n" +
+                                                                "			,[me_costo_total_recobro_cliente] --141\n" +
+                                                                "			,[me_usuario_registro_cdgo] --142\n" +
+                                                                "				,us_registro.[us_cdgo] --143\n" +
+                                                                "				,us_registro.[us_nombres] --144\n" +
+                                                                "				,us_registro.[us_apellidos] --145\n" +
+                                                                "				,us_registro.[us_correo] --146\n" +
+                                                                "			,[me_usuario_autorizacion_cdgo] --147\n" +
+                                                                "				,us_autoriza.[us_cdgo] --148\n" +
+                                                                "				,us_autoriza.[us_nombres] --149\n" +
+                                                                "				,us_autoriza.[us_apellidos] --150\n" +
+                                                                "				,us_autoriza.[us_correo] --151\n" +
+                                                                "			,[me_autorizacion_recobro_cdgo] --152\n" +
+                                                                "				,[are_cdgo] --153\n" +
+                                                                "				,[are_desc] --154\n" +
+                                                                "				,[are_estad] --155\n" +
+                                                                "			,[me_observ_autorizacion] --156\n" +
+                                                                "			,[me_inactividad] --157\n" +
+                                                                "			,[me_causa_inactividad_cdgo] --158\n" +
+                                                                "				,[ci_cdgo] --159\n" +
+                                                                "				,[ci_desc] --160\n" +
+                                                                "				,[ci_estad] --161\n" +
+                                                                "			,[me_usuario_inactividad_cdgo] --162\n" +
+                                                                "				,us_inactividad.[us_cdgo] --163\n" +
+                                                                "				,us_inactividad.[us_nombres] --164\n" +
+                                                                "				,us_inactividad.[us_apellidos] --165\n" +
+                                                                "				,us_inactividad.[us_correo] --166\n" +
+                                                                "			,[me_motivo_parada_estado] --167\n" +
+                                                                "			,[me_motivo_parada_cdgo] --168\n" +
+                                                                "				,[mpa_cdgo] --169\n" +
+                                                                "				,[mpa_desc] --170\n" +
+                                                                "			,[me_observ] --171\n" +
+                                                                "			,CASE [me_estado] WHEN 1 THEN 'ACTIVO' WHEN 0 THEN 'INACTIVO' ELSE NULL END AS [me_estado] --172\n" +
+                                                                "			,CASE [me_desde_mvto_carbon] WHEN 1 THEN 'SI' WHEN 0 THEN 'NO' ELSE NULL END AS [me_desde_mvto_carbon] --173\n" +
+                                                                "			,[me_cntro_cost] --174\n" +
+                                                                "			,[me_cntro_cost_auxiliarDestino_cdgo] --175\n" +
+                                                                "				,cca_destino.[cca_cdgo] --176\n" +
+                                                                "				,cca_destino.[cca_cntro_cost_subcentro_cdgo] --177\n" +
+                                                                "					,ccs_destino.[ccs_cdgo] --178\n" +
+                                                                "					,ccs_destino.[ccs_desc] --179\n" +
+                                                                "					,ccs_destino.[ccs_cntro_oper_cdgo] --180\n" +
+                                                                "					,ccs_destino.[ccs_cntro_cost_rquiere_labor_realizda] --181\n" +
+                                                                "				,cca_destino.[cca_desc] --182\n" +
+                                                                "			,[me_cntro_cost_mayor_cdgo] --183\n" +
+                                                                "				,me_cntro_cost_mayor.[ccm_cdgo] --184\n" +
+                                                                "				,me_cntro_cost_mayor.[ccm_desc]  --  185    \n" +
+                                                                "				,Tiempo_Vehiculo_Descargue=(SELECT (DATEDIFF (MINUTE,  [mc_fecha_inicio_descargue], [mc_fecha_fin_descargue])))  --186\n" +
+                                                                "				,Tiempo_Equipo_Descargue=(SELECT (DATEDIFF (MINUTE,  [me_fecha_hora_inicio], [me_fecha_hora_fin])))  --187                                        \n" +
+                                                                "      ,CASE [mcle_estado] WHEN 1 THEN 'ACTIVO' WHEN 0 THEN 'INACTIVO' ELSE NULL END AS [mcle_estado]--188\n" +
+                                                                "      ,CASE [mc_lavado_vehiculo] WHEN 1 THEN 'SI' WHEN 0 THEN 'NO' ELSE NULL END AS [mc_lavado_vehiculo]--189\n" +
+                                                                "      ,[mc_lavado_vehiculo_observacion] --190 \n"
+                                                                + "      ,[mc_motivo_nolavado_vehiculo_cdgo]--191\n" +
+                                                                "		,[mnlv_cdgo]--192\n" +
+                                                                "		,[mnlv_desc]--193\n" +
+                                                                "      ,[mc_equipo_lavado_cdgo]--194\n" +
+                                                                "		,equipo_lavado.[eq_cdgo]--195\n" +
+                                                                "		,equipo_lavado.[eq_tipo_equipo_cdgo]--196\n" +
+                                                                "			,tipo_equipo_lavado.[te_cdgo]--197\n" +
+                                                                "			,tipo_equipo_lavado.[te_desc]--198\n" +
+                                                                "		,equipo_lavado.[eq_marca]--199\n" +
+                                                                "		,equipo_lavado.[eq_modelo]--200\n" +
+                                                                "		,equipo_lavado.[eq_desc]	--201\n" +
+                                                                "	   ,[mc_costoLavadoVehiculo]--202\n" +
+                                                                "	   ,datename (DAY ,[mc_fecha])--203\n" +
+                                                                "      ,[mc_valorRecaudoEmpresa_lavadoVehiculo]--204 \n" +
+                                                                "      ,[mc_valorRecaudoEquipo_lavadoVehiculo]--205 \n" +
+                                                                "      ,mc_usuario_cierre.[us_cdgo]--206 \n" +
+                                                                "      ,mc_usuario_cierre.[us_nombres]--207 \n" +
+                                                                "      ,mc_usuario_cierre.[us_apellidos]--208 \n" +
+                                                                "      ,me_usuario_cierre.[us_cdgo]--209 \n" +
+                                                                "      ,me_usuario_cierre.[us_nombres]--210 \n" +
+                                                                "      ,me_usuario_cierre.[us_apellidos]--211 \n" +
+                    
+                                                                "      ,mc_cntro_cost_base_datos.[bd_cdgo]   --212 \n" +
+                                                                "      ,mc_articulo_base_datos.[bd_cdgo]   --213 \n" +
+                                                                "      ,mc_cliente_base_datos.[bd_cdgo]   --214 \n" +
+                                                                "      ,mc_transprtdora_base_datos.[bd_cdgo]   --215 \n" +
+                                                                "      ,mc_cntro_cost_mayor_base_datos.[bd_cdgo]   --216 \n" +
+                    
+                                                                "      ,me_cntro_cost_base_datos.[bd_cdgo]   --217 \n" +
+                                                                "      ,me_cliente_base_datos.[bd_cdgo]   --218 \n" +
+                                                                "      ,me_articulo_base_datos.[bd_cdgo]   --219 \n" +
+                                                                "      ,me_motonave_base_datos.[bd_cdgo]   --220 \n" +
+                                                                "      ,me_cntro_cost_mayor_base_datos.[bd_cdgo]  --221 \n" +
+                    
+                                                                "  FROM ["+DB+"].[dbo].[mvto_carbon_listado_equipo]\n" +
+                                                                "		INNER JOIN ["+DB+"].[dbo].[mvto_carbon] ON [mcle_mvto_carbon_cdgo]=[mc_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_oper] mc_cntro_oper ON [mc_cntro_oper_cdgo]=[co_cdgo]\n" +
+                                                                "		LEFT JOIN  ["+DB+"].[dbo].[cntro_cost_auxiliar] mc_cntro_cost_auxiliar ON [mc_cntro_cost_auxiliar_cdgo]=mc_cntro_cost_auxiliar.[cca_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] mc_cntro_cost_subcentro ON mc_cntro_cost_auxiliar.[cca_cntro_cost_subcentro_cdgo]=mc_cntro_cost_subcentro.[ccs_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost] mc_cntro_cost ON [mc_cntro_cost_cdgo]=mc_cntro_cost.[cc_cdgo]\n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] mc_cntro_cost_base_datos ON mc_cntro_cost.[cc_cliente_base_datos_cdgo]=mc_cntro_cost_base_datos.[bd_cdgo] \n"+
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] mc_labor_realizada ON [mc_labor_realizada_cdgo] =  mc_labor_realizada.[lr_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[articulo] mc_articulo ON [mc_articulo_cdgo]=mc_articulo.[ar_cdgo] AND mc_articulo.[ar_base_datos_cdgo]=[mc_articulo_base_datos_cdgo]\n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] mc_articulo_base_datos ON mc_articulo.[ar_base_datos_cdgo]=mc_articulo_base_datos.[bd_cdgo] \n"+
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[tipo_articulo] mc_tipo_articulo ON mc_articulo.[ar_tipo_articulo_cdgo]=mc_tipo_articulo.[tar_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cliente] mc_cliente ON [mc_cliente_cdgo]=mc_cliente.[cl_cdgo] AND mc_cliente.[cl_base_datos_cdgo]=[mc_cliente_base_datos_cdgo]\n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] mc_cliente_base_datos ON mc_cliente.[cl_base_datos_cdgo]=mc_cliente_base_datos.[bd_cdgo] \n"+
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[transprtdora] ON [mc_transprtdora_cdgo]=[tr_cdgo] AND [tr_base_datos_cdgo]=[mc_transprtdora_base_datos_cdgo] \n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] mc_transprtdora_base_datos ON [tr_base_datos_cdgo]=mc_transprtdora_base_datos.[bd_cdgo] \n"+ 
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[usuario] mc_usuarioQuienRegistra ON [mc_usuario_cdgo]=mc_usuarioQuienRegistra.[us_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[estad_mvto_carbon] ON [mc_estad_mvto_carbon_cdgo]=[emc_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[usuario] mc_usuario_registro_manual ON [mc_usuario_registro_manual_cdgo]=mc_usuario_registro_manual.[us_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] mc_cntro_cost_auxiliarDestino ON [mc_cntro_cost_auxiliarDestino_cdgo]=mc_cntro_cost_auxiliarDestino.[cca_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_mayor] mc_cntro_cost_mayor ON [mc_cntro_cost_mayor_cdgo]=mc_cntro_cost_mayor.[ccm_cdgo]\n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] mc_cntro_cost_mayor_base_datos ON [ccm_cliente_base_datos_cdgo]=mc_cntro_cost_mayor_base_datos.[bd_cdgo] \n"+  
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[usuario] mc_usuario_cierre ON mc_usuario_cierre_cdgo=mc_usuario_cierre.[us_cdgo]\n" +
+                                                                "		INNER JOIN ["+DB+"].[dbo].[mvto_equipo] ON [mcle_mvto_equipo_cdgo]=[me_cdgo]\n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[asignacion_equipo] ON [me_asignacion_equipo_cdgo]=[ae_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[equipo] equipo_ae ON [ae_equipo_cdgo]=equipo_ae.[eq_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[proveedor_equipo] ON [me_proveedor_equipo_cdgo]=[pe_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_oper] me_cntro_oper ON [me_cntro_oper_cdgo]=me_cntro_oper.[co_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] cca_origen ON  [me_cntro_cost_auxiliar_cdgo]=cca_origen.[cca_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ccs_origen ON cca_origen.[cca_cntro_cost_subcentro_cdgo]=ccs_origen.[ccs_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost] me_cntro_cost ON [me_cntro_cost_cdgo]=me_cntro_cost.[cc_cdgo] \n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] me_cntro_cost_base_datos ON me_cntro_cost.[cc_cliente_base_datos_cdgo]=me_cntro_cost_base_datos.[bd_cdgo] \n"+
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[labor_realizada] me_labor_realizada ON [me_labor_realizada_cdgo]=me_labor_realizada.[lr_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cliente] me_cliente ON [me_cliente_cdgo]=me_cliente.[cl_cdgo] AND me_cliente.[cl_base_datos_cdgo]=[me_cliente_base_datos_cdgo]\n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] me_cliente_base_datos ON me_cliente.[cl_base_datos_cdgo]=me_cliente_base_datos.[bd_cdgo] \n"+
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[articulo] me_articulo ON [me_articulo_cdgo]=me_articulo.[ar_cdgo] AND	me_articulo.[ar_base_datos_cdgo]=[me_articulo_base_datos_cdgo]\n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] me_articulo_base_datos ON me_articulo.[ar_base_datos_cdgo]=me_articulo_base_datos.[bd_cdgo] \n"+
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[tipo_articulo] me_tipo_articulo ON me_articulo.[ar_tipo_articulo_cdgo]=me_tipo_articulo.[tar_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[motonave] ON [me_motonave_cdgo]=[mn_cdgo] AND [mn_base_datos_cdgo]=[me_motonave_base_datos_cdgo] \n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] me_motonave_base_datos ON  [mn_base_datos_cdgo]=me_motonave_base_datos.[bd_cdgo] \n"+
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[usuario] us_registro ON [me_usuario_registro_cdgo]=us_registro.[us_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[usuario] us_autoriza ON [me_usuario_autorizacion_cdgo]=us_autoriza.[us_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[autorizacion_recobro] ON [me_autorizacion_recobro_cdgo]=[are_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[causa_inactividad] ON [me_causa_inactividad_cdgo]=[ci_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[usuario] us_inactividad ON [me_usuario_inactividad_cdgo]=us_inactividad.[us_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[motivo_parada] ON [me_motivo_parada_cdgo]=[mpa_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_auxiliar] cca_destino ON [me_cntro_cost_auxiliarDestino_cdgo]=cca_destino.[cca_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_subcentro] ccs_destino ON cca_destino.[cca_cntro_cost_subcentro_cdgo]=ccs_destino.[ccs_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[cntro_cost_mayor] me_cntro_cost_mayor ON [me_cntro_cost_mayor_cdgo]=me_cntro_cost_mayor.[ccm_cdgo] \n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[base_datos] me_cntro_cost_mayor_base_datos ON me_cntro_cost_mayor.[ccm_cliente_base_datos_cdgo]=me_cntro_cost_mayor_base_datos.[bd_cdgo] \n"+
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[recobro] ON [me_recobro_cdgo]=[rc_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[tipo_equipo] tipo_equipo_ae ON equipo_ae.[eq_tipo_equipo_cdgo]=tipo_equipo_ae.[te_cdgo] \n" +
+                                                                "		LEFT JOIN ["+DB+"].[dbo].[equipo_pertenencia] ON [ae_equipo_pertenencia_cdgo]=[ep_cdgo]\n"+
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[motivo_nolavado_vehiculo] ON [mc_motivo_nolavado_vehiculo_cdgo]=[mnlv_cdgo]\n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[equipo] equipo_lavado ON [mc_equipo_lavado_cdgo]=equipo_lavado.[eq_cdgo]\n" +
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[tipo_equipo] tipo_equipo_lavado ON equipo_lavado.[eq_tipo_equipo_cdgo]=tipo_equipo_lavado.[te_cdgo]"+
+                                                                "               LEFT JOIN ["+DB+"].[dbo].[usuario] me_usuario_cierre ON [me_usuario_cierre_cdgo]=me_usuario_cierre.[us_cdgo]\n"+
+                                                                "               WHERE "+Script+" "+
                                                                 "	 ORDER BY [mcle_mvto_carbon_cdgo] DESC");
             //query.setString(1, DatetimeInicio);
             //query.setString(2, DatetimeFin);
@@ -7686,7 +8402,7 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return listadoObjetos;
     }
-    public MvtoCarbon_ListadoEquipos            ProcesarEnCcargaGP(MvtoCarbon_ListadoEquipos Objeto, Usuario us) throws UnknownHostException, SocketException, SQLException{
+    public MvtoCarbon_ListadoEquipos            ProcesarEnCcargaGP_Backup(MvtoCarbon_ListadoEquipos Objeto, Usuario us) throws UnknownHostException, SocketException, SQLException{
         Conexion_DB_ccargaGP control = new Conexion_DB_ccargaGP(tipoConexion);
         Conexion_DB_ccargaOPP control_opp = new Conexion_DB_ccargaOPP(tipoConexion);
         conexion= control.ConectarBaseDatos();
@@ -7825,20 +8541,20 @@ public class ControlDB_MvtoCarbon {
                     
                     
                     Objeto.getMvtoCarbon().setArticulo(new Articulo(resultSet.getString(6),resultSet.getString(7),"1"));
-                         Objeto.getMvtoCarbon().getArticulo().setBaseDatos(new BaseDatos(resultSet.getString(18)));
-                         Objeto.getMvtoCarbon().setArticuloBaseDatos(resultSet.getString(18)); 
+                    Objeto.getMvtoCarbon().getArticulo().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    Objeto.getMvtoCarbon().setArticuloBaseDatos(resultSet.getString(18)); 
 
-                         Objeto.getMvtoCarbon().setCliente(new Cliente(resultSet.getString(8),resultSet.getString(9),"1",0));
-                         Objeto.getMvtoCarbon().getCliente().setBaseDatos(new BaseDatos(resultSet.getString(18)));
-                         Objeto.getMvtoCarbon().setClienteBaseDatos(resultSet.getString(18));
-                        
-                        
-                         Objeto.getMvtoCarbon().setTransportadora(new Transportadora(resultSet.getString(10),"",resultSet.getString(11),"","1"));
-                         Objeto.getMvtoCarbon().getTransportadora().setBaseDatos(new BaseDatos(resultSet.getString(18)));
-                         Objeto.getMvtoCarbon().setTransportadorBaseDatos(resultSet.getString(18));
-                        
-                        Objeto.getMvtoCarbon().setMotonave(new Motonave(resultSet.getString(15),resultSet.getString(16),"1"));
-                        Objeto.getMvtoCarbon().getMotonave().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    Objeto.getMvtoCarbon().setCliente(new Cliente(resultSet.getString(8),resultSet.getString(9),"1",0));
+                    Objeto.getMvtoCarbon().getCliente().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    Objeto.getMvtoCarbon().setClienteBaseDatos(resultSet.getString(18));
+
+
+                    Objeto.getMvtoCarbon().setTransportadora(new Transportadora(resultSet.getString(10),"",resultSet.getString(11),"","1"));
+                    Objeto.getMvtoCarbon().getTransportadora().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    Objeto.getMvtoCarbon().setTransportadorBaseDatos(resultSet.getString(18));
+
+                   Objeto.getMvtoCarbon().setMotonave(new Motonave(resultSet.getString(15),resultSet.getString(16),"1"));
+                   Objeto.getMvtoCarbon().getMotonave().setBaseDatos(new BaseDatos(resultSet.getString(18)));
                     
                     
                     //Se proceso en controlCarga validando informacion con tabla Tiquete
@@ -7911,7 +8627,173 @@ public class ControlDB_MvtoCarbon {
         control.cerrarConexionBaseDatos();
         return Objeto;
     }
-    public MvtoCarbon_ListadoEquipos            ProcesarEnCcargaGPAgregar(MvtoCarbon_ListadoEquipos Objeto, Usuario us) throws UnknownHostException, SocketException, SQLException{
+    public MvtoCarbon_ListadoEquipos            ProcesarEnCcargaGP(MvtoCarbon_ListadoEquipos Objeto, Usuario us) throws UnknownHostException, SocketException, SQLException{
+        Conexion_DB_ccargaGP control = new Conexion_DB_ccargaGP(tipoConexion);
+        Conexion_DB_ccargaOPP control_opp = new Conexion_DB_ccargaOPP(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        String DB_opp= control_opp.getBaseDeDatos();
+        //MvtoCarbon_ListadoEquipos Objeto=Objeto1;
+        
+        //cargamos los centro de costos y centro de costos mayores
+        Objeto.setMvtoCarbon(ProcesarCentroCostos(Objeto.getMvtoCarbon()));
+        
+        conexion= control.ConectarBaseDatos();
+        //if(Objeto.getMvtoCarbon().getConexionPesoCcarga().equals("NO")){
+            try{ 
+                PreparedStatement query= conexion.prepareStatement(""
+                        + "DECLARE @cantidadTiqueteMismaTara INT, "
+                        + "@placa VARCHAR(50),"
+                        + "@fechaInicioDescargue DATETIME, "
+                        + "@pesoEntrada INT,"
+                        + "@diferenciaMinutosMinimo INT, "
+                        + "@fechaEntrada DATETIME;"
+                        + ""
+                        + "DECLARE @cantidadTiqueteMismaTaraOPP INT, "
+                        + "@placaOPP VARCHAR(50),"
+                        + "@fechaInicioDescargueOPP DATETIME, "
+                        + "@pesoEntradaOPP INT,"
+                        + "@diferenciaMinutosMinimoOPP INT, "
+                        + "@fechaEntradaOPP DATETIME;\n" +
+                        "	SET @placa='"+Objeto.getMvtoCarbon().getPlaca()+"';\n" +
+                        "	SET @fechaInicioDescargue='"+Objeto.getMvtoCarbon().getFechaInicioDescargue()+"';\n" +
+                        "	SET @pesoEntrada="+Objeto.getMvtoCarbon().getPesoVacio()+";\n" +
+                        "	SET @fechaEntrada='"+Objeto.getMvtoCarbon().getFechaEntradaVehiculo()+"';\n" +
+                        "	SET @placaOPP='"+Objeto.getMvtoCarbon().getPlaca()+"';\n" +
+                        "	SET @fechaInicioDescargueOPP='"+Objeto.getMvtoCarbon().getFechaInicioDescargue()+"';\n" +
+                        "	SET @pesoEntradaOPP="+Objeto.getMvtoCarbon().getPesoVacio()+";\n" +
+                        "	SET @fechaEntradaOPP='"+Objeto.getMvtoCarbon().getFechaEntradaVehiculo()+"';\n" 
+           	
+                                + "SELECT [ti_cnsctvo],"
+                                + "[ti_fcha_slda],"
+                                + "[ti_pso_slda],"
+                                + "[ti_pso_nto],"
+                                + " [ti_dpsto],  \n" +
+                                "           PRODUCTO_CODIGO=ar_cdgo,--6 \n" +
+                        "           PRODUCTO=ar_nmbre, --7\n" +
+                        "           CLIENTE_CODIGO=cl_cdgo, --8 \n" +
+                        "           CLIENTE=cl_nmbre,  --9\n" +
+                        "           TRANSPORTADORA_CODIGO=[ti_trnsprtdra],--10 \n" +
+                        "           TRANSPORTADORA_NOMBRE=tr_nmbre,--11 \n" +
+                        "           ORDEN=[ti_orden],--12\n" +
+                        "		DEPOSITO=[ti_dpsto], --13\n" +
+                        "		CONSECUTIVO=[ti_cnsctvo],--14\n" +
+                        "           MN_CODIGO=mo_cdgo, --15\n" +
+                        "           MN=mo_nmbre ,--16\n" +
+                        "		FECHA_TIQUETE=  [ti_fcha], --17\n" +
+                        "		1 AS db --18\n" +
+                        "	FROM ["+DB+"].[dbo].[tqte] \n" +
+                                 "  INNER JOIN ["+DB+"].[dbo].dpsto  ON de_cdgo=[ti_dpsto] \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].clnte ON de_clnte= cl_cdgo \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].[arrbo_mtnve] ON de_arrbo_mtnve=[am_cdgo] \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].mtnve ON [am_mtnve]=mo_cdgo \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].artclo ON de_artclo = ar_cdgo \n" +
+                        "           INNER JOIN  ["+DB+"].[dbo].trnsprtdra ON tr_cdgo=[ti_trnsprtdra] \n" +
+                        "           INNER JOIN ["+DB+"].[dbo].cncpto ON  cn_cdgo= [ti_cncpto]  \n" +
+                        "WHERE [ti_plca]=@placa AND [ti_pso_entrda]=@pesoEntrada  AND [ti_fcha_entrda] = @fechaEntrada  UNION "+
+                        "SELECT [ti_cnsctvo],"
+                                + "[ti_fcha_slda],"
+                                + "[ti_pso_slda],"
+                                + "[ti_pso_nto],"
+                                + "[ti_dpsto],  \n" +
+                        "           PRODUCTO_CODIGO=ar_cdgo,--6 \n" +
+                        "           PRODUCTO=ar_nmbre, --7\n" +
+                        "           CLIENTE_CODIGO=cl_cdgo, --8 \n" +
+                        "           CLIENTE=cl_nmbre,  --9\n" +
+                        "           TRANSPORTADORA_CODIGO=[ti_trnsprtdra],--10 \n" +
+                        "           TRANSPORTADORA_NOMBRE=tr_nmbre,--11 \n" +
+                        "           ORDEN=[ti_orden],--12\n" +
+                        "		DEPOSITO=[ti_dpsto], --13\n" +
+                        "		CONSECUTIVO=[ti_cnsctvo],--14\n" +
+                        "           MN_CODIGO=mo_cdgo, --15\n" +
+                        "           MN=mo_nmbre ,--16\n" +
+                        "		FECHA_TIQUETE=  [ti_fcha], --17\n" +
+                        "		2 AS db --18\n" +
+                        "	FROM ["+DB_opp+"].[dbo].[tqte] \n" +
+                                   "  INNER JOIN ["+DB_opp+"].[dbo].dpsto  ON de_cdgo=[ti_dpsto] \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].clnte ON de_clnte= cl_cdgo \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].[arrbo_mtnve] ON de_arrbo_mtnve=[am_cdgo] \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].mtnve ON [am_mtnve]=mo_cdgo \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].artclo ON de_artclo = ar_cdgo \n" +
+                        "             INNER JOIN  ["+DB_opp+"].[dbo].trnsprtdra ON tr_cdgo=[ti_trnsprtdra] \n" +
+                        "             INNER JOIN ["+DB_opp+"].[dbo].cncpto ON  cn_cdgo= [ti_cncpto]  \n" +
+                        "WHERE [ti_plca]=@placaOPP AND [ti_pso_entrda]=@pesoEntradaOPP  AND [ti_fcha_entrda] = @fechaEntradaOPP");
+                ResultSet resultSet= query.executeQuery();
+                while(resultSet.next()){ 
+                    System.out.println("1");
+                    Objeto.getMvtoCarbon().setConsecutivo(resultSet.getString(1));              
+                    Objeto.getMvtoCarbon().setFecha_SalidaVehiculo(resultSet.getString(2));
+                    Objeto.getMvtoCarbon().setPesoLleno(resultSet.getString(3));              
+                    Objeto.getMvtoCarbon().setPesoNeto(resultSet.getString(4));
+                    Objeto.getMvtoCarbon().setDeposito(resultSet.getString(5));
+                    Objeto.getMvtoCarbon().setConexionPesoCcarga("1");
+                    
+                    
+                    Objeto.getMvtoCarbon().setArticulo(new Articulo(resultSet.getString(6),resultSet.getString(7),"1"));
+                    Objeto.getMvtoCarbon().getArticulo().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    Objeto.getMvtoCarbon().setArticuloBaseDatos(resultSet.getString(18)); 
+
+                    Objeto.getMvtoCarbon().setCliente(new Cliente(resultSet.getString(8),resultSet.getString(9),"1",0));
+                    Objeto.getMvtoCarbon().getCliente().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    Objeto.getMvtoCarbon().setClienteBaseDatos(resultSet.getString(18));
+
+
+                    Objeto.getMvtoCarbon().setTransportadora(new Transportadora(resultSet.getString(10),"",resultSet.getString(11),"","1"));
+                    Objeto.getMvtoCarbon().getTransportadora().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    Objeto.getMvtoCarbon().setTransportadorBaseDatos(resultSet.getString(18));
+
+                   Objeto.getMvtoCarbon().setMotonave(new Motonave(resultSet.getString(15),resultSet.getString(16),"1"));
+                   Objeto.getMvtoCarbon().getMotonave().setBaseDatos(new BaseDatos(resultSet.getString(18)));
+                    
+                    
+                    //Se proceso en controlCarga validando informacion con tabla Tiquete
+                    try {
+                        int n=actualizarDatosMvtoCarbonSinAuditoria(Objeto,us);
+                        if(n==1){
+                             System.out.println("Actualización Exitosa");
+                            if(n==1){
+                                n=0;
+                                Conexion_DB_costos_vg control2 = new Conexion_DB_costos_vg(tipoConexion);
+                                conexion2= control2.ConectarBaseDatos();
+                                String DB2=control2.getBaseDeDatos();
+                                System.out.println("UPDATE ["+DB2+"].[dbo].[mvto_equipo] set "
+                                                                                            + "[me_valor_hora]="+Objeto.getMvtoEquipo().getValorHora()+", "
+                                                                                            + "[me_costo_total]="+Objeto.getMvtoEquipo().getCostoTotal()+","
+                                                                                            + "[me_costo_total_recobro_cliente]="+Objeto.getMvtoEquipo().getCostoTotalRecobroCliente()+""
+                                                                                            + " WHERE [me_cdgo]="+Objeto.getMvtoEquipo().getCodigo()+"");
+                                PreparedStatement queryActualizarDatos_Equipos= conexion2.prepareStatement("UPDATE ["+DB2+"].[dbo].[mvto_equipo] set "
+                                                                                            + "[me_valor_hora]=?, "
+                                                                                            + "[me_costo_total]=?,"
+                                                                                            + "[me_costo_total_recobro_cliente]=?"
+                                                                                            + " WHERE [me_cdgo]=?");
+                                queryActualizarDatos_Equipos.setString(1,Objeto.getMvtoEquipo().getValorHora());
+                                queryActualizarDatos_Equipos.setString(2,Objeto.getMvtoEquipo().getCostoTotal());
+                                queryActualizarDatos_Equipos.setString(3,Objeto.getMvtoEquipo().getCostoTotalRecobroCliente());
+                                queryActualizarDatos_Equipos.setString(4,Objeto.getMvtoEquipo().getCodigo());
+                                queryActualizarDatos_Equipos.execute();    
+                                control2.cerrarConexionBaseDatos();
+                                n=1; 
+                            }
+                        }else{
+                            //System.out.println("Algo malo pasó");
+                        }
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(ControlDB_MvtoCarbon.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println(Objeto.getMvtoCarbon().getPlaca()+"-"+Objeto.getMvtoCarbon().getPesoLleno()+"-"+Objeto.getMvtoCarbon().getFecha_SalidaVehiculo()+"-"+Objeto.getMvtoCarbon().getPesoNeto());
+                }
+            }catch (SQLException sqlException){
+                System.out.println("Con Error: "+Objeto.getMvtoCarbon().getPlaca()+"-"+Objeto.getMvtoCarbon().getPesoVacio()+"-"+Objeto.getMvtoCarbon().getFechaEntradaVehiculo());
+                JOptionPane.showMessageDialog(null, "Error al Tratar de buscar el tiquete");
+                sqlException.printStackTrace();
+            } 
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        control.cerrarConexionBaseDatos();
+        return Objeto;
+    }
+    public MvtoCarbon_ListadoEquipos            ProcesarEnCcargaGPAgregar_Backup(MvtoCarbon_ListadoEquipos Objeto, Usuario us) throws UnknownHostException, SocketException, SQLException{
         Conexion_DB_ccargaGP control = new Conexion_DB_ccargaGP(tipoConexion);
         Conexion_DB_ccargaOPP control_opp = new Conexion_DB_ccargaOPP(tipoConexion);
         conexion= control.ConectarBaseDatos();
@@ -7926,7 +8808,7 @@ public class ControlDB_MvtoCarbon {
         //if(Objeto.getMvtoCarbon().getConexionPesoCcarga().equals("NO")){
             try{
                 //System.out.println("==="+Objeto.getMvtoCarbon().getEquipoLavadoVehiculo().getCodigo()+"<--->"+Objeto.getAsignacionEquipo().getEquipo().getCodigo()+"====================>");
-                System.out.println(""
+                /*System.out.println(""
                         +  "DECLARE @cantidadTiqueteMismaTara INT, @placa VARCHAR(50),@fechaInicioDescargue DATETIME, @pesoEntrada INT,@diferenciaMinutosMinimo INT, @fechaEntrada DATETIME;"
                         + "DECLARE @cantidadTiqueteMismaTaraOPP INT, @placaOPP VARCHAR(50),@fechaInicioDescargueOPP DATETIME, @pesoEntradaOPP INT,@diferenciaMinutosMinimoOPP INT, @fechaEntradaOPP DATETIME;\n" +
                         "	SET @placa='"+Objeto.getMvtoCarbon().getPlaca()+"';\n" +
@@ -7957,10 +8839,21 @@ public class ControlDB_MvtoCarbon {
                         "	FROM ["+DB_opp+"].[dbo].[tqte] \n" +
                         "WHERE [ti_plca]=@placaOPP AND [ti_pso_entrda]=@pesoEntradaOPP  AND [ti_fcha_entrda] = @fechaEntradaOPP\n" +
                         "	   AND @fechaInicioDescargueOPP BETWEEN [ti_fcha_entrda] AND [ti_fcha_slda] \n" +
-                        "       AND (DATEDIFF (MINUTE, @fechaInicioDescargueOPP , [ti_fcha_slda]))=@diferenciaMinutosMinimoOPP ");
+                        "       AND (DATEDIFF (MINUTE, @fechaInicioDescargueOPP , [ti_fcha_slda]))=@diferenciaMinutosMinimoOPP ");*/
                 PreparedStatement query= conexion.prepareStatement(""
-                        + "DECLARE @cantidadTiqueteMismaTara INT, @placa VARCHAR(50),@fechaInicioDescargue DATETIME, @pesoEntrada INT,@diferenciaMinutosMinimo INT, @fechaEntrada DATETIME;"
-                        + "DECLARE @cantidadTiqueteMismaTaraOPP INT, @placaOPP VARCHAR(50),@fechaInicioDescargueOPP DATETIME, @pesoEntradaOPP INT,@diferenciaMinutosMinimoOPP INT, @fechaEntradaOPP DATETIME;\n" +
+                        + "DECLARE @cantidadTiqueteMismaTara INT, "
+                        + "@placa VARCHAR(50),"
+                        + "@fechaInicioDescargue DATETIME, "
+                        + "@pesoEntrada INT,"
+                        + "@diferenciaMinutosMinimo INT, "
+                        + "@fechaEntrada DATETIME;"
+                        
+                        + "DECLARE @cantidadTiqueteMismaTaraOPP INT, "
+                        + "@placaOPP VARCHAR(50),"
+                        + "@fechaInicioDescargueOPP DATETIME, "
+                        + "@pesoEntradaOPP INT,"
+                        + "@diferenciaMinutosMinimoOPP INT, "
+                        + "@fechaEntradaOPP DATETIME;\n" +
                         "	SET @placa='"+Objeto.getMvtoCarbon().getPlaca()+"';\n" +
                         "	SET @fechaInicioDescargue='"+Objeto.getMvtoCarbon().getFechaInicioDescargue()+"';\n" +
                         "	SET @pesoEntrada="+Objeto.getMvtoCarbon().getPesoVacio()+";\n" +
@@ -8066,6 +8959,106 @@ public class ControlDB_MvtoCarbon {
         //    queryActualizarDatos_Equipos.execute();    
        //     control2.cerrarConexionBaseDatos();
         //}
+        control.cerrarConexionBaseDatos();
+        return Objeto;
+    }
+    
+    public MvtoCarbon_ListadoEquipos            ProcesarEnCcargaGPAgregar(MvtoCarbon_ListadoEquipos Objeto, Usuario us) throws UnknownHostException, SocketException, SQLException{
+        Conexion_DB_ccargaGP control = new Conexion_DB_ccargaGP(tipoConexion);
+        Conexion_DB_ccargaOPP control_opp = new Conexion_DB_ccargaOPP(tipoConexion);
+        conexion= control.ConectarBaseDatos();
+        String DB=control.getBaseDeDatos();
+        String DB_opp= control_opp.getBaseDeDatos();
+        //MvtoCarbon_ListadoEquipos Objeto=Objeto1;
+        
+        //cargamos los centro de costos y centro de costos mayores
+        Objeto.setMvtoCarbon(ProcesarCentroCostos(Objeto.getMvtoCarbon()));
+        
+        conexion= control.ConectarBaseDatos();
+            try{
+                PreparedStatement query= conexion.prepareStatement(""
+                        + "DECLARE @cantidadTiqueteMismaTara INT, "
+                        + "@placa VARCHAR(50),"
+                        + "@fechaInicioDescargue DATETIME, "
+                        + "@pesoEntrada INT,"
+                        + "@diferenciaMinutosMinimo INT, "
+                        + "@fechaEntrada DATETIME;"
+                        
+                        + "DECLARE @cantidadTiqueteMismaTaraOPP INT, "
+                        + "@placaOPP VARCHAR(50),"
+                        + "@fechaInicioDescargueOPP DATETIME, "
+                        + "@pesoEntradaOPP INT,"
+                        + "@diferenciaMinutosMinimoOPP INT, "
+                        + "@fechaEntradaOPP DATETIME;\n" +
+                        "	SET @placa='"+Objeto.getMvtoCarbon().getPlaca()+"';\n" +
+                        "	SET @fechaInicioDescargue='"+Objeto.getMvtoCarbon().getFechaInicioDescargue()+"';\n" +
+                        "	SET @pesoEntrada="+Objeto.getMvtoCarbon().getPesoVacio()+";\n" +
+                        "	SET @fechaEntrada='"+Objeto.getMvtoCarbon().getFechaEntradaVehiculo()+"';\n" +
+                        
+                        "	SET @placaOPP='"+Objeto.getMvtoCarbon().getPlaca()+"';\n" +
+                        "	SET @fechaInicioDescargueOPP='"+Objeto.getMvtoCarbon().getFechaInicioDescargue()+"';\n" +
+                        "	SET @pesoEntradaOPP="+Objeto.getMvtoCarbon().getPesoVacio()+";\n" +
+                        "	SET @fechaEntradaOPP='"+Objeto.getMvtoCarbon().getFechaEntradaVehiculo()+"';\n" +        
+                        "SELECT [ti_cnsctvo],[ti_fcha_slda],[ti_pso_slda],[ti_pso_nto],[ti_dpsto]  \n" +
+                        "	FROM ["+DB+"].[dbo].[tqte] \n" +
+                        "WHERE [ti_plca]=@placa AND [ti_pso_entrda]=@pesoEntrada  AND [ti_fcha_entrda] = @fechaEntrada\n" +
+                        "	     UNION "+
+                        "SELECT [ti_cnsctvo],[ti_fcha_slda],[ti_pso_slda],[ti_pso_nto],[ti_dpsto]  \n" +
+                        "	FROM ["+DB_opp+"].[dbo].[tqte] \n" +
+                        "WHERE [ti_plca]=@placaOPP AND [ti_pso_entrda]=@pesoEntradaOPP  AND [ti_fcha_entrda] = @fechaEntradaOPP");
+                ResultSet resultSet= query.executeQuery();
+                while(resultSet.next()){ 
+                    System.out.println("1");
+                    Objeto.getMvtoCarbon().setConsecutivo(resultSet.getString(1));              
+                    Objeto.getMvtoCarbon().setFecha_SalidaVehiculo(resultSet.getString(2));
+                    Objeto.getMvtoCarbon().setPesoLleno(resultSet.getString(3));              
+                    Objeto.getMvtoCarbon().setPesoNeto(resultSet.getString(4));
+                    Objeto.getMvtoCarbon().setDeposito(resultSet.getString(5));
+                    Objeto.getMvtoCarbon().setConexionPesoCcarga("1");
+                    //Se proceso en controlCarga validando informacion con tabla Tiquete
+                    try {
+                        int n=actualizarDatosMvtoCarbonSinAuditoria(Objeto,us);
+                        if(n==1){
+                             System.out.println("Actualización Exitosa");
+                            if(n==1){
+                                n=0;
+                                Conexion_DB_costos_vg control2 = new Conexion_DB_costos_vg(tipoConexion);
+                                conexion2= control2.ConectarBaseDatos();
+                                String DB2=control2.getBaseDeDatos();
+                                System.out.println("UPDATE ["+DB2+"].[dbo].[mvto_equipo] set "
+                                                                                            + "[me_valor_hora]="+Objeto.getMvtoEquipoAgregar().getValorHora()+", "
+                                                                                            + "[me_costo_total]="+Objeto.getMvtoEquipoAgregar().getCostoTotal()+","
+                                                                                            + "[me_costo_total_recobro_cliente]="+Objeto.getMvtoEquipoAgregar().getCostoTotalRecobroCliente()+""
+                                                                                            + " WHERE [me_cdgo]="+Objeto.getMvtoEquipoAgregar().getCodigo()+"");
+                                PreparedStatement queryActualizarDatos_Equipos= conexion2.prepareStatement("UPDATE ["+DB2+"].[dbo].[mvto_equipo] set "
+                                                                                            + "[me_valor_hora]=?, "
+                                                                                            + "[me_costo_total]=?,"
+                                                                                            + "[me_costo_total_recobro_cliente]=?"
+                                                                                            + " WHERE [me_cdgo]=?");
+                                queryActualizarDatos_Equipos.setString(1,Objeto.getMvtoEquipoAgregar().getValorHora());
+                                queryActualizarDatos_Equipos.setString(2,Objeto.getMvtoEquipoAgregar().getCostoTotal());
+                                queryActualizarDatos_Equipos.setString(3,Objeto.getMvtoEquipoAgregar().getCostoTotalRecobroCliente());
+                                queryActualizarDatos_Equipos.setString(4,Objeto.getMvtoEquipoAgregar().getCodigo());
+                                queryActualizarDatos_Equipos.execute();    
+                                control2.cerrarConexionBaseDatos();
+                                n=1; 
+                            }
+                        }else{
+                            //System.out.println("Algo malo pasó");
+                        }
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(ControlDB_MvtoCarbon.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println(Objeto.getMvtoCarbon().getPlaca()+"-"+Objeto.getMvtoCarbon().getPesoLleno()+"-"+Objeto.getMvtoCarbon().getFecha_SalidaVehiculo()+"-"+Objeto.getMvtoCarbon().getPesoNeto());
+                }
+            }catch (SQLException sqlException){
+                System.out.println("Con Error: "+Objeto.getMvtoCarbon().getPlaca()+"-"+Objeto.getMvtoCarbon().getPesoVacio()+"-"+Objeto.getMvtoCarbon().getFechaEntradaVehiculo());
+                JOptionPane.showMessageDialog(null, "Error al Tratar de buscar el tiquete");
+                sqlException.printStackTrace();
+            } 
+            catch(Exception e){
+                e.printStackTrace();
+            }
         control.cerrarConexionBaseDatos();
         return Objeto;
     }
@@ -9882,5 +10875,196 @@ public class ControlDB_MvtoCarbon {
         }
         control.cerrarConexionBaseDatos();
         return retorno;
+    }
+    public int                                  actualizarVehículosPesoCero(MvtoCarbon antMvtoCarbon,MvtoCarbon newMvtoCarbon, Usuario us) throws FileNotFoundException, UnknownHostException, SocketException{
+        Conexion_DB_costos_vg control=null;  
+        control = new Conexion_DB_costos_vg(tipoConexion);
+        int result=0;
+        try{  
+            conexion= control.ConectarBaseDatos();
+            String DB=control.getBaseDeDatos();
+                 try {
+                    if(!newMvtoCarbon.getArticulo().getCodigo().equals("NULL")) {
+                        if (!validarExistenciaArticulo(newMvtoCarbon.getArticulo())) {
+                            int n = registrarArticulo(newMvtoCarbon.getArticulo(), us);
+                            if (n == 1) {
+                                System.out.println("Hemos registrado un articulo nuevo en el sistema");
+                            }
+                        }
+                    }
+                    if(!newMvtoCarbon.getCliente().getCodigo().equals("NULL")) {
+                        if (!validarExistenciaCliente(newMvtoCarbon.getCliente())) {
+                            int n = registrarCliente(newMvtoCarbon.getCliente(), us);
+                            if (n == 1) {
+                                System.out.println("Hemos registrado un nuevo cliente en el sistema");
+                            }
+                        }
+                    }
+                    if(!newMvtoCarbon.getTransportadora().getCodigo().equals("NULL")) {
+                        if (!validarExistenciaTransportadora(newMvtoCarbon.getTransportadora())) {
+                            int n = registrarTransportadora(newMvtoCarbon.getTransportadora(), us);
+                            if (n == 1) {
+                                System.out.println("Hemos registrado una nueva transportadora en el sistema");
+                            }
+                        }
+                    }
+                    if(!newMvtoCarbon.getMotonave().getCodigo().equals("NULL")) {
+                        if (!validarExistenciaMotonave(newMvtoCarbon.getMotonave())) {
+                            int n = registrarMotonave(newMvtoCarbon.getMotonave(), us);
+                            if (n == 1) {
+                                System.out.println("Hemos registrado una nueva motonave en el sistema");
+                            }
+                        }
+                    }
+                }catch(Exception e){
+                    System.out.println("Error validandos datos y registrados nuevos Items, Cliente, Motonave, Transportadora, Articulo");
+                }
+                conexion= control.ConectarBaseDatos();
+                String codigoArticulo="",codigoCliente="",codigoTransportadora="";
+                String codigoArticulo_BD="",codigoCliente_BD="",codigoTransportadora_BD="";
+
+                if(!newMvtoCarbon.getArticulo().getCodigo().equals("NULL")) {
+                    codigoArticulo = "'" + newMvtoCarbon.getArticulo().getCodigo() + "'";
+                    codigoArticulo_BD=newMvtoCarbon.getArticulo().getBaseDatos().getCodigo();
+                }else{
+                    codigoArticulo = newMvtoCarbon.getArticulo().getCodigo();
+                    codigoArticulo_BD="NULL";
+                }
+
+                if(!newMvtoCarbon.getCliente().getCodigo().equals("NULL")) {
+                    codigoCliente = "'" + newMvtoCarbon.getCliente().getCodigo() + "'";
+                    codigoCliente_BD=newMvtoCarbon.getArticulo().getBaseDatos().getCodigo();
+                }else{
+                    codigoCliente = newMvtoCarbon.getCliente().getCodigo();
+                    codigoCliente_BD="NULL";
+                }
+                if(!newMvtoCarbon.getTransportadora().getCodigo().equals("NULL")) {
+                    codigoTransportadora= "'" + newMvtoCarbon.getTransportadora().getCodigo() + "'";
+                    codigoTransportadora_BD=newMvtoCarbon.getArticulo().getBaseDatos().getCodigo();
+                }else{
+                    codigoTransportadora = newMvtoCarbon.getCliente().getCodigo();
+                    codigoTransportadora_BD="NULL";
+                }   
+            PreparedStatement queryActualizar= conexion.prepareStatement("UPDATE ["+DB+"].[dbo].[mvto_carbon] SET  "+
+                    "      [mc_articulo_cdgo]="+codigoArticulo+"" +
+                    "      ,[mc_cliente_cdgo]="+codigoCliente+""+
+                    "      ,[mc_transprtdora_cdgo]="+codigoTransportadora+"" +
+                    "      ,[mc_num_orden]=NULL\n" +
+                    "      ,[mc_deposito]=?" +
+                    "      ,[mc_consecutivo_tqute]=?" +
+                    "      ,[mc_placa_vehiculo]='"+newMvtoCarbon.getPlaca()+"'"+
+                    "      ,[mc_peso_vacio]=?" +
+                    "      ,[mc_peso_lleno]=?" +
+                    "      ,[mc_peso_neto]=?" +
+                    "      ,[mc_fecha_entrad]='"+newMvtoCarbon.getFechaEntradaVehiculo()+"'"+
+                    "      ,[mc_fecha_salid]='"+newMvtoCarbon.getFecha_SalidaVehiculo()+"'"+
+                    "      ,[mc_conexion_peso_ccarga]=1" +
+                    "      ,[mc_registro_manual]=1" +
+                    "      ,[mc_usuario_registro_manual_cdgo]='"+us.getCodigo()+"'" +
+                    "      ,[mc_cliente_base_datos_cdgo]="+codigoCliente_BD+""+
+                    "      ,[mc_transprtdora_base_datos_cdgo]="+codigoTransportadora_BD+""+
+                    "      ,[mc_articulo_base_datos_cdgo]="+codigoArticulo_BD+" WHERE [mc_cdgo]=?");
+            queryActualizar.setString(1,newMvtoCarbon.getDeposito());
+            queryActualizar.setString(2,newMvtoCarbon.getConsecutivo());
+            queryActualizar.setString(3,newMvtoCarbon.getPesoVacio());
+            queryActualizar.setString(4,newMvtoCarbon.getPesoLleno());
+            queryActualizar.setString(5,newMvtoCarbon.getPesoNeto());
+            queryActualizar.setString(6,antMvtoCarbon.getCodigo());
+            queryActualizar.execute();
+            result=1;   
+        }
+        catch (SQLException sqlException ){   
+            result=0;
+            JOptionPane.showMessageDialog(null, "ERROR al querer insertar los datos.");
+            sqlException.printStackTrace();
+        }  
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        control.cerrarConexionBaseDatos();
+        return result;
+    }
+    
+    
+    //Reportes
+    public ArrayList<Object> consultarVehículosDescargadorControlcargaVSVenturaData(String fechaInicio, String fechaFin){
+        //Vehículos descargados en VenturaData
+        ArrayList<Object> listadoObject = new ArrayList<>();
+        ArrayList<String> listadoVenturaData = null;
+        Conexion_DB_costos_vg controlVG = new Conexion_DB_costos_vg(tipoConexion);
+        conexion= controlVG.ConectarBaseDatos();
+        String DB_VG=controlVG.getBaseDeDatos();
+        try{
+            PreparedStatement query= conexion.prepareStatement("SELECT \n" +
+                                                                "        CONCAT(YEAR([mc_fecha_inicio_descargue]),'-',MONTH([mc_fecha_inicio_descargue]), '-', Day([mc_fecha_inicio_descargue])) as FECHA, \n" +
+                                                                "        COUNT (CONCAT(YEAR([mc_fecha_inicio_descargue]),'-',MONTH([mc_fecha_inicio_descargue]), '-', Day([mc_fecha_inicio_descargue])) ) AS 'CANT VEHÍCULOS', 'VENTURA_DATA' AS SISTEMA ,\n" +
+                                                                "		CONCAT([cl_desc],'--',[ar_desc],'--',[mc_deposito]) AS DESCRIPCIÓN\n" +
+                                                                "       FROM ["+DB_VG+"].[dbo].[mvto_carbon]\n" +
+                                                                "        INNER JOIN ["+DB_VG+"].[dbo].[cliente] ON [cl_cdgo]=mc_cliente_cdgo AND [mc_cliente_base_datos_cdgo]=[cl_base_datos_cdgo] \n" +
+                                                                "        INNER JOIN ["+DB_VG+"].[dbo].[articulo] ON [ar_cdgo]=mc_articulo_cdgo AND [mc_articulo_base_datos_cdgo]=[ar_base_datos_cdgo] \n" +
+                                                                "        INNER JOIN ["+DB_VG+"].[dbo].[listado_zona_trabajo] ON [mc_cntro_cost_auxiliar_cdgo]=[lzt_cntro_cost_auxiliar_cdgo] \n" +
+                                                                "        INNER JOIN ["+DB_VG+"].[dbo].[zona_trabajo] ON [zt_cdgo]=[lzt_zona_trabajo_cdgo] \n" +
+                                                                "WHERE mc_estad_mvto_carbon_cdgo=1 AND  [mc_fecha_inicio_descargue] BETWEEN '"+fechaInicio+" 00:00:00' AND '"+fechaFin+" 23:59:59'\n" +
+                                                                "    GROUP BY CONCAT(YEAR([mc_fecha_inicio_descargue]),'-',MONTH([mc_fecha_inicio_descargue]), '-', Day([mc_fecha_inicio_descargue])), [mc_deposito] ,[cl_desc],[ar_desc]");
+            ResultSet resultSet= query.executeQuery();    
+            boolean validator=true;
+            while(resultSet.next()){
+                if(validator){
+                    listadoVenturaData = new ArrayList();
+                    validator=false;
+                }
+                String data =resultSet.getString(1)+"@@@"+resultSet.getString(2)+"@@@"+resultSet.getString(3)+"@@@"+resultSet.getString(4)+"@@@";
+                listadoVenturaData.add(data);
+            }   
+        }catch (SQLException sqlException) {
+            System.out.println("Error al tratar al consultar");
+            sqlException.printStackTrace();
+        }
+        //Cerramos la conexión.
+        controlVG.cerrarConexionBaseDatos();
+        
+        //Añadimos los datos consultados al array de objetos
+        listadoObject.add(listadoVenturaData);
+        
+       
+        
+        //Vehículos descargados desde ControlcargaGP
+        ArrayList<String> listadoControlCarga = null;
+        Conexion_DB_ccargaGP controlGP = new Conexion_DB_ccargaGP(tipoConexion);
+        conexion= controlGP.ConectarBaseDatos();
+        String DB_GP=controlGP.getBaseDeDatos();
+        try{
+            PreparedStatement query= conexion.prepareStatement("SELECT  \n" +
+                                                "        CONCAT(YEAR([ti_fcha_slda]),'-',MONTH([ti_fcha_slda]), '-', Day([ti_fcha_slda])) as FECHA, \n" +
+                                                "        COUNT (CONCAT(YEAR([ti_fcha_slda]),'-',MONTH([ti_fcha_slda]), '-', Day([ti_fcha_slda])) ) AS 'CANT VEHÍCULOS', 'CONTROLCARGA_GP' AS SISTEMA \n" +
+                                                "		,CONCAT([cl_nmbre],'--',[ar_nmbre],'--',[de_cdgo] ) AS DESCRIPCION\n" +
+                                                "FROM ["+DB_GP+"].[dbo].[tqte]  \n" +
+                                                "INNER JOIN 	["+DB_GP+"].[dbo].[dpsto] ON [ti_dpsto]=[de_cdgo]\n" +
+                                                "INNER JOIN ["+DB_GP+"].[dbo].[artclo] ON [de_artclo]=[ar_cdgo]\n" +
+                                                "INNER JOIN ["+DB_GP+"].[dbo].[clnte] ON [de_clnte]=[cl_cdgo]\n" +
+                                                "WHERE [ti_actvo]=1 AND [ti_cncpto]=107 AND [ti_dpsto] <> '01' AND [ti_dpsto] <> '03' AND [ti_dpsto] <> '07' AND  [ti_fcha_slda] BETWEEN '"+fechaInicio+" 00:00:00' AND '"+fechaFin+" 23:59:59'\n" +
+                                                "    GROUP BY CONCAT(YEAR([ti_fcha_slda]),'-',MONTH([ti_fcha_slda]), '-', Day([ti_fcha_slda])) ,[de_cdgo],[cl_nmbre],[ar_nmbre]");
+            ResultSet resultSet= query.executeQuery();    
+            boolean validator=true;
+            while(resultSet.next()){
+                if(validator){
+                    listadoControlCarga = new ArrayList();
+                    validator=false;
+                }
+                String data =resultSet.getString(1)+"@@@"+resultSet.getString(2)+"@@@"+resultSet.getString(3)+"@@@"+resultSet.getString(4);
+                listadoControlCarga.add(data);
+            }
+   
+        }catch (SQLException sqlException) {
+            System.out.println("Error al tratar al consultar");
+            sqlException.printStackTrace();
+        }
+        //Cerramos la conexión.
+        controlGP.cerrarConexionBaseDatos();
+        
+        
+        //Añadimos los datos consultados al array de objetos
+        listadoObject.add(listadoControlCarga);
+        return listadoObject;
     }
 }

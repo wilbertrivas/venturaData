@@ -67,6 +67,10 @@ public final class MvtoEquipo_ActivarEquipo extends javax.swing.JPanel implement
                 minutoFin.addItem(""+i);
             }
         }
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         //selectorCampoPorDefecto();
         MvtCarbon_observacion.setEnabled(false);
         
@@ -734,11 +738,11 @@ public final class MvtoEquipo_ActivarEquipo extends javax.swing.JPanel implement
         jLabel58.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         InternaFrame_VisualizarMvtoEquipo.getContentPane().add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 1140, 210));
 
-        add(InternaFrame_VisualizarMvtoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 760));
+        add(InternaFrame_VisualizarMvtoEquipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1410, 780));
 
         InternaFrame_VisualizarMvtoCarbon.setBackground(new java.awt.Color(255, 255, 255));
         InternaFrame_VisualizarMvtoCarbon.setClosable(true);
-        InternaFrame_VisualizarMvtoCarbon.setVisible(false);
+        InternaFrame_VisualizarMvtoCarbon.setVisible(true);
         InternaFrame_VisualizarMvtoCarbon.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         InternaFrame_VisualizarMvtoCarbon.getContentPane().add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 910, 1040, 10));
         InternaFrame_VisualizarMvtoCarbon.getContentPane().add(jSeparator26, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 330, -1, -1));
@@ -1223,7 +1227,7 @@ public final class MvtoEquipo_ActivarEquipo extends javax.swing.JPanel implement
         jLabel14.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         InternaFrame_VisualizarMvtoCarbon.getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 1110, 190));
 
-        add(InternaFrame_VisualizarMvtoCarbon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 750));
+        add(InternaFrame_VisualizarMvtoCarbon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 820));
 
         InternalFrameSelectorCampos.setBackground(new java.awt.Color(255, 255, 255));
         InternalFrameSelectorCampos.setClosable(true);

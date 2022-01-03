@@ -58,6 +58,8 @@ public class PanelControl_Menu extends javax.swing.JPanel {
         jButton18 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton20 = new javax.swing.JButton();
+        jButton21 = new javax.swing.JButton();
         userOnline = new javax.swing.JLabel();
         entradaAlmacenNo2 = new javax.swing.JLabel();
         entradaAlmacenNo1 = new javax.swing.JLabel();
@@ -84,7 +86,7 @@ public class PanelControl_Menu extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        InternalFrameMenu.getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 440, 40));
+        InternalFrameMenu.getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 610, 40));
 
         jButton17.setBackground(new java.awt.Color(255, 255, 255));
         jButton17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -126,6 +128,30 @@ public class PanelControl_Menu extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
         jLabel1.setText("SELECCIONE EL TIPO DE CONSULTA QUE DESEA REALIZAR:");
         InternalFrameMenu.getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 0, 550, -1));
+
+        jButton20.setBackground(new java.awt.Color(255, 255, 255));
+        jButton20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reporte.png"))); // NOI18N
+        jButton20.setText("HISTORICO GRAFICO VEHÍCULOS DESCARGADOS VENTURADATA VS CONTROLCARGA GP");
+        jButton20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
+        InternalFrameMenu.getContentPane().add(jButton20, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 610, 40));
+
+        jButton21.setBackground(new java.awt.Color(255, 255, 255));
+        jButton21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reporte.png"))); // NOI18N
+        jButton21.setText("VEHÍCULO DESCARGADOS VENTURADATA VS CONTROLCARGA GP");
+        jButton21.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+        InternalFrameMenu.getContentPane().add(jButton21, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 610, 40));
 
         add(InternalFrameMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1590, 190));
 
@@ -206,6 +232,19 @@ public class PanelControl_Menu extends javax.swing.JPanel {
         InternalFrameMenu.show(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        //Cargamos la interfaz de graficadora
+        panel.setViewportView(new Panel_GraficarHistoricoVehículosDescargadosVenturaDataVSControlCargaGP(tipoConexion, listadoCentroOperacion.get(select_CentroOperacion.getSelectedIndex())));
+        //Ocultamos el panel de MENU
+        InternalFrameMenu.show(false);
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        panel.setViewportView(new MvtoCarbon_ConsultaVehiculosDescControlCargaVSVenturaData2(tipoConexion));
+        //Ocultamos el panel de MENU
+        InternalFrameMenu.show(false);
+    }//GEN-LAST:event_jButton21ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JInternalFrame InternalFrameMenu;
@@ -216,6 +255,8 @@ public class PanelControl_Menu extends javax.swing.JPanel {
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane panel;
     private javax.swing.JComboBox<String> select_CentroOperacion;

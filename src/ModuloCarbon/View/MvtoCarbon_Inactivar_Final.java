@@ -104,6 +104,10 @@ public final class MvtoCarbon_Inactivar_Final extends javax.swing.JPanel impleme
         selectorCampoPorDefecto();
         encabezadoTabla= new ArrayList<String>();
         pageJComboBox.show(false);
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         
     }
     @SuppressWarnings("unchecked")
@@ -1748,6 +1752,7 @@ public final class MvtoCarbon_Inactivar_Final extends javax.swing.JPanel impleme
         add(InternalFrameSelectorCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1560, 740));
 
         titulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titulo.setForeground(new java.awt.Color(0, 102, 102));
         titulo.setText("LISTADO DE MOVIMIENTOS EN EL MODULO DE CARBÓN ACTIVOS");
         add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 610, 30));
 
@@ -2756,6 +2761,7 @@ public final class MvtoCarbon_Inactivar_Final extends javax.swing.JPanel impleme
                 observacion_autorizacionMvtoCarbon.setText("");
                 generarListadoMvtoCarbon();
                 InternaFrame_VisualizarMvtoCarbon.show(false);
+                resizeColumnWidth(tabla);
             }else{
                 JOptionPane.showMessageDialog(null, "No se puedo registrar la inactivazión, valide datos", "Error al registrar",JOptionPane.ERROR_MESSAGE);
             }

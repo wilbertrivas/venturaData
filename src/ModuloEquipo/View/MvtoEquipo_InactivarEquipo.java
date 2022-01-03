@@ -74,6 +74,10 @@ public final class MvtoEquipo_InactivarEquipo extends javax.swing.JPanel impleme
                 minutoFin.addItem(""+i);
             }
         }
+        horaInicio.setSelectedIndex(0);
+        minutoInicio.setSelectedIndex(0);
+        horaFin.setSelectedIndex(23);
+        minutoFin.setSelectedIndex(59);
         selectorCampoPorDefecto();
         //Cargamos en la interfaz las causas de inactivación
         listadoCausaInactividad =null;

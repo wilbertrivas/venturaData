@@ -151,6 +151,10 @@ public class AsignacionCronograma extends javax.swing.JPanel {
                 Cronograma_minutoFinAsignacion.addItem(""+i);
             }
         }
+        Cronograma_horaInicioAsignacion.setSelectedIndex(0);
+        Cronograma_minutoInicioAsignacion.setSelectedIndex(0);
+        Cronograma_horaFinAsignacion.setSelectedIndex(23);
+        Cronograma_minutoFinAsignacion.setSelectedIndex(59);
         //Cargamos en la interfaz los tipos de equipos
         try {
             listadoTiposEquipo=new ControlDB_Equipo(tipoConexion).buscarTipoEquiposEnAplicacionInterna();

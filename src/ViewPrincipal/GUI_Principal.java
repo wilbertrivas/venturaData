@@ -104,7 +104,11 @@ import ModuloPalero.View.ConfiguracionLiquidacion_Registrar;
 import ModuloPalero.View.EquipoLiquidacion_Actualizar;
 import ModuloPalero.View.EquipoLiquidacion_Consultar;
 import ModuloPalero.View.EquipoLiquidacion_Registrar;
+import ModuloPalero.View.LiquidacionPalero_Consultar;
+import ModuloPalero.View.LiquidacionPalero_ConsultarConsolidadoPorPeriodo;
 import ModuloPalero.View.LiquidacionPalero_Registrar;
+import ModuloPalero.View.PreLiquidacionPalero_Consultar;
+import ModuloPalero.View.PreLiquidacionPalero_Registrar;
 import ModuloPalero.View.Marcacion_Actualizar;
 import ModuloPalero.View.Marcacion_Registrar;
 import ModuloPalero.View.Marcacion_Consultar;
@@ -171,12 +175,12 @@ public final class GUI_Principal extends javax.swing.JFrame {
         
         
         /*TEMPORALES*/
-        jMenu48.show(false);
+        /*jMenu48.show(false);
         jMenu49.show(false);
         jMenu50.show(false);
         jMenu51.show(false);
         jMenu52.show(false);
-        jMenu53.show(false);
+        jMenu53.show(false);*/
     }
     
     public void cargarUsuario(Usuario userT, String tipoConexion) throws ParseException, UnknownHostException, SocketException{
@@ -279,6 +283,10 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu43 = new javax.swing.JMenu();
         MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR = new javax.swing.JMenuItem();
         MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR = new javax.swing.JMenuItem();
+        jMenu47 = new javax.swing.JMenu();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
         jMenu12 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenu48 = new javax.swing.JMenu();
@@ -931,7 +939,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
         jMenu42.add(jMenu44);
 
         jMenu43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_liquidación2.png"))); // NOI18N
-        jMenu43.setText("Liquidación");
+        jMenu43.setText("Preliquidación");
         jMenu43.setPreferredSize(new java.awt.Dimension(270, 30));
 
         MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_registrar.png"))); // NOI18N
@@ -947,9 +955,42 @@ public final class GUI_Principal extends javax.swing.JFrame {
         MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menuPrincipal/menu_consultar.png"))); // NOI18N
         MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setText("Consultar");
         MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.setPreferredSize(new java.awt.Dimension(250, 30));
+        MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTARActionPerformed(evt);
+            }
+        });
         jMenu43.add(MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTAR);
 
         jMenu42.add(jMenu43);
+
+        jMenu47.setText("Liquidación");
+
+        jMenuItem18.setText("Generar");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu47.add(jMenuItem18);
+
+        jMenuItem19.setText("Consultar");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu47.add(jMenuItem19);
+
+        jMenuItem20.setText("Consolidado x Periodo");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu47.add(jMenuItem20);
+
+        jMenu42.add(jMenu47);
 
         jMenu34.add(jMenu42);
 
@@ -2815,8 +2856,24 @@ public final class GUI_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_PARAMETROS_CONFIGURACIONLIQUIDACION_ACTUALIZARActionPerformed
 
     private void MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERARActionPerformed
-        panel.setViewportView(new LiquidacionPalero_Registrar(user, tipoConexion));
+        panel.setViewportView(new PreLiquidacionPalero_Registrar(user, tipoConexion));
     }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_LIQUIDACION_GENERARActionPerformed
+
+    private void MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTARActionPerformed
+        panel.setViewportView(new PreLiquidacionPalero_Consultar(user, tipoConexion));
+    }//GEN-LAST:event_MODULO_LIQUIDACION_PALERO_LIQUIDACION_CONSULTARActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        panel.setViewportView(new LiquidacionPalero_Registrar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        panel.setViewportView(new LiquidacionPalero_Consultar(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        panel.setViewportView(new LiquidacionPalero_ConsultarConsolidadoPorPeriodo(user, tipoConexion));
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -3005,6 +3062,7 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu44;
     private javax.swing.JMenu jMenu45;
     private javax.swing.JMenu jMenu46;
+    private javax.swing.JMenu jMenu47;
     private javax.swing.JMenu jMenu48;
     private javax.swing.JMenu jMenu49;
     private javax.swing.JMenu jMenu5;
@@ -3027,7 +3085,10 @@ public final class GUI_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
     private javax.swing.JMenuItem jMenuItem28;
